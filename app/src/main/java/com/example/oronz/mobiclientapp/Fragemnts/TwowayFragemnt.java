@@ -43,9 +43,9 @@ public class TwowayFragemnt extends Fragment {
     EditText no_of_pass;
     DatePickerDialog picker;
 
-    ArrayList<String> city;
+    ArrayList<String> city,dates;
 
-    Spinner from,too;
+    Spinner from,too,travel_date,return_date;
 
     private MobiClientApplication app;
 
@@ -59,13 +59,16 @@ public class TwowayFragemnt extends Fragment {
         app = (MobiClientApplication) getActivity().getApplicationContext();
 
         getDestination();
+        getDates();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View V =inflater.inflate(R.layout.fragment_twoway_fragemnt, container, false);
         city = new ArrayList<>();
+        dates=new ArrayList<>();
 
         return V;
     }
@@ -77,33 +80,14 @@ public class TwowayFragemnt extends Fragment {
         });
 
 
-        txttrvel_retun=view.findViewById(R.id.txttrvel_retun);
-        txttrvel_retun.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                DialogFragment newFragment = new DatePickerFragment2();
-                newFragment.show(getActivity().getFragmentManager(), "datePicker");
-            }
-        });
-
-
-        txttrvel_date=view.findViewById(R.id.txttrvel_date);
-        txttrvel_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                DialogFragment newFragment = new DatePickerFragment1();
-                newFragment.show(getActivity().getFragmentManager(), "datePicker");
-            }
-        });
 
         no_of_pass = view.findViewById(R.id.num_of_passengers2);
 
         from=view.findViewById(R.id.spinner_from);
         too=view.findViewById(R.id.spinner_to);
 
-
+        travel_date=view.findViewById(R.id.spinner_travel_date);
+        return_date=view.findViewById(R.id.spinner_return_date);
 
 
     }
@@ -221,6 +205,65 @@ public class TwowayFragemnt extends Fragment {
 
         requestQueue.add(req);
 
+    }
+
+    private void getDates() {
+        RequestQueue datesrequestQueue = Volley.newRequestQueue(getContext());
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", app.getUser_name());
+        params.put("api_key", app.getApi_key());
+        params.put("action", "AvailableDates");
+        params.put("clerk_username", app.get_Clerk_username());
+        params.put("clerk_password", app.get_Clerk_password());
+
+        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            if (response.getInt("response_code") == 0) {
+                                JSONArray jsonArray = response.getJSONArray("dates");
+
+                                Log.d("Dates:%n %s", jsonArray.toString(4));
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    String date = jsonObject1.getString("name");
+                                    dates.add(date);
+                                }
+
+                            } else {
+                                Toast.makeText(getContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                            travel_date.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, dates));
+                            return_date.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, dates));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error: ", error.getMessage());
+            }
+        })
+
+        {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
+
+
+        };
+
+        datesrequestQueue.add(req);
     }
 
 

@@ -37,11 +37,10 @@ import java.util.HashMap;
 public class OneWayTripFragement extends Fragment {
 
     Button search1;
-    static EditText editDate;
-    DatePickerDialog picker;
-    ArrayList<String> city;
 
-    Spinner from,too;
+    ArrayList<String> city,dates;
+
+    Spinner from,too,travel_date;
 
     private MobiClientApplication app;
 
@@ -55,7 +54,7 @@ public class OneWayTripFragement extends Fragment {
         super.onCreate(savedInstanceState);
         app = (MobiClientApplication) getActivity().getApplicationContext();
         getDestination();
-
+        getDates();
 
 
     }
@@ -68,7 +67,7 @@ public class OneWayTripFragement extends Fragment {
 
         View V =inflater.inflate(R.layout.fragemnet_oneway_trip, container, false);
         city = new ArrayList<>();
-
+        dates=new ArrayList<>();
 
         return V;
     }
@@ -80,47 +79,14 @@ public class OneWayTripFragement extends Fragment {
         });
 
 
-        editDate=view.findViewById(R.id.editDate);
-        editDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                DialogFragment newFragment = new DatePickerFragment();
-                newFragment.show(getActivity().getFragmentManager(), "datePicker");
-            }
-        });
-
 
         from=view.findViewById(R.id.spinner_from_one);
         too=view.findViewById(R.id.spinner_to_one);
+        travel_date=view.findViewById(R.id.spinner_travel_date_one);
 
     }
 
 
-
-
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            String date_selected = (day ) + "/" + month + "/"
-                    + year;
-
-            editDate.setText(date_selected);
-        }
-    }
     private void getDestination() {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
@@ -186,6 +152,63 @@ public class OneWayTripFragement extends Fragment {
 
     }
 
+    private void getDates() {
+        RequestQueue datesrequestQueue = Volley.newRequestQueue(getContext());
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", app.getUser_name());
+        params.put("api_key", app.getApi_key());
+        params.put("action", "AvailableDates");
+        params.put("clerk_username", app.get_Clerk_username());
+        params.put("clerk_password", app.get_Clerk_password());
+
+        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            if (response.getInt("response_code") == 0) {
+                                JSONArray jsonArray = response.getJSONArray("dates");
+
+                                Log.d("Dates:%n %s", jsonArray.toString(4));
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    String date = jsonObject1.getString("name");
+                                    dates.add(date);
+                                }
+
+                            } else {
+                                Toast.makeText(getContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                            travel_date.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, dates));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error: ", error.getMessage());
+            }
+        })
+
+        {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
+
+
+        };
+
+        datesrequestQueue.add(req);
+    }
 
 
 }
