@@ -31,7 +31,7 @@
                 android:textStyle="bold" />
 
             <Spinner
-                android:id="@+id/spinner_from"
+                android:id="@+id/spinner_from_one"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -54,7 +54,7 @@
                 android:textStyle="bold" />
 
             <Spinner
-                android:id="@+id/spinner_to"
+                android:id="@+id/spinner_to_one"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
