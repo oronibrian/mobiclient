@@ -47,13 +47,13 @@
         <Spinner
             android:id="@+id/spinner_from"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1" />
 
         <Spinner
             android:id="@+id/spinner_to"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="148dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
 
             />
@@ -69,10 +69,12 @@
 
         <EditText
             android:id="@+id/txttrvel_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="115dp"
+            android:layout_height="70dp"
             android:layout_weight="1"
+            android:background="@drawable/shape"
             android:focusable="false"
+
             android:hint="Travel Date"
             android:inputType="date"
             android:textAlignment="center" />
@@ -80,10 +82,12 @@
         <EditText
             android:id="@+id/txttrvel_retun"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:layout_weight="1"
+            android:background="@drawable/shape"
             android:focusable="false"
             android:hint="Return Date"
+
             android:inputType="date"
             android:textAlignment="center"
 
@@ -98,17 +102,35 @@
         android:layout_height="match_parent"
         android:layout_marginTop="10dp">
 
+        <LinearLayout
 
-        <EditText
-            android:id="@+id/num_of_passengers2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="No of Passengers"
-            android:inputType="number"
-            android:textAlignment="center"
+            android:orientation="vertical">
 
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="Number Of Passengers"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/num_of_passengers2"
+                android:layout_width="match_parent"
+                android:layout_height="61dp"
+                android:background="@drawable/shape"
+                android:hint="No of Passengers"
+                android:inputType="number"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+
 
 
     </TableRow>
@@ -119,7 +141,7 @@
         <Button
             android:id="@+id/search2"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="63dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/btn"
             android:text="@string/search"

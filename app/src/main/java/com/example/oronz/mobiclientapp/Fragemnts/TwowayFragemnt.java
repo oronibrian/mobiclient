@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import com.example.oronz.mobiclientapp.R;
 
@@ -21,7 +23,8 @@ import java.util.Calendar;
 
 public class TwowayFragemnt extends Fragment {
     Button search2;
-    static EditText txttrvel_retun,txttrvel_date,num_of_passengers2;
+    static EditText txttrvel_retun,txttrvel_date;
+    EditText no_of_pass;
     DatePickerDialog picker;
     public TwowayFragemnt() {
         // Required empty public constructor
@@ -68,6 +71,11 @@ public class TwowayFragemnt extends Fragment {
                 newFragment.show(getActivity().getFragmentManager(), "datePicker");
             }
         });
+
+        no_of_pass = view.findViewById(R.id.num_of_passengers2);
+
+
+
     }
 
 
