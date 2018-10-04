@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/table_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:background="#ffff">
 
 
     <TableRow
@@ -12,23 +13,53 @@
         android:layout_height="match_parent"
         android:layout_marginTop="3dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:gravity="center"
-            android:padding="32dp"
-            android:text="From"
-            android:textStyle="bold" />
+        <LinearLayout
 
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:gravity="center"
-            android:padding="32dp"
-            android:text="To"
-            android:textStyle="bold"  />
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:padding="20dp"
+                android:text="From"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinner_from"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:padding="20dp"
+                android:text="To"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinner_to"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                />
+        </LinearLayout>
+
 
     </TableRow>
 
@@ -36,19 +67,20 @@
         android:id="@+id/row_date"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="30dp">
 
         <EditText
+            android:id="@+id/editDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="date"
             android:layout_weight="1"
-            android:hint="Date"
-            android:textAlignment="center"
             android:focusable="false"
-            android:id="@+id/editDate"/>
+            android:hint="Date"
+            android:inputType="date"
+            android:textAlignment="center" />
 
     </TableRow>
+
     <TableRow
         android:id="@+id/row_how_many"
         android:layout_width="match_parent"
@@ -57,19 +89,19 @@
 
 
         <EditText
+            android:id="@+id/num_of_passengers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="number"
-            android:id="@+id/num_of_passengers"
             android:hint="No of Passengers"
+            android:inputType="number"
             android:textAlignment="center"
 
             />
 
 
-
     </TableRow>
+
     <LinearLayout>
 
         <Button
@@ -77,10 +109,9 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_marginTop="16dp"
-            android:textSize="18sp"
-
-            android:text="@string/search" />
-
+            android:background="@drawable/btn"
+            android:text="@string/search"
+            android:textSize="18sp" />
 
 
     </LinearLayout>

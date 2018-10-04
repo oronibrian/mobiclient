@@ -53,7 +53,7 @@ public class TwowayFragemnt extends Fragment {
             @Override
             public void onClick(View v) {
 
-                DialogFragment newFragment = new DatePickerFragment1();
+                DialogFragment newFragment = new DatePickerFragment2();
                 newFragment.show(getActivity().getFragmentManager(), "datePicker");
             }
         });
@@ -64,7 +64,7 @@ public class TwowayFragemnt extends Fragment {
             @Override
             public void onClick(View v) {
 
-                DialogFragment newFragment = new DatePickerFragment2();
+                DialogFragment newFragment = new DatePickerFragment1();
                 newFragment.show(getActivity().getFragmentManager(), "datePicker");
             }
         });

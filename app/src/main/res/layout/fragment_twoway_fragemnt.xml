@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/table_layout2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:background="#ffff">
 
 
     <TableRow
@@ -14,23 +15,47 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:gravity="center"
             android:padding="32dp"
             android:text="From"
-            android:textStyle="bold"
-            />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
+            android:layout_height="80dp"
+            android:layout_weight="1"
             android:gravity="center"
             android:padding="32dp"
             android:text="To"
-            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </TableRow>
+
+
+    <TableRow
+        android:id="@+id/wo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp">
+
+
+        <Spinner
+            android:id="@+id/spinner_from"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Spinner
+            android:id="@+id/spinner_to"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
             />
 
     </TableRow>
@@ -42,32 +67,31 @@
         android:layout_marginTop="2dp">
 
 
-
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:layout_weight="1"
-            android:hint="Travel Date"
-            android:textAlignment="center"
-            android:focusable="false"
             android:id="@+id/txttrvel_date"
-            />
-
-        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="date"
             android:layout_weight="1"
-            android:hint="Return Date"
-            android:textAlignment="center"
             android:focusable="false"
+            android:hint="Travel Date"
+            android:inputType="date"
+            android:textAlignment="center" />
+
+        <EditText
             android:id="@+id/txttrvel_retun"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:focusable="false"
+            android:hint="Return Date"
+            android:inputType="date"
+            android:textAlignment="center"
 
             />
 
 
     </TableRow>
+
     <TableRow
         android:id="@+id/row_how_many"
         android:layout_width="match_parent"
@@ -76,19 +100,19 @@
 
 
         <EditText
+            android:id="@+id/num_of_passengers2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="number"
-            android:id="@+id/num_of_passengers2"
             android:hint="No of Passengers"
+            android:inputType="number"
             android:textAlignment="center"
 
             />
 
 
-
     </TableRow>
+
     <LinearLayout>
 
 
@@ -97,10 +121,9 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_marginTop="16dp"
-            android:textSize="18sp"
-
-           android:text="@string/search" />
-
+            android:background="@drawable/btn"
+            android:text="@string/search"
+            android:textSize="18sp" />
 
 
     </LinearLayout>
