@@ -10,12 +10,11 @@
         android:id="@+id/row_4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="2dp">
+        android:layout_marginTop="3dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="2dp"
             android:layout_weight="10"
             android:gravity="center"
             android:padding="32dp"
@@ -37,40 +36,41 @@
         android:id="@+id/row_date"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="20dp">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="date"
-            android:ems="10"
+            android:layout_weight="1"
+            android:hint="Date"
+            android:textAlignment="center"
             android:focusable="false"
             android:id="@+id/editDate"/>
-
-
 
     </TableRow>
     <TableRow
         android:id="@+id/row_how_many"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="2dp">
+        android:layout_marginTop="10dp">
 
-        <TextView
+
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="How many"
-            android:textStyle="bold"  />
+            android:inputType="number"
+            android:id="@+id/num_of_passengers"
+            android:hint="No of Passengers"
+            android:textAlignment="center"
+
+            />
 
 
 
     </TableRow>
     <LinearLayout>
-
-
 
         <Button
             android:id="@+id/searchbtn1"
