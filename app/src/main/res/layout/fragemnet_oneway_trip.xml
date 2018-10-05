@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/table_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,80 +10,96 @@
 
 
     <TableRow
-        android:id="@+id/row_4"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="3dp">
+        android:layout_width="370dp"
+        android:paddingTop="12dp"
+        android:layout_height="52dp">
 
-        <LinearLayout
 
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/spinner_from_one"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            app:ms_alignLabels="true"
+            app:ms_arrowColor="@color/base"
+            app:ms_arrowSize="16dp"
+            app:ms_baseColor="@color/base"
+            app:ms_dropDownHintView="@layout/dropdown_hint_item"
+            app:ms_enableErrorLabel="false"
+            app:ms_enableFloatingLabel="false"
+            app:ms_errorColor="@color/error"
+            app:ms_floatingLabelColor="@color/floating_label"
+            app:ms_floatingLabelText="floating label"
+            app:ms_highlightColor="@color/highlight"
+            app:ms_hint="Traveling From.."
+            app:ms_hintColor="@color/hint"
+            app:ms_hintView="@layout/hint_item"
+            app:ms_multiline="false"
+            app:ms_thickness="2dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
-                android:gravity="center"
-                android:padding="20dp"
-                android:text="From"
-                android:textStyle="bold" />
 
-            <Spinner
-                android:id="@+id/spinner_from"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-
-        <LinearLayout
-
-            android:layout_width="match_parent"
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/spinner_to_one"
+            android:layout_width="191dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
-                android:gravity="center"
-                android:padding="20dp"
-                android:text="To"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/spinner_to"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                />
-        </LinearLayout>
-
-
+            app:ms_alignLabels="true"
+            app:ms_arrowColor="@color/base"
+            app:ms_arrowSize="16dp"
+            app:ms_baseColor="@color/base"
+            app:ms_dropDownHintView="@layout/dropdown_hint_item"
+            app:ms_enableErrorLabel="false"
+            app:ms_enableFloatingLabel="false"
+            app:ms_errorColor="@color/error"
+            app:ms_floatingLabelColor="@color/floating_label"
+            app:ms_floatingLabelText="floating label"
+            app:ms_highlightColor="@color/highlight"
+            app:ms_hint="Traveling To.."
+            app:ms_hintColor="@color/hint"
+            app:ms_hintView="@layout/hint_item"
+            app:ms_multiline="false"
+            app:ms_thickness="2dp" />
     </TableRow>
 
     <TableRow
-        android:id="@+id/row_date"
+        android:id="@+id/row_date_txt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="30dp">
 
-        <EditText
-            android:id="@+id/editDate"
+        <LinearLayout
+
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/shape"
-            android:focusable="false"
-            android:hint="Date"
-            android:inputType="date"
-            android:textAlignment="center"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_travel_date_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ms_multiline="false"
+                app:ms_dropDownHintView="@layout/dropdown_hint_item"
+                app:ms_hintView="@layout/hint_item"
+                app:ms_hint="Select Travel Date"
+                app:ms_enableFloatingLabel="false"
+                app:ms_enableErrorLabel="false"
+                app:ms_floatingLabelText="floating label"
+                app:ms_baseColor="@color/base"
+                app:ms_highlightColor="@color/highlight"
+                app:ms_errorColor="@color/error"
+                app:ms_thickness="2dp"
+                app:ms_hintColor="@color/hint"
+                app:ms_arrowColor="@color/base"
+                app:ms_arrowSize="16dp"
+                app:ms_alignLabels="true"
+                app:ms_floatingLabelColor="@color/floating_label"/>
+
+        </LinearLayout>
+
 
     </TableRow>
+
 
     <TableRow
         android:id="@+id/row_how_many"
@@ -104,6 +121,10 @@
                 android:gravity="center"
                 android:padding="2dp"
                 android:text="Number Of Passengers"
+                android:background="@drawable/txt_view_style"
+
+                android:textColor="#000000"
+                android:shadowRadius="8"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
