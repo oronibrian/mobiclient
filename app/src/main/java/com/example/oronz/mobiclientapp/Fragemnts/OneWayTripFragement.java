@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import fr.ganfra.materialspinner.MaterialSpinner;
+
 
 public class OneWayTripFragement extends Fragment {
 
@@ -40,7 +42,9 @@ public class OneWayTripFragement extends Fragment {
 
     ArrayList<String> city,dates;
 
-    Spinner from,too,travel_date;
+    MaterialSpinner from,too;
+
+    MaterialSpinner travel_date;
 
     private MobiClientApplication app;
 
