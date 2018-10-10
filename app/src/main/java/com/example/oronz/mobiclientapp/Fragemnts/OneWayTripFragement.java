@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,11 +16,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -54,6 +63,7 @@ public class OneWayTripFragement extends Fragment {
     private MobiClientApplication app;
     String _too,_from,date;
     String buses;
+    NumberPicker np;
 
     public OneWayTripFragement() {
         // Required empty public constructor
@@ -91,12 +101,10 @@ public class OneWayTripFragement extends Fragment {
                 if (_too.equals(_from)) {
                     Toast.makeText(getContext(), "Journey cannot be on the same City", Toast.LENGTH_LONG).show();
                 } else {
-                    checkAvailableVehicle();
 
                     Intent intent = new Intent(getActivity(), VehiclesActivity.class);
 
                     intent.putExtra("Buses", vehicles);
-                    Log.d("buses", String.valueOf(vehicles));
 
                     startActivity(intent);
                 }
@@ -108,6 +116,25 @@ public class OneWayTripFragement extends Fragment {
         from=view.findViewById(R.id.spinner_from_one);
         too=view.findViewById(R.id.spinner_to_one);
         travel_date=view.findViewById(R.id.spinner_travel_date_one);
+        np = view. findViewById(R.id.num_of_passengers);
+        final TextView tv = (TextView)view. findViewById(R.id.tv);
+
+
+        np.setMinValue(1);
+        np.setMaxValue(9);
+
+        np.setWrapSelectorWheel(true);
+
+        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal){
+                tv.setText("Selected Number : " + newVal);
+                tv.setTextColor(Color.BLACK);
+
+                app.set_no_passenges(newVal);
+
+            }
+        });
 
 
         travel_date.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -132,7 +159,6 @@ public class OneWayTripFragement extends Fragment {
 //                String _too = too.getItemAtPosition(too.getSelectedItemPosition()).toString();
 
                  _too = String.valueOf(too.getSelectedItemId());
-                                Log.d("Too City:%n %s", _too);
 
                 app.setTravel_too(_too);
             }
@@ -161,75 +187,6 @@ public class OneWayTripFragement extends Fragment {
 
     }
 
-    private void checkAvailableVehicle() {
-
-        RequestQueue busrequestQueue = Volley.newRequestQueue(getContext());
-
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("username", app.getUser_name());
-        params.put("api_key", app.getApi_key());
-        params.put("action", "AvailableBuses");
-
-        params.put("from_city", app.getTravel_from());
-        params.put("to_city", app.getTravel_too());
-        params.put("travel_date", app.getTravel_date());
-        params.put("hash", app.getHash_key());
-
-        params.put("clerk_username", app.get_Clerk_username());
-        params.put("clerk_password", app.get_Clerk_password());
-
-        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-
-                            if (response.getInt("response_code") == 0) {
-                                JSONArray jsonArray = response.getJSONArray("buses");
-
-                                for (int i = 1; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                    buses = jsonObject1.getString("name");
-                                    Log.d("Buses: ", buses);
-                                    vehicles.add(buses);
-
-
-
-
-                                }
-
-                            } else {
-                                Toast.makeText(getContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
-
-                            }
-
-                            app.setBuses(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, vehicles));
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("Error: ", error.getMessage());
-            }
-        })
-
-        {
-            @Override
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=utf-8";
-            }
-
-
-        };
-        busrequestQueue.getCache().clear();
-        busrequestQueue.add(req);
-
-
-    }
 
 
     private void getDestination() {
@@ -279,7 +236,19 @@ public class OneWayTripFragement extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Error: ", error.getMessage());
+
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof NetworkError) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         })
 
@@ -337,8 +306,18 @@ public class OneWayTripFragement extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Error: ", error.getMessage());
-            }
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof NetworkError) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }            }
         })
 
         {

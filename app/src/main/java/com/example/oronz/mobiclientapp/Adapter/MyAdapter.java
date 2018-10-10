@@ -5,20 +5,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.example.oronz.mobiclientapp.R;
 
 import java.util.ArrayList;
 
-public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Filterable {
 
     Context c;
-    ArrayList<String> buses;
+    ArrayList<String> buses,filterList;
+    CustomFilter filter;
 
     public MyAdapter(Context c, ArrayList<String> buses) {
         this.c = c;
         this.buses = buses;
+        this.filterList=buses;
+
     }
 
     @Override
@@ -38,5 +43,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     @Override
     public int getItemCount() {
         return buses.size();
+    }
+
+
+
+
+    @Override
+    public Filter getFilter() {
+        if(filter==null)
+        {
+            filter=new CustomFilter(filterList,this);
+        }
+
+        return filter;
     }
 }

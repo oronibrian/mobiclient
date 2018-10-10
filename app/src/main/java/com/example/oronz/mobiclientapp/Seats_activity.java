@@ -2,20 +2,21 @@ package com.example.oronz.mobiclientapp;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,203 +42,124 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class Seats_activity extends AppCompatActivity implements View.OnClickListener {
+public class Seats_activity extends AppCompatActivity {
+    public static String name, phone, id_no = "";
     ViewGroup layout;
-    List<String> viti;
-    GridView gridView;
+    ArrayList<String> payment_methods;
     List<String> listofseats = new ArrayList<String>();
-
-    String seats = "A__XR/"
-            + "U_AA/"
-            + "U_UU/"
-            + "A_AA/"
-            + "A_AU/"
-            + "UXUU/";
-
     List<TextView> seatViewList = new ArrayList<>();
-    int seatSize = 100;
-    int seatGaping = 10;
-
-    int STATUS_AVAILABLE = 1;
-    int STATUS_BOOKED = 2;
-    int STATUS_RESERVED = 3;
-    String selectedIds = "";
     MobiClientApplication app;
+    String payment_type;
+    Intent intentExtra;
+
+    ArrayList<String> dates, buses, ticketType;
+
+    List<String> seats;
+    Button checkbtn, btnreserve;
+    TextView receipt_txt;
+
+
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seats_activity);
         app = (MobiClientApplication) getApplication();
+        payment_methods = new ArrayList<>();
+        ticketType = new ArrayList<>();
 
 
+        btnreserve = findViewById(R.id.btnreserve);
+        btnreserve.setVisibility(View.GONE);
         availableSeats();
+        getPaymentMethod();
 
 
-        layout = findViewById(R.id.activity_linear_layout);
-
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.activity_linear_layout);
-
-        //added LayoutParams
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-
-
-        Button ok = new Button(this);
-        ok.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        ok.setBackgroundColor(R.color.colorPrimary);
-        ok.setText("Book");
-        ok.setOnClickListener(new View.OnClickListener() {
+        btnreserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for (int i = 1; i <= listofseats.size(); i++) {
+                    reserve();
+
+                }
 
             }
         });
 
-        //added the textView and the Button to LinearLayout
-
-
-        seats = "/" + seats;
-
-        LinearLayout layoutSeat = new LinearLayout(this);
-//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutSeat.setOrientation(LinearLayout.VERTICAL);
-        layoutSeat.setLayoutParams(params);
-        layoutSeat.setPadding(8 * seatGaping, 8 * seatGaping, 8 * seatGaping, 8 * seatGaping);
-
-
-
-        Button btncancel = new Button(this);
-        btncancel.setText("Cancel");
-        btncancel.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        btncancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "welcome_message Booked", Toast.LENGTH_LONG).show();
-            }
-        });
-        TextView txt = new TextView(this);
-        txt.setText("Boook A seat");
-        txt.setTextSize(30);
-        txt.setGravity(4);
-        txt.setTextColor(Color.BLACK);
-
-        linearLayout.addView(txt);
-        layout.addView(layoutSeat);
-
-        linearLayout.addView(ok);
-        linearLayout.addView(btncancel);
-
-
-
-        LinearLayout layout = null;
-
-        int count = 0;
-
-        for (int index = 0; index < seats.length(); index++) {
-            if (seats.charAt(index) == '/') {
-                layout = new LinearLayout(this);
-                layout.setOrientation(LinearLayout.HORIZONTAL);
-                layoutSeat.addView(layout);
-            } else if (seats.charAt(index) == 'U') {
-                count++;
-                TextView view = new TextView(this);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(seatSize, seatSize);
-                layoutParams.setMargins(seatGaping, seatGaping, seatGaping, seatGaping);
-                view.setLayoutParams(layoutParams);
-                view.setPadding(0, 0, 0, 2 * seatGaping);
-                view.setId(count);
-                view.setGravity(Gravity.CENTER);
-                view.setBackgroundResource(R.drawable.ic_seats_b);
-                view.setTextColor(Color.WHITE);
-                view.setTag(STATUS_BOOKED);
-                view.setText(count + "");
-                view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 9);
-                layout.addView(view);
-                seatViewList.add(view);
-                view.setOnClickListener(this);
-            } else if (seats.charAt(index) == 'A') {
-                count++;
-                TextView view = new TextView(this);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(seatSize, seatSize);
-                layoutParams.setMargins(seatGaping, seatGaping, seatGaping, seatGaping);
-                view.setLayoutParams(layoutParams);
-                view.setPadding(0, 0, 0, 2 * seatGaping);
-                view.setId(count);
-                view.setGravity(Gravity.CENTER);
-                view.setBackgroundResource(R.drawable.ic_seats_empty_seats);
-                view.setText(count + "");
-                view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 9);
-                view.setTextColor(Color.BLACK);
-                view.setTag(STATUS_AVAILABLE);
-                layout.addView(view);
-                seatViewList.add(view);
-                view.setOnClickListener(this);
-            } else if (seats.charAt(index) == 'R') {
-                count++;
-                TextView view = new TextView(this);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(seatSize, seatSize);
-                layoutParams.setMargins(seatGaping, seatGaping, seatGaping, seatGaping);
-                view.setLayoutParams(layoutParams);
-                view.setPadding(0, 0, 0, 2 * seatGaping);
-                view.setId(count);
-                view.setGravity(Gravity.CENTER);
-                view.setBackgroundResource(R.drawable.steering);
-                view.setText(count + "");
-                view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 9);
-                view.setTextColor(Color.WHITE);
-                view.setTag(STATUS_RESERVED);
-                layout.addView(view);
-                seatViewList.add(view);
-//                view.setOnClickListener(this);
-            } else if (seats.charAt(index) == '_') {
-                TextView view = new TextView(this);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(seatSize, seatSize);
-                layoutParams.setMargins(seatGaping, seatGaping, seatGaping, seatGaping);
-                view.setLayoutParams(layoutParams);
-                view.setText("");
-                layout.addView(view);
-            } else if (seats.charAt(index) == 'X') {
-                TextView view = new TextView(this);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(seatSize, seatSize);
-                layoutParams.setMargins(seatGaping, seatGaping, seatGaping, seatGaping);
-                view.setLayoutParams(layoutParams);
-                view.setBackgroundColor(Color.TRANSPARENT);
-                view.setText("");
-                view.setVisibility(View.GONE);
-
-                layout.addView(view);
-            }
-        }
     }
 
 
+    private void getPaymentMethod() {
+        RequestQueue requestQueue = Volley.newRequestQueue(Seats_activity.this);
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", app.getUser_name());
+        params.put("api_key", app.getApi_key());
+        params.put("action", "PaymentMethods");
+        params.put("clerk_username", app.get_Clerk_username());
+        params.put("clerk_password", app.get_Clerk_password());
 
-    @Override
-    public void onClick(View view) {
-        if ((int) view.getTag() == STATUS_AVAILABLE) {
+        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
 
-            if (selectedIds.contains(view.getId() + ",")) {
+                            if (response.getInt("response_code") == 0) {
+                                JSONArray jsonArray = response.getJSONArray("payment_methods");
 
-                selectedIds = selectedIds.replace(+view.getId() + ",", "");
-                view.setBackgroundResource(R.drawable.ic_seats_book);
-            } else {
-                selectedIds = selectedIds + view.getId() + ",";
-                view.setBackgroundResource(R.drawable.ic_seats_selected);
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    String methods = jsonObject1.getString("name");
+                                    payment_methods.add(methods);
+
+                                }
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        })
+
+        {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
             }
 
 
-        } else if ((int) view.getTag() == STATUS_BOOKED) {
-            Toast.makeText(this, "Seat " + view.getId() + " is Booked", Toast.LENGTH_SHORT).show();
-        } else if ((int) view.getTag() == STATUS_RESERVED) {
-            Toast.makeText(this, "Seat " + view.getId() + " is Reserved", Toast.LENGTH_SHORT).show();
-        }
+        };
+
+        requestQueue.add(req);
+
     }
 
 
     private void availableSeats() {
 
-        RequestQueue datesrequestQueue = Volley.newRequestQueue(getApplicationContext());
+        RequestQueue datesrequestQueue = Volley.newRequestQueue(Seats_activity.this);
 
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
@@ -246,9 +168,9 @@ public class Seats_activity extends AppCompatActivity implements View.OnClickLis
 
         params.put("from_city", app.getTravel_from());
         params.put("to_city", app.getTravel_too());
-        params.put("travel_date", "12-09-2018");
+        params.put("travel_date", app.getTravel_date());
         params.put("hash", app.getHash_key());
-        params.put("selected_vehicle", "13");
+        params.put("selected_vehicle", app.get_selected_vehicle());
 
         params.put("clerk_username", app.get_Clerk_username());
         params.put("clerk_password", app.get_Clerk_password());
@@ -269,25 +191,64 @@ public class Seats_activity extends AppCompatActivity implements View.OnClickLis
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                     String bus = jsonObject1.getString("name");
-                                    viti = new ArrayList<>(Arrays.asList(bus.split(",")));
+                                    seats = new ArrayList<>(Arrays.asList(bus.split(",")));
 
 
-//                                    ticketType();
+                                    ticketType();
 
+//                                    Intent I = new Intent(getApplicationContext(),Seats_layout.class);
+//                                    startActivity(I);
 //
+                                    final GridView gridView = new GridView(Seats_activity.this);
+
+
+                                    gridView.setAdapter(new ArrayAdapter<>(Seats_activity.this, R.layout.simple_list_item_1, seats));
+                                    gridView.setNumColumns(3);
+
+
+                                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                            Toast.makeText(Seats_activity.this,
+                                                    getString(R.string.you_booked, seats.get(position)),
+                                                    Toast.LENGTH_SHORT).show();
+
+                                            app.setSeatNo(seats.get(position));
+
+
+                                            listofseats.add(parent.getItemAtPosition(position).toString());
+
+                                            gridView.getChildAt(position).setBackgroundColor(Color.RED);
+
+//                                            view.setBackgroundColor(R.drawable.ic_seats_b);
+
+
+                                        }
+
+
+                                    });
+
+
                                     AlertDialog.Builder builder = new AlertDialog.Builder(Seats_activity.this);
                                     builder.setView(gridView);
                                     builder.setTitle("Select seat");
                                     builder.setPositiveButton("OK", new android.content.DialogInterface.OnClickListener() {
                                         public void onClick(android.content.DialogInterface dialog, int id) {
+                                            btnreserve.setVisibility(View.VISIBLE);
                                             Log.d("List of seats:%n %s", String.valueOf(listofseats));
-//                                            payment();
+                                            payment();
 
                                         }
                                     })
 
 
-                                            .setNegativeButton("Cancel", null);
+                                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+
+                                                    startActivity(new Intent(getApplicationContext(), VehiclesActivity.class));
+                                                }
+                                            });
 
 
                                     builder.show();
@@ -338,4 +299,283 @@ public class Seats_activity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    private void payment() {
+
+
+        LayoutInflater inflater = (Seats_activity.this).getLayoutInflater();
+
+
+        for (int i = 0; i < listofseats.size(); i++) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(Seats_activity.this);
+
+            final View v = inflater.inflate(R.layout.payment, null);
+
+            final Spinner spinner_payment_type = v.findViewById(R.id.spinner_payment_method);
+            spinner_payment_type.setAdapter(new ArrayAdapter<String>(Seats_activity.this, android.R.layout.simple_spinner_dropdown_item, payment_methods));
+            spinner_payment_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+//                    payment_type = spinner_payment_type.getItemAtPosition(i).toString();
+
+                    payment_type = String.valueOf(spinner_payment_type.getSelectedItemId() + 1);
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    // DO Nothing here
+                }
+            });
+
+
+            builder.setView(v);
+
+
+            builder.setTitle("Payment Details For Seat: " + listofseats.get(i));
+
+
+            builder.setPositiveButton("Ok", new android.content.DialogInterface.OnClickListener() {
+                public void onClick(android.content.DialogInterface dialog, int id) {
+
+                    final EditText passenger_name = v.findViewById(R.id.passenger_name);
+                    final EditText passenger_phone = v.findViewById(R.id.passenger_phone);
+                    final EditText passenger_id = v.findViewById(R.id.passenger_id);
+
+
+                    name = passenger_name.getText().toString().trim();
+                    phone = passenger_phone.getText().toString().trim();
+                    id_no = passenger_id.getText().toString().trim();
+
+                    app.setName(name);
+                    app.setPhone(phone);
+                    app.setID(id_no);
+                    app.setPayment_type(payment_type);
+
+
+                    if ( listofseats.size() >1) {
+
+                        Toast.makeText(getApplicationContext(), "Details for Next Seat ", Toast.LENGTH_SHORT).show();
+
+                    } else {
+
+                        Toast.makeText(getApplicationContext(), "Click Reserve To complete....", Toast.LENGTH_SHORT).show();
+
+
+                    }
+
+
+                }
+            })
+
+                    .setNegativeButton("Cancel", null);
+
+
+            builder.show();
+
+
+        }
+
+//        // This clears the list
+//        listofseats = new ArrayList<>();
+//        Log.d("After Payment :%n %s", String.valueOf(listofseats));
+
+
+    }
+
+    private void reserve() {
+
+
+        RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", app.getUser_name());
+        params.put("api_key", app.getApi_key());
+        params.put("action", "ReserveSeats");
+
+        params.put("from_city", app.getTravel_from());
+
+
+        params.put("to_city", app.getTravel_too());
+        params.put("travel_date", app.getTravel_date());
+        params.put("hash", app.getHash_key());
+        params.put("selected_vehicle", app.get_selected_vehicle());
+
+        params.put("selected_seat", app.getSeatNo());
+        params.put("selected_ticket_type", "1");
+        params.put("payment_method", app.getPayment_type());
+
+        params.put("phone_number", app.getPhone());
+        params.put("id_number", app.getID());
+
+        params.put("passenger_name", app.getName());
+        params.put("email_address", "brianoroni6@gmail.com");
+
+        params.put("insurance_charge", "");
+        params.put("served_by", "Test User");
+
+        params.put("amount_charged", "10");
+        params.put("reference_number", "");
+
+        params.put("clerk_username", app.get_Clerk_username());
+        params.put("clerk_password", app.get_Clerk_password());
+
+
+        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            if (response.getInt("response_code") == 0) {
+
+                                JSONArray jsonArray = response.getJSONArray("ticket");
+
+                                Log.d("Reserve:%n %s", jsonArray.toString(4));
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    String reserver = jsonObject1.getString("trx_status");
+
+
+                                }
+
+
+                                intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
+
+//                                intentExtra.putExtra("data", jsonArray.toString());
+
+                                startActivity(intentExtra);
+
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        })
+
+        {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
+
+
+        };
+        reserverequestQueue.getCache().clear();
+
+        reserverequestQueue.add(req);
+    }
+
+    private void ticketType() {
+
+        RequestQueue tickettyperequestQueue = Volley.newRequestQueue(Seats_activity.this);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", app.getUser_name());
+        params.put("api_key", app.getApi_key());
+        params.put("action", "TicketTypes");
+
+        params.put("from_city", app.getTravel_from());
+        params.put("to_city", app.getTravel_too());
+        params.put("travel_date", app.getTravel_date());
+        params.put("hash", app.getHash_key());
+
+        params.put("selected_vehicle", app.get_selected_vehicle());
+        params.put("selected_seat", app.getSeatNo());
+        params.put("seater", "11");
+
+        params.put("clerk_username", app.get_Clerk_username());
+        params.put("clerk_password", app.get_Clerk_password());
+
+        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            if (response.getInt("response_code") == 0) {
+                                JSONArray jsonArray = response.getJSONArray("ticket_type");
+
+
+                                Log.d("ticket_type:%n %s", jsonArray.toString(4));
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    String ticket_type = jsonObject1.getString("name");
+                                    ticketType.add(ticket_type);
+                                }
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
+                            }
+
+//                            spinner_tickettype.setAdapter(new ArrayAdapter<String>(Seats_activity.this, android.R.layout.simple_spinner_dropdown_item, ticketType));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        })
+
+        {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
+
+
+        };
+        tickettyperequestQueue.getCache().clear();
+        tickettyperequestQueue.add(req);
+
+
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        startActivity(new Intent(getApplicationContext(), VehiclesActivity.class));
+    }
 }

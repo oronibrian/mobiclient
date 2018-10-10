@@ -22,7 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".VehiclesActivity"></activity>
+        <activity android:name=".VehiclesActivity" />
+        <activity android:name=".Seats_activity" />
+        <activity android:name=".ReceiptActivity"></activity>
     </application>
 
 </manifest>

@@ -7,10 +7,18 @@ public class MobiClientApplication extends Application {
 
 
     String user_name,hash_key,api_key;
-    String _Clerk_password,_Clerk_username;
+    String _Clerk_password,_Clerk_username,seatNo;
     String travel_date,travel_too,travel_from;
     String twoway_return_date,twoway_travel_date,twoway_travel_too,twoway_travel_from;
     ArrayAdapter<String> buses;
+    private String payment_type,selected_vehicle;
+
+
+    private String name;
+    private String phone;
+    private String ID;
+    int no_passenges;
+
 
     public MobiClientApplication(){}
 
@@ -122,5 +130,93 @@ public class MobiClientApplication extends Application {
 
     public String get_Twoway_Travel_from() {
         return twoway_travel_from;
+    }
+
+    public void setSeatNo(String seatNo) {
+        this.seatNo = seatNo;
+    }
+
+    public String getSeatNo() {
+        return seatNo;
+    }
+
+    public String getTwoway_return_date() {
+        return twoway_return_date;
+    }
+
+    public void setTwoway_return_date(String twoway_return_date) {
+        this.twoway_return_date = twoway_return_date;
+    }
+
+    public String getTwoway_travel_date() {
+        return twoway_travel_date;
+    }
+
+    public void setTwoway_travel_date(String twoway_travel_date) {
+        this.twoway_travel_date = twoway_travel_date;
+    }
+
+    public String getTwoway_travel_too() {
+        return twoway_travel_too;
+    }
+
+    public void setTwoway_travel_too(String twoway_travel_too) {
+        this.twoway_travel_too = twoway_travel_too;
+    }
+
+    public String getTwoway_travel_from() {
+        return twoway_travel_from;
+    }
+
+    public void setTwoway_travel_from(String twoway_travel_from) {
+        this.twoway_travel_from = twoway_travel_from;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public String getPayment_type() {
+        return payment_type;
+    }
+
+    public void setPayment_type(String payment_type) {
+        this.payment_type = payment_type;
+    }
+
+    public void set_selected_vehicle(String selected_vehicle) {
+        this.selected_vehicle = selected_vehicle;
+    }
+
+    public String get_selected_vehicle() {
+        return selected_vehicle;
+    }
+
+    public void set_no_passenges(int no_passenges) {
+        this.no_passenges = no_passenges;
+    }
+
+    public int get_no_passenges() {
+        return no_passenges;
     }
 }
