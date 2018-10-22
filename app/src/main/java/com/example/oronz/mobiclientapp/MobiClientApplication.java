@@ -15,7 +15,7 @@ public class MobiClientApplication extends Application {
 
 
     private String name;
-    private String phone;
+    private String phone,car_name,remaining_seats;
     private String ID;
     int no_passenges;
 
@@ -218,5 +218,21 @@ public class MobiClientApplication extends Application {
 
     public int get_no_passenges() {
         return no_passenges;
+    }
+
+    public void set_car_name(String car_name) {
+        this.car_name = car_name;
+    }
+
+    public String get_car_name() {
+        return car_name;
+    }
+
+    public void set_remaining_seats(String remaining_seats) {
+        this.remaining_seats = remaining_seats;
+    }
+
+    public String get_remaining_seats() {
+        return remaining_seats;
     }
 }

@@ -14,53 +14,66 @@
         android:layout_height="match_parent"
         android:paddingTop="12dp">
 
-        <fr.ganfra.materialspinner.MaterialSpinner
-            android:id="@+id/spinner_from_one"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:textAlignment="center"
+            android:layout_height="wrap_content">
 
-            app:ms_alignLabels="true"
-            app:ms_arrowColor="@color/base"
-            app:ms_arrowSize="8dp"
-            app:ms_baseColor="@color/base"
-            app:ms_dropDownHintView="@layout/dropdown_hint_item"
-            app:ms_enableErrorLabel="false"
-            app:ms_enableFloatingLabel="false"
-            app:ms_errorColor="@color/error"
-            app:ms_floatingLabelColor="@color/floating_label"
-            app:ms_floatingLabelText="floating label"
-            app:ms_highlightColor="@color/highlight"
-            app:ms_hint="From.."
-            app:ms_hintColor="@color/highlight"
-            app:ms_hintView="@layout/hint_item"
-            app:ms_multiline="false"
-            app:ms_thickness="2dp" />
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_from_one"
+                android:layout_width="185dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="17dp"
+                android:layout_marginRight="17dp"
 
-        <TextView />
+                android:layout_toStartOf="@+id/spinner_to_one"
+                android:layout_toLeftOf="@+id/spinner_to_one"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAlignment="center"
+                app:ms_alignLabels="true"
+                app:ms_arrowColor="@color/base"
+                app:ms_arrowSize="8dp"
+                app:ms_baseColor="@color/base"
+                app:ms_dropDownHintView="@layout/dropdown_hint_item"
+                app:ms_enableErrorLabel="false"
+                app:ms_enableFloatingLabel="false"
+                app:ms_errorColor="@color/error"
+                app:ms_floatingLabelColor="@color/floating_label"
+                app:ms_floatingLabelText="floating label"
+                app:ms_highlightColor="@color/highlight"
+                app:ms_hint="From.."
+                app:ms_hintColor="@color/highlight"
+                app:ms_hintView="@layout/hint_item"
+                app:ms_multiline="false"
+                app:ms_thickness="2dp" />
 
 
-        <fr.ganfra.materialspinner.MaterialSpinner
-            android:id="@+id/spinner_to_one"
-            android:layout_width="157dp"
-            android:layout_height="wrap_content"
-            app:ms_alignLabels="true"
-            app:ms_arrowColor="@color/base"
-            app:ms_arrowSize="8dp"
-            app:ms_baseColor="@color/base"
-            app:ms_dropDownHintView="@layout/dropdown_hint_item"
-            app:ms_enableErrorLabel="false"
-            app:ms_enableFloatingLabel="false"
-            app:ms_errorColor="@color/error"
-            app:ms_floatingLabelColor="@color/floating_label"
-            app:ms_floatingLabelText="floating label"
-            app:ms_highlightColor="@color/highlight"
-            app:ms_hint="To.."
-            app:ms_hintColor="@color/hint"
-            app:ms_hintView="@layout/hint_item"
-            app:ms_multiline="false"
-            app:ms_thickness="2dp" />
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_to_one"
+                android:layout_width="167dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="15dp"
+                app:ms_alignLabels="true"
+                app:ms_arrowColor="@color/base"
+                app:ms_arrowSize="8dp"
+                app:ms_baseColor="@color/base"
+                app:ms_dropDownHintView="@layout/dropdown_hint_item"
+                app:ms_enableErrorLabel="false"
+                app:ms_enableFloatingLabel="false"
+                app:ms_errorColor="@color/error"
+                app:ms_floatingLabelColor="@color/floating_label"
+                app:ms_floatingLabelText="floating label"
+                app:ms_highlightColor="@color/highlight"
+                app:ms_hint="To.."
+                app:ms_hintColor="@color/hint"
+                app:ms_hintView="@layout/hint_item"
+                app:ms_multiline="false"
+                app:ms_thickness="2dp" />
+
+        </RelativeLayout>
+
     </TableRow>
 
     <TableRow
@@ -108,10 +121,10 @@
 
     <TableRow
         android:id="@+id/row_how_many"
-        android:layout_width="181dp"
-        android:layout_height="132dp"
-        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="88dp"
         android:layout_marginTop="10dp"
+        android:gravity="center"
         android:padding="3dp">
 
         <LinearLayout
@@ -121,9 +134,9 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv"
                 android:gravity="center"
                 android:text="No Of passengers" />
 

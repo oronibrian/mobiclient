@@ -3,9 +3,11 @@ package com.example.oronz.mobiclientapp.Fragemnts;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +39,7 @@ import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.MobiClientApplication;
 import com.example.oronz.mobiclientapp.R;
 import com.example.oronz.mobiclientapp.VehiclesActivity;
+import com.github.ybq.android.spinkit.style.DoubleBounce;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,6 +68,10 @@ public class OneWayTripFragement extends Fragment {
     String _too,_from,date;
     String buses;
     NumberPicker np;
+    ProgressDialog progressBar;
+
+    CountDownTimer CDT;
+    int i =5;
 
     public OneWayTripFragement() {
         // Required empty public constructor
@@ -89,7 +97,6 @@ public class OneWayTripFragement extends Fragment {
         city = new ArrayList<>();
         dates=new ArrayList<>();
         vehicles=new ArrayList<>();
-
         return V;
     }
     @Override
@@ -102,11 +109,39 @@ public class OneWayTripFragement extends Fragment {
                     Toast.makeText(getContext(), "Journey cannot be on the same City", Toast.LENGTH_LONG).show();
                 } else {
 
+                    progressBar = new ProgressDialog(v.getContext());
+                    progressBar.setCancelable(true);
+                    progressBar.setMessage("Loading Available Vehicles ...");
+                    progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    progressBar.setProgress(i);
+                    progressBar.show();
+
                     Intent intent = new Intent(getActivity(), VehiclesActivity.class);
 
-                    intent.putExtra("Buses", vehicles);
 
-                    startActivity(intent);
+                    CDT = new CountDownTimer(6000, 1000)
+                    {
+                        public void onTick(long millisUntilFinished)
+                        {
+                            progressBar.setMessage("Please wait.." + i + "");
+                            i--;
+                        }
+
+                        public void onFinish()
+                        {
+                            progressBar.dismiss();
+
+                            intent.putExtra("Buses", vehicles);
+
+                            startActivity(intent);                        }
+                    }.start();
+
+
+
+
+
+
+
                 }
             }
         });

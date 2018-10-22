@@ -27,7 +27,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="87dp"
         android:text="Passenger Name"
-        android:textSize="20sp"
+        android:textSize="10sp"
         android:textStyle="bold" />
 
 
@@ -42,7 +42,7 @@
         android:layout_marginTop="13dp"
         android:padding="10dp"
         android:text="Seat number"
-        android:textSize="20sp"
+        android:textSize="10sp"
         android:textStyle="bold" />
 
 
@@ -53,9 +53,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="231dp"
-        android:background="@drawable/shape"
         android:text="Travel Date"
-        android:textSize="20sp"
+        android:textSize="10sp"
         android:textStyle="bold" />
 
     <Button

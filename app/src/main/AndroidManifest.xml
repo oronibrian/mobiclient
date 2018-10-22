@@ -24,7 +24,8 @@
         </activity>
         <activity android:name=".VehiclesActivity" />
         <activity android:name=".Seats_activity" />
-        <activity android:name=".ReceiptActivity"></activity>
+        <activity android:name=".ReceiptActivity" />
+        <activity android:name=".MyTrips"></activity>
     </application>
 
 </manifest>

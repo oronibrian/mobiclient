@@ -56,7 +56,15 @@ public class VehiclesActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view, int position) {
-                app.set_selected_vehicle((car_id));
+                int itemPosition = recyclerView.getChildAdapterPosition(view);
+//                 position = (int) view.getTag();
+
+//                 position  =   getAdapterPosition();
+
+
+                app.set_selected_vehicle(String.valueOf(recyclerView.indexOfChild(view)));
+
+
 
                 Intent intent = new Intent(VehiclesActivity.this, Seats_activity.class);
                 Log.d("SELECTED VEHICLE: ",app.get_selected_vehicle());
@@ -106,10 +114,10 @@ public class VehiclesActivity extends AppCompatActivity {
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
         params.put("api_key", app.getApi_key());
-        params.put("action", "AvailableBuses");
+        params.put("action", "SearchSchedule");
 
-        params.put("from_city", app.getTravel_from());
-        params.put("to_city", app.getTravel_too());
+        params.put("travel_from", app.getTravel_from());
+        params.put("travel_to", app.getTravel_too());
         params.put("travel_date", app.getTravel_date());
         params.put("hash", app.getHash_key());
 
@@ -123,12 +131,16 @@ public class VehiclesActivity extends AppCompatActivity {
                         try {
 
                             if (response.getInt("response_code") == 0) {
-                                jsonArray = response.getJSONArray("buses");
+                                jsonArray = response.getJSONArray("bus");
 
-                                for (int i = 1; i < jsonArray.length(); i++) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                    buses = jsonObject1.getString("name");
+                                    buses = jsonObject1.getString("route");
                                     car_id = jsonObject1.getString("id");
+
+                                    app.set_car_name(jsonObject1.getString("route"));
+
+
 
                                     if(jsonObject1==null){
                                         Toast.makeText(getApplicationContext(), ("There are no vehicles Remaining"), Toast.LENGTH_LONG).show();
