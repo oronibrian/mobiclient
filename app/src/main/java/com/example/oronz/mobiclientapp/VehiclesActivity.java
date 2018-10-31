@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -20,6 +22,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Adapter.MyAdapter;
+import com.example.oronz.mobiclientapp.Adapter.VehicleArrayAdapter;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +42,10 @@ public class VehiclesActivity extends AppCompatActivity {
 
     private MobiClientApplication app;
 
+    ArrayList<AvailableVehicles> availableVehicles;
+    ListView listView ;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,45 +54,50 @@ public class VehiclesActivity extends AppCompatActivity {
         vehicles = new ArrayList<>();
         payment_methods = new ArrayList<>();
 
-        recyclerView = findViewById(R.id.vertical_recycler_view);
-        recyclerView.setHasFixedSize(true);
+        listView = (ListView) findViewById(R.id.listview);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
-
-            @Override
-            public void onClick(View view, int position) {
-                int itemPosition = recyclerView.getChildAdapterPosition(view);
-//                 position = (int) view.getTag();
-
-//                 position  =   getAdapterPosition();
+        availableVehicles = new ArrayList<AvailableVehicles>();
 
 
-                app.set_selected_vehicle(String.valueOf(recyclerView.indexOfChild(view)));
+//        recyclerView = findViewById(R.id.vertical_recycler_view);
+//        recyclerView.setHasFixedSize(true);
+
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-
-                Intent intent = new Intent(VehiclesActivity.this, Seats_activity.class);
-                Log.d("SELECTED VEHICLE: ",app.get_selected_vehicle());
-                Log.d("SELECTED DATE: ",app.getTravel_date());
-                Log.d("Too City:%n %s", app.getTravel_from());
-                Log.d("From City:%n %s", app.getTravel_too());
-
-
-
-                startActivity(intent);
-
-
-
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
+//        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
+//
+//            @Override
+//            public void onClick(View view, int position) {
+//                int itemPosition = recyclerView.getChildAdapterPosition(view);
+////                 position = (int) view.getTag();
+//
+////                 position  =   getAdapterPosition();
+//
+//
+//                app.set_selected_vehicle(String.valueOf(recyclerView.indexOfChild(view)));
+//
+//
+//
+//                Intent intent = new Intent(VehiclesActivity.this, Seats_activity.class);
+//                Log.d("SELECTED VEHICLE: ",app.get_selected_vehicle());
+//                Log.d("SELECTED DATE: ",app.getTravel_date());
+//                Log.d("Too City:%n %s", app.getTravel_from());
+//                Log.d("From City:%n %s", app.getTravel_too());
+//
+//
+//
+//                startActivity(intent);
+//
+//
+//
+//            }
+//
+//            @Override
+//            public void onLongClick(View view, int position) {
+//
+//            }
+//        }));
 
 
         sv = findViewById(R.id.mSearch);
@@ -102,6 +115,20 @@ public class VehiclesActivity extends AppCompatActivity {
             }
         });
 
+
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+
+                          app.set_selected_vehicle(String.valueOf(listView.indexOfChild(view)));
+
+                        app.set_car_name("Select Seats\n");
+
+                        Intent intent = new Intent(VehiclesActivity.this, Seats_activity.class);
+                        startActivity(intent);
+
+                    }});
 
         checkAvailableVehicle();
 
@@ -137,8 +164,12 @@ public class VehiclesActivity extends AppCompatActivity {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                     buses = jsonObject1.getString("route");
                                     car_id = jsonObject1.getString("id");
+                                    String total_seats = jsonObject1.getString("total_seats");
+                                    String seats_available = jsonObject1.getString("seats_available");
+                                    String departure_time = jsonObject1.getString("departure_time");
 
-                                    app.set_car_name(jsonObject1.getString("route"));
+
+
 
 
 
@@ -149,7 +180,10 @@ public class VehiclesActivity extends AppCompatActivity {
 
                                         Log.d("Buses: ", buses);
 
-                                        vehicles.add(buses);
+//                                        vehicles.add(buses);
+
+                                        availableVehicles.add( new AvailableVehicles(buses,total_seats,seats_available,departure_time,car_id));
+
                                     }
 
 
@@ -160,8 +194,14 @@ public class VehiclesActivity extends AppCompatActivity {
 
                             }
 
-                            adapter = new MyAdapter(getApplicationContext(), vehicles);
-                            recyclerView.setAdapter(adapter);
+//                            adapter = new MyAdapter(getApplicationContext(), vehicles);
+//                            recyclerView.setAdapter(adapter);
+
+
+
+                            VehicleArrayAdapter vehicleAdapter = new VehicleArrayAdapter(VehiclesActivity.this, availableVehicles);
+
+                            listView.setAdapter(vehicleAdapter);
 
 
                         } catch (JSONException e) {
@@ -203,48 +243,6 @@ public class VehiclesActivity extends AppCompatActivity {
         void onLongClick(View view, int position);
     }
 
-    static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
-
-        private GestureDetector gestureDetector;
-        private ClickListener clickListener;
-
-        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener) {
-            this.clickListener = clickListener;
-            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-
-                @Override
-                public void onLongPress(MotionEvent e) {
-                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-                    if (child != null && clickListener != null) {
-                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
-                    }
-                }
-            });
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            View child = rv.findChildViewUnder(e.getX(), e.getY());
-            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
-                clickListener.onClick(child, rv.getChildPosition(child));
-            }
-            return false;
-        }
-
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
-    }
 
 }
 

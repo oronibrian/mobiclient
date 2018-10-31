@@ -110,9 +110,7 @@ public class OneWayTripFragement extends Fragment {
 
                     progressBar = new ProgressDialog(v.getContext());
                     progressBar.setCancelable(true);
-                    progressBar.setMessage("Loading Available Vehicles ...");
-                    progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                    progressBar.setProgress(i);
+
                     progressBar.show();
 
                     Intent intent = new Intent(getActivity(), VehiclesActivity.class);
@@ -122,7 +120,7 @@ public class OneWayTripFragement extends Fragment {
                     {
                         public void onTick(long millisUntilFinished)
                         {
-                            progressBar.setMessage("Please wait.." + i + "");
+                            progressBar.setMessage("Loading Available Vehicles..in.." + i + "");
                             i--;
                         }
 
