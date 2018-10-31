@@ -39,7 +39,6 @@ import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.MobiClientApplication;
 import com.example.oronz.mobiclientapp.R;
 import com.example.oronz.mobiclientapp.VehiclesActivity;
-import com.github.ybq.android.spinkit.style.DoubleBounce;
 
 import org.json.JSONArray;
 import org.json.JSONException;
