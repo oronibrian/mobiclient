@@ -242,7 +242,6 @@ public class Seats_activity extends AppCompatActivity {
                                             Log.d("List of seats:%n %s", String.valueOf(listofseats));
                                             payment();
 
-                                            info_text.setText(String.format("Name \n%s", app.getName()));
 
 
                                         }
@@ -359,6 +358,9 @@ public class Seats_activity extends AppCompatActivity {
                     app.setPhone(phone);
                     app.setID(id_no);
                     app.setPayment_type(payment_type);
+
+
+                    info_text.setText(String.format("Name \n%s", app.getName()));
 
 
                     if ( listofseats.size() >1) {

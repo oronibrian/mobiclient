@@ -144,7 +144,7 @@ public class VehiclesActivity extends AppCompatActivity {
 
 //                                        vehicles.add(buses);
 
-                                    availableVehicles.add( new AvailableVehicles(buses,total_seats,seats_available,departure_time,car_id));
+                                    availableVehicles.add(new AvailableVehicles(buses,total_seats,seats_available,departure_time,car_id));
 
                                 }
 
