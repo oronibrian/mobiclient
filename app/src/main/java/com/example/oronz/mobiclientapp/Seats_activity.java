@@ -56,7 +56,7 @@ public class Seats_activity extends AppCompatActivity {
 
     List<String> seats;
     Button checkbtn, btnreserve;
-    TextView receipt_txt;
+    TextView info_text;
 
 
     @SuppressLint("ResourceType")
@@ -68,6 +68,7 @@ public class Seats_activity extends AppCompatActivity {
         payment_methods = new ArrayList<>();
         ticketType = new ArrayList<>();
 
+        info_text=findViewById(R.id.info_text);
 
         btnreserve = findViewById(R.id.btnreserve);
         btnreserve.setVisibility(View.GONE);
@@ -78,10 +79,10 @@ public class Seats_activity extends AppCompatActivity {
         btnreserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 1; i <= listofseats.size(); i++) {
+
                     reserve();
 
-                }
+
 
             }
         });
@@ -241,6 +242,9 @@ public class Seats_activity extends AppCompatActivity {
                                             Log.d("List of seats:%n %s", String.valueOf(listofseats));
                                             payment();
 
+                                            info_text.setText(String.format("Name \n%s", app.getName()));
+
+
                                         }
                                     })
 
@@ -388,12 +392,18 @@ public class Seats_activity extends AppCompatActivity {
     }
 
     private void reserve() {
+        mpesaPayment();
 
 
-        if(payment_type==String.valueOf(3)){
-            mpesaPayment();
+//        if(payment_type==String.valueOf(3)){
+//            mpesaPayment();
+//
+//        }
 
-        }
+//        else if(payment_type==String.valueOf(2)){
+//            jamboPayWalet();
+//
+//        }
 
 
 //        RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
@@ -593,9 +603,96 @@ public class Seats_activity extends AppCompatActivity {
         params.put("username", app.getUser_name());
         params.put("api_key", app.getApi_key());
         params.put("action", "AuthorizePayment");
+        params.put("payment_method", "3");
 
         params.put("reference_number", "MA00007487");
         params.put("mpesa_phone_number", app.getPhone());
+
+        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            if (response.getInt("response_code") == 0) {
+
+                                JSONArray jsonArray = response.getJSONArray("tickets");
+
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    String reserver = jsonObject1.getString("description");
+
+                                    Log.d("Reservation Status: ",reserver);
+                                    Log.d("Reserve:%n %s", jsonArray.toString(4));
+
+
+
+                                }
+
+
+                                intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
+
+//                                intentExtra.putExtra("data", jsonArray.toString());
+
+                                startActivity(intentExtra);
+
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        })
+
+        {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
+
+
+        };
+        reserverequestQueue.getCache().clear();
+
+        reserverequestQueue.add(req);
+
+    }
+
+    private void jamboPayWalet(){
+        RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", app.getUser_name());
+        params.put("api_key", app.getApi_key());
+        params.put("action", "AuthorizePayment");
+        params.put("payment_method", "2");
+        params.put("reference_number", "MA00007487");
+        params.put("jambopay_agency_username", "0702357053");
+        params.put("jambopay_agency_password", "p/IK4:");
+
+
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
@@ -668,6 +765,7 @@ public class Seats_activity extends AppCompatActivity {
         reserverequestQueue.add(req);
 
     }
+
 
 
     @Override

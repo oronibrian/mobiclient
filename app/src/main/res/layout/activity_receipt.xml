@@ -9,66 +9,55 @@
     tools:context=".ReceiptActivity">
 
 
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Content"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
     <TextView
         android:id="@+id/journey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="1dp"
-        android:textSize="35sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/txt_name"
-        android:layout_width="354dp"
-        android:layout_height="55dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="87dp"
-        android:text="Passenger Name"
-        android:textSize="10sp"
-        android:textStyle="bold" />
-
-
-
+        android:layout_marginTop="45dp"
+        android:text="Content" />
 
     <TextView
         android:id="@+id/seat_no"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_name"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp"
-        android:padding="10dp"
-        android:text="Seat number"
-        android:textSize="10sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="95dp"
+        android:text="seat_no" />
 
 
     <TextView
         android:id="@+id/date"
-        android:layout_width="354dp"
-        android:layout_height="41dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="231dp"
-        android:text="Travel Date"
-        android:textSize="10sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="128dp"
+        android:text="Content"
+         />
 
     <Button
-            android:id="@+id/btnnew"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="53dp"
-            android:background="@drawable/btn"
+        android:id="@+id/btnnew"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
 
-            android:text="New ticket" />
-
-
-
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-2dp"
+        android:layout_marginBottom="253dp"
+        android:background="@drawable/btn"
+        android:text="New ticket" />
 
 
 </RelativeLayout>

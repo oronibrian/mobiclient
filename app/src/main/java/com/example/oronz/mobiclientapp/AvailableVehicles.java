@@ -4,14 +4,13 @@ public class AvailableVehicles {
 
    String seater,name,seats_available,departure_time,id;
 
-    public AvailableVehicles(String seater, String name, String seats_available, String departure_time, String car_id) {
+
+    public AvailableVehicles(String seater, String name, String seats_available, String departure_time, String id) {
         this.seater = seater;
         this.name = name;
         this.seats_available = seats_available;
         this.departure_time = departure_time;
-        this.id = car_id;
-
-
+        this.id = id;
     }
 
     public String getSeater() {
@@ -53,4 +52,9 @@ public class AvailableVehicles {
     public void set_Id(String id) {
         this.id = id;
     }
+
+
+
+
+
 }
