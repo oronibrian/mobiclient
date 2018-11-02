@@ -5,7 +5,7 @@
     android:id="@+id/table_layout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
+    android:padding="10dp"
     android:background="#ffff">
 
 
@@ -14,13 +14,14 @@
         android:layout_height="match_parent"
         android:paddingTop="12dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
+            android:orientation="horizontal"
             android:layout_height="wrap_content">
 
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/spinner_from_one"
-                android:layout_width="185dp"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="17dp"
                 android:layout_marginRight="17dp"
@@ -49,7 +50,7 @@
 
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/spinner_to_one"
-                android:layout_width="167dp"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
@@ -72,7 +73,7 @@
                 app:ms_multiline="false"
                 app:ms_thickness="2dp" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </TableRow>
 
@@ -118,36 +119,6 @@
 
     </TableRow>
 
-
-    <TableRow
-        android:id="@+id/row_how_many"
-        android:layout_width="wrap_content"
-        android:layout_height="88dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:padding="3dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="No Of passengers" />
-
-            <NumberPicker
-                android:id="@+id/num_of_passengers"
-                android:layout_width="179dp"
-                android:layout_height="130dp" />
-        </LinearLayout>
-
-
-    </TableRow>
 
     <LinearLayout>
 

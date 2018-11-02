@@ -4,120 +4,119 @@
     android:id="@+id/table_layout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
+    android:padding="16dp"
     android:background="#ffff">
 
 
-    <TableRow
-        android:id="@+id/wo"
-        android:layout_width="match_parent"
-        android:layout_height="33dp"
-        android:layout_marginTop="2dp">
+        <LinearLayout
+            android:layout_width="359dp"
+            android:padding="10dp"
 
-
-        <fr.ganfra.materialspinner.MaterialSpinner
-            android:id="@+id/spinner_from"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:ms_alignLabels="true"
-            app:ms_arrowColor="@color/base"
-            app:ms_arrowSize="8dp"
-            app:ms_baseColor="@color/base"
-            app:ms_dropDownHintView="@layout/dropdown_hint_item"
-            app:ms_enableErrorLabel="false"
-            app:ms_enableFloatingLabel="false"
-            app:ms_errorColor="@color/error"
-            app:ms_floatingLabelColor="@color/floating_label"
-            app:ms_floatingLabelText="floating label"
-            app:ms_highlightColor="@color/highlight"
-            app:ms_hint="Traveling From.."
-            app:ms_hintColor="@color/hint"
-            app:ms_hintView="@layout/hint_item"
-            app:ms_multiline="false"
-            app:ms_thickness="2dp" />
+            android:orientation="horizontal">
 
 
-        <fr.ganfra.materialspinner.MaterialSpinner
-            android:id="@+id/spinner_to"
-            android:layout_width="184dp"
-            android:layout_height="wrap_content"
-            app:ms_alignLabels="true"
-            app:ms_arrowColor="@color/base"
-            app:ms_arrowSize="8dp"
-            app:ms_baseColor="@color/base"
-            app:ms_dropDownHintView="@layout/dropdown_hint_item"
-            app:ms_enableErrorLabel="false"
-            app:ms_enableFloatingLabel="false"
-            app:ms_errorColor="@color/error"
-            app:ms_floatingLabelColor="@color/floating_label"
-            app:ms_floatingLabelText="floating label"
-            app:ms_highlightColor="@color/highlight"
-            app:ms_hint="Traveling To.."
-            app:ms_hintColor="@color/hint"
-            app:ms_hintView="@layout/hint_item"
-            app:ms_multiline="false"
-            app:ms_thickness="2dp" />
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_from"
+                android:layout_width="159dp"
+                android:layout_height="wrap_content"
+                app:ms_alignLabels="true"
+                app:ms_arrowColor="@color/base"
+                app:ms_arrowSize="8dp"
+                app:ms_baseColor="@color/base"
+                app:ms_dropDownHintView="@layout/dropdown_hint_item"
+                app:ms_enableErrorLabel="false"
+                app:ms_enableFloatingLabel="false"
+                app:ms_errorColor="@color/error"
+                app:ms_floatingLabelColor="@color/floating_label"
+                app:ms_floatingLabelText="floating label"
+                app:ms_highlightColor="@color/highlight"
+                app:ms_hint="Traveling From.."
+                app:ms_hintColor="@color/hint"
+                app:ms_hintView="@layout/hint_item"
+                app:ms_multiline="false"
+                android:layout_marginEnd="17dp"
+                android:layout_marginRight="17dp"
 
-    </TableRow>
-    <TableRow
-        android:id="@+id/row_5"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_marginTop="20dp">
-
-    </TableRow>
-    <TableRow
-        android:id="@+id/row_6"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="2dp">
+                app:ms_thickness="2dp" />
 
 
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_to"
+                android:layout_width="147dp"
+                android:layout_height="wrap_content"
+                app:ms_alignLabels="true"
+                app:ms_arrowColor="@color/base"
+                app:ms_arrowSize="8dp"
+                app:ms_baseColor="@color/base"
+                app:ms_dropDownHintView="@layout/dropdown_hint_item"
+                app:ms_enableErrorLabel="false"
+                app:ms_enableFloatingLabel="false"
+                app:ms_errorColor="@color/error"
+                app:ms_floatingLabelColor="@color/floating_label"
+                app:ms_floatingLabelText="floating label"
+                app:ms_highlightColor="@color/highlight"
+                app:ms_hint="Traveling To.."
+                app:ms_hintColor="@color/hint"
+                app:ms_hintView="@layout/hint_item"
+                app:ms_multiline="false"
+                app:ms_thickness="2dp" />
+        </LinearLayout>
 
-        <fr.ganfra.materialspinner.MaterialSpinner
-            android:id="@+id/spinner_travel_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:ms_alignLabels="true"
-            app:ms_arrowColor="@color/base"
-            app:ms_arrowSize="8dp"
-            app:ms_baseColor="@color/base"
-            app:ms_dropDownHintView="@layout/dropdown_hint_item"
-            app:ms_enableErrorLabel="false"
-            app:ms_enableFloatingLabel="false"
-            app:ms_errorColor="@color/error"
-            app:ms_floatingLabelColor="@color/floating_label"
-            app:ms_floatingLabelText="floating label"
-            app:ms_highlightColor="@color/highlight"
-            app:ms_hint="Traveling Date.."
-            app:ms_hintColor="@color/hint"
-            app:ms_hintView="@layout/hint_item"
-            app:ms_multiline="false"
-            app:ms_thickness="2dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:layout_height="wrap_content">
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_travel_date"
+                android:layout_width="157dp"
+                android:layout_height="wrap_content"
+                app:ms_arrowColor="@color/base"
+                app:ms_arrowSize="8dp"
+                android:layout_marginEnd="17dp"
+                android:layout_marginRight="17dp"
+
+                app:ms_baseColor="@color/base"
+                app:ms_dropDownHintView="@layout/dropdown_hint_item"
+                app:ms_enableErrorLabel="false"
+                app:ms_enableFloatingLabel="false"
+                app:ms_errorColor="@color/error"
+                app:ms_floatingLabelColor="@color/floating_label"
+                app:ms_floatingLabelText="floating label"
+                app:ms_highlightColor="@color/highlight"
+                app:ms_hint="Traveling Date.."
+                app:ms_hintColor="@color/hint"
+                app:ms_hintView="@layout/hint_item"
+                app:ms_multiline="false"
+                app:ms_thickness="2dp" />
 
 
-        <fr.ganfra.materialspinner.MaterialSpinner
-            android:id="@+id/spinner_return_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:ms_alignLabels="true"
-            app:ms_arrowColor="@color/base"
-            app:ms_arrowSize="8dp"
-            app:ms_baseColor="@color/base"
-            app:ms_dropDownHintView="@layout/dropdown_hint_item"
-            app:ms_enableErrorLabel="false"
-            app:ms_enableFloatingLabel="false"
-            app:ms_errorColor="@color/error"
-            app:ms_floatingLabelColor="@color/floating_label"
-            app:ms_floatingLabelText="floating label"
-            app:ms_highlightColor="@color/highlight"
-            app:ms_hint="Return Date.."
-            app:ms_hintColor="@color/hint"
-            app:ms_hintView="@layout/hint_item"
-            app:ms_multiline="false"
-            app:ms_thickness="2dp" />
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_return_date"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                app:ms_alignLabels="true"
+                app:ms_arrowColor="@color/base"
+                app:ms_arrowSize="8dp"
+                app:ms_baseColor="@color/base"
+                app:ms_dropDownHintView="@layout/dropdown_hint_item"
+                app:ms_enableErrorLabel="false"
+                app:ms_enableFloatingLabel="false"
+                app:ms_errorColor="@color/error"
+                app:ms_floatingLabelColor="@color/floating_label"
+                app:ms_floatingLabelText="floating label"
+                app:ms_highlightColor="@color/highlight"
+                app:ms_hint="Return Date.."
+                app:ms_hintColor="@color/hint"
+                app:ms_hintView="@layout/hint_item"
+                app:ms_multiline="false"
+                app:ms_thickness="2dp" />
 
-    </TableRow>
+
+        </LinearLayout>
 
 
 

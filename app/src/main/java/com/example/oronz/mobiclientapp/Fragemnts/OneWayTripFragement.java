@@ -148,25 +148,25 @@ public class OneWayTripFragement extends Fragment {
         from=view.findViewById(R.id.spinner_from_one);
         too=view.findViewById(R.id.spinner_to_one);
         travel_date=view.findViewById(R.id.spinner_travel_date_one);
-        np = view. findViewById(R.id.num_of_passengers);
-        final TextView tv = (TextView)view. findViewById(R.id.tv);
-
-
-        np.setMinValue(1);
-        np.setMaxValue(9);
-
-        np.setWrapSelectorWheel(true);
-
-        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal){
-                tv.setText("Selected Number : " + newVal);
-                tv.setTextColor(Color.BLACK);
-
-                app.set_no_passenges(newVal);
-
-            }
-        });
+//        np = view. findViewById(R.id.num_of_passengers);
+//        final TextView tv = (TextView)view. findViewById(R.id.tv);
+//
+//
+//        np.setMinValue(1);
+//        np.setMaxValue(9);
+//
+//        np.setWrapSelectorWheel(true);
+//
+//        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+//            @Override
+//            public void onValueChange(NumberPicker picker, int oldVal, int newVal){
+////                tv.setText("Selected Number : " + newVal);
+////                tv.setTextColor(Color.BLACK);
+//
+//                app.set_no_passenges(newVal);
+//
+//            }
+//        });
 
 
         travel_date.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
