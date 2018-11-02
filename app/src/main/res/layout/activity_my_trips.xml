@@ -1,9 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".MyTrips">
 
-</android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:id="@+id/editTextphone"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:ems="10"
+            android:hint="phone number"
+            android:inputType="textPersonName|phone"
+            tools:layout_editor_absoluteX="10dp"
+            tools:layout_editor_absoluteY="7dp" />
+
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        tools:layout_editor_absoluteX="265dp"
+        tools:layout_editor_absoluteY="5dp" />
+    </LinearLayout>
+
+    <ListView
+        android:paddingTop="20dp"
+        android:id="@+id/mytripslistView"
+        android:layout_width="wrap_content"
+        android:layout_height="461dp"
+        android:layout_marginBottom="0dp"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="53dp" />
+
+</LinearLayout>

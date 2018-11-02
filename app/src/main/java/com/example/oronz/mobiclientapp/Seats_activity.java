@@ -24,6 +24,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
@@ -57,6 +58,7 @@ public class Seats_activity extends AppCompatActivity {
     List<String> seats;
     Button checkbtn, btnreserve;
     TextView info_text;
+    String refno;
 
 
     @SuppressLint("ResourceType")
@@ -89,6 +91,70 @@ public class Seats_activity extends AppCompatActivity {
 
     }
 
+
+    private void   getRefferenceNumber(){
+
+        RequestQueue requestQueue = Volley.newRequestQueue(Seats_activity.this);
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("developer_username", app.getUser_name());
+        params.put("developer_api_key", app.getApi_key());
+        params.put("action", "generatereferencenumber");
+
+
+
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT,URLs.REF_URL, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            if (response.getInt("response_code") == 0) {
+
+                                 refno = response.getString("reference_number");
+
+                                Log.d("Ref Number: ",refno);
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        })
+
+        {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
+
+
+        };
+
+        requestQueue.add(req);
+
+    }
 
     private void getPaymentMethod() {
         RequestQueue requestQueue = Volley.newRequestQueue(Seats_activity.this);
@@ -360,7 +426,14 @@ public class Seats_activity extends AppCompatActivity {
                     app.setPayment_type(payment_type);
 
 
-                    info_text.setText(String.format("Name \n%s", app.getName()));
+                    info_text.setText(String.format("Name: %s\n", app.getName()));
+                    info_text.append(String.format("Phone: %s\n", app.getPhone()));
+                    info_text.append(String.format("ID: %s\n", app.getID()));
+
+
+
+                    //Generate Reff Number
+                    getRefferenceNumber();
 
 
                     if ( listofseats.size() >1) {
@@ -607,7 +680,7 @@ public class Seats_activity extends AppCompatActivity {
         params.put("action", "AuthorizePayment");
         params.put("payment_method", "3");
 
-        params.put("reference_number", "MA00007487");
+        params.put("reference_number", refno);
         params.put("mpesa_phone_number", app.getPhone());
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
@@ -690,7 +763,7 @@ public class Seats_activity extends AppCompatActivity {
         params.put("api_key", app.getApi_key());
         params.put("action", "AuthorizePayment");
         params.put("payment_method", "2");
-        params.put("reference_number", "MA00007487");
+        params.put("reference_number", refno);
         params.put("jambopay_agency_username", "0702357053");
         params.put("jambopay_agency_password", "p/IK4:");
 

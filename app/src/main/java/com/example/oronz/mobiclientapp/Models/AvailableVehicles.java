@@ -1,4 +1,4 @@
-package com.example.oronz.mobiclientapp;
+package com.example.oronz.mobiclientapp.Models;
 
 public class AvailableVehicles {
 

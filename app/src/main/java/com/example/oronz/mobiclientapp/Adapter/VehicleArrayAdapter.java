@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.oronz.mobiclientapp.AvailableVehicles;
+import com.example.oronz.mobiclientapp.Models.AvailableVehicles;
 import com.example.oronz.mobiclientapp.MobiClientApplication;
 import com.example.oronz.mobiclientapp.R;
 
@@ -37,7 +37,7 @@ public class VehicleArrayAdapter  extends ArrayAdapter<AvailableVehicles> {
 
         AvailableVehicles currentpackage = getItem(position);
 
-        TextView nameTextView = listItemView.findViewById(R.id.name);
+        TextView nameTextView = listItemView.findViewById(R.id.from);
 
         nameTextView.setText(String.format("Total Seats : %s", currentpackage.getName()));
 

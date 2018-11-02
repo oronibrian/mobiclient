@@ -1,15 +1,11 @@
 package com.example.oronz.mobiclientapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -23,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Adapter.MyAdapter;
 import com.example.oronz.mobiclientapp.Adapter.VehicleArrayAdapter;
+import com.example.oronz.mobiclientapp.Models.AvailableVehicles;
 
 import org.json.JSONArray;
 import org.json.JSONException;
