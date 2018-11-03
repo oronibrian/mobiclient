@@ -41,7 +41,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Seats_activity extends AppCompatActivity {
     public static String name, phone, id_no = "";
@@ -58,7 +60,25 @@ public class Seats_activity extends AppCompatActivity {
     List<String> seats;
     Button checkbtn, btnreserve;
     TextView info_text;
-    String refno;
+    String refno,seatno;
+    List<String> LevenSeaterList;
+
+    String[] elevenSeater = new String[]{
+            "1",
+            "1X",
+            "D",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+    };
+
+
 
 
     @SuppressLint("ResourceType")
@@ -77,6 +97,7 @@ public class Seats_activity extends AppCompatActivity {
         availableSeats();
         getPaymentMethod();
 
+        LevenSeaterList = new ArrayList<String>(Arrays.asList(elevenSeater));
 
         btnreserve.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,95 +262,94 @@ public class Seats_activity extends AppCompatActivity {
 
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
+                response -> {
+                    try {
 
 
-                            if (response.getInt("response_code") == 0) {
+                        if (response.getInt("response_code") == 0) {
 
-                                JSONArray jsonArray = response.getJSONArray("bus");
+                            JSONArray jsonArray = response.getJSONArray("bus");
 
-                                    JSONObject jsonObject1 = jsonArray.getJSONObject(Integer.parseInt(app.getIndex()));
-                                    JSONArray bus_array = jsonObject1.getJSONArray("seats");
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(Integer.parseInt(app.getIndex()));
+                                JSONArray bus_array = jsonObject1.getJSONArray("seats");
 
-                                    for(int x=0; x < bus_array.length();x++) {
-                                        JSONObject obj = bus_array.getJSONObject(x);
-                                        String gari = obj.getString("name");
-                                        Log.d("########### GARI",gari);
+                                for(int x=0; x < bus_array.length();x++) {
+                                    JSONObject obj = bus_array.getJSONObject(x);
+                                    String gari = obj.getString("name");
+                                    Log.d("########### GARI",gari);
 
-                                        seats = new ArrayList<>(Arrays.asList(gari.split(",")));
+                                    seats = new ArrayList<>(Arrays.asList(gari.split(",")));
 
-                                    }
+                                }
 
 //                                    ticketType();
 
-                                    final GridView gridView = new GridView(Seats_activity.this);
+                                final GridView gridView = new GridView(Seats_activity.this);
 
 
-                                    gridView.setAdapter(new ArrayAdapter<>(Seats_activity.this, R.layout.simple_list_item_1, seats));
-                                    gridView.setNumColumns(3);
+                                gridView.setAdapter(new ArrayAdapter<>(Seats_activity.this, R.layout.simple_list_item_1, LevenSeaterList));
+                                gridView.setNumColumns(3);
+//                                gridView.getChildAt(3).setBackgroundColor(Color.RED);
 
 
-                                    gridView.setOnItemClickListener((parent, view, position, id) -> {
-                                        Toast.makeText(Seats_activity.this,
-                                                getString(R.string.you_booked, seats.get(position)),
-                                                Toast.LENGTH_SHORT).show();
+                                gridView.setOnItemClickListener((parent, view, position, id) -> {
+                                    Toast.makeText(Seats_activity.this,
+                                            getString(R.string.you_booked, LevenSeaterList.get(position)),
+                                            Toast.LENGTH_SHORT).show();
 
-                                        app.setSeatNo(seats.get(position));
+//                                        app.setSeatNo(seats.get(position));
 
+                                     seatno = String.valueOf(LevenSeaterList.get(position));
 
-                                        listofseats.add(parent.getItemAtPosition(position).toString());
+                                    System.out.println(); // true
 
-                                        gridView.getChildAt(position).setBackgroundColor(Color.RED);
-
-//                                            view.setBackgroundColor(R.drawable.ic_seats_b);
-
-
-                                    });
-
-
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Seats_activity.this);
-                                    builder.setView(gridView);
-                                    builder.setTitle(app.get_car_name());
-                                ;
-                                    builder.setPositiveButton("OK", new android.content.DialogInterface.OnClickListener() {
-                                        public void onClick(android.content.DialogInterface dialog, int id) {
-                                            btnreserve.setVisibility(View.VISIBLE);
-                                            Log.d("List of seats:%n %s", String.valueOf(listofseats));
-                                            payment();
+                                    listofseats.add(parent.getItemAtPosition(position).toString());
+                                    gridView.getChildAt(position).setBackgroundColor(Color.RED);
 
 
 
-                                        }
-                                    })
+                                });
 
 
-                                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-
-                                                    startActivity(new Intent(getApplicationContext(), VehiclesActivity.class));
-                                                }
-                                            });
-
-
-                                    builder.show();
-
+                                AlertDialog.Builder builder = new AlertDialog.Builder(Seats_activity.this);
+                                builder.setView(gridView);
+                                builder.setTitle(app.get_car_name());
+                            ;
+                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        btnreserve.setVisibility(View.VISIBLE);
+                                        Log.d("List of seats:%n %s", String.valueOf(listofseats));
+                                        payment();
 
 
 
-
-                            } else {
-                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
-
-                            }
+                                    }
+                                })
 
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                startActivity(new Intent(getApplicationContext(), VehiclesActivity.class));
+                                            }
+                                        });
+
+
+                                builder.show();
+
+
+
+
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
                         }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -484,9 +504,9 @@ public class Seats_activity extends AppCompatActivity {
         params.put("travel_date", app.getTravel_date());
         params.put("hash", app.getHash_key());
         params.put("selected_vehicle", app.get_selected_vehicle());
-
-        params.put("selected_seat", app.getSeatNo());
-        params.put("selected_ticket_type", "1");
+        params.put("seater", "11");
+        params.put("selected_seat", seatno);
+        params.put("selected_ticket_type", "13");
         params.put("payment_method", app.getPayment_type());
 
         params.put("phone_number", app.getPhone());
@@ -497,7 +517,8 @@ public class Seats_activity extends AppCompatActivity {
         params.put("served_by", "Oroni");
         params.put("amount_charged", "10");
         params.put("reference_number", refno);
-//
+
+////
 //        params.put("clerk_username", app.get_Clerk_username());
 //        params.put("clerk_password", app.get_Clerk_password());
 
@@ -534,7 +555,7 @@ public class Seats_activity extends AppCompatActivity {
 
                                 Log.d("Selected Vehicle: ",app.get_selected_vehicle());
 
-                                Log.d("Selected Seat: ",app.getSeatNo());
+                                Log.d("Selected Seat: ",seatno);
                                 Log.d("from_city", app.getTravel_from());
                                 Log.d("to_city", app.getTravel_too());
                                 Log.d("travel_date", app.getTravel_date());
@@ -844,6 +865,19 @@ public class Seats_activity extends AppCompatActivity {
         reserverequestQueue.add(req);
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
