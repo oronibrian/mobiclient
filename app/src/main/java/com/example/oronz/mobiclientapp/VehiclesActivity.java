@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,6 +23,7 @@ import com.example.oronz.mobiclientapp.Models.AvailableVehicles;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -53,7 +53,7 @@ public class VehiclesActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.listview);
 
-        availableVehicles = new ArrayList<AvailableVehicles>();
+        availableVehicles = new ArrayList<>();
 
 
 
@@ -68,25 +68,23 @@ public class VehiclesActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String query) {
                 //FILTER AS YOU TYPE
-                adapter.getFilter().filter(query);
+//                adapter.getFilter().filter(query);
                 return false;
             }
         });
 
 
 
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View view,
-                                            int position, long id) {
+                listView.setOnItemClickListener((parent, view, position, id) -> {
 
-                          app.set_selected_vehicle(String.valueOf(listView.indexOfChild(view)));
+                      app.set_selected_vehicle(String.valueOf(listView.indexOfChild(view)));
 
-                        app.set_car_name("Select Seats\n");
+                    app.set_car_name("Select Seats\n");
 
-                        Intent intent = new Intent(VehiclesActivity.this, Seats_activity.class);
-                        startActivity(intent);
+                    Intent intent = new Intent(VehiclesActivity.this, Seats_activity.class);
+                    startActivity(intent);
 
-                    }});
+                });
 
         checkAvailableVehicle();
 
@@ -190,12 +188,6 @@ public class VehiclesActivity extends AppCompatActivity {
     public void onBackPressed() {
         finish();
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
-    }
-
-    public interface ClickListener {
-        void onClick(View view, int position);
-
-        void onLongClick(View view, int position);
     }
 
 
