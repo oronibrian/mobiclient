@@ -77,7 +77,7 @@ public class VehiclesActivity extends AppCompatActivity {
 
                 listView.setOnItemClickListener((parent, view, position, id) -> {
 
-                      app.set_selected_vehicle(String.valueOf(listView.indexOfChild(view)));
+                      app.setIndex(String.valueOf(listView.indexOfChild(view)));
 
                     app.set_car_name("Select Seats\n");
 
@@ -123,10 +123,6 @@ public class VehiclesActivity extends AppCompatActivity {
                                 String departure_time = jsonObject1.getString("departure_time");
                                 String from = jsonObject1.getString("from");
                                 String too = jsonObject1.getString("to");
-
-
-
-
 
 
 

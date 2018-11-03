@@ -26,12 +26,14 @@ Button btnnew;
 
 
 
-        journey.setText(String.format("Travelling from %s To %s", app.getTravel_from(), app.getTravel_too()));
-        txt_name.setText(String.format("Name \n%s", app.getName()));
-        txt_seat_no.setText(String.format("Seat No \n%s", app.getSeatNo()));
-        date.setText(String.format("Date \n%s", app.getTravel_date()));
+//        journey.setText(String.format("Travelling from %s To %s", app.getTravel_from(), app.getTravel_too()));
+////        txt_name.setText(String.format("Name \n%s", app.getName()));
+//        txt_seat_no.setText(String.format("Seat No \n%s", app.getSeatNo()));
+//        date.setText(String.format("Date \n%s", app.getTravel_date()));
 
+        String value = getIntent().getStringExtra("data");
 
+        txt_name.setText(String.format("Message \n%s", value));
 
         btnnew.setOnClickListener(new View.OnClickListener() {
             @Override

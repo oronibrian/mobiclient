@@ -103,26 +103,23 @@ public class Seats_activity extends AppCompatActivity {
 
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT,URLs.REF_URL, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
+                response -> {
+                    try {
 
-                            if (response.getInt("response_code") == 0) {
+                        if (response.getInt("response_code") == 0) {
 
-                                 refno = response.getString("reference_number");
+                             refno = response.getString("reference_number");
 
-                                Log.d("Ref Number: ",refno);
+                            Log.d("Ref Number: ",refno);
 
-                            } else {
-                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
 
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -254,7 +251,7 @@ public class Seats_activity extends AppCompatActivity {
 
                                 JSONArray jsonArray = response.getJSONArray("bus");
 
-                                    JSONObject jsonObject1 = jsonArray.getJSONObject(Integer.parseInt(app.get_selected_vehicle()));
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(Integer.parseInt(app.getIndex()));
                                     JSONArray bus_array = jsonObject1.getJSONArray("seats");
 
                                     for(int x=0; x < bus_array.length();x++) {
@@ -275,24 +272,19 @@ public class Seats_activity extends AppCompatActivity {
                                     gridView.setNumColumns(3);
 
 
-                                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                            Toast.makeText(Seats_activity.this,
-                                                    getString(R.string.you_booked, seats.get(position)),
-                                                    Toast.LENGTH_SHORT).show();
+                                    gridView.setOnItemClickListener((parent, view, position, id) -> {
+                                        Toast.makeText(Seats_activity.this,
+                                                getString(R.string.you_booked, seats.get(position)),
+                                                Toast.LENGTH_SHORT).show();
 
-                                            app.setSeatNo(seats.get(position));
+                                        app.setSeatNo(seats.get(position));
 
 
-                                            listofseats.add(parent.getItemAtPosition(position).toString());
+                                        listofseats.add(parent.getItemAtPosition(position).toString());
 
-                                            gridView.getChildAt(position).setBackgroundColor(Color.RED);
+                                        gridView.getChildAt(position).setBackgroundColor(Color.RED);
 
 //                                            view.setBackgroundColor(R.drawable.ic_seats_b);
-
-
-                                        }
 
 
                                     });
@@ -467,124 +459,136 @@ public class Seats_activity extends AppCompatActivity {
     }
 
     private void reserve() {
-        mpesaPayment();
+//        mpesaPayment();
 
 
 //        if(payment_type==String.valueOf(3)){
 //            mpesaPayment();
 //
 //        }
-
+//
 //        else if(payment_type==String.valueOf(2)){
 //            jamboPayWalet();
 //
 //        }
 
 
-//        RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
-//
-//        HashMap<String, String> params = new HashMap<String, String>();
-//        params.put("username", app.getUser_name());
-//        params.put("api_key", app.getApi_key());
-//        params.put("action", "ReserveSeats");
-//
-//        params.put("from_city", app.getTravel_from());
-//
-//
-//        params.put("to_city", app.getTravel_too());
-//        params.put("travel_date", app.getTravel_date());
-//        params.put("hash", app.getHash_key());
-//        params.put("selected_vehicle", app.get_selected_vehicle());
-//
-//        params.put("selected_seat", app.getSeatNo());
-//        params.put("selected_ticket_type", "1");
-//        params.put("payment_method", app.getPayment_type());
-//
-//        params.put("phone_number", app.getPhone());
-//        params.put("id_number", app.getID());
-//
-//        params.put("passenger_name", app.getName());
-//        params.put("email_address", "brianoroni6@gmail.com");
-//
-//        params.put("insurance_charge", "");
-//        params.put("served_by", "Test User");
-//
-//        params.put("amount_charged", "10");
-//        params.put("reference_number", "");
+        RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", app.getUser_name());
+        params.put("api_key", app.getApi_key());
+        params.put("action", "ReserveSeats");
+        params.put("from_city", app.getTravel_from());
+        params.put("to_city", app.getTravel_too());
+        params.put("travel_date", app.getTravel_date());
+        params.put("hash", app.getHash_key());
+        params.put("selected_vehicle", app.get_selected_vehicle());
+
+        params.put("selected_seat", app.getSeatNo());
+        params.put("selected_ticket_type", "1");
+        params.put("payment_method", app.getPayment_type());
+
+        params.put("phone_number", app.getPhone());
+        params.put("id_number", app.getID());
+        params.put("passenger_name", app.getName());
+        params.put("email_address", "brianoroni6@gmail.com");
+        params.put("insurance_charge", "");
+        params.put("served_by", "Oroni");
+        params.put("amount_charged", "10");
+        params.put("reference_number", refno);
 //
 //        params.put("clerk_username", app.get_Clerk_username());
 //        params.put("clerk_password", app.get_Clerk_password());
-//
-//
-//        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        try {
-//
-//                            if (response.getInt("response_code") == 0) {
-//
-//                                JSONArray jsonArray = response.getJSONArray("ticket");
-//
-//
-//                                for (int i = 0; i < jsonArray.length(); i++) {
-//                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-//                                    String reserver = jsonObject1.getString("trx_status");
-//
-//                                    Log.d("Reservation Status: ",reserver);
-//                                    Log.d("Reserve:%n %s", jsonArray.toString(4));
-//
-//
-//
-//                                }
-//
-//
-//                                intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
-//
-////                                intentExtra.putExtra("data", jsonArray.toString());
-//
-//                                startActivity(intentExtra);
-//
-//
-//                            } else {
-//                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
-//
-//                            }
-//
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//
-//                } else if (error instanceof AuthFailureError) {
-//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//                } else if (error instanceof ServerError) {
-//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//                } else if (error instanceof NetworkError) {
-//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//                } else if (error instanceof ParseError) {
-//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        })
-//
-//        {
-//            @Override
-//            public String getBodyContentType() {
-//                return "application/x-www-form-urlencoded; charset=utf-8";
-//            }
-//
-//
-//        };
-//        reserverequestQueue.getCache().clear();
-//
-//        reserverequestQueue.add(req);
+
+
+        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            if (response.getInt("response_code") == 0) {
+                                JSONArray message = response.getJSONArray("ticket_message");
+
+                                for (int i = 0; i < message.length(); i++) {
+                                    JSONObject jsonObject1 = message.getJSONObject(i);
+                                    String meeso = jsonObject1.getString("name");
+
+
+                                }
+
+                                JSONArray jsonArray = response.getJSONArray("ticket");
+
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    String reserver = jsonObject1.getString("trx_status");
+
+                                    Log.d("Reservation Status: ",reserver);
+                                    Log.d("Reserve:%n %s", jsonArray.toString(4));
+
+
+
+                                }
+
+                                Log.d("Selected Vehicle: ",app.get_selected_vehicle());
+
+                                Log.d("Selected Seat: ",app.getSeatNo());
+                                Log.d("from_city", app.getTravel_from());
+                                Log.d("to_city", app.getTravel_too());
+                                Log.d("travel_date", app.getTravel_date());
+                                Log.d("reference_number", refno);
+                                Log.d("phone_number", app.getPhone());
+
+                                Log.d("payment_method", app.getPayment_type());
+
+                                intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
+
+                                intentExtra.putExtra("data", message.toString());
+
+                                startActivity(intentExtra);
+
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        })
+
+        {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
+
+
+        };
+        reserverequestQueue.getCache().clear();
+
+        reserverequestQueue.add(req);
     }
 
     private void ticketType() {

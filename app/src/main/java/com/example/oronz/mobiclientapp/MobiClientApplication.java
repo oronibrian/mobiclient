@@ -19,6 +19,8 @@ public class MobiClientApplication extends Application {
     private String ID;
     int no_passenges;
 
+    String index;
+
 
     public MobiClientApplication(){}
 
@@ -234,5 +236,13 @@ public class MobiClientApplication extends Application {
 
     public String get_remaining_seats() {
         return remaining_seats;
+    }
+
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
     }
 }

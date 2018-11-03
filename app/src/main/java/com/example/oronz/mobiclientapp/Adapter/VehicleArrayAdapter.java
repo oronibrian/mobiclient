@@ -53,6 +53,8 @@ public class VehicleArrayAdapter  extends ArrayAdapter<AvailableVehicles> {
 
         departureTextView.setText(currentpackage.getDeparture_time());
 
+        app.set_selected_vehicle(currentpackage.get_Id());
+
 
 
 
