@@ -33,6 +33,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
+import com.example.oronz.mobiclientapp.Adapter.GridItemView;
+import com.example.oronz.mobiclientapp.Adapter.GridViewBaseAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,7 +62,7 @@ public class Seats_activity extends AppCompatActivity {
     List<String> seats;
     Button checkbtn, btnreserve;
     TextView info_text;
-    String refno,seatno;
+    String refno,seatno,ticket_mesaage, reserver,reserve_confirmation;
     List<String> LevenSeaterList;
 
     String[] elevenSeater = new String[]{
@@ -77,9 +79,11 @@ public class Seats_activity extends AppCompatActivity {
             "9",
             "10",
     };
+    private ArrayList<String> selectedStrings;
 
+    private View btnGo;
 
-
+    private GridView gridView;
 
     @SuppressLint("ResourceType")
     @Override
@@ -97,6 +101,11 @@ public class Seats_activity extends AppCompatActivity {
         availableSeats();
         getPaymentMethod();
 
+        selectedStrings = new ArrayList<>();
+        gridView = (GridView) findViewById(R.id.grid);
+        btnGo = findViewById(R.id.btngo);
+
+
         LevenSeaterList = new ArrayList<String>(Arrays.asList(elevenSeater));
 
         btnreserve.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +118,15 @@ public class Seats_activity extends AppCompatActivity {
 
             }
         });
+
+
+        //set listener for Button event
+//        btnGo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                reserve();
+//            }
+//        });
 
     }
 
@@ -293,6 +311,8 @@ public class Seats_activity extends AppCompatActivity {
 
 
                                 gridView.setOnItemClickListener((parent, view, position, id) -> {
+
+
                                     Toast.makeText(Seats_activity.this,
                                             getString(R.string.you_booked, LevenSeaterList.get(position)),
                                             Toast.LENGTH_SHORT).show();
@@ -301,10 +321,11 @@ public class Seats_activity extends AppCompatActivity {
 
                                      seatno = String.valueOf(LevenSeaterList.get(position));
 
-                                    System.out.println(); // true
 
                                     listofseats.add(parent.getItemAtPosition(position).toString());
                                     gridView.getChildAt(position).setBackgroundColor(Color.RED);
+
+
 
 
 
@@ -337,6 +358,26 @@ public class Seats_activity extends AppCompatActivity {
 
 
                                 builder.show();
+
+
+//                            final GridViewBaseAdapter adapter = new GridViewBaseAdapter(elevenSeater, this);
+//                            gridView.setAdapter(adapter);
+//                            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//                                @Override
+//                                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+//                                    int selectedIndex = adapter.selectedPositions.indexOf(position);
+//                                    if (selectedIndex > -1) {
+//                                        adapter.selectedPositions.remove(selectedIndex);
+//                                        ((GridItemView) v).display(false);
+//                                        selectedStrings.remove((String) parent.getItemAtPosition(position));
+//                                    } else {
+//                                        adapter.selectedPositions.add(position);
+//                                        ((GridItemView) v).display(true);
+//                                        selectedStrings.add((String) parent.getItemAtPosition(position));
+//                                    }
+//                                }
+//                            });
 
 
 
@@ -534,7 +575,7 @@ public class Seats_activity extends AppCompatActivity {
 
                                 for (int i = 0; i < message.length(); i++) {
                                     JSONObject jsonObject1 = message.getJSONObject(i);
-                                    String meeso = jsonObject1.getString("name");
+                                     ticket_mesaage = jsonObject1.getString("name");
 
 
                                 }
@@ -544,14 +585,29 @@ public class Seats_activity extends AppCompatActivity {
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                    String reserver = jsonObject1.getString("trx_status");
+                                     reserver = jsonObject1.getString("trx_status");
 
                                     Log.d("Reservation Status: ",reserver);
                                     Log.d("Reserve:%n %s", jsonArray.toString(4));
 
 
 
+
+
+
                                 }
+
+                                if(String.valueOf(app.getPayment_type()).equals("3")){
+                                    mpesaPayment();
+
+                                }
+
+                                else if(String.valueOf(app.getPayment_type()).equals("2")){
+                                    jamboPayWalet();
+
+                                }
+
+
 
                                 Log.d("Selected Vehicle: ",app.get_selected_vehicle());
 
@@ -566,7 +622,8 @@ public class Seats_activity extends AppCompatActivity {
 
                                 intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
 
-                                intentExtra.putExtra("data", message.toString());
+                                intentExtra.putExtra("data", ticket_mesaage);
+                                intentExtra.putExtra("txt_status", reserver);
 
                                 startActivity(intentExtra);
 
@@ -721,9 +778,9 @@ public class Seats_activity extends AppCompatActivity {
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                    String reserver = jsonObject1.getString("description");
+                                     reserve_confirmation = jsonObject1.getString("description");
 
-                                    Log.d("Reservation Status: ",reserver);
+                                    Log.d("Reservation Status: ",reserve_confirmation);
                                     Log.d("Reserve:%n %s", jsonArray.toString(4));
 
 
@@ -733,7 +790,7 @@ public class Seats_activity extends AppCompatActivity {
 
                                 intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
 
-//                                intentExtra.putExtra("data", jsonArray.toString());
+                                intentExtra.putExtra("data",reserve_confirmation);
 
                                 startActivity(intentExtra);
 
@@ -781,6 +838,132 @@ public class Seats_activity extends AppCompatActivity {
     }
 
     private void jamboPayWalet(){
+
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        View dialogView= inflater.inflate(R.layout.wallet_confirmation_input_dialog, null);
+        dialogBuilder.setTitle("Wallet Payment Confirmation");
+
+        dialogBuilder.setView(dialogView);
+
+        Button button = (Button)dialogView.findViewById(R.id.btnconfirm);
+
+        EditText password = (EditText)
+                dialogView.findViewById(R.id.waletpassword);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //Commond here......"p/IK4:"
+
+
+                RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
+
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("username", app.getUser_name());
+                params.put("api_key", app.getApi_key());
+                params.put("action", "AuthorizePayment");
+                params.put("payment_method", "2");
+                params.put("reference_number", refno);
+                params.put("jambopay_wallet_username", app.getPhone());
+                params.put("jambopay_wallet_password",  password.getText().toString());
+
+
+
+                JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+
+                                    if (response.getInt("response_code") == 0) {
+
+                                        JSONArray jsonArray = response.getJSONArray("ticket");
+
+
+                                        for (int i = 0; i < jsonArray.length(); i++) {
+                                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                            String reserver = jsonObject1.getString("trx_status");
+
+                                            Log.d("Reservation Status: ",reserver);
+                                            Log.d("Reserve:%n %s", jsonArray.toString(4));
+
+
+
+                                        }
+
+
+
+                                        intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
+
+                                        intentExtra.putExtra("data", jsonArray.toString());
+
+                                        startActivity(intentExtra);
+
+
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
+                                    }
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        } else if (error instanceof AuthFailureError) {
+                            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        } else if (error instanceof ServerError) {
+                            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        } else if (error instanceof NetworkError) {
+                            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        } else if (error instanceof ParseError) {
+                            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+
+                {
+                    @Override
+                    public String getBodyContentType() {
+                        return "application/x-www-form-urlencoded; charset=utf-8";
+                    }
+
+
+                };
+                reserverequestQueue.getCache().clear();
+
+                reserverequestQueue.add(req);
+
+
+
+
+            }
+        });
+
+        EditText username = (EditText)
+                dialogView.findViewById(R.id.username);
+
+        username.setText(app.getPhone());
+
+        dialogBuilder.create().show();
+
+
+
+    }
+
+
+    private void jamboPayAgencyWalet(){
         RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -865,18 +1048,6 @@ public class Seats_activity extends AppCompatActivity {
         reserverequestQueue.add(req);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

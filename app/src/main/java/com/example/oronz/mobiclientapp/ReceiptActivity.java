@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class ReceiptActivity extends AppCompatActivity {
-TextView txt_name,txt_seat_no,date,journey,txt_phone;
+TextView txt_name,txt_status;
 Button btnnew;
     MobiClientApplication app;
     @Override
@@ -19,9 +19,7 @@ Button btnnew;
         app = (MobiClientApplication) getApplication();
 
         txt_name=findViewById(R.id.txt_name);
-        txt_seat_no=findViewById(R.id.seat_no);
-        date=findViewById(R.id.date);
-        journey=findViewById(R.id.journey);
+        txt_status=findViewById(R.id.txt_status);
         btnnew=findViewById(R.id.btnnew);
 
 
@@ -32,8 +30,10 @@ Button btnnew;
 //        date.setText(String.format("Date \n%s", app.getTravel_date()));
 
         String value = getIntent().getStringExtra("data");
+        String status = getIntent().getStringExtra("txt_status");
 
-        txt_name.setText(String.format("Message \n%s", value));
+        txt_name.setText(value);
+        txt_status.setText(status);
 
         btnnew.setOnClickListener(new View.OnClickListener() {
             @Override

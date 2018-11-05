@@ -9,43 +9,17 @@
     tools:context=".ReceiptActivity">
 
 
-        <TextView
-            android:id="@+id/txt_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Content"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
-
     <TextView
-        android:id="@+id/journey"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/txt_name"
+        android:layout_width="353dp"
+        android:layout_height="142dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"
-        android:text="Content" />
-
-    <TextView
-        android:id="@+id/seat_no"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="95dp"
-        android:text="seat_no" />
-
-
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="104dp"
         android:text="Content"
-         />
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
 
     <Button
         android:id="@+id/btnnew"
@@ -55,9 +29,20 @@
 
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-2dp"
-        android:layout_marginBottom="253dp"
+        android:layout_marginBottom="171dp"
         android:background="@drawable/btn"
         android:text="New ticket" />
+
+    <TextView
+        android:id="@+id/txt_status"
+        android:layout_width="343dp"
+        android:layout_height="52dp"
+        android:layout_alignStart="@+id/txt_name"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="21dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="TextView" />
 
 
 </RelativeLayout>
