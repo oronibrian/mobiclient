@@ -120,13 +120,19 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
 
         } else if (id == R.id.nav_gallery) {
+            startActivity(new Intent(getApplicationContext(),NewsActivity.class));
 
 
         } else if (id == R.id.nav_slideshow) {
-            startActivity(new Intent(getApplicationContext(),MyTrips .class));
+            startActivity(new Intent(getApplicationContext(),MyTrips.class));
 
 
         } else if (id == R.id.nav_manage) {
+
+        }
+
+         else if (id == R.id.about) {
+            startActivity(new Intent(getApplicationContext(),AboutUsActivity.class));
 
         }
 

@@ -14,5 +14,8 @@
 
     <string name="confirm">Confirm</string>
     <string name="you_booked">You\'ve Selected Seat:\n%s</string>
+    <string name="aboutus">Mobiticket is a service to enables you book, pay and get bus tickets using your phone.
+        \nTicket reservations and payments can be done using MPESA checkout or using your mobile wallet for our partner public service bus operators.
+        \nMobiticket connects you directly to bus operators. </string>
 
 </resources>
