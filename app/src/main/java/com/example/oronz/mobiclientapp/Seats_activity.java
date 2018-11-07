@@ -319,7 +319,7 @@ public class Seats_activity extends AppCompatActivity {
 
                                 }
 
-                                if(seats.size()==11){
+                                if(seats.size()<=11){
 
                                     final GridViewBaseAdapter adapter = new GridViewBaseAdapter(elevenSeater, this);
                                     gridView.setAdapter(adapter);
@@ -362,7 +362,7 @@ public class Seats_activity extends AppCompatActivity {
                                     });
 
 
-                                }  else if (seats.size()==49){
+                                }  else if (seats.size()>11 && seats.size() <=49){
 
                                     final GridViewBaseAdapter adapter = new GridViewBaseAdapter(fortynineSeater, this);
                                     gridView.setAdapter(adapter);
