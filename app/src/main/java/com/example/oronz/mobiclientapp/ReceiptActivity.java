@@ -60,10 +60,6 @@ Button btnnew,btncomplete;
 //        date.setText(String.format("Date \n%s", app.getTravel_date()));
 
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            myList = bundle.getStringArrayList("Success"); // declare temp as ArrayList
-
 
                 String value = getIntent().getStringExtra("data");
                 String status = getIntent().getStringExtra("txt_status");
@@ -71,6 +67,12 @@ Button btnnew,btncomplete;
                 txt_name.setText(value);
                 txt_status.setText(status);
             
+
+        if(status.equals("Failed")){
+            btncomplete.setVisibility(View.GONE);
+        }else {
+            btncomplete.setVisibility(View.VISIBLE);
+            btnnew.setVisibility(View.GONE);
 
         }
 
