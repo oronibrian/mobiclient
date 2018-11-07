@@ -3,6 +3,8 @@ package com.example.oronz.mobiclientapp;
 import android.app.Application;
 import android.widget.ArrayAdapter;
 
+import java.util.SplittableRandom;
+
 public class MobiClientApplication extends Application {
 
 
@@ -17,6 +19,7 @@ public class MobiClientApplication extends Application {
     private String name;
     private String phone,car_name,remaining_seats;
     private String ID;
+    private String refno;
     int no_passenges;
 
     String index;
@@ -244,5 +247,13 @@ public class MobiClientApplication extends Application {
 
     public void setIndex(String index) {
         this.index = index;
+    }
+
+    public String getRefno() {
+        return refno;
+    }
+
+    public void setRefno(String refno) {
+        this.refno = refno;
     }
 }

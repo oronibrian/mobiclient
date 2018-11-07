@@ -137,7 +137,11 @@ public class Seats_activity extends AppCompatActivity {
 //        set listener for Button event
         btnGo.setOnClickListener(v -> payment());
 
-        btnbook.setOnClickListener(v -> reserve());
+        btnbook.setOnClickListener((View v) -> {
+                    reserve();
+                }
+               );
+
         btncancel.setOnClickListener(v -> back());
 
 
@@ -160,6 +164,7 @@ public class Seats_activity extends AppCompatActivity {
                         if (response.getInt("response_code") == 0) {
 
                              refno = response.getString("reference_number");
+                             app.setRefno(refno);
 
                             Log.d("Ref Number: ",refno);
 
@@ -532,141 +537,128 @@ public class Seats_activity extends AppCompatActivity {
 
     }
 
+
     private void reserve() {
 
+        RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", app.getUser_name());
+        params.put("api_key", app.getApi_key());
+        params.put("action", "ReserveSeats");
+        params.put("from_city", app.getTravel_from());
+        params.put("to_city", app.getTravel_too());
+        params.put("travel_date", app.getTravel_date());
+        params.put("hash", app.getHash_key());
+        params.put("selected_vehicle", app.get_selected_vehicle());
+        params.put("seater", "11");
+        params.put("selected_seat", seatno);
+        params.put("selected_ticket_type", "13");
+        params.put("payment_method", app.getPayment_type());
 
-        if(String.valueOf(app.getPayment_type()).equals("3")){
-//                                mpesaPayment();
-            MpesaDialog();
-
-        }
-
-        else if(String.valueOf(app.getPayment_type()).equals("2")){
-//            jamboPayWalet();
-            JPWalletDialog();
-
-        }
+        params.put("phone_number", app.getPhone());
+        params.put("id_number", app.getID());
+        params.put("passenger_name", app.getName());
+        params.put("email_address", "brianoroni6@gmail.com");
+        params.put("insurance_charge", "");
+        params.put("served_by", "Oroni");
+        params.put("amount_charged", "10");
+        params.put("reference_number", refno);
 
 
-//        RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
-//        HashMap<String, String> params = new HashMap<String, String>();
-//        params.put("username", app.getUser_name());
-//        params.put("api_key", app.getApi_key());
-//        params.put("action", "ReserveSeats");
-//        params.put("from_city", app.getTravel_from());
-//        params.put("to_city", app.getTravel_too());
-//        params.put("travel_date", app.getTravel_date());
-//        params.put("hash", app.getHash_key());
-//        params.put("selected_vehicle", app.get_selected_vehicle());
-//        params.put("seater", "11");
-//        params.put("selected_seat", seatno);
-//        params.put("selected_ticket_type", "13");
-//        params.put("payment_method", app.getPayment_type());
-//
-//        params.put("phone_number", app.getPhone());
-//        params.put("id_number", app.getID());
-//        params.put("passenger_name", app.getName());
-//        params.put("email_address", "brianoroni6@gmail.com");
-//        params.put("insurance_charge", "");
-//        params.put("served_by", "Oroni");
-//        params.put("amount_charged", "10");
-//        params.put("reference_number", refno);
-//
-//
-//
-//        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
-//                response -> {
-//                    try {
-//
-//                        if (response.getInt("response_code") == 0) {
-//                            JSONArray message = response.getJSONArray("ticket_message");
-//
-//                            for (int i = 0; i < message.length(); i++) {
-//                                JSONObject jsonObject1 = message.getJSONObject(i);
-//                                 ticket_mesaage = jsonObject1.getString("name");
-//
-//
-//                            }
-//
-//                            JSONArray jsonArray = response.getJSONArray("ticket");
-//
-//
-//                            for (int i = 0; i < jsonArray.length(); i++) {
-//                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-//                                 reserver = jsonObject1.getString("trx_status");
-//
-//                                Log.d("Reservation Status: ",reserver);
-//                                Log.d("Reserve:%n %s", jsonArray.toString(4));
-//
-//
-//                            }
-//
-//
-//
-//                            Log.d("Selected Vehicle: ",app.get_selected_vehicle());
-//
-//                            Log.d("Selected Seat: ",seatno);
-//                            Log.d("from_city", app.getTravel_from());
-//                            Log.d("to_city", app.getTravel_too());
-//                            Log.d("travel_date", app.getTravel_date());
-//                            Log.d("reference_number", refno);
-//                            Log.d("phone_number", app.getPhone());
-//
-//                            Log.d("payment_method", app.getPayment_type());
-//
-//
-//
-//
-//                            intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
-//
-//                            for(int x=0;x<listofRefferences.size();x++) {
-//
-//                                intentExtra.putExtra("data", ticket_mesaage);
-//                                intentExtra.putExtra("txt_status", reserver);
-//
-//                            }
-//
-//                            startActivity(intentExtra);
-//
-//
-//                        } else {
-//                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
-//
-//                        }
-//
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//
-//                } else if (error instanceof AuthFailureError) {
-//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//                } else if (error instanceof ServerError) {
-//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//                } else if (error instanceof NetworkError) {
-//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//                } else if (error instanceof ParseError) {
-//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        })
-//
-//        {
-//            @Override
-//            public String getBodyContentType() {
-//                return "application/x-www-form-urlencoded; charset=utf-8";
-//            }
-//
-//
-//        };
-//        reserverequestQueue.getCache().clear();
-//
-//        reserverequestQueue.add(req);
+
+        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+                response -> {
+                    try {
+
+                        if (response.getInt("response_code") == 0) {
+                            JSONArray message = response.getJSONArray("ticket_message");
+
+                            for (int i = 0; i < message.length(); i++) {
+                                JSONObject jsonObject1 = message.getJSONObject(i);
+                                 ticket_mesaage = jsonObject1.getString("name");
+
+
+                            }
+
+                            JSONArray jsonArray = response.getJSONArray("ticket");
+
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                 reserver = jsonObject1.getString("trx_status");
+
+                                Log.d("Reservation Status: ",reserver);
+                                Log.d("Reserve:%n %s", jsonArray.toString(4));
+
+
+                            }
+
+
+
+                            Log.d("Selected Vehicle: ",app.get_selected_vehicle());
+
+                            Log.d("Selected Seat: ",seatno);
+                            Log.d("from_city", app.getTravel_from());
+                            Log.d("to_city", app.getTravel_too());
+                            Log.d("travel_date", app.getTravel_date());
+                            Log.d("reference_number", refno);
+                            Log.d("phone_number", app.getPhone());
+
+                            Log.d("payment_method", app.getPayment_type());
+
+
+
+
+                            intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
+
+                            for(int x=0;x<listofRefferences.size();x++) {
+
+                                intentExtra.putExtra("data", ticket_mesaage);
+                                intentExtra.putExtra("txt_status", reserver);
+
+                            }
+
+                            startActivity(intentExtra);
+
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        })
+
+        {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
+
+
+        };
+        reserverequestQueue.getCache().clear();
+
+        reserverequestQueue.add(req);
     }
 
     private void ticketType() {
@@ -751,323 +743,7 @@ public class Seats_activity extends AppCompatActivity {
 
     }
 
-    public void MpesaDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.mpesa_layout, null);
-        dialogBuilder.setView(dialogView);
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
-    }
 
-
-    public void JPWalletDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.wallet_confirmation_input_dialog, null);
-        dialogBuilder.setView(dialogView);
-
-        EditText editText = (EditText) dialogView.findViewById(R.id.waletpassword);
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
-    }
-    private void mpesaPayment(){
-
-        RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
-
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("username", app.getUser_name());
-        params.put("api_key", app.getApi_key());
-        params.put("action", "AuthorizePayment");
-        params.put("payment_method", "3");
-
-        params.put("reference_number", refno);
-        params.put("mpesa_phone_number", app.getPhone());
-
-        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-
-                            if (response.getInt("response_code") == 0) {
-
-                                JSONArray jsonArray = response.getJSONArray("tickets");
-
-
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                     reserve_confirmation = jsonObject1.getString("description");
-
-                                    Log.d("Reservation Status: ",reserve_confirmation);
-                                    Log.d("Reserve:%n %s", jsonArray.toString(4));
-
-
-
-                                }
-
-
-                                intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
-
-                                    intentExtra.putExtra("data", reserve_confirmation);
-
-                                Bundle b=new Bundle();
-                                b.putStringArrayList("Success",(ArrayList<String>)listofRefferences);
-
-                                startActivity(intentExtra);
-
-
-                            } else {
-                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
-
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-
-                } else if (error instanceof AuthFailureError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof ServerError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof NetworkError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof ParseError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        })
-
-        {
-            @Override
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=utf-8";
-            }
-
-
-        };
-        reserverequestQueue.getCache().clear();
-
-        reserverequestQueue.add(req);
-
-    }
-
-    private void jamboPayWalet(){
-
-
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-
-        LayoutInflater inflater = this.getLayoutInflater();
-
-        View dialogView= inflater.inflate(R.layout.wallet_confirmation_input_dialog, null);
-        dialogBuilder.setTitle("Wallet Payment Confirmation");
-
-        dialogBuilder.setView(dialogView);
-
-        Button button = dialogView.findViewById(R.id.btnconfirm);
-
-        EditText password = dialogView.findViewById(R.id.waletpassword);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                //Commond here......"p/IK4:"
-
-
-                RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
-
-                HashMap<String, String> params = new HashMap<String, String>();
-                params.put("username", app.getUser_name());
-                params.put("api_key", app.getApi_key());
-                params.put("action", "AuthorizePayment");
-                params.put("payment_method", "2");
-                params.put("reference_number", refno);
-                params.put("jambopay_wallet_username", app.getPhone());
-                params.put("jambopay_wallet_password",  password.getText().toString());
-
-
-
-                JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-
-                                    if (response.getInt("response_code") == 0) {
-
-                                        JSONArray jsonArray = response.getJSONArray("ticket");
-
-
-                                        for (int i = 0; i < jsonArray.length(); i++) {
-                                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                            String reserver = jsonObject1.getString("trx_status");
-
-                                            Log.d("Reservation Status: ",reserver);
-                                            Log.d("Reserve:%n %s", jsonArray.toString(4));
-
-
-
-                                        }
-
-
-
-                                        intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
-
-                                        intentExtra.putExtra("data", jsonArray.toString());
-
-                                        startActivity(intentExtra);
-
-
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
-
-                                    }
-
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-
-                        } else if (error instanceof AuthFailureError) {
-                            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                        } else if (error instanceof ServerError) {
-                            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                        } else if (error instanceof NetworkError) {
-                            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                        } else if (error instanceof ParseError) {
-                            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
-
-                {
-                    @Override
-                    public String getBodyContentType() {
-                        return "application/x-www-form-urlencoded; charset=utf-8";
-                    }
-
-
-                };
-                reserverequestQueue.getCache().clear();
-
-                reserverequestQueue.add(req);
-
-
-
-
-            }
-        });
-
-        EditText username = dialogView.findViewById(R.id.username);
-
-        username.setText(app.getPhone());
-
-        dialogBuilder.create().show();
-
-
-
-    }
-
-
-    private void jamboPayAgencyWalet(){
-        RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
-
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("username", app.getUser_name());
-        params.put("api_key", app.getApi_key());
-        params.put("action", "AuthorizePayment");
-        params.put("payment_method", "2");
-        params.put("reference_number", refno);
-        params.put("jambopay_agency_username", "0702357053");
-        params.put("jambopay_agency_password", "p/IK4:");
-
-
-
-        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-
-                            if (response.getInt("response_code") == 0) {
-
-                                JSONArray jsonArray = response.getJSONArray("ticket");
-
-
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                    String reserver = jsonObject1.getString("trx_status");
-
-                                    Log.d("Reservation Status: ",reserver);
-                                    Log.d("Reserve:%n %s", jsonArray.toString(4));
-
-
-
-                                }
-
-
-                                intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
-
-//                                intentExtra.putExtra("data", jsonArray.toString());
-
-                                startActivity(intentExtra);
-
-
-                            } else {
-                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
-
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-
-                } else if (error instanceof AuthFailureError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof ServerError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof NetworkError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof ParseError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        })
-
-        {
-            @Override
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=utf-8";
-            }
-
-
-        };
-        reserverequestQueue.getCache().clear();
-
-        reserverequestQueue.add(req);
-
-    }
 
 
 private void back(){

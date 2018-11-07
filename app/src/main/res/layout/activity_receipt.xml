@@ -9,6 +9,18 @@
     tools:context=".ReceiptActivity">
 
 
+    <Button
+        android:id="@+id/btnnew"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-2dp"
+        android:layout_marginBottom="119dp"
+        android:background="@drawable/btn"
+        android:text="New ticket" />
+
     <TextView
         android:id="@+id/txt_name"
         android:layout_width="353dp"
@@ -22,7 +34,7 @@
 
 
     <Button
-        android:id="@+id/btnnew"
+        android:id="@+id/btncomplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -31,7 +43,7 @@
         android:layout_marginTop="-2dp"
         android:layout_marginBottom="171dp"
         android:background="@drawable/btn"
-        android:text="New ticket" />
+        android:text="Proceed To Book" />
 
     <TextView
         android:id="@+id/txt_status"
