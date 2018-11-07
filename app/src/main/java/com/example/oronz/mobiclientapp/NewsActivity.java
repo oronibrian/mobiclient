@@ -41,4 +41,10 @@ public class NewsActivity extends AppCompatActivity {
         textSurface.reset();
         CookieThumperSample.play(textSurface, getAssets());
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

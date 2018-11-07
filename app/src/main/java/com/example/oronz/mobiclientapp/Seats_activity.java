@@ -2,6 +2,7 @@ package com.example.oronz.mobiclientapp;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -123,23 +124,23 @@ public class Seats_activity extends AppCompatActivity {
         availableSeats();
         getPaymentMethod();
 
-        gridView = (GridView) findViewById(R.id.grid);
+        gridView = findViewById(R.id.grid);
         btnGo = findViewById(R.id.btngo);
 
         btnbook = findViewById(R.id.btnbook);
         btncancel = findViewById(R.id.btncancel);
 
-        LevenSeaterList = new ArrayList<String>(Arrays.asList(elevenSeater));
-        fortynineSeaterList = new ArrayList<String>(Arrays.asList(fortynineSeater));
+        LevenSeaterList = new ArrayList<>(Arrays.asList(elevenSeater));
+        fortynineSeaterList = new ArrayList<>(Arrays.asList(fortynineSeater));
 
 
 //        set listener for Button event
-        btnGo.setOnClickListener(v -> {
-            payment();
-
-        });
+        btnGo.setOnClickListener(v -> payment());
 
         btnbook.setOnClickListener(v -> reserve());
+        btncancel.setOnClickListener(v -> back());
+
+
 
     }
 
@@ -443,13 +444,10 @@ public class Seats_activity extends AppCompatActivity {
 
 
         LayoutInflater inflater = (Seats_activity.this).getLayoutInflater();
-
+        //Generate Reff Number
+        getRefferenceNumber();
 
         for (int i = 0; i < listofseats.size(); i++) {
-
-
-            //Generate Reff Number
-            getRefferenceNumber();
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(Seats_activity.this);
 
@@ -498,14 +496,11 @@ public class Seats_activity extends AppCompatActivity {
                     app.setPayment_type(payment_type);
 
 
-
-
-
 //                    btnbook.setVisibility(View.VISIBLE);
                     btnGo.setVisibility(View.GONE);
 
 
-                    if ( listofseats.size() >=1 && listofseats.size()<= listofRefferences.size() ) {
+                    if (listofseats.size() > 1 ) {
 
                         Toast.makeText(getApplicationContext(), "Details for Next Seat ", Toast.LENGTH_SHORT).show();
 
@@ -515,8 +510,6 @@ public class Seats_activity extends AppCompatActivity {
 
 
                     }
-
-
 
 
 
@@ -533,7 +526,7 @@ public class Seats_activity extends AppCompatActivity {
         }
 
 //        // This clears the list
-//        listofseats = new ArrayList<>();
+        listofseats = new ArrayList<>();
 //        Log.d("After Payment :%n %s", String.valueOf(listofseats));
 
 
@@ -542,146 +535,138 @@ public class Seats_activity extends AppCompatActivity {
     private void reserve() {
 
 
-        RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
+        if(String.valueOf(app.getPayment_type()).equals("3")){
+//                                mpesaPayment();
+            MpesaDialog();
 
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("username", app.getUser_name());
-        params.put("api_key", app.getApi_key());
-        params.put("action", "ReserveSeats");
-        params.put("from_city", app.getTravel_from());
-        params.put("to_city", app.getTravel_too());
-        params.put("travel_date", app.getTravel_date());
-        params.put("hash", app.getHash_key());
-        params.put("selected_vehicle", app.get_selected_vehicle());
-        params.put("seater", "11");
-        params.put("selected_seat", seatno);
-        params.put("selected_ticket_type", "13");
-        params.put("payment_method", app.getPayment_type());
+        }
 
-        params.put("phone_number", app.getPhone());
-        params.put("id_number", app.getID());
-        params.put("passenger_name", app.getName());
-        params.put("email_address", "brianoroni6@gmail.com");
-        params.put("insurance_charge", "");
-        params.put("served_by", "Oroni");
-        params.put("amount_charged", "10");
-        params.put("reference_number", refno);
+        else if(String.valueOf(app.getPayment_type()).equals("2")){
+//            jamboPayWalet();
+            JPWalletDialog();
+
+        }
 
 
-
-        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
-                response -> {
-                    try {
-
-                        if (response.getInt("response_code") == 0) {
-                            JSONArray message = response.getJSONArray("ticket_message");
-
-                            for (int i = 0; i < message.length(); i++) {
-                                JSONObject jsonObject1 = message.getJSONObject(i);
-                                 ticket_mesaage = jsonObject1.getString("name");
-
-
-                            }
-
-                            JSONArray jsonArray = response.getJSONArray("ticket");
-
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                 reserver = jsonObject1.getString("trx_status");
-
-                                Log.d("Reservation Status: ",reserver);
-                                Log.d("Reserve:%n %s", jsonArray.toString(4));
-
-
-
-
-
-
-                            }
-
-
-                            for(int x=0;x<listofRefferences.size();x++){
-
-
-
-                            if(String.valueOf(app.getPayment_type()).equals("3")){
-                                mpesaPayment();
-
-                            }
-
-                            else if(String.valueOf(app.getPayment_type()).equals("2")){
-                                jamboPayWalet();
-
-                            }
-
-
-
-
-                            Log.d("Selected Vehicle: ",app.get_selected_vehicle());
-
-                            Log.d("Selected Seat: ",seatno);
-                            Log.d("from_city", app.getTravel_from());
-                            Log.d("to_city", app.getTravel_too());
-                            Log.d("travel_date", app.getTravel_date());
-                            Log.d("reference_number", refno);
-                            Log.d("phone_number", app.getPhone());
-
-                            Log.d("payment_method", app.getPayment_type());
-
-                            }
-
-
-                            intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
-
-                            for(int x=0;x<listofRefferences.size();x++) {
-
-                                intentExtra.putExtra("data", ticket_mesaage);
-                                intentExtra.putExtra("txt_status", reserver);
-
-                            }
-
-                            startActivity(intentExtra);
-
-
-                        } else {
-                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
-
-                        }
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-
-                } else if (error instanceof AuthFailureError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof ServerError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof NetworkError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof ParseError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        })
-
-        {
-            @Override
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=utf-8";
-            }
-
-
-        };
-        reserverequestQueue.getCache().clear();
-
-        reserverequestQueue.add(req);
+//        RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
+//        HashMap<String, String> params = new HashMap<String, String>();
+//        params.put("username", app.getUser_name());
+//        params.put("api_key", app.getApi_key());
+//        params.put("action", "ReserveSeats");
+//        params.put("from_city", app.getTravel_from());
+//        params.put("to_city", app.getTravel_too());
+//        params.put("travel_date", app.getTravel_date());
+//        params.put("hash", app.getHash_key());
+//        params.put("selected_vehicle", app.get_selected_vehicle());
+//        params.put("seater", "11");
+//        params.put("selected_seat", seatno);
+//        params.put("selected_ticket_type", "13");
+//        params.put("payment_method", app.getPayment_type());
+//
+//        params.put("phone_number", app.getPhone());
+//        params.put("id_number", app.getID());
+//        params.put("passenger_name", app.getName());
+//        params.put("email_address", "brianoroni6@gmail.com");
+//        params.put("insurance_charge", "");
+//        params.put("served_by", "Oroni");
+//        params.put("amount_charged", "10");
+//        params.put("reference_number", refno);
+//
+//
+//
+//        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+//                response -> {
+//                    try {
+//
+//                        if (response.getInt("response_code") == 0) {
+//                            JSONArray message = response.getJSONArray("ticket_message");
+//
+//                            for (int i = 0; i < message.length(); i++) {
+//                                JSONObject jsonObject1 = message.getJSONObject(i);
+//                                 ticket_mesaage = jsonObject1.getString("name");
+//
+//
+//                            }
+//
+//                            JSONArray jsonArray = response.getJSONArray("ticket");
+//
+//
+//                            for (int i = 0; i < jsonArray.length(); i++) {
+//                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+//                                 reserver = jsonObject1.getString("trx_status");
+//
+//                                Log.d("Reservation Status: ",reserver);
+//                                Log.d("Reserve:%n %s", jsonArray.toString(4));
+//
+//
+//                            }
+//
+//
+//
+//                            Log.d("Selected Vehicle: ",app.get_selected_vehicle());
+//
+//                            Log.d("Selected Seat: ",seatno);
+//                            Log.d("from_city", app.getTravel_from());
+//                            Log.d("to_city", app.getTravel_too());
+//                            Log.d("travel_date", app.getTravel_date());
+//                            Log.d("reference_number", refno);
+//                            Log.d("phone_number", app.getPhone());
+//
+//                            Log.d("payment_method", app.getPayment_type());
+//
+//
+//
+//
+//                            intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
+//
+//                            for(int x=0;x<listofRefferences.size();x++) {
+//
+//                                intentExtra.putExtra("data", ticket_mesaage);
+//                                intentExtra.putExtra("txt_status", reserver);
+//
+//                            }
+//
+//                            startActivity(intentExtra);
+//
+//
+//                        } else {
+//                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+//
+//                        }
+//
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//
+//                } else if (error instanceof AuthFailureError) {
+//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//                } else if (error instanceof ServerError) {
+//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//                } else if (error instanceof NetworkError) {
+//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//                } else if (error instanceof ParseError) {
+//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        })
+//
+//        {
+//            @Override
+//            public String getBodyContentType() {
+//                return "application/x-www-form-urlencoded; charset=utf-8";
+//            }
+//
+//
+//        };
+//        reserverequestQueue.getCache().clear();
+//
+//        reserverequestQueue.add(req);
     }
 
     private void ticketType() {
@@ -766,8 +751,27 @@ public class Seats_activity extends AppCompatActivity {
 
     }
 
-    private void mpesaPayment(){
+    public void MpesaDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.mpesa_layout, null);
+        dialogBuilder.setView(dialogView);
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
 
+
+    public void JPWalletDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.wallet_confirmation_input_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+        EditText editText = (EditText) dialogView.findViewById(R.id.waletpassword);
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+    private void mpesaPayment(){
 
         RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
 
@@ -867,10 +871,9 @@ public class Seats_activity extends AppCompatActivity {
 
         dialogBuilder.setView(dialogView);
 
-        Button button = (Button)dialogView.findViewById(R.id.btnconfirm);
+        Button button = dialogView.findViewById(R.id.btnconfirm);
 
-        EditText password = (EditText)
-                dialogView.findViewById(R.id.waletpassword);
+        EditText password = dialogView.findViewById(R.id.waletpassword);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -969,8 +972,7 @@ public class Seats_activity extends AppCompatActivity {
             }
         });
 
-        EditText username = (EditText)
-                dialogView.findViewById(R.id.username);
+        EditText username = dialogView.findViewById(R.id.username);
 
         username.setText(app.getPhone());
 
@@ -1068,11 +1070,16 @@ public class Seats_activity extends AppCompatActivity {
     }
 
 
+private void back(){
+        finish();
+    startActivity(new Intent(getApplicationContext(),MainActivity.class));
 
+}
 
     @Override
     public void onBackPressed() {
         finish();
+        availableSeats();
         startActivity(new Intent(getApplicationContext(), VehiclesActivity.class));
     }
 }

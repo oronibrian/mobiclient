@@ -56,6 +56,7 @@ Button btnnew;
         btnnew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
             }
         });

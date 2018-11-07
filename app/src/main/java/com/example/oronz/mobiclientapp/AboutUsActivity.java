@@ -22,4 +22,11 @@ public class AboutUsActivity extends AppCompatActivity {
         Bitmap bImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.bus);
         mobilogo.setImageBitmap(bImage);
     }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }
