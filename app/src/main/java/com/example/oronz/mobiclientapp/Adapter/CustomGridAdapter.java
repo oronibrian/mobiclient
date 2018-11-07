@@ -16,11 +16,7 @@ import java.util.List;
 public class CustomGridAdapter extends BaseAdapter {
     private String[] eleven_seater = {
 
-            "1",
-            "1X",
-            "0",
-            "2",
-            "3",
+            "1", "1X", "0", "2", "3",
             "4",
             "5",
             "6",

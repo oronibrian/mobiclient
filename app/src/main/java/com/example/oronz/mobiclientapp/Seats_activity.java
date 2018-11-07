@@ -79,9 +79,33 @@ public class Seats_activity extends AppCompatActivity {
             "9",
             "10",
     };
-    private ArrayList<String> selectedStrings;
 
-    private View btnGo;
+    String[] fourteenSeater = new String[]{
+            "1", "1X", "D",
+            "2", "3", "4",
+            "5", "6", "7",
+            "8", "9", "10",
+            "11", "12"
+    };
+
+    String[] fortynineSeater = new String[]{
+            "1A", "2A", "1B", "2B",
+            "3A", "4A", "3B", "4B",
+            "5A", "6A", "5B", "6B",
+            "7A", "8A", "7B", "8B",
+            "9A", "10A", "9B","10B",
+            "11A","12A", "11B", "12B",
+            "13A", "14A", "13B", "14B",
+            "15A", "16A", "15B", "16B",
+            "17A", "18A", "17B", "18B",
+            "19A", "20A", "19B", "20B",
+            "21A", "22A", "21B", "22B",
+            "23A", "24A", "23B", "24B",
+            "25",
+
+
+    };
+    private View btnGo,btnbook;
 
     private GridView gridView;
 
@@ -89,7 +113,7 @@ public class Seats_activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_seats_activity);
+        setContentView(R.layout.car_seats);
         app = (MobiClientApplication) getApplication();
         payment_methods = new ArrayList<>();
         ticketType = new ArrayList<>();
@@ -101,32 +125,44 @@ public class Seats_activity extends AppCompatActivity {
         availableSeats();
         getPaymentMethod();
 
-        selectedStrings = new ArrayList<>();
         gridView = (GridView) findViewById(R.id.grid);
         btnGo = findViewById(R.id.btngo);
 
+        btnbook = findViewById(R.id.btnbook);
 
         LevenSeaterList = new ArrayList<String>(Arrays.asList(elevenSeater));
 
-        btnreserve.setOnClickListener(new View.OnClickListener() {
+//        btnreserve.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                    reserve();
+//
+//
+//
+//            }
+//        });
+
+
+//        set listener for Button event
+        btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                    reserve();
-
-
+//                reserve();
+                payment();
 
             }
         });
 
 
-        //set listener for Button event
-//        btnGo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                reserve();
-//            }
-//        });
+        btnbook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reserve();
+
+            }
+        });
+
 
     }
 
@@ -291,7 +327,12 @@ public class Seats_activity extends AppCompatActivity {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(Integer.parseInt(app.getIndex()));
                                 JSONArray bus_array = jsonObject1.getJSONArray("seats");
 
-                                for(int x=0; x < bus_array.length();x++) {
+
+
+                                    Log.d("########### GARI", String.valueOf(bus_array.length()));
+
+
+                            for(int x=0; x < bus_array.length();x++) {
                                     JSONObject obj = bus_array.getJSONObject(x);
                                     String gari = obj.getString("name");
                                     Log.d("########### GARI",gari);
@@ -300,85 +341,164 @@ public class Seats_activity extends AppCompatActivity {
 
                                 }
 
-//                                    ticketType();
-
-                                final GridView gridView = new GridView(Seats_activity.this);
 
 
-                                gridView.setAdapter(new ArrayAdapter<>(Seats_activity.this, R.layout.simple_list_item_1, LevenSeaterList));
-                                gridView.setNumColumns(3);
-//                                gridView.getChildAt(3).setBackgroundColor(Color.RED);
+                                if(seats.size()==11){
 
+                                    final GridViewBaseAdapter adapter = new GridViewBaseAdapter(elevenSeater, this);
+                                    gridView.setAdapter(adapter);
+                                    gridView.setNumColumns(3);
 
-                                gridView.setOnItemClickListener((parent, view, position, id) -> {
+                                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                                            int selectedIndex = adapter.selectedPositions.indexOf(position);
+                                            if (selectedIndex > -1) {
+                                                adapter.selectedPositions.remove(selectedIndex);
+                                                ((GridItemView) v).display(false);
+                                                seatno = String.valueOf("");
 
-                                    Toast.makeText(Seats_activity.this,
-                                            getString(R.string.you_booked, LevenSeaterList.get(position)),
-                                            Toast.LENGTH_SHORT).show();
+                                                listofseats.remove(parent.getItemAtPosition(position).toString());
+                                            } else if(selectedIndex ==3){
+
+                                                Toast.makeText(Seats_activity.this,
+                                                        "You Cant book drivers seat",
+                                                        Toast.LENGTH_SHORT).show();
+
+                                            }
+
+                                            else {
+                                                adapter.selectedPositions.add(position);
+                                                ((GridItemView) v).display(true);
+//                                        selectedStrings.add((String) parent.getItemAtPosition(position));
+
+                                                Toast.makeText(Seats_activity.this,
+                                                        getString(R.string.you_booked, LevenSeaterList.get(position)),
+                                                        Toast.LENGTH_SHORT).show();
 
 //                                        app.setSeatNo(seats.get(position));
 
-                                     seatno = String.valueOf(LevenSeaterList.get(position));
+                                                seatno = String.valueOf(LevenSeaterList.get(position));
 
 
-                                    listofseats.add(parent.getItemAtPosition(position).toString());
-                                    gridView.getChildAt(position).setBackgroundColor(Color.RED);
-
-
+                                                listofseats.add(parent.getItemAtPosition(position).toString());
 
 
 
-                                });
-
-
-                                AlertDialog.Builder builder = new AlertDialog.Builder(Seats_activity.this);
-                                builder.setView(gridView);
-                                builder.setTitle(app.get_car_name());
-                            ;
-                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        btnreserve.setVisibility(View.VISIBLE);
-                                        Log.d("List of seats:%n %s", String.valueOf(listofseats));
-                                        payment();
-
-
-
-                                    }
-                                })
-
-
-                                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-
-                                                startActivity(new Intent(getApplicationContext(), VehiclesActivity.class));
                                             }
-                                        });
+                                        }
+                                    });
 
 
-                                builder.show();
+                                }  else if (seats.size()==49){
 
-
-//                            final GridViewBaseAdapter adapter = new GridViewBaseAdapter(elevenSeater, this);
-//                            gridView.setAdapter(adapter);
-//                            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    final GridViewBaseAdapter adapter = new GridViewBaseAdapter(fortynineSeater, this);
+                                    gridView.setAdapter(adapter);
+                                    gridView.setNumColumns(4);
 //
-//                                @Override
-//                                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-//                                    int selectedIndex = adapter.selectedPositions.indexOf(position);
-//                                    if (selectedIndex > -1) {
-//                                        adapter.selectedPositions.remove(selectedIndex);
-//                                        ((GridItemView) v).display(false);
-//                                        selectedStrings.remove((String) parent.getItemAtPosition(position));
-//                                    } else {
-//                                        adapter.selectedPositions.add(position);
-//                                        ((GridItemView) v).display(true);
-//                                        selectedStrings.add((String) parent.getItemAtPosition(position));
-//                                    }
-//                                }
-//                            });
+                                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                                            int selectedIndex = adapter.selectedPositions.indexOf(position);
+                                            if (selectedIndex > -1) {
+                                                adapter.selectedPositions.remove(selectedIndex);
+                                                ((GridItemView) v).display(false);
+                                                seatno = String.valueOf("");
+
+                                                listofseats.remove(parent.getItemAtPosition(position).toString());
+                                            } else if(selectedIndex ==3){
+
+                                                Toast.makeText(Seats_activity.this,
+                                                        "You Cant book drivers seat",
+                                                        Toast.LENGTH_SHORT).show();
+
+                                            }
+
+                                            else {
+                                                adapter.selectedPositions.add(position);
+                                                ((GridItemView) v).display(true);
+//                                        selectedStrings.add((String) parent.getItemAtPosition(position));
+
+                                                Toast.makeText(Seats_activity.this,
+                                                        getString(R.string.you_booked, LevenSeaterList.get(position)),
+                                                        Toast.LENGTH_SHORT).show();
+
+//                                        app.setSeatNo(seats.get(position));
+
+                                                seatno = String.valueOf(LevenSeaterList.get(position));
+
+
+                                                listofseats.add(parent.getItemAtPosition(position).toString());
+
+
+
+                                            }
+                                        }
+                                    });
+
+
+                                }
+
+//                                    ticketType();
+
+//                                final GridView gridView = new GridView(Seats_activity.this);
+//
+//
+//                                gridView.setAdapter(new ArrayAdapter<>(Seats_activity.this, R.layout.simple_list_item_1, LevenSeaterList));
+//                                gridView.setNumColumns(3);
+////                                gridView.getChildAt(3).setBackgroundColor(Color.RED);
+//
+//
+//                                gridView.setOnItemClickListener((parent, view, position, id) -> {
+//
+//
+//                                    Toast.makeText(Seats_activity.this,
+//                                            getString(R.string.you_booked, LevenSeaterList.get(position)),
+//                                            Toast.LENGTH_SHORT).show();
+//
+////                                        app.setSeatNo(seats.get(position));
+//
+//                                     seatno = String.valueOf(LevenSeaterList.get(position));
+//
+//
+//                                    listofseats.add(parent.getItemAtPosition(position).toString());
+//                                    gridView.getChildAt(position).setBackgroundColor(Color.RED);
+//
+//
+//
+//
+//
+//                                });
+//
+//
+//                                AlertDialog.Builder builder = new AlertDialog.Builder(Seats_activity.this);
+//                                builder.setView(gridView);
+//                                builder.setTitle(app.get_car_name());
+//                            ;
+//                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        btnreserve.setVisibility(View.VISIBLE);
+//                                        Log.d("List of seats:%n %s", String.valueOf(listofseats));
+//                                        payment();
+//
+//
+//
+//                                    }
+//                                })
+//
+//
+//                                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//
+//                                                startActivity(new Intent(getApplicationContext(), VehiclesActivity.class));
+//                                            }
+//                                        });
+//
+//
+//                                builder.show();
 
 
 
@@ -478,15 +598,18 @@ public class Seats_activity extends AppCompatActivity {
                     app.setID(id_no);
                     app.setPayment_type(payment_type);
 
-
-                    info_text.setText(String.format("Name: %s\n", app.getName()));
-                    info_text.append(String.format("Phone: %s\n", app.getPhone()));
-                    info_text.append(String.format("ID: %s\n", app.getID()));
+//
+//                    info_text.setText(String.format("Name: %s\n", app.getName()));
+//                    info_text.append(String.format("Phone: %s\n", app.getPhone()));
+//                    info_text.append(String.format("ID: %s\n", app.getID()));
 
 
 
                     //Generate Reff Number
                     getRefferenceNumber();
+
+//                    btnbook.setVisibility(View.VISIBLE);
+                    btnGo.setVisibility(View.GONE);
 
 
                     if ( listofseats.size() >1) {
@@ -499,6 +622,10 @@ public class Seats_activity extends AppCompatActivity {
 
 
                     }
+
+
+
+
 
 
                 }

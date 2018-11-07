@@ -1,41 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_height="wrap_content" >
 
+    <TextView
+        android:layout_width="384dp"
+        android:layout_height="47dp"
+        android:background="@drawable/back_ground"
+        android:text="Select Your Seat or Seats"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:textStyle="bold" />
 
 
     <GridLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
         android:layout_centerInParent="true"
         android:columnCount="3"
-        android:rowCount="7">
+        android:rowCount="4">
 
         <GridView
             android:id="@+id/grid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:columnWidth="300dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_gravity="center_horizontal|center"
+            android:columnWidth="1dp"
+            android:gravity="center"
+            android:horizontalSpacing="1dp"
             android:numColumns="3"
-            android:horizontalSpacing="10dp"
-            android:scrollbars="horizontal"/>
+            android:paddingLeft="60dp"
+            android:paddingTop="20dp"
+            android:paddingRight="60dp"
+            android:scrollbars="horizontal"
+            android:verticalSpacing="10dp" />
 
+        <Button
+            android:id="@+id/btnreserve"
+            android:layout_width="match_parent"
+            android:layout_height="9dp"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp"
+            android:text="Researve"
+            android:visibility="invisible" />
 
 
     </GridLayout>
 
-
-    <Button
-        android:id="@+id/btnreserve"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Researve" />
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btngo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Researve" />
-</RelativeLayout>
+
+        <Button
+            android:id="@+id/btncancel"
+            android:layout_width="125dp"
+            android:background="@drawable/btn"
+
+            android:layout_height="wrap_content"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/btngo"
+            android:layout_width="149dp"
+            android:background="@drawable/btn"
+
+            android:layout_height="wrap_content"
+            android:text="Researve" />
+
+        <Button
+            android:id="@+id/btnbook"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/btngo"
+            android:background="@drawable/btn"
+            android:text="Book" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
