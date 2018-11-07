@@ -63,7 +63,7 @@ public class Seats_activity extends AppCompatActivity {
     Button checkbtn, btnreserve;
     TextView info_text;
     String refno,seatno,ticket_mesaage, reserver,reserve_confirmation;
-    List<String> LevenSeaterList;
+    List<String> LevenSeaterList,fortynineSeaterList;
 
     String[] elevenSeater = new String[]{
             "1",
@@ -131,17 +131,9 @@ public class Seats_activity extends AppCompatActivity {
         btnbook = findViewById(R.id.btnbook);
 
         LevenSeaterList = new ArrayList<String>(Arrays.asList(elevenSeater));
+        fortynineSeaterList = new ArrayList<String>(Arrays.asList(fortynineSeater));
 
-//        btnreserve.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                    reserve();
-//
-//
-//
-//            }
-//        });
+
 
 
 //        set listener for Button event
@@ -196,24 +188,21 @@ public class Seats_activity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }, error -> {
+                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
 
-                } else if (error instanceof AuthFailureError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof ServerError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof NetworkError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof ParseError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+                    } else if (error instanceof AuthFailureError) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof NetworkError) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof ParseError) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
 
-            }
-        })
+                })
 
         {
             @Override
@@ -238,49 +227,43 @@ public class Seats_activity extends AppCompatActivity {
         params.put("clerk_password", app.get_Clerk_password());
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
+                response -> {
+                    try {
 
-                            if (response.getInt("response_code") == 0) {
-                                JSONArray jsonArray = response.getJSONArray("payment_methods");
+                        if (response.getInt("response_code") == 0) {
+                            JSONArray jsonArray = response.getJSONArray("payment_methods");
 
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                    String methods = jsonObject1.getString("name");
-                                    payment_methods.add(methods);
-
-                                }
-
-                            } else {
-                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                String methods = jsonObject1.getString("name");
+                                payment_methods.add(methods);
 
                             }
 
+                        } else {
+                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }, error -> {
+                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
 
-                } else if (error instanceof AuthFailureError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof ServerError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof NetworkError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof ParseError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+                    } else if (error instanceof AuthFailureError) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof NetworkError) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof ParseError) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
 
-            }
-        })
+                })
 
         {
             @Override
@@ -329,7 +312,7 @@ public class Seats_activity extends AppCompatActivity {
 
 
 
-                                    Log.d("########### GARI", String.valueOf(bus_array.length()));
+                                    Log.d("########### SIZE", String.valueOf(bus_array.length()));
 
 
                             for(int x=0; x < bus_array.length();x++) {
@@ -349,44 +332,41 @@ public class Seats_activity extends AppCompatActivity {
                                     gridView.setAdapter(adapter);
                                     gridView.setNumColumns(3);
 
-                                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    gridView.setOnItemClickListener((parent, v, position, id) -> {
+                                        int selectedIndex = adapter.selectedPositions.indexOf(position);
+                                        if (selectedIndex > -1) {
+                                            adapter.selectedPositions.remove(selectedIndex);
+                                            ((GridItemView) v).display(false);
+                                            Toast.makeText(Seats_activity.this,
+                                                 "Seat "+ LevenSeaterList.get(position)+ " unselected",
+                                                    Toast.LENGTH_SHORT).show();
+                                            seatno = String.valueOf("");
 
-                                        @Override
-                                        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                                            int selectedIndex = adapter.selectedPositions.indexOf(position);
-                                            if (selectedIndex > -1) {
-                                                adapter.selectedPositions.remove(selectedIndex);
-                                                ((GridItemView) v).display(false);
-                                                seatno = String.valueOf("");
+                                            listofseats.remove(parent.getItemAtPosition(position).toString());
+                                        } else if(selectedIndex ==3){
 
-                                                listofseats.remove(parent.getItemAtPosition(position).toString());
-                                            } else if(selectedIndex ==3){
+                                            Toast.makeText(Seats_activity.this,
+                                                    "You Cant book drivers seat",
+                                                    Toast.LENGTH_SHORT).show();
 
-                                                Toast.makeText(Seats_activity.this,
-                                                        "You Cant book drivers seat",
-                                                        Toast.LENGTH_SHORT).show();
+                                        }
 
-                                            }
+                                        else {
+                                            adapter.selectedPositions.add(position);
+                                            ((GridItemView) v).display(true);
 
-                                            else {
-                                                adapter.selectedPositions.add(position);
-                                                ((GridItemView) v).display(true);
-//                                        selectedStrings.add((String) parent.getItemAtPosition(position));
-
-                                                Toast.makeText(Seats_activity.this,
-                                                        getString(R.string.you_booked, LevenSeaterList.get(position)),
-                                                        Toast.LENGTH_SHORT).show();
-
-//                                        app.setSeatNo(seats.get(position));
-
-                                                seatno = String.valueOf(LevenSeaterList.get(position));
+                                            Toast.makeText(Seats_activity.this,
+                                                    getString(R.string.you_booked, LevenSeaterList.get(position)),
+                                                    Toast.LENGTH_SHORT).show();
 
 
-                                                listofseats.add(parent.getItemAtPosition(position).toString());
+                                            seatno = String.valueOf(LevenSeaterList.get(position));
+
+
+                                            listofseats.add(parent.getItemAtPosition(position).toString());
 
 
 
-                                            }
                                         }
                                     });
 
@@ -397,109 +377,39 @@ public class Seats_activity extends AppCompatActivity {
                                     gridView.setAdapter(adapter);
                                     gridView.setNumColumns(4);
 //
-                                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    gridView.setOnItemClickListener((parent, v, position, id) -> {
+                                        int selectedIndex = adapter.selectedPositions.indexOf(position);
+                                        if (selectedIndex > -1) {
+                                            adapter.selectedPositions.remove(selectedIndex);
+                                            ((GridItemView) v).display(false);
+                                            Toast.makeText(Seats_activity.this,
+                                                    "Seat "+ fortynineSeaterList.get(position)+ " unselected",
+                                                    Toast.LENGTH_SHORT).show();
+                                            seatno = String.valueOf("");
 
-                                        @Override
-                                        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                                            int selectedIndex = adapter.selectedPositions.indexOf(position);
-                                            if (selectedIndex > -1) {
-                                                adapter.selectedPositions.remove(selectedIndex);
-                                                ((GridItemView) v).display(false);
-                                                seatno = String.valueOf("");
+                                            listofseats.remove(parent.getItemAtPosition(position).toString());
+                                        }
+                                        else {
+                                            adapter.selectedPositions.add(position);
+                                            ((GridItemView) v).display(true);
 
-                                                listofseats.remove(parent.getItemAtPosition(position).toString());
-                                            } else if(selectedIndex ==3){
-
-                                                Toast.makeText(Seats_activity.this,
-                                                        "You Cant book drivers seat",
-                                                        Toast.LENGTH_SHORT).show();
-
-                                            }
-
-                                            else {
-                                                adapter.selectedPositions.add(position);
-                                                ((GridItemView) v).display(true);
-//                                        selectedStrings.add((String) parent.getItemAtPosition(position));
-
-                                                Toast.makeText(Seats_activity.this,
-                                                        getString(R.string.you_booked, LevenSeaterList.get(position)),
-                                                        Toast.LENGTH_SHORT).show();
-
-//                                        app.setSeatNo(seats.get(position));
-
-                                                seatno = String.valueOf(LevenSeaterList.get(position));
+                                            Toast.makeText(Seats_activity.this,
+                                                    getString(R.string.you_booked, fortynineSeaterList.get(position)),
+                                                    Toast.LENGTH_SHORT).show();
 
 
-                                                listofseats.add(parent.getItemAtPosition(position).toString());
+                                            seatno = String.valueOf(fortynineSeaterList.get(position));
+
+
+                                            listofseats.add(parent.getItemAtPosition(position).toString());
 
 
 
-                                            }
                                         }
                                     });
 
 
                                 }
-
-//                                    ticketType();
-
-//                                final GridView gridView = new GridView(Seats_activity.this);
-//
-//
-//                                gridView.setAdapter(new ArrayAdapter<>(Seats_activity.this, R.layout.simple_list_item_1, LevenSeaterList));
-//                                gridView.setNumColumns(3);
-////                                gridView.getChildAt(3).setBackgroundColor(Color.RED);
-//
-//
-//                                gridView.setOnItemClickListener((parent, view, position, id) -> {
-//
-//
-//                                    Toast.makeText(Seats_activity.this,
-//                                            getString(R.string.you_booked, LevenSeaterList.get(position)),
-//                                            Toast.LENGTH_SHORT).show();
-//
-////                                        app.setSeatNo(seats.get(position));
-//
-//                                     seatno = String.valueOf(LevenSeaterList.get(position));
-//
-//
-//                                    listofseats.add(parent.getItemAtPosition(position).toString());
-//                                    gridView.getChildAt(position).setBackgroundColor(Color.RED);
-//
-//
-//
-//
-//
-//                                });
-//
-//
-//                                AlertDialog.Builder builder = new AlertDialog.Builder(Seats_activity.this);
-//                                builder.setView(gridView);
-//                                builder.setTitle(app.get_car_name());
-//                            ;
-//                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                        btnreserve.setVisibility(View.VISIBLE);
-//                                        Log.d("List of seats:%n %s", String.valueOf(listofseats));
-//                                        payment();
-//
-//
-//
-//                                    }
-//                                })
-//
-//
-//                                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                                            @Override
-//                                            public void onClick(DialogInterface dialog, int which) {
-//
-//                                                startActivity(new Intent(getApplicationContext(), VehiclesActivity.class));
-//                                            }
-//                                        });
-//
-//
-//                                builder.show();
-
 
 
 
@@ -598,11 +508,6 @@ public class Seats_activity extends AppCompatActivity {
                     app.setID(id_no);
                     app.setPayment_type(payment_type);
 
-//
-//                    info_text.setText(String.format("Name: %s\n", app.getName()));
-//                    info_text.append(String.format("Phone: %s\n", app.getPhone()));
-//                    info_text.append(String.format("ID: %s\n", app.getID()));
-
 
 
                     //Generate Reff Number
@@ -647,18 +552,6 @@ public class Seats_activity extends AppCompatActivity {
     }
 
     private void reserve() {
-//        mpesaPayment();
-
-
-//        if(payment_type==String.valueOf(3)){
-//            mpesaPayment();
-//
-//        }
-//
-//        else if(payment_type==String.valueOf(2)){
-//            jamboPayWalet();
-//
-//        }
 
 
         RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
@@ -686,9 +579,6 @@ public class Seats_activity extends AppCompatActivity {
         params.put("amount_charged", "10");
         params.put("reference_number", refno);
 
-////
-//        params.put("clerk_username", app.get_Clerk_username());
-//        params.put("clerk_password", app.get_Clerk_password());
 
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
