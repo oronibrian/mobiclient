@@ -23,9 +23,6 @@ public class GridViewBaseAdapter extends BaseAdapter {
 
 
 
-
-
-
     @Override
     public int getCount() {
         return strings.length;
@@ -49,5 +46,25 @@ public class GridViewBaseAdapter extends BaseAdapter {
         customView.display(strings[position], selectedPositions.contains(position));
 
         return customView;
+    }
+
+    @Override
+    public boolean areAllItemsEnabled()
+    {
+
+        return true;
+
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+
+        if ((position == 2)){
+
+
+            return false;
+
+    }
+        else return true;
     }
 }

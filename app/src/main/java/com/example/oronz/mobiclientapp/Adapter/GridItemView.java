@@ -22,6 +22,8 @@ public class GridItemView extends FrameLayout {
         display(isSelected);
     }
 
+    
+
     public void display(boolean isSelected) {
         textView.setBackgroundResource(isSelected ? R.drawable.ic_seats_b : R.drawable.ic_seats_empty_seats);
     }

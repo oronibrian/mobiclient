@@ -222,6 +222,14 @@ public class ReceiptActivity extends AppCompatActivity {
                                 mProgress.dismiss();
                                 mpesaalertDialog.dismiss();
 
+                                String message = response.getString("response_message");
+
+                                Log.d("Agency Respose",message);
+                                txt_status.setText(message);
+
+                                btncomplete.setVisibility(View.GONE);
+                                btnnew.setVisibility(View.VISIBLE);
+
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -308,10 +316,19 @@ public class ReceiptActivity extends AppCompatActivity {
 
                             if (response.getInt("response_code") == 0) {
 
-                                JSONArray jsonArray = response.getJSONArray("ticket");
+                                JSONArray jsonArray = response.getJSONArray("tickets");
 
                                 mProgress.dismiss();
                                 jpwalletalertDialog.dismiss();
+
+                                String message = response.getString("response_message");
+
+                                Log.d("Agency Respose",message);
+                                txt_status.setText(message);
+
+                                btncomplete.setVisibility(View.GONE);
+                                btnnew.setVisibility(View.VISIBLE);
+
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -394,17 +411,22 @@ public class ReceiptActivity extends AppCompatActivity {
 
                             if (response.getInt("response_code") == 0) {
 
-                                JSONArray jsonArray = response.getJSONArray("ticket");
+                                JSONArray jsonArray = response.getJSONArray("tickets");
 
                                 mProgress.dismiss();
                                 jpAgencyalertDialog.dismiss();
+                                String message = response.getString("response_message");
+
+                                Log.d("Agency Respose",message);
+                                txt_status.setText(message);
+
+                                btncomplete.setVisibility(View.GONE);
+                                btnnew.setVisibility(View.VISIBLE);
+
+
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                    String reserver = jsonObject1.getString("trx_status");
-
-                                    Log.d("Reservation Status: ", reserver);
-                                    Log.d("Reserve:%n %s", jsonArray.toString(4));
 
 
                                 }

@@ -118,9 +118,14 @@ public class LoginActivity extends AppCompatActivity {
                         try {
 
                             if (response.getInt("response_code") == 0) {
-                                String message = response.getString("response_message");
+                                String first_name = response.getString("first_name");
+                                String last_name = response.getString("last_name");
 
-                                Log.d("log in ", message);
+                                app.setLogged_user(first_name +" "+last_name );
+
+
+
+                                Log.d("log in ", first_name);
 
                                 mProgress.dismiss();
 

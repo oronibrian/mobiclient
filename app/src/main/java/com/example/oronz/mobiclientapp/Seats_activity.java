@@ -308,7 +308,7 @@ public class Seats_activity extends AppCompatActivity {
                     try {
 
 
-                        if (response.getInt("response_code") == 0) {
+                        if (response.getString("response_code").equals("0")) {
 
                             JSONArray jsonArray = response.getJSONArray("bus");
 
@@ -331,12 +331,32 @@ public class Seats_activity extends AppCompatActivity {
 
                                 if(seats.size()<=11){
 
+//                                    if (seats.contains(elevenSeater)) {
+//                                        System.out.println("Account found");
+//
+//                                    } else {
+//
+//
+//                                    }
+////
+
                                     final GridViewBaseAdapter adapter = new GridViewBaseAdapter(elevenSeater, this);
+
                                     gridView.setAdapter(adapter);
                                     gridView.setNumColumns(3);
 
+
                                     gridView.setOnItemClickListener((parent, v, position, id) -> {
+
+
+
+
+
                                         int selectedIndex = adapter.selectedPositions.indexOf(position);
+                                        String item = (String) adapter.getItem(position);
+
+
+
                                         if (selectedIndex > -1) {
                                             adapter.selectedPositions.remove(selectedIndex);
                                             ((GridItemView) v).display(false);
@@ -346,12 +366,6 @@ public class Seats_activity extends AppCompatActivity {
                                             seatno = String.valueOf("");
 
                                             listofseats.remove(parent.getItemAtPosition(position).toString());
-                                        } else if(selectedIndex ==3){
-
-                                            Toast.makeText(Seats_activity.this,
-                                                    "You Cant book drivers seat",
-                                                    Toast.LENGTH_SHORT).show();
-
                                         }
 
                                         else {

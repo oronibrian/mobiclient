@@ -24,6 +24,7 @@ public class MobiClientApplication extends Application {
 
     String index;
     private String agency_phone;
+    private String logged_user;
 
 
     public MobiClientApplication(){}
@@ -264,5 +265,13 @@ public class MobiClientApplication extends Application {
 
     public void setAgency_phone(String agency_phone) {
         this.agency_phone = agency_phone;
+    }
+
+    public String getLogged_user() {
+        return logged_user;
+    }
+
+    public void setLogged_user(String logged_user) {
+        this.logged_user = logged_user;
     }
 }
