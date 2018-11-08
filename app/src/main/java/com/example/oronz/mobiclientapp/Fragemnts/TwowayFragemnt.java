@@ -107,25 +107,6 @@ public class TwowayFragemnt extends Fragment {
 
 
 
-        no_of_pass = view.findViewById(R.id.num_of_passengers2);
-        final TextView tv = view. findViewById(R.id.tv_two_way);
-
-
-        no_of_pass.setMinValue(1);
-        no_of_pass.setMaxValue(9);
-
-        no_of_pass.setWrapSelectorWheel(true);
-
-        no_of_pass.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal){
-                tv.setText("Selected Number : " + newVal);
-                tv.setTextColor(Color.BLACK);
-
-            }
-        });
-
-
         from=view.findViewById(R.id.spinner_from);
         too=view.findViewById(R.id.spinner_to);
 

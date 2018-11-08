@@ -116,11 +116,11 @@ public class OneWayTripFragement extends Fragment {
                     Intent intent = new Intent(getActivity(), VehiclesActivity.class);
 
 
-                    CDT = new CountDownTimer(6000, 1000)
+                    CDT = new CountDownTimer(5000, 1000)
                     {
                         public void onTick(long millisUntilFinished)
                         {
-                            progressBar.setMessage("Loading Available Vehicles..in.." + i + "");
+                            progressBar.setMessage("Loading Available Vehicles...." + i + "");
                             i--;
                         }
 
@@ -148,25 +148,6 @@ public class OneWayTripFragement extends Fragment {
         from=view.findViewById(R.id.spinner_from_one);
         too=view.findViewById(R.id.spinner_to_one);
         travel_date=view.findViewById(R.id.spinner_travel_date_one);
-//        np = view. findViewById(R.id.num_of_passengers);
-//        final TextView tv = (TextView)view. findViewById(R.id.tv);
-//
-//
-//        np.setMinValue(1);
-//        np.setMaxValue(9);
-//
-//        np.setWrapSelectorWheel(true);
-//
-//        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-//            @Override
-//            public void onValueChange(NumberPicker picker, int oldVal, int newVal){
-////                tv.setText("Selected Number : " + newVal);
-////                tv.setTextColor(Color.BLACK);
-//
-//                app.set_no_passenges(newVal);
-//
-//            }
-//        });
 
 
         travel_date.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -365,6 +346,87 @@ public class OneWayTripFragement extends Fragment {
     }
 
 
+//    private void ticketType() {
+//
+//        RequestQueue tickettyperequestQueue = Volley.newRequestQueue(getContext());
+//
+//        HashMap<String, String> params = new HashMap<String, String>();
+//        params.put("username", app.getUser_name());
+//        params.put("api_key", app.getApi_key());
+//        params.put("action", "TicketTypes");
+//
+//        params.put("from_city", app.getTravel_from());
+//        params.put("to_city", app.getTravel_too());
+//        params.put("travel_date", app.getTravel_date());
+//        params.put("hash", app.getHash_key());
+//
+//        params.put("selected_vehicle", app.get_selected_vehicle());
+//        params.put("selected_seat", app.getSeatNo());
+//        params.put("seater", "11");
+//
+//        params.put("clerk_username", app.get_Clerk_username());
+//        params.put("clerk_password", app.get_Clerk_password());
+//
+//        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        try {
+//
+//                            if (response.getInt("response_code") == 0) {
+//                                JSONArray jsonArray = response.getJSONArray("ticket_type");
+//
+//
+//                                Log.d("ticket_type:%n %s", jsonArray.toString(4));
+//
+//                                for (int i = 0; i < jsonArray.length(); i++) {
+//                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+//                                    String ticket_type = jsonObject1.getString("name");
+//                                    ticketType.add(ticket_type);
+//                                }
+//
+//                            } else {
+//                                Toast.makeText(getContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+//
+//                            }
+//
+//                            spinner_tickettype.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, ticketType));
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+//                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//
+//                } else if (error instanceof AuthFailureError) {
+//                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//                } else if (error instanceof ServerError) {
+//                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//                } else if (error instanceof NetworkError) {
+//                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//                } else if (error instanceof ParseError) {
+//                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        })
+//
+//        {
+//            @Override
+//            public String getBodyContentType() {
+//                return "application/x-www-form-urlencoded; charset=utf-8";
+//            }
+//
+//
+//        };
+//        tickettyperequestQueue.getCache().clear();
+//        tickettyperequestQueue.add(req);
+//
+//
+//    }
 
 
 }

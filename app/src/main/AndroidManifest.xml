@@ -23,18 +23,20 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".VehiclesActivity" />
         <activity android:name=".Seats_activity" />
         <activity android:name=".ReceiptActivity" />
         <activity android:name=".MyTrips" />
         <activity android:name=".NewsActivity" />
-        <activity android:name=".AboutUsActivity"></activity>
+        <activity android:name=".AboutUsActivity" />
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

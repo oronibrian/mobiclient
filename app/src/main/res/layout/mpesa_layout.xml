@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="16dp">
 
     <TextView
         android:id="@+id/dialog_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/back_ground"
         android:padding="10dp"
         android:text="Mpesa Number To Complete Payment "
-        android:textSize="20sp"
+        android:textSize="19sp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -22,19 +25,23 @@
 
         <EditText
             android:id="@+id/mpesanumber"
-            android:layout_width="409dp"
+            android:layout_width="309dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:layout_margin="16dp"
             android:ems="10"
             android:inputType="phone" />
 
         <Button
             android:id="@+id/mpsabtn"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
             android:background="@drawable/btn"
-            android:text="Agree" />
+            android:text="Confirm" />
     </LinearLayout>
 
 </RelativeLayout>

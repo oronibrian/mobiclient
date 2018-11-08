@@ -18,4 +18,13 @@
         \nTicket reservations and payments can be done using MPESA checkout or using your mobile wallet for our partner public service bus operators.
         \nMobiticket connects you directly to bus operators. </string>
 
+    <string name="transition_login">login</string>
+    <string name="transition_signup">signup</string>
+    <string name="transition_close">close</string>
+    <string name="terms">I agree all statements in </string>
+    <string name="emailtxt">Email txt shared</string>
+    <string name="email_edittxt">Email edittxt shared</string>
+    <string name="passwordtxt">Pass txt shared</string>
+    <string name="passwoed_edittxt">Password edittxt shared</string>
+
 </resources>

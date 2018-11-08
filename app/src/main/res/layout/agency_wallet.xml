@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="16dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/dialog_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:padding="10dp"
-        android:text="Enter Your Wallet Pin To Complete"
+        android:text="Enter Agency Wallet Pin To Complete"
         android:background="@drawable/back_ground"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/wallet_username"
+        android:id="@+id/agency_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -26,12 +27,13 @@
         android:text="username" />
 
     <EditText
-        android:id="@+id/waletpassword"
+        android:id="@+id/Agencywaletpassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:ems="10"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:padding="10dp" />
 
     <Button
         android:id="@+id/btnconfirm"

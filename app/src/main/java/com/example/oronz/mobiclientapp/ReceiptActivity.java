@@ -35,11 +35,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ReceiptActivity extends AppCompatActivity {
-TextView txt_name,txt_status;
-Button btnnew,btncomplete;
+    TextView txt_name, txt_status;
+    Button btnnew, btncomplete;
     MobiClientApplication app;
     List<String> myList;
-    EditText walletpassword,mpesanumber;
+    EditText walletpassword,wallet_username, mpesanumber,agency_username, Agencywaletpassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +48,10 @@ Button btnnew,btncomplete;
 
         app = (MobiClientApplication) getApplication();
 
-        txt_name=findViewById(R.id.txt_name);
-        txt_status=findViewById(R.id.txt_status);
-        btnnew=findViewById(R.id.btnnew);
-        btncomplete=findViewById(R.id.btncomplete);
+        txt_name = findViewById(R.id.txt_name);
+        txt_status = findViewById(R.id.txt_status);
+        btnnew = findViewById(R.id.btnnew);
+        btncomplete = findViewById(R.id.btncomplete);
 
 
 //        journey.setText(String.format("Travelling from %s To %s", app.getTravel_from(), app.getTravel_too()));
@@ -60,17 +60,16 @@ Button btnnew,btncomplete;
 //        date.setText(String.format("Date \n%s", app.getTravel_date()));
 
 
+        String value = getIntent().getStringExtra("data");
+        String status = getIntent().getStringExtra("txt_status");
 
-                String value = getIntent().getStringExtra("data");
-                String status = getIntent().getStringExtra("txt_status");
+        txt_name.setText(value);
+        txt_status.setText(status);
 
-                txt_name.setText(value);
-                txt_status.setText(status);
-            
 
-        if(status.equals("Failed")){
+        if (status.equals("Failed")) {
             btncomplete.setVisibility(View.GONE);
-        }else {
+        } else {
             btncomplete.setVisibility(View.VISIBLE);
             btnnew.setVisibility(View.GONE);
 
@@ -84,38 +83,39 @@ Button btnnew,btncomplete;
         });
 
 
-
         btnnew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
 
 
     }
 
-    private void proceed(){
+    private void proceed() {
 
-        if(String.valueOf(app.getPayment_type()).equals("3")){
+        if (String.valueOf(app.getPayment_type()).equals("3")) {
             MpesaDialog();
 
-        }
-
-        else if(String.valueOf(app.getPayment_type()).equals("2")){
+        } else if (String.valueOf(app.getPayment_type()).equals("2")) {
             JPWalletDialog();
+
+        } else if (String.valueOf(app.getPayment_type()).equals("1")) {
+            JPAgencyWalletDialog();
 
         }
 
     }
+
     public void MpesaDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.mpesa_layout, null);
         dialogBuilder.setView(dialogView);
 
-        mpesanumber = (EditText) dialogView.findViewById(R.id.mpesanumber);
+        mpesanumber = dialogView.findViewById(R.id.mpesanumber);
         Button btncomplete = dialogView.findViewById(R.id.mpsabtn);
 
         btncomplete.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +136,11 @@ Button btnnew,btncomplete;
         View dialogView = inflater.inflate(R.layout.wallet_confirmation_input_dialog, null);
         dialogBuilder.setView(dialogView);
 
-        walletpassword = (EditText) dialogView.findViewById(R.id.waletpassword);
+        wallet_username = dialogView.findViewById(R.id.wallet_username);
+
+        wallet_username.setText(app.getUser_name());
+
+        walletpassword = dialogView.findViewById(R.id.waletpassword);
         Button btncomplete = dialogView.findViewById(R.id.btnconfirm);
 
         btncomplete.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +154,31 @@ Button btnnew,btncomplete;
         alertDialog.show();
     }
 
-    private void mpesaPayment(){
+
+    public void JPAgencyWalletDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.agency_wallet, null);
+        dialogBuilder.setView(dialogView);
+        agency_username = dialogView.findViewById(R.id.agency_username);
+
+        agency_username.setText(app.getUser_name());
+
+        Agencywaletpassword = dialogView.findViewById(R.id.Agencywaletpassword);
+        Button btncomplete = dialogView.findViewById(R.id.btnconfirm);
+
+        btncomplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jamboPayAgencyWalet();
+            }
+        });
+
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void mpesaPayment() {
 
         RequestQueue reserverequestQueue = Volley.newRequestQueue(ReceiptActivity.this);
 
@@ -161,7 +189,7 @@ Button btnnew,btncomplete;
         params.put("payment_method", "3");
 
         params.put("reference_number", app.getRefno());
-        params.put("mpesa_phone_number",mpesanumber.getText().toString());
+        params.put("mpesa_phone_number", mpesanumber.getText().toString());
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
@@ -178,13 +206,11 @@ Button btnnew,btncomplete;
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                     String reserve_confirmation = jsonObject1.getString("description");
 
-                                    Log.d("Reservation Status: ",reserve_confirmation);
+                                    Log.d("Reservation Status: ", reserve_confirmation);
                                     Log.d("Reserve:%n %s", jsonArray.toString(4));
 
 
-
                                 }
-
 
 
                             } else {
@@ -229,7 +255,7 @@ Button btnnew,btncomplete;
 
     }
 
-    private void jamboPayWalet(){
+    private void jamboPayWalet() {
 
 
         //Commond here......"p/IK4:"
@@ -244,8 +270,7 @@ Button btnnew,btncomplete;
         params.put("payment_method", "2");
         params.put("reference_number", app.getRefno());
         params.put("jambopay_wallet_username", app.getPhone());
-        params.put("jambopay_wallet_password",  walletpassword.getText().toString());
-
+        params.put("jambopay_wallet_password", walletpassword.getText().toString());
 
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
@@ -263,13 +288,11 @@ Button btnnew,btncomplete;
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                     String reserver = jsonObject1.getString("trx_status");
 
-                                    Log.d("Reservation Status: ",reserver);
+                                    Log.d("Reservation Status: ", reserver);
                                     Log.d("Reserve:%n %s", jsonArray.toString(4));
 
 
-
                                 }
-
 
 
                             } else {
@@ -313,13 +336,10 @@ Button btnnew,btncomplete;
         reserverequestQueue.add(req);
 
 
-
-
     }
 
 
-
-    private void jamboPayAgencyWalet(){
+    private void jamboPayAgencyWalet() {
         RequestQueue reserverequestQueue = Volley.newRequestQueue(ReceiptActivity.this);
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -328,9 +348,8 @@ Button btnnew,btncomplete;
         params.put("action", "AuthorizePayment");
         params.put("payment_method", "2");
         params.put("reference_number", app.getRefno());
-        params.put("jambopay_agency_username", "0702357053");
-        params.put("jambopay_agency_password", "p/IK4:");
-
+        params.put("jambopay_agency_username", app.getPhone());
+        params.put("jambopay_agency_password", Agencywaletpassword.toString());
 
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
@@ -348,9 +367,8 @@ Button btnnew,btncomplete;
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                     String reserver = jsonObject1.getString("trx_status");
 
-                                    Log.d("Reservation Status: ",reserver);
+                                    Log.d("Reservation Status: ", reserver);
                                     Log.d("Reserve:%n %s", jsonArray.toString(4));
-
 
 
                                 }

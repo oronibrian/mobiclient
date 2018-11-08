@@ -45,10 +45,6 @@ public class MainActivity extends AppCompatActivity
 
         tabLayout.setupWithViewPager(viewPager);
 
-        initializedAPI();
-
-
-
 
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -70,15 +66,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void initializedAPI() {
-
-        app.setUser_name("rWIv7GWzSp");
-        app.setApi_key("831b238c5cd73308520e38bbc6c1774f470a89e96d07a5bb6bcac3b86456f889");
-        app.setHash_key("1FBEAD9B-D9CD-400D-ADF3-F4D0E639CEE0");
-        app.set_Clerk_username("0722488123");
-        app.set_Clerk_password("P@ssw0rd");
-
-    }
 
     @Override
     public void onBackPressed() {
@@ -107,6 +94,12 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
 
+        else if (id == R.id.menu_logout) {
+
+            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+            finish();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -117,22 +110,20 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
         } else if (id == R.id.nav_gallery) {
-            startActivity(new Intent(getApplicationContext(),NewsActivity.class));
+            startActivity(new Intent(getApplicationContext(), NewsActivity.class));
 
 
         } else if (id == R.id.nav_slideshow) {
-            startActivity(new Intent(getApplicationContext(),MyTrips.class));
+            startActivity(new Intent(getApplicationContext(), MyTrips.class));
 
 
         } else if (id == R.id.nav_manage) {
 
-        }
-
-         else if (id == R.id.about) {
-            startActivity(new Intent(getApplicationContext(),AboutUsActivity.class));
+        } else if (id == R.id.about) {
+            startActivity(new Intent(getApplicationContext(), AboutUsActivity.class));
 
         }
 
@@ -140,7 +131,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
 
 }
