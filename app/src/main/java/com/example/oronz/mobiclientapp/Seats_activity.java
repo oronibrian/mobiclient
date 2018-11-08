@@ -137,7 +137,7 @@ public class Seats_activity extends AppCompatActivity {
         fortynineSeaterList = new ArrayList<>(Arrays.asList(fortynineSeater));
 
         mProgress = new ProgressDialog(this);
-        mProgress.setTitle("Signing  in...");
+        mProgress.setTitle("Reserving ..");
         mProgress.setMessage("Please wait...");
         mProgress.setCancelable(false);
         mProgress.setIndeterminate(true);

@@ -3,6 +3,7 @@ package com.example.oronz.mobiclientapp;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.Animatable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +45,9 @@ public class ReceiptActivity extends AppCompatActivity {
     EditText walletpassword,wallet_username, mpesanumber,agency_username, Agencywaletpassword;
 
     private ProgressDialog mProgress;
-
+    private ImageView checkView;
+    private ImageView crossView;
+    AlertDialog mpesaalertDialog,jpAgencyalertDialog,jpwalletalertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,16 +61,13 @@ public class ReceiptActivity extends AppCompatActivity {
         btncomplete = findViewById(R.id.btncomplete);
 
         mProgress = new ProgressDialog(this);
-        mProgress.setTitle("Processing payment  in...");
+        mProgress.setTitle("Processing payment ...");
         mProgress.setMessage("Please wait...");
         mProgress.setCancelable(false);
         mProgress.setIndeterminate(true);
 
-
-//        journey.setText(String.format("Travelling from %s To %s", app.getTravel_from(), app.getTravel_too()));
-////        txt_name.setText(String.format("Name \n%s", app.getName()));
-//        txt_seat_no.setText(String.format("Seat No \n%s", app.getSeatNo()));
-//        date.setText(String.format("Date \n%s", app.getTravel_date()));
+        checkView = (ImageView) findViewById(R.id.check);
+        crossView = (ImageView) findViewById(R.id.cross);
 
 
         String value = getIntent().getStringExtra("data");
@@ -78,9 +79,14 @@ public class ReceiptActivity extends AppCompatActivity {
 
         if (status.equals("Failed")) {
             btncomplete.setVisibility(View.GONE);
+            ((Animatable) crossView.getDrawable()).start();
+
         } else {
             btncomplete.setVisibility(View.VISIBLE);
             btnnew.setVisibility(View.GONE);
+
+            ((Animatable) checkView.getDrawable()).start();
+
 
         }
 
@@ -134,8 +140,8 @@ public class ReceiptActivity extends AppCompatActivity {
             }
         });
 
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
+         mpesaalertDialog = dialogBuilder.create();
+        mpesaalertDialog.show();
     }
 
 
@@ -159,8 +165,8 @@ public class ReceiptActivity extends AppCompatActivity {
             }
         });
 
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
+         jpwalletalertDialog = dialogBuilder.create();
+        jpwalletalertDialog.show();
     }
 
 
@@ -183,8 +189,8 @@ public class ReceiptActivity extends AppCompatActivity {
             }
         });
 
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
+         jpAgencyalertDialog = dialogBuilder.create();
+        jpAgencyalertDialog.show();
     }
 
     private void mpesaPayment() {
@@ -214,6 +220,7 @@ public class ReceiptActivity extends AppCompatActivity {
                                 JSONArray jsonArray = response.getJSONArray("tickets");
 
                                 mProgress.dismiss();
+                                mpesaalertDialog.dismiss();
 
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -230,6 +237,8 @@ public class ReceiptActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
                                 mProgress.dismiss();
+                                mpesaalertDialog.dismiss();
+
 
                             }
 
@@ -241,6 +250,8 @@ public class ReceiptActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                mpesaalertDialog.dismiss();
+
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -300,6 +311,7 @@ public class ReceiptActivity extends AppCompatActivity {
                                 JSONArray jsonArray = response.getJSONArray("ticket");
 
                                 mProgress.dismiss();
+                                jpwalletalertDialog.dismiss();
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -315,6 +327,7 @@ public class ReceiptActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
                                 mProgress.dismiss();
+                                jpwalletalertDialog.dismiss();
 
                             }
 
@@ -326,6 +339,8 @@ public class ReceiptActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                jpwalletalertDialog.dismiss();
+
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -382,6 +397,7 @@ public class ReceiptActivity extends AppCompatActivity {
                                 JSONArray jsonArray = response.getJSONArray("ticket");
 
                                 mProgress.dismiss();
+                                jpAgencyalertDialog.dismiss();
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -396,6 +412,7 @@ public class ReceiptActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
                                 mProgress.dismiss();
+                                jpAgencyalertDialog.dismiss();
 
                             }
 
@@ -407,6 +424,8 @@ public class ReceiptActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                jpAgencyalertDialog.dismiss();
+
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
 
