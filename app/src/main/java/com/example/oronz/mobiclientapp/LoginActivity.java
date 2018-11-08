@@ -87,6 +87,8 @@ public class LoginActivity extends AppCompatActivity {
         final String email = edittextusername.getText().toString();
         final String password = editextpassword.getText().toString();
 
+        app.setAgency_phone(email);
+
         //validating inputs
         if (TextUtils.isEmpty(email)) {
             edittextusername.setError("Please enter your email address or phone");

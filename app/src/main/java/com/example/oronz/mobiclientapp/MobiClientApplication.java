@@ -23,6 +23,7 @@ public class MobiClientApplication extends Application {
     int no_passenges;
 
     String index;
+    private String agency_phone;
 
 
     public MobiClientApplication(){}
@@ -255,5 +256,13 @@ public class MobiClientApplication extends Application {
 
     public void setRefno(String refno) {
         this.refno = refno;
+    }
+
+    public String getAgency_phone() {
+        return agency_phone;
+    }
+
+    public void setAgency_phone(String agency_phone) {
+        this.agency_phone = agency_phone;
     }
 }

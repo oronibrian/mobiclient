@@ -3,6 +3,7 @@ package com.example.oronz.mobiclientapp;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -104,6 +105,8 @@ public class Seats_activity extends AppCompatActivity {
     private View btnGo,btnbook,btncancel;
 
     private GridView gridView;
+    private ProgressDialog mProgress;
+
 
     @SuppressLint("ResourceType")
     @Override
@@ -132,6 +135,13 @@ public class Seats_activity extends AppCompatActivity {
 
         LevenSeaterList = new ArrayList<>(Arrays.asList(elevenSeater));
         fortynineSeaterList = new ArrayList<>(Arrays.asList(fortynineSeater));
+
+        mProgress = new ProgressDialog(this);
+        mProgress.setTitle("Signing  in...");
+        mProgress.setMessage("Please wait...");
+        mProgress.setCancelable(false);
+        mProgress.setIndeterminate(true);
+
 
 
 //        set listener for Button event
@@ -539,6 +549,7 @@ public class Seats_activity extends AppCompatActivity {
 
 
     private void reserve() {
+        mProgress.show();
 
         RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
         HashMap<String, String> params = new HashMap<String, String>();
@@ -572,6 +583,7 @@ public class Seats_activity extends AppCompatActivity {
 
                         if (response.getInt("response_code") == 0) {
                             JSONArray message = response.getJSONArray("ticket_message");
+                            mProgress.dismiss();
 
                             for (int i = 0; i < message.length(); i++) {
                                 JSONObject jsonObject1 = message.getJSONObject(i);
@@ -611,18 +623,18 @@ public class Seats_activity extends AppCompatActivity {
 
                             intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
 
-                            for(int x=0;x<listofRefferences.size();x++) {
 
                                 intentExtra.putExtra("data", ticket_mesaage);
                                 intentExtra.putExtra("txt_status", reserver);
 
-                            }
+
 
                             startActivity(intentExtra);
 
 
                         } else {
                             Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                            mProgress.dismiss();
 
                         }
 
@@ -633,6 +645,8 @@ public class Seats_activity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                mProgress.dismiss();
+
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
 

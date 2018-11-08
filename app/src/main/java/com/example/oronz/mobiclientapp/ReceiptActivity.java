@@ -1,6 +1,7 @@
 package com.example.oronz.mobiclientapp;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,6 +42,8 @@ public class ReceiptActivity extends AppCompatActivity {
     List<String> myList;
     EditText walletpassword,wallet_username, mpesanumber,agency_username, Agencywaletpassword;
 
+    private ProgressDialog mProgress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +55,12 @@ public class ReceiptActivity extends AppCompatActivity {
         txt_status = findViewById(R.id.txt_status);
         btnnew = findViewById(R.id.btnnew);
         btncomplete = findViewById(R.id.btncomplete);
+
+        mProgress = new ProgressDialog(this);
+        mProgress.setTitle("Processing payment  in...");
+        mProgress.setMessage("Please wait...");
+        mProgress.setCancelable(false);
+        mProgress.setIndeterminate(true);
 
 
 //        journey.setText(String.format("Travelling from %s To %s", app.getTravel_from(), app.getTravel_too()));
@@ -138,7 +147,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
         wallet_username = dialogView.findViewById(R.id.wallet_username);
 
-        wallet_username.setText(app.getUser_name());
+        wallet_username.setText(app.getAgency_phone());
 
         walletpassword = dialogView.findViewById(R.id.waletpassword);
         Button btncomplete = dialogView.findViewById(R.id.btnconfirm);
@@ -162,7 +171,7 @@ public class ReceiptActivity extends AppCompatActivity {
         dialogBuilder.setView(dialogView);
         agency_username = dialogView.findViewById(R.id.agency_username);
 
-        agency_username.setText(app.getUser_name());
+        agency_username.setText(app.getAgency_phone());
 
         Agencywaletpassword = dialogView.findViewById(R.id.Agencywaletpassword);
         Button btncomplete = dialogView.findViewById(R.id.btnconfirm);
@@ -179,6 +188,9 @@ public class ReceiptActivity extends AppCompatActivity {
     }
 
     private void mpesaPayment() {
+
+
+        mProgress.show();
 
         RequestQueue reserverequestQueue = Volley.newRequestQueue(ReceiptActivity.this);
 
@@ -201,6 +213,8 @@ public class ReceiptActivity extends AppCompatActivity {
 
                                 JSONArray jsonArray = response.getJSONArray("tickets");
 
+                                mProgress.dismiss();
+
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -215,6 +229,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
                             } else {
                                 Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                                mProgress.dismiss();
 
                             }
 
@@ -260,6 +275,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
         //Commond here......"p/IK4:"
 
+        mProgress.show();
 
         RequestQueue reserverequestQueue = Volley.newRequestQueue(ReceiptActivity.this);
 
@@ -283,6 +299,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
                                 JSONArray jsonArray = response.getJSONArray("ticket");
 
+                                mProgress.dismiss();
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -297,6 +314,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
                             } else {
                                 Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                                mProgress.dismiss();
 
                             }
 
@@ -341,6 +359,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
     private void jamboPayAgencyWalet() {
         RequestQueue reserverequestQueue = Volley.newRequestQueue(ReceiptActivity.this);
+        mProgress.show();
 
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
@@ -362,6 +381,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
                                 JSONArray jsonArray = response.getJSONArray("ticket");
 
+                                mProgress.dismiss();
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -375,6 +395,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
                             } else {
                                 Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                                mProgress.dismiss();
 
                             }
 
