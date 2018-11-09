@@ -79,7 +79,6 @@ public class ReceiptActivity extends AppCompatActivity {
 
         if (status.equals("Failed")) {
             btncomplete.setVisibility(View.GONE);
-            ((Animatable) crossView.getDrawable()).start();
 
         } else {
             btncomplete.setVisibility(View.VISIBLE);

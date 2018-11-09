@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -36,10 +37,12 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Adapter.GridItemView;
 import com.example.oronz.mobiclientapp.Adapter.GridViewBaseAdapter;
+import com.example.oronz.mobiclientapp.Models.UserDetails;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,11 +56,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 
 public class Seats_activity extends AppCompatActivity {
-    public static String name, phone, id_no = "";
+    public static String name, phone, id_no,Seat;
     ViewGroup layout;
     ArrayList<String> payment_methods;
     List<String> listofseats = new ArrayList<String>();
@@ -67,10 +73,9 @@ public class Seats_activity extends AppCompatActivity {
     Intent intentExtra;
 
     ArrayList<String> ticketType;
-    List<String> listofRefferences;
 
     List<String> seats;
-    Button checkbtn, btnreserve;
+    Button checkbtn;
     TextView info_text;
     String refno,seatno,ticket_mesaage, reserver,reserve_confirmation;
     List<String> LevenSeaterList,fortynineSeaterList;
@@ -115,8 +120,8 @@ public class Seats_activity extends AppCompatActivity {
     private GridView gridView;
     private ProgressDialog mProgress;
 
-
-
+    ArrayList<UserDetails> ticketusers;
+    UserDetails userDetails;
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,10 +132,10 @@ public class Seats_activity extends AppCompatActivity {
         ticketType = new ArrayList<>();
 
 
-        listofRefferences = new ArrayList<>();
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+       ticketusers = new ArrayList<UserDetails>();
 
         availableSeats();
         getPaymentMethod();
@@ -151,7 +156,6 @@ public class Seats_activity extends AppCompatActivity {
         mProgress.setIndeterminate(true);
 
         payment_type_spinner=findViewById(R.id.payment_type_spinner);
-
 
         payment_type_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -188,8 +192,18 @@ public class Seats_activity extends AppCompatActivity {
         });
 
         btnbook.setOnClickListener((View v) -> {
-                    reserve();
-                }
+
+            for (int x = 0; x < ticketusers.size(); x++) {
+                 userDetails = ticketusers.get(x);
+                     name = userDetails.getName();
+                     phone = userDetails.getPhone();
+                     id_no = userDetails.getIs();
+                     Seat = userDetails.getSeat();
+
+
+                reserve();
+            }
+        }
                );
 
         btncancel.setOnClickListener(v -> back());
@@ -229,9 +243,6 @@ public class Seats_activity extends AppCompatActivity {
 
                         }
 
-                        listofRefferences.add(refno);
-
-                        Log.d("Ref Number list: ", String.valueOf(listofRefferences));
 
 
                     } catch (JSONException e) {
@@ -512,14 +523,20 @@ public class Seats_activity extends AppCompatActivity {
 
         LayoutInflater inflater = (Seats_activity.this).getLayoutInflater();
         //Generate Reff Number
+
         getRefferenceNumber();
 
+
+        Log.d("List Of Seats :%n %s", String.valueOf(listofseats));
 
         for (int i = 0; i < listofseats.size(); i++) {
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(Seats_activity.this);
 
             final View v = inflater.inflate(R.layout.payment, null);
+
+            final String seat_no = listofseats.get(i);
+            Log.d("seat_no:%n %s", String.valueOf(seat_no));
 
 
             builder.setView(v);
@@ -535,14 +552,12 @@ public class Seats_activity extends AppCompatActivity {
                     final EditText passenger_phone = v.findViewById(R.id.passenger_phone);
                     final EditText passenger_id = v.findViewById(R.id.passenger_id);
 
-
                     name = passenger_name.getText().toString().trim();
                     phone = passenger_phone.getText().toString().trim();
                     id_no = passenger_id.getText().toString().trim();
 
-                    app.setName(name);
-                    app.setPhone(phone);
-                    app.setID(id_no);
+
+                    ticketusers.add(new UserDetails(name,phone,id_no,seat_no));
 
 
 //                    btnbook.setVisibility(View.VISIBLE);
@@ -575,8 +590,8 @@ public class Seats_activity extends AppCompatActivity {
         }
 
 //        // This clears the list
-        listofseats = new ArrayList<>();
-//        Log.d("After Payment :%n %s", String.valueOf(listofseats));
+//        listofseats = new ArrayList<>();
+        Log.d("Ticket Details :%n %s", String.valueOf(ticketusers));
 
 
     }
@@ -586,113 +601,133 @@ public class Seats_activity extends AppCompatActivity {
         mProgress.show();
 
 
-        RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("username", app.getUser_name());
-        params.put("api_key", app.getApi_key());
-        params.put("action", "ReserveSeats");
-        params.put("from_city", app.getTravel_from());
-        params.put("to_city", app.getTravel_too());
-        params.put("travel_date", app.getTravel_date());
-        params.put("hash", app.getHash_key());
-        params.put("selected_vehicle", app.get_selected_vehicle());
-        params.put("seater", "11");
-        params.put("selected_seat", seatno);
-        params.put("selected_ticket_type", "13");
-        params.put("payment_method", app.getPayment_type());
-
-        params.put("phone_number", app.getPhone());
-        params.put("id_number", app.getID());
-        params.put("passenger_name", app.getName());
-        params.put("email_address", "brianoroni6@gmail.com");
-        params.put("insurance_charge", "");
-        params.put("served_by", "Oroni");
-        params.put("amount_charged", "10");
-        params.put("reference_number", refno);
 
 
 
-        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
-                response -> {
-                    try {
+            RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put("username", app.getUser_name());
+            params.put("api_key", app.getApi_key());
+            params.put("action", "ReserveSeats");
+            params.put("from_city", app.getTravel_from());
+            params.put("to_city", app.getTravel_too());
+            params.put("travel_date", app.getTravel_date());
+            params.put("hash", app.getHash_key());
+            params.put("selected_vehicle", app.get_selected_vehicle());
+            params.put("seater", "11");
+            params.put("selected_ticket_type", "13");
+            params.put("payment_method", app.getPayment_type());
 
-                        if (response.getInt("response_code") == 0) {
-                            JSONArray message = response.getJSONArray("ticket_message");
-                            mProgress.dismiss();
+            params.put("selected_seat", Seat);
 
-                            for (int i = 0; i < message.length(); i++) {
-                                JSONObject jsonObject1 = message.getJSONObject(i);
-                                 ticket_mesaage = jsonObject1.getString("name");
-
-
-                            }
-
-                            JSONArray jsonArray = response.getJSONArray("ticket");
-
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                 reserver = jsonObject1.getString("trx_status");
-
-                            }
+            params.put("phone_number", phone);
+            params.put("id_number", id_no);
+            params.put("passenger_name", name);
 
 
+            params.put("email_address", "brianoroni6@gmail.com");
+            params.put("insurance_charge", "");
+            params.put("served_by", "Oroni");
+            params.put("amount_charged", "10");
+            params.put("reference_number", refno);
 
 
+            JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+                    response -> {
+                        try {
 
-                            intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
+                            Log.d("Response: " , response.toString(4));
+
+
+                            if (response.getInt("response_code") == 0) {
+                                JSONArray message = response.getJSONArray("ticket_message");
+                                mProgress.dismiss();
+
+
+                                for (int i = 0; i < message.length(); i++) {
+                                    JSONObject jsonObject1 = message.getJSONObject(i);
+                                    ticket_mesaage = jsonObject1.getString("name");
+
+
+                                }
+
+                                JSONArray jsonArray = response.getJSONArray("ticket");
+
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    reserver = jsonObject1.getString("trx_status");
+
+                                }
+
+
+                                Log.d("Status",reserver);
+                                Log.d("Mesaage",ticket_mesaage);
+
+                                intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
 
 
                                 intentExtra.putExtra("data", ticket_mesaage);
                                 intentExtra.putExtra("txt_status", reserver);
 
 
+                                startActivity(intentExtra);
 
-                            startActivity(intentExtra);
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                                mProgress.dismiss();
+
+                            }
 
 
-                        } else {
-                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
-                            mProgress.dismiss();
-
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    mProgress.dismiss();
+
+                    Log.d("Error: " , String.valueOf(error));
 
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    } else if (error instanceof AuthFailureError) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof NetworkError) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof ParseError) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mProgress.dismiss();
-
-                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-
-                } else if (error instanceof AuthFailureError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof ServerError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof NetworkError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof ParseError) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+
+
+
+            })
+
+            {
+                @Override
+                public String getBodyContentType() {
+                    return "application/x-www-form-urlencoded; charset=utf-8";
+                }
+
+
+            };
+//            reserverequestQueue.getCache().clear();
+        req.setRetryPolicy(new DefaultRetryPolicy(400000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(this).add(req);
+
+            Log.d("Request body: " ,params.toString());
+        RequestFuture<JSONObject> future = RequestFuture.newFuture();
+
+
             }
-        })
 
-        {
-            @Override
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=utf-8";
-            }
-
-
-        };
-        reserverequestQueue.getCache().clear();
-
-        reserverequestQueue.add(req);
-    }
 
 
 
