@@ -193,12 +193,18 @@ public class Seats_activity extends AppCompatActivity {
         });
 
         btnbook.setOnClickListener((View v) -> {
+
             for (int x = 0; x < ticketusers.size(); x++) {
+                 userDetails = ticketusers.get(x);
+                     name = userDetails.getName();
+                     phone = userDetails.getPhone();
+                     id_no = userDetails.getIs();
+                     Seat = userDetails.getSeat();
+
 
                 reserve();
             }
-
-                }
+        }
                );
 
         btncancel.setOnClickListener(v -> back());
@@ -597,25 +603,6 @@ public class Seats_activity extends AppCompatActivity {
 
 
 
-            try {
-
-                Thread.sleep(2000);
-
-                for (int x = 0; x < ticketusers.size(); x++) {
-
-                    userDetails = ticketusers.get(x);
-                    name = userDetails.getName();
-                    phone = userDetails.getPhone();
-                    id_no = userDetails.getIs();
-                    Seat = userDetails.getSeat();
-
-
-                }
-
-            } catch (Exception e) {
-
-
-            }
 
 
             RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
@@ -732,7 +719,6 @@ public class Seats_activity extends AppCompatActivity {
             };
         Log.d("Request body: " ,params.toString());
         RequestFuture<String> future = RequestFuture.newFuture();
-
 
 
 
