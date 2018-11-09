@@ -73,7 +73,7 @@ public class ReceiptActivity extends AppCompatActivity {
         String value = getIntent().getStringExtra("data");
         String status = getIntent().getStringExtra("txt_status");
 
-        txt_name.setText(value);
+        txt_name.setText("Reservation Successful.\nClick Proceed Button to Complete");
         txt_status.setText(status);
 
 
@@ -94,6 +94,7 @@ public class ReceiptActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 proceed();
+                txt_status.setVisibility(View.GONE);
             }
         });
 
@@ -225,7 +226,7 @@ public class ReceiptActivity extends AppCompatActivity {
                                 String message = response.getString("response_message");
 
                                 Log.d("Agency Respose",message);
-                                txt_status.setText(message);
+                                txt_name.setText(message);
 
                                 btncomplete.setVisibility(View.GONE);
                                 btnnew.setVisibility(View.VISIBLE);
@@ -324,7 +325,7 @@ public class ReceiptActivity extends AppCompatActivity {
                                 String message = response.getString("response_message");
 
                                 Log.d("Agency Respose",message);
-                                txt_status.setText(message);
+                                txt_name.setText(message);
 
                                 btncomplete.setVisibility(View.GONE);
                                 btnnew.setVisibility(View.VISIBLE);
@@ -418,7 +419,7 @@ public class ReceiptActivity extends AppCompatActivity {
                                 String message = response.getString("response_message");
 
                                 Log.d("Agency Respose",message);
-                                txt_status.setText(message);
+                                txt_name.setText(message);
 
                                 btncomplete.setVisibility(View.GONE);
                                 btnnew.setVisibility(View.VISIBLE);

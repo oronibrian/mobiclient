@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class VehiclesActivity extends AppCompatActivity {
     public static String name, phone, id_no = "";
@@ -56,6 +58,7 @@ public class VehiclesActivity extends AppCompatActivity {
         availableVehicles = new ArrayList<>();
 
 
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 
         sv = findViewById(R.id.mSearch);
@@ -185,6 +188,14 @@ public class VehiclesActivity extends AppCompatActivity {
         finish();
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        onBackPressed();
+        return true;
+    }
+
 
 
 }

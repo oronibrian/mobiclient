@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/table_layout1"
@@ -8,13 +9,10 @@
     android:padding="10dp"
     android:orientation="vertical"
     android:background="#ffff">
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
         <fr.ganfra.materialspinner.MaterialSpinner
             android:id="@+id/spinner_from_one"
             android:layout_width="160dp"
@@ -38,8 +36,6 @@
             app:ms_hintView="@layout/hint_item"
             app:ms_multiline="false"
             app:ms_thickness="2dp" />
-
-
         <fr.ganfra.materialspinner.MaterialSpinner
             android:id="@+id/spinner_to_one"
             android:layout_width="170dp"
@@ -61,18 +57,13 @@
             app:ms_hintView="@layout/hint_item"
             app:ms_multiline="false"
             app:ms_thickness="2dp" />
-
     </LinearLayout>
-
-
     <LinearLayout
 
         android:layout_width="match_parent"
         android:layout_height="109dp"
         android:gravity="center"
         android:orientation="vertical">
-
-
         <fr.ganfra.materialspinner.MaterialSpinner
             android:id="@+id/spinner_travel_date_one"
             android:layout_width="193dp"
@@ -94,15 +85,10 @@
             app:ms_hintView="@layout/hint_item"
             app:ms_multiline="false"
             app:ms_thickness="2dp" />
-
-
     </LinearLayout>
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <Button
             android:id="@+id/searchbtn1"
             android:layout_width="match_parent"
@@ -111,8 +97,5 @@
             android:background="@drawable/btn"
             android:text="@string/search"
             android:textSize="18sp" />
-
-
     </LinearLayout>
-
 </LinearLayout>

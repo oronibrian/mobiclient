@@ -1,6 +1,7 @@
 package com.example.oronz.mobiclientapp;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -12,6 +13,7 @@ import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -49,7 +51,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+
+import fr.ganfra.materialspinner.MaterialSpinner;
 
 public class Seats_activity extends AppCompatActivity {
     public static String name, phone, id_no = "";
@@ -69,6 +74,9 @@ public class Seats_activity extends AppCompatActivity {
     TextView info_text;
     String refno,seatno,ticket_mesaage, reserver,reserve_confirmation;
     List<String> LevenSeaterList,fortynineSeaterList;
+
+    MaterialSpinner payment_type_spinner;
+
 
     String[] elevenSeater = new String[]{
             "1", "1X", "D",
@@ -108,6 +116,7 @@ public class Seats_activity extends AppCompatActivity {
     private ProgressDialog mProgress;
 
 
+
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,12 +126,11 @@ public class Seats_activity extends AppCompatActivity {
         payment_methods = new ArrayList<>();
         ticketType = new ArrayList<>();
 
-        info_text=findViewById(R.id.info_text);
-
-        btnreserve = findViewById(R.id.btnreserve);
-        btnreserve.setVisibility(View.GONE);
 
         listofRefferences = new ArrayList<>();
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
 
         availableSeats();
         getPaymentMethod();
@@ -142,10 +150,42 @@ public class Seats_activity extends AppCompatActivity {
         mProgress.setCancelable(false);
         mProgress.setIndeterminate(true);
 
+        payment_type_spinner=findViewById(R.id.payment_type_spinner);
+
+
+        payment_type_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+//                    String Selected_payment_type = payment_type_spinner.getItemAtPosition(payment_type_spinner.getSelectedItemPosition()).toString();
+
+                String Selected_payment_type = String.valueOf(payment_type_spinner.getSelectedItemPosition());
+
+
+                app.setPayment_type(Selected_payment_type);
+
+//                Toast.makeText(getApplicationContext(),"Method :"+Selected_payment_type, Toast.LENGTH_SHORT).show();
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // DO Nothing here
+            }
+        });
+
+
+
+
 
 
 //        set listener for Button event
-        btnGo.setOnClickListener(v -> payment());
+        btnGo.setOnClickListener(v -> {
+            payment();
+            payment_type_spinner.setVisibility(View.GONE);
+        });
 
         btnbook.setOnClickListener((View v) -> {
                     reserve();
@@ -157,7 +197,11 @@ public class Seats_activity extends AppCompatActivity {
 
 
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        onBackPressed();
+        return true;
+    }
 
     private void   getRefferenceNumber(){
 
@@ -241,6 +285,7 @@ public class Seats_activity extends AppCompatActivity {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                 String methods = jsonObject1.getString("name");
+
                                 payment_methods.add(methods);
 
                             }
@@ -250,6 +295,7 @@ public class Seats_activity extends AppCompatActivity {
 
                         }
 
+                        payment_type_spinner.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, payment_methods));
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -331,14 +377,6 @@ public class Seats_activity extends AppCompatActivity {
 
                                 if(seats.size()<=11){
 
-//                                    if (seats.contains(elevenSeater)) {
-//                                        System.out.println("Account found");
-//
-//                                    } else {
-//
-//
-//                                    }
-////
 
                                     final GridViewBaseAdapter adapter = new GridViewBaseAdapter(elevenSeater, this);
 
@@ -476,29 +514,12 @@ public class Seats_activity extends AppCompatActivity {
         //Generate Reff Number
         getRefferenceNumber();
 
+
         for (int i = 0; i < listofseats.size(); i++) {
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(Seats_activity.this);
 
             final View v = inflater.inflate(R.layout.payment, null);
-
-            final Spinner spinner_payment_type = v.findViewById(R.id.spinner_payment_method);
-            spinner_payment_type.setAdapter(new ArrayAdapter<String>(Seats_activity.this, android.R.layout.simple_spinner_dropdown_item, payment_methods));
-            spinner_payment_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-
-                    payment_type = String.valueOf(spinner_payment_type.getSelectedItemId() + 1);
-
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                    // DO Nothing here
-                }
-            });
 
 
             builder.setView(v);
@@ -522,7 +543,6 @@ public class Seats_activity extends AppCompatActivity {
                     app.setName(name);
                     app.setPhone(phone);
                     app.setID(id_no);
-                    app.setPayment_type(payment_type);
 
 
 //                    btnbook.setVisibility(View.VISIBLE);
@@ -564,6 +584,7 @@ public class Seats_activity extends AppCompatActivity {
 
     private void reserve() {
         mProgress.show();
+
 
         RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
         HashMap<String, String> params = new HashMap<String, String>();
@@ -613,24 +634,8 @@ public class Seats_activity extends AppCompatActivity {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                  reserver = jsonObject1.getString("trx_status");
 
-                                Log.d("Reservation Status: ",reserver);
-                                Log.d("Reserve:%n %s", jsonArray.toString(4));
-
-
                             }
 
-
-
-                            Log.d("Selected Vehicle: ",app.get_selected_vehicle());
-
-                            Log.d("Selected Seat: ",seatno);
-                            Log.d("from_city", app.getTravel_from());
-                            Log.d("to_city", app.getTravel_too());
-                            Log.d("travel_date", app.getTravel_date());
-                            Log.d("reference_number", refno);
-                            Log.d("phone_number", app.getPhone());
-
-                            Log.d("payment_method", app.getPayment_type());
 
 
 

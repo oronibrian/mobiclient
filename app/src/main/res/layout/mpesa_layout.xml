@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="16dp">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+
+    android:background="@drawable/my_shape_available_cars">
 
     <TextView
         android:id="@+id/dialog_info"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="@drawable/back_ground"
+        android:background="@drawable/my_shape"
         android:padding="10dp"
-        android:text="Mpesa Number To Complete Payment "
+        android:textColor="@color/colorPrimary"
+        android:text="@string/mpesa_number_to_complete_payment"
         android:textSize="19sp"
         android:textStyle="bold" />
 
@@ -19,13 +22,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/dialog_info"
-        android:layout_marginTop="0dp"
+        android:layout_margin="16dp"
         android:orientation="vertical">
 
 
         <EditText
             android:id="@+id/mpesanumber"
-            android:layout_width="309dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
@@ -37,10 +40,9 @@
             android:id="@+id/mpsabtn"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            android:padding="12dp"
+            android:layout_margin="16dp"
             android:background="@drawable/btn"
+            android:padding="12dp"
             android:text="Confirm" />
     </LinearLayout>
 

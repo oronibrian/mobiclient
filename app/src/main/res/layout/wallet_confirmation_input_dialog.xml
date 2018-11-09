@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="16dp"
+    android:background="@drawable/my_shape_available_cars"
+
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/dialog_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/my_shape"
         android:padding="10dp"
-        android:text="Enter Your Wallet Pin To Complete"
-        android:background="@drawable/back_ground"
+        android:text="@string/enter_your_wallet_pin_to_complete"
+        android:textColor="@color/colorPrimary"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -35,11 +38,12 @@
 
     <Button
         android:id="@+id/btnconfirm"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:padding="12dp"
+        android:layout_margin="16dp"
         android:background="@drawable/btn"
+        android:padding="16dp"
         android:text="Confirm" />
 </LinearLayout>
+
+

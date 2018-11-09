@@ -2,6 +2,7 @@ package com.example.oronz.mobiclientapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EdgeEffect;
@@ -32,6 +33,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class MyTrips extends AppCompatActivity {
     MobiClientApplication app;
@@ -53,6 +55,7 @@ public class MyTrips extends AppCompatActivity {
 
         editTextphone=findViewById(R.id.editTextphone);
         btnsearch=findViewById(R.id.btnSearch);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 
 
@@ -159,4 +162,11 @@ public class MyTrips extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        onBackPressed();
+        return true;
+    }
+
 }

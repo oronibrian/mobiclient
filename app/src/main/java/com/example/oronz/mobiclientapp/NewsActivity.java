@@ -2,9 +2,12 @@ package com.example.oronz.mobiclientapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.oronz.mobiclientapp.checks.CookieThumperSample;
+
+import java.util.Objects;
 
 import su.levenetc.android.textsurface.TextSurface;
 
@@ -19,6 +22,7 @@ public class NewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_news);
 
         textSurface = findViewById(R.id.text_surface);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         textSurface.postDelayed(new Runnable() {
             @Override
@@ -46,4 +50,11 @@ public class NewsActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        onBackPressed();
+        return true;
+    }
+
 }

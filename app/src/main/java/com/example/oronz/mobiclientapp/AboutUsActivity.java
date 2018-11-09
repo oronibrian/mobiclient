@@ -5,10 +5,12 @@ import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Objects;
 
 public class AboutUsActivity extends AppCompatActivity {
     ImageView mobilogo;
@@ -21,6 +23,8 @@ public class AboutUsActivity extends AppCompatActivity {
 
         Bitmap bImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.bus);
         mobilogo.setImageBitmap(bImage);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
     }
 
 
@@ -29,4 +33,11 @@ public class AboutUsActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        onBackPressed();
+        return true;
+    }
+
 }

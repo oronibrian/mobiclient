@@ -26,5 +26,9 @@
     <string name="email_edittxt">Email edittxt shared</string>
     <string name="passwordtxt">Pass txt shared</string>
     <string name="passwoed_edittxt">Password edittxt shared</string>
+    <string name="enter_agency_wallet_pin_to_complete">Enter Agency Wallet Pin To Complete</string>
+    <string name="mpesa_number_to_complete_payment">Mpesa Number To Complete Payment</string>
+    <string name="enter_your_wallet_pin_to_complete">Enter Your Wallet Pin To Complete</string>
+    <string name="proceed_to_book">Proceed To Book</string>
 
 </resources>
