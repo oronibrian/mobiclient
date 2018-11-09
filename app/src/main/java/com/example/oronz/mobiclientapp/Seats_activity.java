@@ -38,6 +38,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Adapter.GridItemView;
@@ -192,18 +193,12 @@ public class Seats_activity extends AppCompatActivity {
         });
 
         btnbook.setOnClickListener((View v) -> {
-
             for (int x = 0; x < ticketusers.size(); x++) {
-                 userDetails = ticketusers.get(x);
-                     name = userDetails.getName();
-                     phone = userDetails.getPhone();
-                     id_no = userDetails.getIs();
-                     Seat = userDetails.getSeat();
-
 
                 reserve();
             }
-        }
+
+                }
                );
 
         btncancel.setOnClickListener(v -> back());
@@ -602,6 +597,25 @@ public class Seats_activity extends AppCompatActivity {
 
 
 
+            try {
+
+                Thread.sleep(2000);
+
+                for (int x = 0; x < ticketusers.size(); x++) {
+
+                    userDetails = ticketusers.get(x);
+                    name = userDetails.getName();
+                    phone = userDetails.getPhone();
+                    id_no = userDetails.getIs();
+                    Seat = userDetails.getSeat();
+
+
+                }
+
+            } catch (Exception e) {
+
+
+            }
 
 
             RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
@@ -706,8 +720,6 @@ public class Seats_activity extends AppCompatActivity {
                     }
                 }
 
-
-
             })
 
             {
@@ -718,12 +730,22 @@ public class Seats_activity extends AppCompatActivity {
 
 
             };
-//            reserverequestQueue.getCache().clear();
-        req.setRetryPolicy(new DefaultRetryPolicy(400000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        Volley.newRequestQueue(this).add(req);
+        Log.d("Request body: " ,params.toString());
+        RequestFuture<String> future = RequestFuture.newFuture();
 
-            Log.d("Request body: " ,params.toString());
-        RequestFuture<JSONObject> future = RequestFuture.newFuture();
+
+
+
+        req.setRetryPolicy(new DefaultRetryPolicy(0, -1, 0));
+        reserverequestQueue.add(req);
+        reserverequestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+            @Override
+            public void onRequestFinished(Request<Object> request) {
+                reserverequestQueue.getCache().clear();
+
+            }
+        });
+
 
 
             }
