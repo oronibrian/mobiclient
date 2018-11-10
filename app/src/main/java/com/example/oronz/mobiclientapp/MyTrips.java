@@ -57,6 +57,9 @@ public class MyTrips extends AppCompatActivity {
         btnsearch=findViewById(R.id.btnSearch);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        phoneno = app.getAgency_phone();
+        getTickets();
+
 
 
          btnsearch.setOnClickListener(new View.OnClickListener() {

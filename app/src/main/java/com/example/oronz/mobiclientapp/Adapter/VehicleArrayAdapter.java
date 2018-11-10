@@ -37,17 +37,13 @@ public class VehicleArrayAdapter  extends ArrayAdapter<AvailableVehicles> {
 
         AvailableVehicles currentpackage = getItem(position);
 
-        TextView nameTextView = listItemView.findViewById(R.id.from);
-
-        nameTextView.setText(String.format("Total Seats : %s", currentpackage.getName()));
-
         TextView numberTextView = listItemView.findViewById(R.id.seat_number);
 
         numberTextView.setText(currentpackage.getSeater());
 
         TextView availableTextView = listItemView.findViewById(R.id.available_seats);
 
-        availableTextView.setText(String.format("Available : %s", currentpackage.getSeats_available()));
+        availableTextView.setText(String.format(String.format("Seater: %s Available : %%s", currentpackage.getName()), currentpackage.getSeats_available()));
 
         TextView departureTextView = listItemView.findViewById(R.id.departure_time);
 

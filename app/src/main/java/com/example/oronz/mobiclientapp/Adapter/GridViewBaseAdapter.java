@@ -42,6 +42,7 @@ public class GridViewBaseAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         GridItemView customView = (convertView == null) ? new GridItemView(activity) : (GridItemView) convertView;
         customView.display(strings[position], selectedPositions.contains(position));
 

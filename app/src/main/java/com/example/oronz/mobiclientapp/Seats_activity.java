@@ -48,6 +48,7 @@ import com.example.oronz.mobiclientapp.Models.UserDetails;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.content.Context;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -116,9 +117,10 @@ public class Seats_activity extends AppCompatActivity {
 
 
     };
-    private View btnGo,btnbook,btncancel;
+    private View btnGo,btnbook,btncancel,textview;
 
     private GridView gridView;
+    TextView textView;
     private ProgressDialog mProgress;
 
     ArrayList<UserDetails> ticketusers;
@@ -133,7 +135,6 @@ public class Seats_activity extends AppCompatActivity {
         ticketType = new ArrayList<>();
 
 
-
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
        ticketusers = new ArrayList<UserDetails>();
@@ -143,6 +144,8 @@ public class Seats_activity extends AppCompatActivity {
 
         gridView = findViewById(R.id.grid);
         btnGo = findViewById(R.id.btngo);
+
+        textview=findViewById(R.id.txt_grid);
 
         btnbook = findViewById(R.id.btnbook);
         btncancel = findViewById(R.id.btncancel);
@@ -206,16 +209,9 @@ public class Seats_activity extends AppCompatActivity {
                 reserve();
 
                 try {
-                    // Using Thread.sleep() we can add delay in our
-                    // application in a millisecond time. For the example
-                    // below the program will take a deep breath for one
-                    // second before continue to print the next value of
-                    // the loop.
+
                     Thread.sleep(2000);
 
-                    // The Thread.sleep() need to be executed inside a
-                    // try-catch block and we need to catch the
-                    // InterruptedException.
                 } catch (InterruptedException ie) {
                     ie.printStackTrace();
                 }
@@ -362,6 +358,9 @@ public class Seats_activity extends AppCompatActivity {
 
     private void availableSeats() {
 
+
+
+
         RequestQueue datesrequestQueue = Volley.newRequestQueue(Seats_activity.this);
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -393,19 +392,23 @@ public class Seats_activity extends AppCompatActivity {
 
 
 
-                                    Log.d("########### SIZE", String.valueOf(bus_array.length()));
+                                    Log.d("#####SIZE", String.valueOf(bus_array.length()));
 
 
                             for(int x=0; x < bus_array.length();x++) {
                                     JSONObject obj = bus_array.getJSONObject(x);
                                     String gari = obj.getString("name");
-                                    Log.d("########### GARI",gari);
+                                    Log.d("##### GARI",gari);
 
                                     seats = new ArrayList<>(Arrays.asList(gari.split(",")));
 
                                 }
 
+
+
                                 if(seats.size()<=11){
+
+
 
 
                                     final GridViewBaseAdapter adapter = new GridViewBaseAdapter(elevenSeater, this);
@@ -414,15 +417,30 @@ public class Seats_activity extends AppCompatActivity {
                                     gridView.setNumColumns(3);
 
 
-                                    gridView.setOnItemClickListener((parent, v, position, id) -> {
 
 
 
+
+
+
+                                    gridView.setOnItemClickListener((AdapterView<?> parent, View v, int position, long id) -> {
 
 
                                         int selectedIndex = adapter.selectedPositions.indexOf(position);
-                                        String item = (String) adapter.getItem(position);
 
+
+                                            for(int i=0;i<seats.size();i++){
+                                                if(seats.contains(LevenSeaterList.get(i))){
+                                                    System.out.println("Exist : "+seats.get(i));
+                                                    textView = (TextView)findViewById(R.id.txt_grid);
+                                                    ((GridItemView) v).display(true);
+
+                                                }else{
+                                                    System.out.println("Not Exist : "+seats.get(i));
+                                                    ((GridItemView) v).display(true);
+
+                                                }
+                                            }
 
 
                                         if (selectedIndex > -1) {
@@ -451,6 +469,9 @@ public class Seats_activity extends AppCompatActivity {
 
 
                                         }
+
+                                        adapter.notifyDataSetChanged();
+
                                     });
 
 
@@ -734,7 +755,6 @@ public class Seats_activity extends AppCompatActivity {
 
             };
         Log.d("Request body: " ,params.toString());
-        RequestFuture<String> future = RequestFuture.newFuture();
 
 
 
