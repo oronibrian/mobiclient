@@ -186,13 +186,15 @@ public class Seats_activity extends AppCompatActivity {
 
 
 
-
+        btnbook.setVisibility(View.GONE);
 
 
 //        set listener for Button event
         btnGo.setOnClickListener(v -> {
             payment();
             payment_type_spinner.setVisibility(View.GONE);
+            btnbook.setVisibility(View.VISIBLE);
+
         });
 
         btnbook.setOnClickListener((View v) -> {
@@ -398,7 +400,7 @@ public class Seats_activity extends AppCompatActivity {
                             for(int x=0; x < bus_array.length();x++) {
                                     JSONObject obj = bus_array.getJSONObject(x);
                                     String gari = obj.getString("name");
-                                    Log.d("##### GARI",gari);
+                                    Log.d("##### Seats",gari);
 
                                     seats = new ArrayList<>(Arrays.asList(gari.split(",")));
 
@@ -406,7 +408,20 @@ public class Seats_activity extends AppCompatActivity {
 
 
 
-                                if(seats.size()<=11){
+//                            for(int i=0;i<seats.size();i++){
+//                                if(seats.contains(LevenSeaterList.get(i))){
+//                                    System.out.println("Exist : "+seats.get(i));
+//                                    textView = (TextView)findViewById(R.id.txt_grid);
+//
+//                                }else{
+//                                    System.out.println("Not Exist : "+seats.get(i));
+//
+//                                }
+//                            }
+//
+
+
+                            if(seats.size()<=11){
 
 
 
@@ -427,21 +442,6 @@ public class Seats_activity extends AppCompatActivity {
 
 
                                         int selectedIndex = adapter.selectedPositions.indexOf(position);
-
-
-                                            for(int i=0;i<seats.size();i++){
-                                                if(seats.contains(LevenSeaterList.get(i))){
-                                                    System.out.println("Exist : "+seats.get(i));
-                                                    textView = (TextView)findViewById(R.id.txt_grid);
-                                                    ((GridItemView) v).display(true);
-
-                                                }else{
-                                                    System.out.println("Not Exist : "+seats.get(i));
-                                                    ((GridItemView) v).display(true);
-
-                                                }
-                                            }
-
 
                                         if (selectedIndex > -1) {
                                             adapter.selectedPositions.remove(selectedIndex);
