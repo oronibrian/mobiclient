@@ -6,7 +6,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,11 +49,17 @@ import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
+
+import static java.util.stream.Collectors.toList;
 
 public class Seats_activity extends AppCompatActivity {
     public static String name, phone, id_no, Seat;
@@ -115,6 +123,7 @@ public class Seats_activity extends AppCompatActivity {
     ArrayList<UserDetails> ticketusers;
     UserDetails userDetails;
     private TextView gridtextView;
+
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -384,6 +393,9 @@ public class Seats_activity extends AppCompatActivity {
                             for (int x = 0; x < bus_array.length(); x++) {
                                 JSONObject obj = bus_array.getJSONObject(x);
                                 String gari = obj.getString("name");
+
+                                gari = gari.replace(" ", "");
+
                                 Log.d("##### Seats", gari);
 
                                 seats = new ArrayList<>(Arrays.asList(gari.split(",")));
@@ -401,11 +413,6 @@ public class Seats_activity extends AppCompatActivity {
 //
 //                                }
 //                            }
-//
-
-
-
-
 
 
                             if (seats.size() <= 11) {
@@ -425,7 +432,6 @@ public class Seats_activity extends AppCompatActivity {
 
                                     if (selectedIndex > -1) {
                                         adapter.selectedPositions.remove(selectedIndex);
-//                                        ((GridItemView) v).display(false);
 
                                         Toast.makeText(Seats_activity.this,
                                                 "Seat " + LevenSeaterList.get(position) + " unselected",
@@ -433,7 +439,7 @@ public class Seats_activity extends AppCompatActivity {
                                         seatno = String.valueOf("");
 
                                         listofseats.remove(parent.getItemAtPosition(position).toString());
-                                        TextView  text = (TextView) viewItem.findViewById(R.id.txt_grid);
+                                        TextView text = (TextView) viewItem.findViewById(R.id.txt_grid);
                                         text.setBackgroundResource(R.drawable.ic_seats_empty_seats);
 
                                     } else {
@@ -447,7 +453,7 @@ public class Seats_activity extends AppCompatActivity {
                                         seatno = String.valueOf(LevenSeaterList.get(position));
 
                                         listofseats.add(parent.getItemAtPosition(position).toString());
-                                        TextView  text = (TextView) viewItem.findViewById(R.id.txt_grid);
+                                        TextView text = (TextView) viewItem.findViewById(R.id.txt_grid);
                                         text.setBackgroundResource(R.drawable.ic_seats_b);
 
 
@@ -481,7 +487,7 @@ public class Seats_activity extends AppCompatActivity {
                                         seatno = String.valueOf("");
 
                                         listofseats.remove(parent.getItemAtPosition(position).toString());
-                                        TextView  text = (TextView) viewItem.findViewById(R.id.txt_grid);
+                                        TextView text = (TextView) viewItem.findViewById(R.id.txt_grid);
                                         text.setBackgroundResource(R.drawable.ic_seats_empty_seats);
 
 
@@ -496,7 +502,7 @@ public class Seats_activity extends AppCompatActivity {
                                         seatno = String.valueOf(fortynineSeaterList.get(position));
 
                                         listofseats.add(parent.getItemAtPosition(position).toString());
-                                        TextView  text = (TextView) viewItem.findViewById(R.id.txt_grid);
+                                        TextView text = (TextView) viewItem.findViewById(R.id.txt_grid);
                                         text.setBackgroundResource(R.drawable.ic_seats_b);
 
                                     }
@@ -830,13 +836,21 @@ public class Seats_activity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-//            GridItemView customView = (convertView == null) ? new GridItemView(activity) : (GridItemView) convertView;
-//            customView.display(strings[position], selectedPositions.contains(position));
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
             View gridView;
+
+
+            HashSet<String> common = new HashSet<>(LevenSeaterList);
+            common.retainAll(seats);
+
+            System.out.println("similiar " + common);
+            System.out.println("seats available " + seats);
+            System.out.println("Leven Seater List " + LevenSeaterList);
+
+
 
             if (convertView == null) {
 
@@ -845,20 +859,45 @@ public class Seats_activity extends AppCompatActivity {
                 gridView = inflater.inflate(R.layout.grid_item, null);
 
                 // set value into textview
-                 gridtextView = gridView
+                gridtextView = gridView
                         .findViewById(R.id.txt_grid);
                 gridtextView.setText(strings[position]);
 
+                String seatsitem = strings[position];
 
-                String seats = strings[position];
+                gridtextView.setBackgroundResource(R.drawable.ic_seats_b);
 
-                if (seats.equals("D")) {
-                    gridtextView.setBackgroundResource(R.drawable.ic_seats_driver);
+                if (seatsitem.equals("D")) {
+                        gridtextView.setBackgroundResource(R.drawable.ic_seats_driver);
+                    }
+
+                for(int i=0;i<common.size();i++) {
+
+                    if (seatsitem.equals("D")) {
+                        gridtextView.setBackgroundResource(R.drawable.ic_seats_driver);
+                    } else if (seats.size() <= 11) {
+
+                            if (seatsitem.equals(seats.get(i))) {
+                                gridtextView.setBackgroundResource(R.drawable.ic_seats_empty_seats);
+
+                        }
+
+
+                    } else if (seats.size() > 11 && seats.size() <= 49) {
+
+                        if (seatsitem.equals(seats.get(i))) {
+                            gridtextView.setBackgroundResource(R.drawable.ic_seats_empty_seats);
+
+                        }
+                    }
+
                 }
+
 
             } else {
                 gridView = convertView;
             }
+
 
             return gridView;
 
@@ -872,13 +911,11 @@ public class Seats_activity extends AppCompatActivity {
         }
 
         @Override
-        public boolean isEnabled(int position)
-        {
-        boolean result = Arrays.equals(LevenSeaterList.toArray(),seats.toArray());
+        public boolean isEnabled(int position) {
 
             String seats = strings[position];
 
-        if ((seats.equals("D"))) {
+            if ((seats.equals("D"))) {
 
                 return false;
 
@@ -887,5 +924,9 @@ public class Seats_activity extends AppCompatActivity {
             }
 
         }
+
+
     }
+
+
 }
