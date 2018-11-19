@@ -1,15 +1,12 @@
 package com.example.oronz.mobiclientapp;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,10 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,35 +35,26 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.RequestFuture;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
-import com.example.oronz.mobiclientapp.Adapter.GridItemView;
-import com.example.oronz.mobiclientapp.Adapter.GridViewBaseAdapter;
 import com.example.oronz.mobiclientapp.Models.UserDetails;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.content.Context;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 
 public class Seats_activity extends AppCompatActivity {
-    public static String name, phone, id_no,Seat;
+    public static String name, phone, id_no, Seat;
     ViewGroup layout;
     ArrayList<String> payment_methods;
     List<String> listofseats = new ArrayList<String>();
@@ -79,8 +68,8 @@ public class Seats_activity extends AppCompatActivity {
     List<String> seats;
     Button checkbtn;
     TextView info_text;
-    String refno,seatno,ticket_mesaage, reserver,reserve_confirmation;
-    List<String> LevenSeaterList,fortynineSeaterList;
+    String refno, seatno, ticket_mesaage, reserver, reserve_confirmation;
+    List<String> LevenSeaterList, fortynineSeaterList;
 
     MaterialSpinner payment_type_spinner;
 
@@ -105,8 +94,8 @@ public class Seats_activity extends AppCompatActivity {
             "3A", "4A", "3B", "4B",
             "5A", "6A", "5B", "6B",
             "7A", "8A", "7B", "8B",
-            "9A", "10A", "9B","10B",
-            "11A","12A", "11B", "12B",
+            "9A", "10A", "9B", "10B",
+            "11A", "12A", "11B", "12B",
             "13A", "14A", "13B", "14B",
             "15A", "16A", "15B", "16B",
             "17A", "18A", "17B", "18B",
@@ -117,7 +106,7 @@ public class Seats_activity extends AppCompatActivity {
 
 
     };
-    private View btnGo,btnbook,btncancel,textview;
+    private View btnGo, btnbook, btncancel, textview;
 
     private GridView gridView;
     TextView textView;
@@ -125,6 +114,7 @@ public class Seats_activity extends AppCompatActivity {
 
     ArrayList<UserDetails> ticketusers;
     UserDetails userDetails;
+    private TextView gridtextView;
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +127,7 @@ public class Seats_activity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-       ticketusers = new ArrayList<UserDetails>();
+        ticketusers = new ArrayList<UserDetails>();
 
         availableSeats();
         getPaymentMethod();
@@ -145,7 +135,7 @@ public class Seats_activity extends AppCompatActivity {
         gridView = findViewById(R.id.grid);
         btnGo = findViewById(R.id.btngo);
 
-        textview=findViewById(R.id.txt_grid);
+        textview = findViewById(R.id.txt_grid);
 
         btnbook = findViewById(R.id.btnbook);
         btncancel = findViewById(R.id.btncancel);
@@ -159,7 +149,7 @@ public class Seats_activity extends AppCompatActivity {
         mProgress.setCancelable(false);
         mProgress.setIndeterminate(true);
 
-        payment_type_spinner=findViewById(R.id.payment_type_spinner);
+        payment_type_spinner = findViewById(R.id.payment_type_spinner);
 
         payment_type_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -185,7 +175,6 @@ public class Seats_activity extends AppCompatActivity {
         });
 
 
-
         btnbook.setVisibility(View.GONE);
 
 
@@ -199,42 +188,42 @@ public class Seats_activity extends AppCompatActivity {
 
         btnbook.setOnClickListener((View v) -> {
 
-            for (int x = 0; x < ticketusers.size(); x++) {
+                    for (int x = 0; x < ticketusers.size(); x++) {
 
-                 userDetails = ticketusers.get(x);
-                     name = userDetails.getName();
-                     phone = userDetails.getPhone();
-                     id_no = userDetails.getIs();
-                     Seat = userDetails.getSeat();
+                        userDetails = ticketusers.get(x);
+                        name = userDetails.getName();
+                        phone = userDetails.getPhone();
+                        id_no = userDetails.getIs();
+                        Seat = userDetails.getSeat();
 
 
-                reserve();
+                        reserve();
 
-                try {
+                        try {
 
-                    Thread.sleep(2000);
+                            Thread.sleep(2000);
 
-                } catch (InterruptedException ie) {
-                    ie.printStackTrace();
+                        } catch (InterruptedException ie) {
+                            ie.printStackTrace();
+                        }
+
+
+                    }
                 }
-
-
-            }
-        }
-               );
+        );
 
         btncancel.setOnClickListener(v -> back());
 
 
-
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         onBackPressed();
         return true;
     }
 
-    private void   getRefferenceNumber(){
+    private void getRefferenceNumber() {
 
         RequestQueue requestQueue = Volley.newRequestQueue(Seats_activity.this);
         HashMap<String, String> params = new HashMap<String, String>();
@@ -242,17 +231,16 @@ public class Seats_activity extends AppCompatActivity {
         params.put("developer_api_key", app.getApi_key());
         params.put("action", "generatereferencenumber");
 
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT,URLs.REF_URL, new JSONObject(params),
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT, URLs.REF_URL, new JSONObject(params),
                 response -> {
                     try {
 
                         if (response.getInt("response_code") == 0) {
 
-                             refno = response.getString("reference_number");
-                             app.setRefno(refno);
+                            refno = response.getString("reference_number");
+                            app.setRefno(refno);
 
-                            Log.d("Ref Number: ",refno);
-
+                            Log.d("Ref Number: ", refno);
 
 
                         } else {
@@ -261,25 +249,24 @@ public class Seats_activity extends AppCompatActivity {
                         }
 
 
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }, error -> {
-                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
 
-                    } else if (error instanceof AuthFailureError) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    } else if (error instanceof ServerError) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    } else if (error instanceof NetworkError) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    } else if (error instanceof ParseError) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+            } else if (error instanceof AuthFailureError) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            } else if (error instanceof ServerError) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            } else if (error instanceof NetworkError) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            } else if (error instanceof ParseError) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
 
-                })
+        })
 
         {
             @Override
@@ -329,20 +316,20 @@ public class Seats_activity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }, error -> {
-                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
 
-                    } else if (error instanceof AuthFailureError) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    } else if (error instanceof ServerError) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    } else if (error instanceof NetworkError) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    } else if (error instanceof ParseError) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+            } else if (error instanceof AuthFailureError) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            } else if (error instanceof ServerError) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            } else if (error instanceof NetworkError) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            } else if (error instanceof ParseError) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
 
-                })
+        })
 
         {
             @Override
@@ -359,8 +346,6 @@ public class Seats_activity extends AppCompatActivity {
 
 
     private void availableSeats() {
-
-
 
 
         RequestQueue datesrequestQueue = Volley.newRequestQueue(Seats_activity.this);
@@ -389,23 +374,21 @@ public class Seats_activity extends AppCompatActivity {
 
                             JSONArray jsonArray = response.getJSONArray("bus");
 
-                                JSONObject jsonObject1 = jsonArray.getJSONObject(Integer.parseInt(app.getIndex()));
-                                JSONArray bus_array = jsonObject1.getJSONArray("seats");
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(Integer.parseInt(app.getIndex()));
+                            JSONArray bus_array = jsonObject1.getJSONArray("seats");
 
 
+                            Log.d("#####SIZE", String.valueOf(bus_array.length()));
 
-                                    Log.d("#####SIZE", String.valueOf(bus_array.length()));
 
+                            for (int x = 0; x < bus_array.length(); x++) {
+                                JSONObject obj = bus_array.getJSONObject(x);
+                                String gari = obj.getString("name");
+                                Log.d("##### Seats", gari);
 
-                            for(int x=0; x < bus_array.length();x++) {
-                                    JSONObject obj = bus_array.getJSONObject(x);
-                                    String gari = obj.getString("name");
-                                    Log.d("##### Seats",gari);
+                                seats = new ArrayList<>(Arrays.asList(gari.split(",")));
 
-                                    seats = new ArrayList<>(Arrays.asList(gari.split(",")));
-
-                                }
-
+                            }
 
 
 //                            for(int i=0;i<seats.size();i++){
@@ -421,100 +404,109 @@ public class Seats_activity extends AppCompatActivity {
 //
 
 
-                            if(seats.size()<=11){
 
 
 
 
-                                    final GridViewBaseAdapter adapter = new GridViewBaseAdapter(elevenSeater, this);
-
-                                    gridView.setAdapter(adapter);
-                                    gridView.setNumColumns(3);
+                            if (seats.size() <= 11) {
 
 
+                                final CustomAdapter adapter = new CustomAdapter(elevenSeater, this);
+
+                                gridView.setAdapter(adapter);
+                                gridView.setNumColumns(3);
 
 
+                                gridView.setOnItemClickListener((AdapterView<?> parent, View v, int position, long id) -> {
+
+                                    View viewItem = gridView.getChildAt(position);
+
+                                    int selectedIndex = adapter.selectedPositions.indexOf(position);
+
+                                    if (selectedIndex > -1) {
+                                        adapter.selectedPositions.remove(selectedIndex);
+//                                        ((GridItemView) v).display(false);
+
+                                        Toast.makeText(Seats_activity.this,
+                                                "Seat " + LevenSeaterList.get(position) + " unselected",
+                                                Toast.LENGTH_SHORT).show();
+                                        seatno = String.valueOf("");
+
+                                        listofseats.remove(parent.getItemAtPosition(position).toString());
+                                        TextView  text = (TextView) viewItem.findViewById(R.id.txt_grid);
+                                        text.setBackgroundResource(R.drawable.ic_seats_empty_seats);
+
+                                    } else {
+                                        adapter.selectedPositions.add(position);
+//                                        ((GridItemView) v).display(true);
+
+                                        Toast.makeText(Seats_activity.this,
+                                                getString(R.string.you_booked, LevenSeaterList.get(position)),
+                                                Toast.LENGTH_SHORT).show();
+
+                                        seatno = String.valueOf(LevenSeaterList.get(position));
+
+                                        listofseats.add(parent.getItemAtPosition(position).toString());
+                                        TextView  text = (TextView) viewItem.findViewById(R.id.txt_grid);
+                                        text.setBackgroundResource(R.drawable.ic_seats_b);
 
 
+                                    }
+
+                                    adapter.notifyDataSetChanged();
+
+                                });
 
 
-                                    gridView.setOnItemClickListener((AdapterView<?> parent, View v, int position, long id) -> {
+                            } else if (seats.size() > 11 && seats.size() <= 49) {
 
+                                final CustomAdapter adapter = new CustomAdapter(fortynineSeater, this);
+                                gridView.setAdapter(adapter);
+                                gridView.setNumColumns(4);
 
-                                        int selectedIndex = adapter.selectedPositions.indexOf(position);
-
-                                        if (selectedIndex > -1) {
-                                            adapter.selectedPositions.remove(selectedIndex);
-                                            ((GridItemView) v).display(false);
-                                            Toast.makeText(Seats_activity.this,
-                                                 "Seat "+ LevenSeaterList.get(position)+ " unselected",
-                                                    Toast.LENGTH_SHORT).show();
-                                            seatno = String.valueOf("");
-
-                                            listofseats.remove(parent.getItemAtPosition(position).toString());
-                                        }
-
-                                        else {
-                                            adapter.selectedPositions.add(position);
-                                            ((GridItemView) v).display(true);
-
-                                            Toast.makeText(Seats_activity.this,
-                                                    getString(R.string.you_booked, LevenSeaterList.get(position)),
-                                                    Toast.LENGTH_SHORT).show();
-
-                                            seatno = String.valueOf(LevenSeaterList.get(position));
-
-                                            listofseats.add(parent.getItemAtPosition(position).toString());
-
-
-
-                                        }
-
-                                        adapter.notifyDataSetChanged();
-
-                                    });
-
-
-                                }  else if (seats.size()>11 && seats.size() <=49){
-
-                                    final GridViewBaseAdapter adapter = new GridViewBaseAdapter(fortynineSeater, this);
-                                    gridView.setAdapter(adapter);
-                                    gridView.setNumColumns(4);
 //
-                                    gridView.setOnItemClickListener((parent, v, position, id) -> {
-                                        int selectedIndex = adapter.selectedPositions.indexOf(position);
-                                        if (selectedIndex > -1) {
-                                            adapter.selectedPositions.remove(selectedIndex);
-                                            ((GridItemView) v).display(false);
-                                            Toast.makeText(Seats_activity.this,
-                                                    "Seat "+ fortynineSeaterList.get(position)+ " unselected",
-                                                    Toast.LENGTH_SHORT).show();
-                                            seatno = String.valueOf("");
+                                gridView.setOnItemClickListener((parent, v, position, id) -> {
 
-                                            listofseats.remove(parent.getItemAtPosition(position).toString());
-                                        }
-                                        else {
-                                            adapter.selectedPositions.add(position);
-                                            ((GridItemView) v).display(true);
+                                    View viewItem = gridView.getChildAt(position);
 
-                                            Toast.makeText(Seats_activity.this,
-                                                    getString(R.string.you_booked, fortynineSeaterList.get(position)),
-                                                    Toast.LENGTH_SHORT).show();
+                                    int selectedIndex = adapter.selectedPositions.indexOf(position);
 
 
-                                            seatno = String.valueOf(fortynineSeaterList.get(position));
+                                    if (selectedIndex > -1) {
+                                        adapter.selectedPositions.remove(selectedIndex);
+//                                        ((GridItemView) v).display(false);
+                                        Toast.makeText(Seats_activity.this,
+                                                "Seat " + fortynineSeaterList.get(position) + " unselected",
+                                                Toast.LENGTH_SHORT).show();
+                                        seatno = String.valueOf("");
+
+                                        listofseats.remove(parent.getItemAtPosition(position).toString());
+                                        TextView  text = (TextView) viewItem.findViewById(R.id.txt_grid);
+                                        text.setBackgroundResource(R.drawable.ic_seats_empty_seats);
 
 
-                                            listofseats.add(parent.getItemAtPosition(position).toString());
+                                    } else {
+                                        adapter.selectedPositions.add(position);
+
+                                        Toast.makeText(Seats_activity.this,
+                                                getString(R.string.you_booked, fortynineSeaterList.get(position)),
+                                                Toast.LENGTH_SHORT).show();
 
 
+                                        seatno = String.valueOf(fortynineSeaterList.get(position));
 
-                                        }
-                                    });
+                                        listofseats.add(parent.getItemAtPosition(position).toString());
+                                        TextView  text = (TextView) viewItem.findViewById(R.id.txt_grid);
+                                        text.setBackgroundResource(R.drawable.ic_seats_b);
+
+                                    }
+
+                                    adapter.notifyDataSetChanged();
+
+                                });
 
 
-                                }
-
+                            }
 
 
                         } else {
@@ -597,14 +589,14 @@ public class Seats_activity extends AppCompatActivity {
                     id_no = passenger_id.getText().toString().trim();
 
 
-                    ticketusers.add(new UserDetails(name,phone,id_no,seat_no));
+                    ticketusers.add(new UserDetails(name, phone, id_no, seat_no));
 
 
 //                    btnbook.setVisibility(View.VISIBLE);
                     btnGo.setVisibility(View.GONE);
 
 
-                    if (listofseats.size() > 1 ) {
+                    if (listofseats.size() > 1) {
 
                         Toast.makeText(getApplicationContext(), "Details for Next Seat ", Toast.LENGTH_SHORT).show();
 
@@ -614,8 +606,6 @@ public class Seats_activity extends AppCompatActivity {
 
 
                     }
-
-
 
 
                 }
@@ -641,121 +631,119 @@ public class Seats_activity extends AppCompatActivity {
         mProgress.show();
 
 
+        RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", app.getUser_name());
+        params.put("api_key", app.getApi_key());
+        params.put("action", "ReserveSeats");
+        params.put("from_city", app.getTravel_from());
+        params.put("to_city", app.getTravel_too());
+        params.put("travel_date", app.getTravel_date());
+        params.put("hash", app.getHash_key());
+        params.put("selected_vehicle", app.get_selected_vehicle());
+        params.put("seater", "11");
+        params.put("selected_ticket_type", "13");
+        params.put("payment_method", app.getPayment_type());
 
-            RequestQueue reserverequestQueue = Volley.newRequestQueue(Seats_activity.this);
-            HashMap<String, String> params = new HashMap<String, String>();
-            params.put("username", app.getUser_name());
-            params.put("api_key", app.getApi_key());
-            params.put("action", "ReserveSeats");
-            params.put("from_city", app.getTravel_from());
-            params.put("to_city", app.getTravel_too());
-            params.put("travel_date", app.getTravel_date());
-            params.put("hash", app.getHash_key());
-            params.put("selected_vehicle", app.get_selected_vehicle());
-            params.put("seater", "11");
-            params.put("selected_ticket_type", "13");
-            params.put("payment_method", app.getPayment_type());
+        params.put("selected_seat", Seat);
 
-            params.put("selected_seat", Seat);
-
-            params.put("phone_number", phone);
-            params.put("id_number", id_no);
-            params.put("passenger_name", name);
-
-
-            params.put("email_address", "brianoroni6@gmail.com");
-            params.put("insurance_charge", "");
-            params.put("served_by", "Oroni");
-            params.put("amount_charged", "10");
-            params.put("reference_number", refno);
+        params.put("phone_number", phone);
+        params.put("id_number", id_no);
+        params.put("passenger_name", name);
 
 
-            JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
-                    response -> {
-                        try {
-
-                            Log.d("Response: " , response.toString(4));
-
-
-                            if (response.getInt("response_code") == 0) {
-                                JSONArray message = response.getJSONArray("ticket_message");
-                                mProgress.dismiss();
+        params.put("email_address", "brianoroni6@gmail.com");
+        params.put("insurance_charge", "");
+        params.put("served_by", "Oroni");
+        params.put("amount_charged", "10");
+        params.put("reference_number", refno);
 
 
-                                for (int i = 0; i < message.length(); i++) {
-                                    JSONObject jsonObject1 = message.getJSONObject(i);
-                                    ticket_mesaage = jsonObject1.getString("name");
+        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+                response -> {
+                    try {
+
+                        Log.d("Response: ", response.toString(4));
 
 
-                                }
-
-                                JSONArray jsonArray = response.getJSONArray("ticket");
-
-
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                    reserver = jsonObject1.getString("trx_status");
-
-                                }
+                        if (response.getInt("response_code") == 0) {
+                            JSONArray message = response.getJSONArray("ticket_message");
+                            mProgress.dismiss();
 
 
-                                Log.d("Status",reserver);
-                                Log.d("Mesaage",ticket_mesaage);
-
-                                intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
-
-
-                                intentExtra.putExtra("data", ticket_mesaage);
-                                intentExtra.putExtra("txt_status", reserver);
+                            for (int i = 0; i < message.length(); i++) {
+                                JSONObject jsonObject1 = message.getJSONObject(i);
+                                ticket_mesaage = jsonObject1.getString("name");
 
 
-                                startActivity(intentExtra);
+                            }
+
+                            JSONArray jsonArray = response.getJSONArray("ticket");
 
 
-                            } else {
-                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
-                                mProgress.dismiss();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                reserver = jsonObject1.getString("trx_status");
 
                             }
 
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            Log.d("Status", reserver);
+                            Log.d("Mesaage", ticket_mesaage);
+
+                            intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
+
+
+                            intentExtra.putExtra("data", ticket_mesaage);
+                            intentExtra.putExtra("txt_status", reserver);
+
+
+                            startActivity(intentExtra);
+
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                            mProgress.dismiss();
+
                         }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    mProgress.dismiss();
-
-                    Log.d("Error: " , String.valueOf(error));
 
 
-                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    } else if (error instanceof AuthFailureError) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    } else if (error instanceof ServerError) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    } else if (error instanceof NetworkError) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    } else if (error instanceof ParseError) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mProgress.dismiss();
+
+                Log.d("Error: ", String.valueOf(error));
+
+
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+            }
 
-            })
+        })
 
-            {
-                @Override
-                public String getBodyContentType() {
-                    return "application/x-www-form-urlencoded; charset=utf-8";
-                }
+        {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
 
 
-            };
-        Log.d("Request body: " ,params.toString());
-
+        };
+        Log.d("Request body: ", params.toString());
 
 
         req.setRetryPolicy(new DefaultRetryPolicy(0, -1, 0));
@@ -769,23 +757,135 @@ public class Seats_activity extends AppCompatActivity {
         });
 
 
-
-            }
-
+    }
 
 
-
-
-private void back(){
+    private void back() {
         finish();
-    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
-}
+    }
 
     @Override
     public void onBackPressed() {
         finish();
         availableSeats();
         startActivity(new Intent(getApplicationContext(), VehiclesActivity.class));
+    }
+
+//    public class GridItemView extends FrameLayout {
+//
+//
+//        public GridItemView(Context context) {
+//            super(context);
+//            LayoutInflater.from(context).inflate(R.layout.grid_item, this);
+//            gridtextView = getRootView().findViewById(R.id.txt_grid);
+//        }
+//
+//        public void display(String text, boolean isSelected) {
+//            gridtextView.setText(text);
+//            display(isSelected);
+//
+//
+//        }
+//
+//        public void display(boolean isSelected) {
+//            gridtextView.setBackgroundResource(isSelected ? R.drawable.ic_seats_b : R.drawable.ic_seats_empty_seats);
+//        }
+//
+//
+//    }
+
+
+    public class CustomAdapter extends BaseAdapter {
+        private Context context;
+        private Activity activity;
+        private String[] strings;
+        public List selectedPositions;
+
+        public CustomAdapter(String[] strings, Context context) {
+            this.strings = strings;
+            this.context = context;
+            selectedPositions = new ArrayList<>();
+        }
+
+
+        @Override
+        public int getCount() {
+            return strings.length;
+
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return strings[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+//            GridItemView customView = (convertView == null) ? new GridItemView(activity) : (GridItemView) convertView;
+//            customView.display(strings[position], selectedPositions.contains(position));
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
+            View gridView;
+
+            if (convertView == null) {
+
+                gridView = new View(context);
+
+                gridView = inflater.inflate(R.layout.grid_item, null);
+
+                // set value into textview
+                 gridtextView = gridView
+                        .findViewById(R.id.txt_grid);
+                gridtextView.setText(strings[position]);
+
+
+                String seats = strings[position];
+
+                if (seats.equals("D")) {
+                    gridtextView.setBackgroundResource(R.drawable.ic_seats_driver);
+                }
+
+            } else {
+                gridView = convertView;
+            }
+
+            return gridView;
+
+        }
+
+        @Override
+        public boolean areAllItemsEnabled() {
+
+            return true;
+
+        }
+
+        @Override
+        public boolean isEnabled(int position)
+        {
+        boolean result = Arrays.equals(LevenSeaterList.toArray(),seats.toArray());
+
+            String seats = strings[position];
+
+        if ((seats.equals("D"))) {
+
+                return false;
+
+            } else {
+                return true;
+            }
+
+        }
     }
 }

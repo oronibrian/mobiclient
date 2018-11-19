@@ -224,7 +224,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
                                 String message = response.getString("response_message");
 
-                                Log.d("Agency Respose",message);
+                                Log.d("Mpesa Respose",message);
                                 txt_name.setText(message);
 
                                 btncomplete.setVisibility(View.GONE);
