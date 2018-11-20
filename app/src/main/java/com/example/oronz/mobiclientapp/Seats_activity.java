@@ -98,19 +98,26 @@ public class Seats_activity extends AppCompatActivity {
     };
 
     String[] fortynineSeater = new String[]{
-            "A1", "A2", "B1", "B2",
-            "A3", "A4", "B3", "B4",
-            "A5", "A6", "B5", "B6",
-            "A7", "A8", "B7", "B8",
-            "A9", "A10", "B9", "B10",
-            "A11", "A12", "B11", "B12",
-            "A13", "A14", "B13", "B14",
-            "A15", "A16", "B15", "B16",
-            "A17", "A18", "B17", "B18",
-            "A19", "A20", "B19", "B20",
-            "A21", "A22", "B21", "B22",
-            "A23", "A24", "B23", "B24",
-            "25",
+//            "1A", "2A", "B1", "2B",
+//            "3A", "4A", "3B", "4B",
+//            "5A", "6A", "5B", "6B",
+//            "7A", "8A", "7B", "8B",
+//            "9A", "10A", "9B", "10B",
+//            "11A", "12A", "11B", "12B",
+//            "13A", "14A", "13B", "14B",
+//            "15A", "16A", "15B", "16B",
+//            "17A", "18A", "17B", "18B",
+//            "19A", "20A", "19B", "20B",
+//            "21A", "22A", "21B", "22B",
+//            "23A", "24A", "23B", "24B",
+//            "25",
+
+            "1A", "2A", "3A", "4A", "5A", "6A", "7A", "8A", "9A",
+            "10A", "11A", "12A", "13A", "14A", "15A", "16A", "17A",
+            "18A", "19A", "20A", "21A", "22A", "23A", "24A", "25",
+            "1B", "2B", "3B", "4B", "5B", "6B", "7B", "8B", "9B",
+            "10B", "11B", "12B", "13B", "14B", "15B", "16B", "17B",
+            "18B", "19B", "20B", "21B", "22B", "23B", "24B"
 
 
     };
@@ -449,7 +456,6 @@ public class Seats_activity extends AppCompatActivity {
 
                                     }
 
-                                    adapter.notifyDataSetChanged();
 
                                 });
 
@@ -497,7 +503,6 @@ public class Seats_activity extends AppCompatActivity {
 
                                     }
 
-                                    adapter.notifyDataSetChanged();
 
                                 });
 
@@ -547,7 +552,6 @@ public class Seats_activity extends AppCompatActivity {
 
                                     }
 
-                                    adapter.notifyDataSetChanged();
 
                                 });
 
