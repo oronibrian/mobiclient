@@ -24,7 +24,7 @@
 
         <TextView
             android:id="@+id/seat_number"
-            android:layout_width="251dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:textSize="15sp"

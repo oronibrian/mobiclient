@@ -61,22 +61,6 @@ public class VehiclesActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 
-        sv = findViewById(R.id.mSearch);
-        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                //FILTER AS YOU TYPE
-//                adapter.getFilter().filter(query);
-                return false;
-            }
-        });
-
-
 
                 listView.setOnItemClickListener((parent, view, position, id) -> {
 

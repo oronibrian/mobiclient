@@ -5,61 +5,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context=".MainActivity">
+
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="1dp"
-        android:layout_weight="1.5"
+        android:layout_weight="1"
         android:gravity="top|center"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/my_shape"
+            android:fontFamily="sans-serif-medium"
             android:text="Select Your Seat or Seats"
             android:textAlignment="center"
-            android:fontFamily="sans-serif-medium"
             android:textColor="@color/colorPrimary"
+            android:textSize="19sp"
             android:textStyle="bold" />
+
         <GridLayout
             android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:columnCount="3"
             android:rowCount="4">
+
             <GridView
                 android:id="@+id/grid"
                 android:layout_width="match_parent"
-                android:layout_height="456dp"
-                android:layout_row="0"
+                android:layout_height="match_parent"
                 android:layout_column="0"
                 android:layout_gravity="center_horizontal|center"
                 android:columnWidth="1dp"
                 android:gravity="center"
                 android:horizontalSpacing="1dp"
-                android:numColumns="3"
-                android:paddingLeft="60dp"
-                android:paddingTop="20dp"
-                android:paddingRight="60dp"
-                android:scrollbars="horizontal"
-                android:verticalSpacing="10dp" />
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:scrollbars="vertical"
+                android:verticalSpacing="5dp" />
         </GridLayout>
     </LinearLayout>
+
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layout_weight="1"
         android:gravity="top|fill_vertical"
         android:orientation="vertical"
         android:paddingLeft="10dp">
+
         <fr.ganfra.materialspinner.MaterialSpinner
             android:id="@+id/payment_type_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="15dp"
             app:ms_alignLabels="true"
             app:ms_arrowColor="@color/base"
             app:ms_arrowSize="8dp"
@@ -76,6 +78,7 @@
             app:ms_hintView="@layout/hint_item"
             app:ms_multiline="false"
             app:ms_thickness="2dp" />
+
         <Button
             android:id="@+id/btngo"
             android:layout_width="match_parent"
@@ -83,6 +86,7 @@
             android:layout_margin="15dp"
             android:background="@drawable/btn"
             android:text="Reserve" />
+
         <Button
             android:id="@+id/btnbook"
             android:layout_width="match_parent"
@@ -92,6 +96,7 @@
             android:background="@drawable/btn"
             android:padding="10dp"
             android:text="Book" />
+
         <Button
             android:id="@+id/btncancel"
             android:layout_width="match_parent"
