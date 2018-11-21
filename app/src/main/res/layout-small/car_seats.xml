@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:weightSum="100"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="410dp"
-        android:gravity="center"
-
+        android:layout_height="wrap_content"
+        android:gravity="top|center"
         android:orientation="vertical">
 
         <TextView
@@ -27,43 +25,44 @@
             android:textSize="19sp"
             android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <GridLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_centerInParent="true"
+            android:columnCount="3"
+            android:padding="9dp"
+            android:rowCount="4">
 
             <GridView
                 android:id="@+id/grid"
-                android:layout_width="333dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="159dp"
+                android:layout_row="0"
+                android:layout_column="0"
                 android:layout_gravity="center_horizontal|center"
                 android:columnWidth="1dp"
                 android:gravity="center"
                 android:horizontalSpacing="1dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
+                android:scrollbars="vertical"
                 android:verticalSpacing="1dp" />
-        </LinearLayout>
+        </GridLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="327dp"
-        android:layout_height="137dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="24dp"
-        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:gravity="top|fill_vertical"
         android:orientation="vertical"
         android:paddingLeft="10dp">
 
         <fr.ganfra.materialspinner.MaterialSpinner
             android:id="@+id/payment_type_spinner"
-            android:layout_width="275dp"
-            android:layout_height="33dp"
-            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
             app:ms_alignLabels="true"
             app:ms_arrowColor="@color/base"
             app:ms_arrowSize="8dp"
@@ -81,43 +80,28 @@
             app:ms_multiline="false"
             app:ms_thickness="2dp" />
 
-
-        <LinearLayout
-            android:layout_width="fill_parent"
+        <Button
+            android:id="@+id/btngo"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/TextView01"
-            android:orientation="horizontal"
-            android:paddingLeft="4.0dip"
-            android:paddingTop="5.0dip"
-            android:paddingRight="4.0dip"
-            android:paddingBottom="1.0dip">
+            android:background="@drawable/btn"
+            android:text="Reserve" />
 
-            <Button
-                android:id="@+id/btngo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/btn"
-                android:text="Reserve" />
+        <Button
+            android:id="@+id/btnbook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btngo"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/btn"
+            android:text="Book" />
 
-            <Button
-                android:id="@+id/btnbook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/btngo"
-                android:layout_margin="10dp"
-                android:background="@drawable/btn"
-                android:padding="10dp"
-                android:text="Book" />
-
-            <Button
-                android:id="@+id/btncancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/btn"
-                android:text="Cancel" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/btncancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@drawable/btn"
+            android:text="Cancel" />
     </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

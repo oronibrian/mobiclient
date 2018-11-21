@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="24dp"
-        android:paddingTop="56dp"
         android:paddingRight="24dp">
 
         <ImageView
@@ -55,10 +54,7 @@
             android:id="@+id/btnlogin"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
             android:background="@drawable/btn"
-            android:padding="12dp"
 
             android:text="Login" />
 

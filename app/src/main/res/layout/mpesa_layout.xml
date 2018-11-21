@@ -13,8 +13,8 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/my_shape"
         android:padding="10dp"
-        android:textColor="@color/colorPrimary"
         android:text="@string/mpesa_number_to_complete_payment"
+        android:textColor="@color/colorPrimary"
         android:textSize="19sp"
         android:textStyle="bold" />
 

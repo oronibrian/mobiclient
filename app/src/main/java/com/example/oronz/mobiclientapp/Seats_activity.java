@@ -1,14 +1,11 @@
 package com.example.oronz.mobiclientapp;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +17,6 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,21 +41,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
-
-import static java.util.stream.Collectors.toList;
 
 public class Seats_activity extends AppCompatActivity {
     public static String name, phone, id_no, Seat;
@@ -94,33 +83,27 @@ public class Seats_activity extends AppCompatActivity {
             "2", "3", "4",
             "5", "6", "7",
             "8", "9", "10",
-            "11", "12"
+            "11", "12","13"
     };
 
     String[] fortynineSeater = new String[]{
-//            "1A", "2A", "B1", "2B",
-//            "3A", "4A", "3B", "4B",
-//            "5A", "6A", "5B", "6B",
-//            "7A", "8A", "7B", "8B",
-//            "9A", "10A", "9B", "10B",
-//            "11A", "12A", "11B", "12B",
-//            "13A", "14A", "13B", "14B",
-//            "15A", "16A", "15B", "16B",
-//            "17A", "18A", "17B", "18B",
-//            "19A", "20A", "19B", "20B",
-//            "21A", "22A", "21B", "22B",
-//            "23A", "24A", "23B", "24B",
-//            "25",
 
-            "1A", "2A", "3A", "4A", "5A", "6A", "7A", "8A", "9A",
-            "10A", "11A", "12A", "13A", "14A", "15A", "16A", "17A",
-            "18A", "19A", "20A", "21A", "22A", "23A", "24A", "25",
-            "1B", "2B", "3B", "4B", "5B", "6B", "7B", "8B", "9B",
-            "10B", "11B", "12B", "13B", "14B", "15B", "16B", "17B",
-            "18B", "19B", "20B", "21B", "22B", "23B", "24B"
-
+            "1A", "2A", "C", "1B", "2B",
+            "3A", "4A",  "C","3B", "4B",
+            "5A", "6A", "C", "5B", "6B",
+            "7A", "8A",  "C","7B", "8B",
+            "9A","9B", "C","10A","10B",
+            "11A","11B", "C","12A","12B",
+            "13A","14A", "C","13B", "14B",
+            "15A","16A", "C",  "15B", "16B",
+            "17A","18A", "C", "17B","18B",
+            "19A","20A", "C","19B", "20B",
+            "21A","22A", "C","21B", "22B",
+            "23A","24A","25","23B", "24B",
 
     };
+
+
     private View btnGo, btnbook, btncancel, textview;
 
     private GridView gridView;
@@ -158,13 +141,16 @@ public class Seats_activity extends AppCompatActivity {
 
         LevenSeaterList = new ArrayList<>(Arrays.asList(elevenSeater));
         fortynineSeaterList = new ArrayList<>(Arrays.asList(fortynineSeater));
-        fourteenSeaterlist = new ArrayList<>(Arrays.asList(fortynineSeater));
+        fourteenSeaterlist = new ArrayList<>(Arrays.asList(fourteenSeater));
+
 
         mProgress = new ProgressDialog(this);
         mProgress.setTitle("Reserving ..");
         mProgress.setMessage("Please wait...");
         mProgress.setCancelable(false);
         mProgress.setIndeterminate(true);
+
+        seats=new ArrayList<>();
 
         payment_type_spinner = findViewById(R.id.payment_type_spinner);
 
@@ -173,14 +159,12 @@ public class Seats_activity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-//                    String Selected_payment_type = payment_type_spinner.getItemAtPosition(payment_type_spinner.getSelectedItemPosition()).toString();
 
                 String Selected_payment_type = String.valueOf(payment_type_spinner.getSelectedItemPosition());
 
 
                 app.setPayment_type(Selected_payment_type);
 
-//                Toast.makeText(getApplicationContext(),"Method :"+Selected_payment_type, Toast.LENGTH_SHORT).show();
 
 
             }
@@ -460,11 +444,11 @@ public class Seats_activity extends AppCompatActivity {
                                 });
 
 
-                            } else if (seats.size() > 14 && seats.size() <= 49) {
+                            } else if (seats.size() >= 49) {
 
-                                final CustomAdapter adapter = new CustomAdapter(fortynineSeater, this);
+                                final FoutynineCustomAdapter adapter = new FoutynineCustomAdapter(fortynineSeater, this);
                                 gridView.setAdapter(adapter);
-                                gridView.setNumColumns(4);
+                                gridView.setNumColumns(5);
 
 //
                                 gridView.setOnItemClickListener((parent, v, position, id) -> {
@@ -876,13 +860,12 @@ public class Seats_activity extends AppCompatActivity {
             System.out.println("Booked  Seats " + Booked);
 
 
-            HashSet<String> fortyninecommon = new HashSet<>(fortynineSeaterList);
-            fortyninecommon.retainAll(seats);
-            System.out.println("49 seater similiar " + fortyninecommon);
+
+            HashSet<String> fourteencommon = new HashSet<>(fourteenSeaterlist);
+            fourteencommon.retainAll(seats);
+            System.out.println("14 seater similiar " + fourteencommon);
             System.out.println("seats available " + seats);
-            System.out.println("49 Seater List " + fortynineSeaterList);
-
-
+            System.out.println("14 Seater List " + fourteenSeaterlist);
 
             if (convertView == null) {
 
@@ -920,12 +903,12 @@ public class Seats_activity extends AppCompatActivity {
                 }
 
 
-                for(int i=0;i<fortyninecommon.size();i++) {
+                for(int i=0;i<fourteencommon.size();i++) {
 
                     if (seatsitem.equals("D")) {
 
                         gridtextView.setBackgroundResource(R.drawable.ic_seats_driver);
-                    } else if (seats.size() > 11 && seats.size() <= 49) {
+                    } else if (seats.size() > 11 && seats.size() <= 14) {
 
                         if (seatsitem.equals(seats.get(i))) {
                             gridtextView.setBackgroundResource(R.drawable.ic_seats_empty_seats);
@@ -934,6 +917,7 @@ public class Seats_activity extends AppCompatActivity {
 
                     }
                 }
+
 
 
                 } else {
@@ -976,6 +960,134 @@ public class Seats_activity extends AppCompatActivity {
     }
 
 
+    public class FoutynineCustomAdapter extends BaseAdapter {
+        private Context context;
+        private String[] strings;
+        public List selectedPositions;
+        List<String>  Booked = new ArrayList<>(fortynineSeaterList);
+
+        public FoutynineCustomAdapter(String[] strings, Context context) {
+            this.strings = strings;
+            this.context = context;
+            selectedPositions = new ArrayList<>();
+
+        }
+
+
+        @Override
+        public int getCount() {
+            return strings.length;
+
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return strings[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
+            View gridView;
+
+
+            HashSet<String> fortyninecommon = new HashSet<>(fortynineSeaterList);
+            fortyninecommon.retainAll(seats);
+            System.out.println("49 seater similiar " + fortyninecommon);
+            System.out.println("seats available " + seats);
+            System.out.println("49 Seater List " + fortynineSeaterList);
+
+
+
+            if (convertView == null) {
+
+                gridView = new View(context);
+
+                gridView = inflater.inflate(R.layout.grid_item, null);
+
+                // set value into textview
+                gridtextView = gridView
+                        .findViewById(R.id.txt_grid);
+                gridtextView.setText(strings[position]);
+
+                String seatsitem = strings[position];
+
+                gridtextView.setBackgroundResource(R.drawable.ic_seats_b);
+
+
+                int color = 0x00FFFFFF; // Transparent
+
+                if (seatsitem.equals("C")) {
+                    gridtextView.setBackgroundColor(color);
+                    gridtextView.setText("");
+
+                }
+
+
+
+                for(int i=0;i<fortyninecommon.size();i++) {
+                    if (seats.size() > 14 && seats.size() <= 49) {
+
+                        if (seatsitem.equals(seats.get(i))) {
+                            gridtextView.setBackgroundResource(R.drawable.ic_seats_empty_seats);
+
+                        }
+
+                    }
+                }
+
+
+
+
+
+            } else {
+                gridView = convertView;
+            }
+
+
+            return gridView;
+
+        }
+
+        @Override
+        public boolean areAllItemsEnabled() {
+
+            return true;
+
+        }
+
+        @Override
+        public boolean isEnabled(int position) {
+
+            String seats = strings[position];
+
+            for (int i = 0; i < Booked.size(); i++) {
+                if ((seats.equals(Booked.get(i)))) {
+
+                    return false;
+
+                } else {
+                    return true;
+                }
+
+            }
+
+
+            return true;
+        }
+
+
+    }
 
 
 }
