@@ -10,11 +10,11 @@
 
     <TextView
         android:id="@+id/txt_grid"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/ic_seats_empty_seats"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/seat_normal"
         android:textAlignment="center"
-        android:textSize="18dp"
+        android:textSize="12sp"
         android:textStyle="bold" />
 
 

@@ -14,7 +14,7 @@ public class MobiClientApplication extends Application {
     String twoway_return_date,twoway_travel_date,twoway_travel_too,twoway_travel_from;
     ArrayAdapter<String> buses;
     private String payment_type,selected_vehicle;
-
+    private String serverRespose,serverMessage;
 
     private String name;
     private String phone,car_name,remaining_seats;
@@ -273,5 +273,21 @@ public class MobiClientApplication extends Application {
 
     public void setLogged_user(String logged_user) {
         this.logged_user = logged_user;
+    }
+
+    public String getServerRespose() {
+        return serverRespose;
+    }
+
+    public void setServerRespose(String serverRespose) {
+        this.serverRespose = serverRespose;
+    }
+
+    public String getServerMessage() {
+        return serverMessage;
+    }
+
+    public void setServerMessage(String serverMessage) {
+        this.serverMessage = serverMessage;
     }
 }

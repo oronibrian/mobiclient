@@ -11,9 +11,12 @@
         android:id="@+id/dialog_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:background="@drawable/my_shape"
+        android:lines="2"
         android:padding="10dp"
         android:text="@string/enter_your_wallet_pin_to_complete"
+        android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -39,7 +42,7 @@
     <Button
         android:id="@+id/btnconfirm"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="62dp"
         android:layout_margin="16dp"
         android:background="@drawable/btn"
         android:padding="16dp"

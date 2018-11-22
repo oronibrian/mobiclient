@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
     <color name="colorPrimary">#4caf50</color>
     <color name="colorPrimaryDark">#087f23</color>
     <color name="colorAccent">#FF4081</color>
@@ -20,5 +21,7 @@
     <color name="editText">#D9DFE5</color>
     <color name="ghostwhite">#FBFBFC</color>
     <color name="android_hint_colour">#808080</color>
+
+
 
 </resources>

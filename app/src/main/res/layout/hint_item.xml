@@ -3,10 +3,9 @@
     android:id="@android:id/text1"
     style="?android:attr/spinnerDropDownItemStyle"
     android:paddingLeft="0dp"
-    android:background="@color/spinner_hint_text_color"
+    android:background="@color/cpb_white"
     android:singleLine="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="@string/date"
-    android:ellipsize="marquee"
     android:textAlignment="inherit"/>

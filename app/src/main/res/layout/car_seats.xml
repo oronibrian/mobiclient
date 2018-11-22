@@ -1,96 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:weightSum="100"
+    android:layout_margin="10dp"
+    android:orientation="horizontal"
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="410dp"
+        android:layout_width="209dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         android:gravity="center"
-
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="Select Your Seat or Seats"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimary"
-            android:textSize="19sp"
-            android:textStyle="bold" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="296dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <GridView
                 android:id="@+id/grid"
-                android:layout_width="333dp"
-                android:layout_height="wrap_content"
+                android:layout_width="206dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal|center"
-                android:columnWidth="1dp"
+                android:columnWidth="30dp"
                 android:gravity="center"
-                android:horizontalSpacing="1dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:verticalSpacing="1dp" />
+                android:horizontalSpacing="-1dp"
+                android:numColumns="4"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="-1dp" />
         </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="327dp"
-        android:layout_height="137dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="24dp"
+        android:layout_weight="1"
         android:gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="10dp">
-
-        <fr.ganfra.materialspinner.MaterialSpinner
-            android:id="@+id/payment_type_spinner"
-            android:layout_width="275dp"
-            android:layout_height="33dp"
-            android:layout_margin="16dp"
-            app:ms_alignLabels="true"
-            app:ms_arrowColor="@color/base"
-            app:ms_arrowSize="8dp"
-            app:ms_baseColor="@color/base"
-            app:ms_dropDownHintView="@layout/dropdown_hint_item"
-            app:ms_enableErrorLabel="false"
-            app:ms_enableFloatingLabel="true"
-            app:ms_errorColor="@color/error"
-            app:ms_floatingLabelColor="@color/floating_label"
-            app:ms_floatingLabelText="Payment Method"
-            app:ms_highlightColor="@color/highlight"
-            app:ms_hint="Payment method"
-            app:ms_hintColor="@color/hint"
-            app:ms_hintView="@layout/hint_item"
-            app:ms_multiline="false"
-            app:ms_thickness="2dp" />
-
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn"
+            android:orientation="vertical">
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/payment_type_spinner"
+                android:layout_width="103dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/btn"
+                android:gravity="center"
+                android:popupBackground="@color/floating_label"
+                android:spinnerMode="dropdown"
+                android:textAlignment="center"
+                android:textSize="12sp"
+                app:ms_alignLabels="true"
+                app:ms_arrowColor="@color/base"
+                app:ms_arrowSize="8dp"
+                app:ms_baseColor="@color/base"
+                app:ms_dropDownHintView="@layout/dropdown_hint_item"
+                app:ms_enableErrorLabel="false"
+                app:ms_enableFloatingLabel="false"
+                app:ms_errorColor="@color/error"
+                app:ms_floatingLabelColor="@color/floating_label"
+                app:ms_floatingLabelText="Payment Method"
+                app:ms_highlightColor="@color/highlight"
+                app:ms_hint="Payment method"
+                app:ms_hintColor="@color/hint"
+                app:ms_hintView="@layout/hint_item"
+                app:ms_multiline="false"
+                app:ms_thickness="2dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/TextView01"
-            android:orientation="horizontal"
-            android:paddingLeft="4.0dip"
-            android:paddingTop="5.0dip"
-            android:paddingRight="4.0dip"
-            android:paddingBottom="1.0dip">
+            android:background="#ffff"
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/btngo"
@@ -98,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/btn"
+                android:textSize="12sp"
                 android:text="Reserve" />
 
             <Button
@@ -108,6 +104,7 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/btn"
                 android:padding="10dp"
+                android:textSize="12sp"
                 android:text="Book" />
 
             <Button
@@ -115,9 +112,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:textSize="12sp"
                 android:background="@drawable/btn"
                 android:text="Cancel" />
         </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

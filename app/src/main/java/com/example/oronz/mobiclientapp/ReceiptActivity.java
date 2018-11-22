@@ -66,8 +66,6 @@ public class ReceiptActivity extends AppCompatActivity {
         mProgress.setCancelable(false);
         mProgress.setIndeterminate(true);
 
-        checkView = (ImageView) findViewById(R.id.check);
-        crossView = (ImageView) findViewById(R.id.cross);
 
 
         String value = getIntent().getStringExtra("data");
@@ -79,12 +77,11 @@ public class ReceiptActivity extends AppCompatActivity {
 
         if (status.equals("Failed")) {
             btncomplete.setVisibility(View.GONE);
+//            txt_name.setText(app.getServerMessage());
 
         } else {
             btncomplete.setVisibility(View.VISIBLE);
             btnnew.setVisibility(View.GONE);
-
-            ((Animatable) checkView.getDrawable()).start();
 
 
         }
@@ -198,7 +195,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
         mProgress.show();
 
-        RequestQueue reserverequestQueue = Volley.newRequestQueue(ReceiptActivity.this);
+        RequestQueue mpesareserverequestQueue = Volley.newRequestQueue(ReceiptActivity.this);
 
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
@@ -283,9 +280,9 @@ public class ReceiptActivity extends AppCompatActivity {
 
 
         };
-        reserverequestQueue.getCache().clear();
+        mpesareserverequestQueue.getCache().clear();
 
-        reserverequestQueue.add(req);
+        mpesareserverequestQueue.add(req);
 
     }
 
@@ -296,7 +293,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
         mProgress.show();
 
-        RequestQueue reserverequestQueue = Volley.newRequestQueue(ReceiptActivity.this);
+        RequestQueue jpreserverequestQueue = Volley.newRequestQueue(ReceiptActivity.this);
 
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
@@ -304,7 +301,7 @@ public class ReceiptActivity extends AppCompatActivity {
         params.put("action", "AuthorizePayment");
         params.put("payment_method", "2");
         params.put("reference_number", app.getRefno());
-        params.put("jambopay_wallet_username", app.getPhone());
+        params.put("jambopay_wallet_username", wallet_username.getText().toString());
         params.put("jambopay_wallet_password", walletpassword.getText().toString());
 
 
@@ -313,8 +310,10 @@ public class ReceiptActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            String code = response.getString("response_code");
+                            Log.d("CODE Respose",code);
 
-                            if (response.getInt("response_code") == 0) {
+                            if (code.equals(Integer.parseInt("0"))) {
 
                                 JSONArray jsonArray = response.getJSONArray("tickets");
 
@@ -357,6 +356,7 @@ public class ReceiptActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 jpwalletalertDialog.dismiss();
+                mProgress.dismiss();
 
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
@@ -381,9 +381,9 @@ public class ReceiptActivity extends AppCompatActivity {
 
 
         };
-        reserverequestQueue.getCache().clear();
+        jpreserverequestQueue.getCache().clear();
 
-        reserverequestQueue.add(req);
+        jpreserverequestQueue.add(req);
 
 
     }
@@ -397,10 +397,10 @@ public class ReceiptActivity extends AppCompatActivity {
         params.put("username", app.getUser_name());
         params.put("api_key", app.getApi_key());
         params.put("action", "AuthorizePayment");
-        params.put("payment_method", "2");
+        params.put("payment_method", "1");
         params.put("reference_number", app.getRefno());
-        params.put("jambopay_agency_username", app.getPhone());
-        params.put("jambopay_agency_password", Agencywaletpassword.toString());
+        params.put("jambopay_agency_username",agency_username.getText().toString());
+        params.put("jambopay_agency_password",Agencywaletpassword.getText().toString());
 
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
@@ -408,14 +408,15 @@ public class ReceiptActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            String code = response.getString("response_code");
 
-                            if (response.getInt("response_code") == 0) {
+                            if (code.equals("0")) {
 
                                 JSONArray jsonArray = response.getJSONArray("tickets");
 
+                                String message = response.getString("response_message");
                                 mProgress.dismiss();
                                 jpAgencyalertDialog.dismiss();
-                                String message = response.getString("response_message");
 
                                 Log.d("Agency Respose",message);
                                 txt_name.setText(message);
@@ -428,6 +429,8 @@ public class ReceiptActivity extends AppCompatActivity {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 
+                                    Log.d("Reservation Status: ", message);
+                                    Log.d("Reserve:%n %s", jsonObject1.toString(4));
 
                                 }
 
