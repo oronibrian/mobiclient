@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class ManifestActivity extends AppCompatActivity {
     private MobiClientApplication app;
@@ -64,6 +65,8 @@ public class ManifestActivity extends AppCompatActivity {
         date=(EditText)findViewById(R.id.date);
         mytripslistView = (ListView) findViewById(R.id.manifestvehiclelist);
         selectDate = findViewById(R.id.btnDate);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Bus Schedule Manifest");
 
         mytripsDetails = new ArrayList<ManifestDetails>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");

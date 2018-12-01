@@ -17,11 +17,14 @@
         <EditText
             android:id="@+id/edittextreg_no"
             android:layout_width="237dp"
+            android:hint="KCR 220R"
             android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/btn"
             android:layout_width="match_parent"
+            android:background="@drawable/btn"
+            android:text="update"
             android:layout_height="match_parent" />
     </LinearLayout>
 

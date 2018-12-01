@@ -100,6 +100,14 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(getApplicationContext(),LoginActivity.class));
             finish();
         }
+        else if(id==R.id.menu_manifest){
+            startActivity(new Intent(getApplicationContext(), ManifestActivity.class));
+
+        }
+        else if(id==R.id.menu_add){
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
