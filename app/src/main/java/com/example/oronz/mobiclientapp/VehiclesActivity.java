@@ -101,6 +101,10 @@ public class VehiclesActivity extends AppCompatActivity {
                         if (response.getInt("response_code") == 0) {
                             jsonArray = response.getJSONArray("bus");
 
+                            if(jsonArray.length()==0){
+                                Toast.makeText(getApplicationContext(), ("There are no vehicles Remaining"), Toast.LENGTH_LONG).show();
+
+                            }
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                 buses = jsonObject1.getString("route");
@@ -113,18 +117,13 @@ public class VehiclesActivity extends AppCompatActivity {
 
 
 
-                                if(jsonObject1==null){
-                                    Toast.makeText(getApplicationContext(), ("There are no vehicles Remaining"), Toast.LENGTH_LONG).show();
-
-                                }else {
-
                                     Log.d("Buses: ", buses);
 
 //                                        vehicles.add(buses);
 
                                     availableVehicles.add(new AvailableVehicles(buses,total_seats,seats_available,departure_time,car_id));
 
-                                }
+
 
 
                             }

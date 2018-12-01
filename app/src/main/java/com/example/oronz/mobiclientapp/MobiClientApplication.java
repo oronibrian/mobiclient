@@ -26,6 +26,8 @@ public class MobiClientApplication extends Application {
     private String agency_phone;
     private String logged_user;
 
+    String ManfestSelected;
+
 
     public MobiClientApplication(){}
 
@@ -289,5 +291,13 @@ public class MobiClientApplication extends Application {
 
     public void setServerMessage(String serverMessage) {
         this.serverMessage = serverMessage;
+    }
+
+    public String getManfestSelected() {
+        return ManfestSelected;
+    }
+
+    public void setManfestSelected(String manfestSelected) {
+        ManfestSelected = manfestSelected;
     }
 }

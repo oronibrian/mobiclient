@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.oronz.mobiclientapp.MobiClientApplication;
-import com.example.oronz.mobiclientapp.Models.AvailableVehicles;
 import com.example.oronz.mobiclientapp.Models.MytripsDetails;
 import com.example.oronz.mobiclientapp.R;
 
@@ -36,7 +35,7 @@ public class MyTripsArrayAdapter extends ArrayAdapter<MytripsDetails> {
 
         MytripsDetails mytripsDetails = getItem(position);
 
-        TextView nameTextView = listItemView.findViewById(R.id.car_name);
+        TextView nameTextView = listItemView.findViewById(R.id.routeTextView);
 
         nameTextView.setText(mytripsDetails.getTravel_from());
 
@@ -45,7 +44,7 @@ public class MyTripsArrayAdapter extends ArrayAdapter<MytripsDetails> {
         numberTextView.setText(mytripsDetails.getReference_number());
 
 
-        TextView fromTextView = listItemView.findViewById(R.id.from);
+        TextView fromTextView = listItemView.findViewById(R.id.manifestavilableseats);
 
         fromTextView.setText(mytripsDetails.getTravel_date());
 

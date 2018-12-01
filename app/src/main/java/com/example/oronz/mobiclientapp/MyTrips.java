@@ -58,7 +58,6 @@ public class MyTrips extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         phoneno = app.getAgency_phone();
-        getTickets();
 
 
 

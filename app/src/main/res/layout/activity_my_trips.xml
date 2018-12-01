@@ -20,7 +20,7 @@
 
         <EditText
             android:id="@+id/editTextphone"
-            android:layout_width="wrap_content"
+            android:layout_width="281dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="phone number"

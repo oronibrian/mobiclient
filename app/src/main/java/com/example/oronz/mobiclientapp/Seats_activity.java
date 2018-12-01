@@ -69,7 +69,7 @@ public class Seats_activity extends AppCompatActivity {
     Button checkbtn;
     TextView info_text;
     String refno, seatno, ticket_mesaage, reserver, reserve_confirmation;
-    List<String> LevenSeaterList, fortynineSeaterList,fourteenSeaterlist;
+    List<String> LevenSeaterList, fortynineSeaterList,fourteenSeaterlist,sixteeneSeaterList;
 
     MaterialSpinner payment_type_spinner;
     Spinner spinner;
@@ -89,6 +89,16 @@ public class Seats_activity extends AppCompatActivity {
             "8", "9", "10",
             "11", "12","13"
     };
+
+
+    String[] sixteenSeater = new String[]{
+            "1", "1X", "D",
+            "2", "3", "4",
+            "5", "6", "7",
+            "8", "9", "10",
+            "11", "12","13"
+    };
+
 
     String[] fortynineSeater = new String[]{
 
@@ -147,7 +157,7 @@ public class Seats_activity extends AppCompatActivity {
         LevenSeaterList = new ArrayList<>(Arrays.asList(elevenSeater));
         fortynineSeaterList = new ArrayList<>(Arrays.asList(fortynineSeater));
         fourteenSeaterlist = new ArrayList<>(Arrays.asList(fourteenSeater));
-
+        sixteeneSeaterList =new ArrayList<>(Arrays.asList(sixteenSeater));
 
         mProgress = new ProgressDialog(this);
         mProgress.setTitle("Reserving ..");
@@ -967,8 +977,6 @@ public class Seats_activity extends AppCompatActivity {
 
                     return false;
 
-                } else {
-                    return true;
                 }
 
             }
@@ -978,8 +986,6 @@ public class Seats_activity extends AppCompatActivity {
 
                     return false;
 
-                } else {
-                    return true;
                 }
 
             }
@@ -1107,8 +1113,135 @@ public class Seats_activity extends AppCompatActivity {
 
                     return false;
 
-                } else {
-                    return true;
+                }
+
+            }
+
+
+            return true;
+        }
+
+
+    }
+
+
+
+    public class SixteenCustomAdapter extends BaseAdapter {
+        private Context context;
+        private String[] strings;
+        public List selectedPositions;
+        List<String>  Booked = new ArrayList<>(fortynineSeaterList);
+
+        public SixteenCustomAdapter(String[] strings, Context context) {
+            this.strings = strings;
+            this.context = context;
+            selectedPositions = new ArrayList<>();
+
+        }
+
+
+        @Override
+        public int getCount() {
+            return strings.length;
+
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return strings[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
+            View gridView;
+
+
+            HashSet<String> sixteencommon = new HashSet<>(sixteeneSeaterList);
+            sixteencommon.retainAll(seats);
+            System.out.println("16 seater similiar " + sixteencommon);
+            System.out.println("seats available " + seats);
+            System.out.println("16 Seater List " + sixteeneSeaterList);
+            int size =  seats.size();
+            System.out.println("16 Size " + size);
+
+
+            Booked.removeAll(sixteencommon);
+
+
+            if (convertView == null) {
+
+                gridView = new View(context);
+
+                gridView = inflater.inflate(R.layout.grid_item, null);
+
+
+            } else {
+                gridView = convertView;
+            }
+
+
+
+            // set value into textview
+            gridtextView = gridView
+                    .findViewById(R.id.txt_grid);
+            gridtextView.setText(strings[position]);
+
+            String seatsitem = strings[position];
+
+            gridtextView.setBackgroundResource(R.drawable.seat_normal);
+
+
+            int color = 0x00FFFFFF; // Transparent
+
+            if (seatsitem.equals("C")) {
+                gridtextView.setBackgroundColor(color);
+                gridtextView.setText("");
+
+            }
+
+            for(int i=0;i<sixteencommon.size();i++) {
+                if (seats.size() > 14 && seats.size() <= 16) {
+
+                    if (seatsitem.equals(seats.get(i))) {
+                        gridtextView.setBackgroundResource(R.drawable.seat_normal);
+
+                    }
+
+                }
+            }
+
+            return gridView;
+
+        }
+
+        @Override
+        public boolean areAllItemsEnabled() {
+
+            return true;
+
+        }
+
+        @Override
+        public boolean isEnabled(int position) {
+
+            String seats = strings[position];
+
+            for (int i = 0; i < Booked.size(); i++) {
+                if ((seats.equals(Booked.get(i)))) {
+
+                    return false;
+
                 }
 
             }

@@ -3,6 +3,7 @@ package com.example.oronz.mobiclientapp;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Animatable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -70,19 +71,20 @@ public class ReceiptActivity extends AppCompatActivity {
 
         String value = getIntent().getStringExtra("data");
         String status = getIntent().getStringExtra("txt_status");
+        txt_name.setText(value);
 
-        txt_name.setText("Reservation Successful.\nClick Proceed Button to Complete");
-        txt_status.setText(status);
 
 
         if (status.equals("Failed")) {
             btncomplete.setVisibility(View.GONE);
-//            txt_name.setText(app.getServerMessage());
+            txt_status.setText(status);
+            txt_status.setTextColor(Color.RED);
 
         } else {
             btncomplete.setVisibility(View.VISIBLE);
             btnnew.setVisibility(View.GONE);
-
+            txt_status.setText(status);
+            txt_status.setTextColor(Color.GREEN);
 
         }
 
@@ -250,6 +252,9 @@ public class ReceiptActivity extends AppCompatActivity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            System.out.println("Response Error: "+e);
+                            mProgress.dismiss();
+
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -313,7 +318,7 @@ public class ReceiptActivity extends AppCompatActivity {
                             String code = response.getString("response_code");
                             Log.d("CODE Respose",code);
 
-                            if (code.equals(Integer.parseInt("0"))) {
+                            if (response.getInt("response_code") == 0) {
 
                                 JSONArray jsonArray = response.getJSONArray("tickets");
 
@@ -390,8 +395,9 @@ public class ReceiptActivity extends AppCompatActivity {
 
 
     private void jamboPayAgencyWalet() {
-        RequestQueue reserverequestQueue = Volley.newRequestQueue(ReceiptActivity.this);
         mProgress.show();
+
+        RequestQueue reserverequestQueue = Volley.newRequestQueue(ReceiptActivity.this);
 
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
@@ -404,52 +410,53 @@ public class ReceiptActivity extends AppCompatActivity {
 
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            String code = response.getString("response_code");
+                response -> {
+                    try {
+                        String code = response.getString("response_code");
 
-                            if (code.equals("0")) {
+                        if (code.equals("0")) {
 
-                                JSONArray jsonArray = response.getJSONArray("tickets");
+                            JSONArray jsonArray = response.getJSONArray("tickets");
 
-                                String message = response.getString("response_message");
-                                mProgress.dismiss();
-                                jpAgencyalertDialog.dismiss();
+                            String message = response.getString("response_message");
+                            jpAgencyalertDialog.dismiss();
 
-                                Log.d("Agency Respose",message);
-                                txt_name.setText(message);
+                            Log.d("Agency Respose",message);
+                            txt_name.setText(message);
 
-                                btncomplete.setVisibility(View.GONE);
-                                btnnew.setVisibility(View.VISIBLE);
+                            btncomplete.setVisibility(View.GONE);
+                            btnnew.setVisibility(View.VISIBLE);
 
 
 
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 
-                                    Log.d("Reservation Status: ", message);
-                                    Log.d("Reserve:%n %s", jsonObject1.toString(4));
-
-                                }
-
-                            } else {
-                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
-                                mProgress.dismiss();
-                                jpAgencyalertDialog.dismiss();
+                                Log.d("Reservation Status: ", message);
+                                Log.d("Reserve:%n %s", jsonObject1.toString(4));
 
                             }
 
+                            mProgress.dismiss();
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } else {
+                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                            mProgress.dismiss();
+                            jpAgencyalertDialog.dismiss();
+
                         }
+
+
+                    } catch (JSONException e) {
+                        mProgress.dismiss();
+
+                        e.printStackTrace();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 jpAgencyalertDialog.dismiss();
+                mProgress.dismiss();
 
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
