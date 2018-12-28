@@ -21,14 +21,24 @@
             android:layout_height="match_parent" />
 
         <Button
-            android:id="@+id/btn"
+            android:id="@+id/btnupdate"
             android:layout_width="match_parent"
             android:background="@drawable/btn"
             android:text="update"
             android:layout_height="match_parent" />
     </LinearLayout>
 
+
+    <TextView
+        android:id="@+id/txtdetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Manifest Details"
+        android:maxLines="4"
+        android:textStyle="bold" />
+
     <ListView
+        android:id="@+id/passewngermanifest"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

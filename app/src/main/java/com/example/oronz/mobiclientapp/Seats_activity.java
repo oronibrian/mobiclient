@@ -176,13 +176,9 @@ public class Seats_activity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-
                 String Selected_payment_type = String.valueOf(payment_type_spinner.getSelectedItemPosition());
 
-
                 app.setPayment_type(Selected_payment_type);
-
-
 
             }
 
@@ -213,7 +209,6 @@ public class Seats_activity extends AppCompatActivity {
                         phone = userDetails.getPhone();
                         id_no = userDetails.getIs();
                         Seat = userDetails.getSeat();
-
 
                         reserve();
 

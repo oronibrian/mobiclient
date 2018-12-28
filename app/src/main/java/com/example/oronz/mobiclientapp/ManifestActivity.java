@@ -66,12 +66,13 @@ public class ManifestActivity extends AppCompatActivity {
         mytripslistView = (ListView) findViewById(R.id.manifestvehiclelist);
         selectDate = findViewById(R.id.btnDate);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Bus Schedule Manifest");
+        getSupportActionBar().setTitle("Bus Schedule Manifests");
 
         mytripsDetails = new ArrayList<ManifestDetails>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         today = dateFormat.format(new Date());
         date.setText("Today");
+        app.setManifestDate(today);
 
 
         getManifest();
@@ -89,6 +90,8 @@ public class ManifestActivity extends AppCompatActivity {
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                                 date.setText(day + "-" + (month + 1) + "-" + year);
                                  dbDate = date.getText().toString();
+
+                                 app.setManifestDate(dbDate);
 
                                 getManifestClick();
                             }
