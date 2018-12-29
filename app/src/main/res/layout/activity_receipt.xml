@@ -48,18 +48,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:orientation="vertical">
 
 
-        <Button
-            android:id="@+id/btnnew"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:background="@drawable/btn"
-            android:text="New ticket" />
+            android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/btnnew"
+                android:layout_width="141dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:background="@drawable/btn"
+                android:text="New ticket" />
+
+            <Button
+                android:id="@+id/btnprint"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:background="@drawable/btn"
+                android:text="Print ticket" />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/btncomplete"

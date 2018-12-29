@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -177,6 +178,8 @@ public class Seats_activity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 String Selected_payment_type = String.valueOf(payment_type_spinner.getSelectedItemPosition());
+                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+
 
                 app.setPayment_type(Selected_payment_type);
 
@@ -750,6 +753,8 @@ public class Seats_activity extends AppCompatActivity {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        Log.d("Exception", e.toString());
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -926,7 +931,6 @@ public class Seats_activity extends AppCompatActivity {
 
                 }
 
-
                 for(int i=0;i<fourteencommon.size();i++) {
 
                     if (seatsitem.equals("D")) {
@@ -943,7 +947,6 @@ public class Seats_activity extends AppCompatActivity {
 
                     }
                 }
-
 
 
                 } else {

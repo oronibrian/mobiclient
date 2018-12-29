@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -115,16 +114,11 @@ public class VehiclesActivity extends AppCompatActivity {
                                 String from = jsonObject1.getString("from");
                                 String too = jsonObject1.getString("to");
 
-
-
                                     Log.d("Buses: ", buses);
 
 //                                        vehicles.add(buses);
 
                                     availableVehicles.add(new AvailableVehicles(buses,total_seats,seats_available,departure_time,car_id));
-
-
-
 
                             }
 
@@ -134,7 +128,6 @@ public class VehiclesActivity extends AppCompatActivity {
                         }
 
 //
-
                         VehicleArrayAdapter vehicleAdapter = new VehicleArrayAdapter(VehiclesActivity.this, availableVehicles);
 
                         listView.setAdapter(vehicleAdapter);

@@ -14,7 +14,7 @@
         android:title="Manifest" />
 
     <item android:id="@+id/menu_add"
-        android:icon="@drawable/add"
+        android:icon="@drawable/icons8500"
         app:showAsAction="always"
         android:title="New Ticket" />
 

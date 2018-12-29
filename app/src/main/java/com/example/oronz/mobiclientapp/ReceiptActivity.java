@@ -4,9 +4,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Animatable;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,19 +28,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
+import com.nbbse.printapi.Printer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class ReceiptActivity extends AppCompatActivity {
     TextView txt_name, txt_status;
-    Button btnnew, btncomplete;
+    Button btnnew, btncomplete,btnprint;
     MobiClientApplication app;
     List<String> myList;
     EditText walletpassword,wallet_username, mpesanumber,agency_username, Agencywaletpassword;
@@ -49,6 +48,10 @@ public class ReceiptActivity extends AppCompatActivity {
     private ImageView checkView;
     private ImageView crossView;
     AlertDialog mpesaalertDialog,jpAgencyalertDialog,jpwalletalertDialog;
+    public static PrinterInterface printInterfaceService;
+
+
+    String resp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +63,7 @@ public class ReceiptActivity extends AppCompatActivity {
         txt_status = findViewById(R.id.txt_status);
         btnnew = findViewById(R.id.btnnew);
         btncomplete = findViewById(R.id.btncomplete);
+        btnprint= findViewById(R.id.btnprint);
 
         mProgress = new ProgressDialog(this);
         mProgress.setTitle("Processing payment ...");
@@ -68,21 +72,31 @@ public class ReceiptActivity extends AppCompatActivity {
         mProgress.setIndeterminate(true);
 
 
+        btnnew.setVisibility(View.GONE);
+        btnprint.setVisibility(View.GONE);
+
+
 
         String value = getIntent().getStringExtra("data");
         String status = getIntent().getStringExtra("txt_status");
-        txt_name.setText(value);
 
 
 
         if (status.equals("Failed")) {
             btncomplete.setVisibility(View.GONE);
+            btnprint.setVisibility(View.VISIBLE);
+
+            txt_name.setText(value);
+
             txt_status.setText(status);
             txt_status.setTextColor(Color.RED);
 
+
+
         } else {
             btncomplete.setVisibility(View.VISIBLE);
-            btnnew.setVisibility(View.GONE);
+            txt_name.setText(value);
+
             txt_status.setText(status);
             txt_status.setTextColor(Color.GREEN);
 
@@ -93,10 +107,18 @@ public class ReceiptActivity extends AppCompatActivity {
             public void onClick(View v) {
                 proceed();
                 txt_status.setVisibility(View.GONE);
+
+
+
             }
         });
 
-
+        btnprint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                printTicket();
+            }
+        });
         btnnew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +127,27 @@ public class ReceiptActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void printTicket() {
+        if (Build.MODEL.equals("MobiPrint")){
+            Toast.makeText(getApplicationContext(),"Mobiwire Printing Ticket",Toast.LENGTH_LONG).show();
+
+            Printer print = Printer.getInstance();
+            print.printBitmap(getResources().openRawResource(R.raw.mobiticket_receipt_logo));
+
+            print.printText("-------------Testing-------------");
+            print.printText("..............Details................");
+            print.printFormattedText();
+            print.printText("Searved by :"+ app.getLogged_user());
+
+            print.printBitmap(getResources().openRawResource(R.raw.powered_by_mobiticket));
+            print.printFormattedTextPrepare();
+
+            print.printEndLine();
+
+        }
 
     }
 
@@ -228,6 +271,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
                                 btncomplete.setVisibility(View.GONE);
                                 btnnew.setVisibility(View.VISIBLE);
+                                btnprint.setVisibility(View.VISIBLE);
 
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -332,6 +376,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
                                 btncomplete.setVisibility(View.GONE);
                                 btnnew.setVisibility(View.VISIBLE);
+                                btnprint.setVisibility(View.VISIBLE);
 
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -341,9 +386,7 @@ public class ReceiptActivity extends AppCompatActivity {
                                     Log.d("Reservation Status: ", reserver);
                                     Log.d("Reserve:%n %s", jsonArray.toString(4));
 
-
                                 }
-
 
                             } else {
                                 Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
@@ -421,12 +464,12 @@ public class ReceiptActivity extends AppCompatActivity {
                             String message = response.getString("response_message");
                             jpAgencyalertDialog.dismiss();
 
-                            Log.d("Agency Respose",message);
+                            Log.d("Agency Response",message);
                             txt_name.setText(message);
 
                             btncomplete.setVisibility(View.GONE);
                             btnnew.setVisibility(View.VISIBLE);
-
+                            btnprint.setVisibility(View.VISIBLE);
 
 
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -443,6 +486,12 @@ public class ReceiptActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
                             mProgress.dismiss();
                             jpAgencyalertDialog.dismiss();
+
+                            txt_name.setText(response.getString("response_message"));
+
+                            btncomplete.setVisibility(View.GONE);
+                            btnnew.setVisibility(View.VISIBLE);
+                            btnprint.setVisibility(View.VISIBLE);
 
                         }
 
