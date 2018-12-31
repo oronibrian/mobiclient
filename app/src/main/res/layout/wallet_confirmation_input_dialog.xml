@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
+    android:layout_margin="6dp"
     android:background="@drawable/my_shape_available_cars"
 
     android:orientation="vertical">
@@ -25,7 +25,7 @@
         android:id="@+id/wallet_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="6dp"
         android:ems="10"
         android:enabled="false"
         android:inputType="textPersonName"
@@ -35,8 +35,8 @@
         android:id="@+id/waletpassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:ems="10"
+        android:layout_margin="6dp"
+        android:ems="5"
         android:inputType="textPassword" />
 
     <Button

@@ -1,6 +1,9 @@
 package com.example.oronz.mobiclientapp.Models;
 
-public class UserDetails {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class UserDetails implements Parcelable {
 
     String name,
             phone,
@@ -49,4 +52,20 @@ public class UserDetails {
     public void setIs(String is) {
         this.is = is;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(seat);
+        dest.writeString(phone);
+
+    }
+
+
 }

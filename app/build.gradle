@@ -42,6 +42,7 @@ dependencies {
     implementation 'com.github.ganfra:material-spinner:2.0.0'
     implementation 'com.github.ybq:Android-SpinKit:1.1.0'
     implementation 'com.github.elevenetc:textsurface:0.9.1'
+    implementation 'com.google.code.gson:gson:2.8.4'
     implementation files('libs/MP3_Api_V0.6.jar')
     implementation files('libs/BixolonPrinterWithDoubleByteFontBinaryV236.jar')
     implementation files('libs/ePOS2.jar')

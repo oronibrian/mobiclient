@@ -7,9 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -40,6 +38,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Models.UserDetails;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -128,6 +127,7 @@ public class Seats_activity extends AppCompatActivity {
     ArrayList<UserDetails> ticketusers;
     UserDetails userDetails;
     private TextView gridtextView;
+    Bundle b;
 
     @SuppressLint("ResourceType")
     @Override
@@ -206,7 +206,6 @@ public class Seats_activity extends AppCompatActivity {
         btnbook.setOnClickListener((View v) -> {
 
                     for (int x = 0; x < ticketusers.size(); x++) {
-
                         userDetails = ticketusers.get(x);
                         name = userDetails.getName();
                         phone = userDetails.getPhone();
@@ -223,8 +222,8 @@ public class Seats_activity extends AppCompatActivity {
                             ie.printStackTrace();
                         }
 
-
                     }
+
                 }
         );
 
@@ -736,12 +735,16 @@ public class Seats_activity extends AppCompatActivity {
 
                             }
 
+                           b  = new Bundle();
+                            b.putString("TicketArray",jsonArray.toString());
+
 
                             Log.d("Status", reserver);
                             Log.d("Mesaage", ticket_mesaage);
 
                             app.setServerRespose(reserver);
                             app.setServerMessage(ticket_mesaage);
+
 
 
                         } else {
@@ -761,7 +764,7 @@ public class Seats_activity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 mProgress.dismiss();
 
-                Log.d("Error: ", String.valueOf(error));
+                Log.e("Volley Error:", error.toString());
 
 
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
@@ -798,12 +801,19 @@ public class Seats_activity extends AppCompatActivity {
             public void onRequestFinished(Request<Object> request) {
                 reserverequestQueue.getCache().clear();
                 mProgress.dismiss();
-                intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
 
+                Gson gson = new Gson();
+
+                String jsonTicketusers = gson.toJson(ticketusers);
+
+                intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
+                        intentExtra.putStringArrayListExtra("listofseats", (ArrayList<String>) listofseats);
 
                         intentExtra.putExtra("data", ticket_mesaage);
                         intentExtra.putExtra("txt_status", reserver);
-//
+                        intentExtra.putExtras(b);
+                         intentExtra.putExtra("list_as_string", jsonTicketusers);
+
                 startActivity(intentExtra);
 
             }

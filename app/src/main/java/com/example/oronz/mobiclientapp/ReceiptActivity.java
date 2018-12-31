@@ -28,30 +28,36 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
+import com.example.oronz.mobiclientapp.Models.UserDetails;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.nbbse.printapi.Printer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 public class ReceiptActivity extends AppCompatActivity {
     TextView txt_name, txt_status;
-    Button btnnew, btncomplete,btnprint;
+    Button btnnew, btncomplete, btnprint;
     MobiClientApplication app;
     List<String> myList;
-    EditText walletpassword,wallet_username, mpesanumber,agency_username, Agencywaletpassword;
-
+    EditText walletpassword, wallet_username, mpesanumber, agency_username, Agencywaletpassword;
+    AlertDialog mpesaalertDialog, jpAgencyalertDialog, jpwalletalertDialog;
+    UserDetails userDetails;
+    ArrayList<UserDetails> ticketusers;
+    String resp;
     private ProgressDialog mProgress;
     private ImageView checkView;
     private ImageView crossView;
-    AlertDialog mpesaalertDialog,jpAgencyalertDialog,jpwalletalertDialog;
-    public static PrinterInterface printInterfaceService;
 
-
-    String resp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +69,7 @@ public class ReceiptActivity extends AppCompatActivity {
         txt_status = findViewById(R.id.txt_status);
         btnnew = findViewById(R.id.btnnew);
         btncomplete = findViewById(R.id.btncomplete);
-        btnprint= findViewById(R.id.btnprint);
+        btnprint = findViewById(R.id.btnprint);
 
         mProgress = new ProgressDialog(this);
         mProgress.setTitle("Processing payment ...");
@@ -75,22 +81,22 @@ public class ReceiptActivity extends AppCompatActivity {
         btnnew.setVisibility(View.GONE);
         btnprint.setVisibility(View.GONE);
 
+        ticketusers = new ArrayList<UserDetails>();
 
 
         String value = getIntent().getStringExtra("data");
         String status = getIntent().getStringExtra("txt_status");
 
 
-
         if (status.equals("Failed")) {
             btncomplete.setVisibility(View.GONE);
-            btnprint.setVisibility(View.VISIBLE);
+            btnprint.setVisibility(View.GONE);
+            btnnew.setVisibility(View.VISIBLE);
 
             txt_name.setText(value);
 
             txt_status.setText(status);
             txt_status.setTextColor(Color.RED);
-
 
 
         } else {
@@ -107,7 +113,6 @@ public class ReceiptActivity extends AppCompatActivity {
             public void onClick(View v) {
                 proceed();
                 txt_status.setVisibility(View.GONE);
-
 
 
             }
@@ -131,22 +136,77 @@ public class ReceiptActivity extends AppCompatActivity {
     }
 
     private void printTicket() {
-        if (Build.MODEL.equals("MobiPrint")){
-            Toast.makeText(getApplicationContext(),"Mobiwire Printing Ticket",Toast.LENGTH_LONG).show();
+        String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        if (Build.MODEL.equals("MobiPrint")) {
 
-            Printer print = Printer.getInstance();
-            print.printBitmap(getResources().openRawResource(R.raw.mobiticket_receipt_logo));
 
-            print.printText("-------------Testing-------------");
-            print.printText("..............Details................");
-            print.printFormattedText();
-            print.printText("Searved by :"+ app.getLogged_user());
+            Bundle b = getIntent().getExtras();
+            String TicketArray = b.getString("TicketArray");
 
-            print.printBitmap(getResources().openRawResource(R.raw.powered_by_mobiticket));
-            print.printFormattedTextPrepare();
+            String seatListAsString = getIntent().getStringExtra("list_as_string");
 
-            print.printEndLine();
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<UserDetails>>(){}.getType();
+            List<UserDetails> carsList = gson.fromJson(seatListAsString, type);
+            for (UserDetails cars : carsList){
+                Log.i("Car Data", cars.getSeat()+"-"+cars.getName());
+            }
 
+            ArrayList<String> fetchList = new ArrayList<String>();
+            fetchList = getIntent().getStringArrayListExtra("listofseats");
+
+            System.out.println("listofseats :::: " + fetchList.toString());
+            for (int y = 0; y < fetchList.size(); y++) {
+
+                try {
+                    JSONArray ticket = new JSONArray(TicketArray);
+                    System.out.println(ticket.toString(2));
+
+                    for (int i = 0; i < ticket.length(); i++) {
+                        JSONObject json_obj = ticket.getJSONObject(i);
+
+
+                        Toast.makeText(getApplicationContext(), "Mobiwire Printing Ticket", Toast.LENGTH_LONG).show();
+
+                        Printer print = Printer.getInstance();
+                        print.printBitmap(getResources().openRawResource(R.raw.ena_coach_logo24bit));
+
+                        print.printText("-----------ENA COACH----------");
+                        print.printText("--------PO BOX 152-40202-------");
+                        print.printText("..........KEROKA,KENYA..........");
+                        print.printText("......Passenger Details.........");
+                        print.printText("Name: " + json_obj.getString("passenger_name"));
+                        print.printText("Ref No:" + json_obj.getString("merchant_transaction_id"));
+                        print.printText("Ticket No:" + json_obj.getString("ticket_number"));
+                        print.printText("Phone No:" + json_obj.getString("phone_number"));
+                        print.printText("Seat:" + json_obj.getString("seat"));
+                        print.printText("Fare: Ksh." + json_obj.getString("fare"));
+                        print.printText("................................");
+                        print.printFormattedTextPrepare();
+
+                        print.printText("......Vehicle Details.........");
+                        print.printText("Vehicle:" + json_obj.getString("bus"));
+                        print.printText("Route:" + json_obj.getString("route"));
+                        print.printText("Travel Date: " + json_obj.getString("travel_date"));
+
+                        print.printText("................................");
+                        print.printFormattedText();
+                        print.printText("Issued On :" + currentDateandTime);
+                        print.printText("Issued by :" + app.getLogged_user());
+
+                        print.printBitmap(getResources().openRawResource(R.raw.payment_methods_old));
+                        print.printBitmap(getResources().openRawResource(R.raw.powered_by_mobiticket));
+                        print.printFormattedTextPrepare();
+
+                        print.printEndLine();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
         }
 
     }
@@ -182,7 +242,7 @@ public class ReceiptActivity extends AppCompatActivity {
             }
         });
 
-         mpesaalertDialog = dialogBuilder.create();
+        mpesaalertDialog = dialogBuilder.create();
         mpesaalertDialog.show();
     }
 
@@ -207,7 +267,7 @@ public class ReceiptActivity extends AppCompatActivity {
             }
         });
 
-         jpwalletalertDialog = dialogBuilder.create();
+        jpwalletalertDialog = dialogBuilder.create();
         jpwalletalertDialog.show();
     }
 
@@ -231,7 +291,7 @@ public class ReceiptActivity extends AppCompatActivity {
             }
         });
 
-         jpAgencyalertDialog = dialogBuilder.create();
+        jpAgencyalertDialog = dialogBuilder.create();
         jpAgencyalertDialog.show();
     }
 
@@ -266,7 +326,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
                                 String message = response.getString("response_message");
 
-                                Log.d("Mpesa Respose",message);
+                                Log.d("Mpesa Respose", message);
                                 txt_name.setText(message);
 
                                 btncomplete.setVisibility(View.GONE);
@@ -296,7 +356,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            System.out.println("Response Error: "+e);
+                            System.out.println("Response Error: " + e);
                             mProgress.dismiss();
 
                         }
@@ -360,7 +420,7 @@ public class ReceiptActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             String code = response.getString("response_code");
-                            Log.d("CODE Respose",code);
+                            Log.d("CODE Respose", code);
 
                             if (response.getInt("response_code") == 0) {
 
@@ -371,7 +431,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
                                 String message = response.getString("response_message");
 
-                                Log.d("Agency Respose",message);
+                                Log.d("Agency Respose", message);
                                 txt_name.setText(message);
 
                                 btncomplete.setVisibility(View.GONE);
@@ -448,8 +508,8 @@ public class ReceiptActivity extends AppCompatActivity {
         params.put("action", "AuthorizePayment");
         params.put("payment_method", "1");
         params.put("reference_number", app.getRefno());
-        params.put("jambopay_agency_username",agency_username.getText().toString());
-        params.put("jambopay_agency_password",Agencywaletpassword.getText().toString());
+        params.put("jambopay_agency_username", agency_username.getText().toString());
+        params.put("jambopay_agency_password", Agencywaletpassword.getText().toString());
 
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
@@ -464,7 +524,7 @@ public class ReceiptActivity extends AppCompatActivity {
                             String message = response.getString("response_message");
                             jpAgencyalertDialog.dismiss();
 
-                            Log.d("Agency Response",message);
+                            Log.d("Agency Response", message);
                             txt_name.setText(message);
 
                             btncomplete.setVisibility(View.GONE);
