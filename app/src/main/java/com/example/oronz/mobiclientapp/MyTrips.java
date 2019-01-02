@@ -120,7 +120,7 @@ public class MyTrips extends AppCompatActivity {
                 String issuedon = issuedtxt.getText().toString();
 
                 TextView seattxt = (TextView) view.findViewById(R.id.seat);
-                String seat = issuedtxt.getText().toString();
+                String seat = seattxt.getText().toString();
 
 
 

@@ -80,7 +80,7 @@ public class MyTripsArrayAdapter extends ArrayAdapter<MytripsDetails> {
 
         TextView seatTextView = listItemView.findViewById(R.id.seat);
 
-        seatTextView.setText(mytripsDetails.getTransport_company());
+        seatTextView.setText(mytripsDetails.getVehicle_name());
 
         return listItemView;
     }
