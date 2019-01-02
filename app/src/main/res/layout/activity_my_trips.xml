@@ -20,11 +20,10 @@
 
         <EditText
             android:id="@+id/editTextphone"
-            android:layout_width="281dp"
+            android:layout_width="234dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="phone number"
-            android:inputType="textPersonName|phone"
+            android:hint="phone or Ticket"
             tools:layout_editor_absoluteX="10dp"
             tools:layout_editor_absoluteY="7dp" />
 

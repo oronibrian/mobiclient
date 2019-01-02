@@ -1,14 +1,20 @@
 package com.example.oronz.mobiclientapp;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -24,7 +30,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +41,16 @@ public class LoginActivity extends AppCompatActivity {
     EditText editextpassword,edittextusername;
     private MobiClientApplication app;
     private ProgressDialog mProgress;
+
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String Name = "nameKey";
+    public static final String Password = "passwordKey";
+    SharedPreferences sharedpreferences;
+
+    ImageView imageView;
+    TextView txtnointernet;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +71,15 @@ public class LoginActivity extends AppCompatActivity {
         btnlogin=findViewById(R.id.btnlogin);
         editextpassword=findViewById(R.id.editextpassword);
         edittextusername=findViewById(R.id.edittextusername);
+        imageView=findViewById(R.id.imageView1);
+        txtnointernet=findViewById(R.id.txtnointernet);
 
 
         app.set_Clerk_username(edittextusername.getText().toString());
         app.set_Clerk_password(editextpassword.getText().toString());
+
+
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +87,23 @@ public class LoginActivity extends AppCompatActivity {
                 login();
             }
         });
+
+
+        final ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        final NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
+        if (activeNetwork != null && activeNetwork.isConnected()) {
+            // notify user you are online
+
+        } else {
+            // notify user you are not online
+            btnlogin.setVisibility(View.GONE);
+            editextpassword.setVisibility(View.GONE);
+            edittextusername.setVisibility(View.GONE);
+            imageView.setImageResource(R.drawable.nointernet);
+            txtnointernet.setText("No Internet Connection");
+
+
+        }
 
     }
 
@@ -88,6 +125,12 @@ public class LoginActivity extends AppCompatActivity {
         final String password = editextpassword.getText().toString();
 
         app.setAgency_phone(email);
+
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        editor.putString(Name, email);
+        editor.putString(Password, password);
+        editor.apply();
 
         //validating inputs
         if (TextUtils.isEmpty(email)) {

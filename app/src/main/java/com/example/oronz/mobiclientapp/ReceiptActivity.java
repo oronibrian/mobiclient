@@ -200,7 +200,7 @@ public class ReceiptActivity extends AppCompatActivity {
                             print.printText("Route:" + json_obj.getString("route"));
                             print.printText("Travel Date: " + json_obj.getString("travel_date"));
                             print.printText("................................");
-                            print.printText("Issued On :" + currentDateandTime);
+                            print.printText("Issued On :" + json_obj.getString("travel_time"));
                             print.printText("Issued by :" + app.getLogged_user());
                             print.printBitmap(getResources().openRawResource(R.raw.payment_methods_old));
                             print.printBitmap(getResources().openRawResource(R.raw.powered_by_mobiticket));

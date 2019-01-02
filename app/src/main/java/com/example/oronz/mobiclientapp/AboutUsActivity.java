@@ -2,14 +2,11 @@ package com.example.oronz.mobiclientapp;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.Objects;
 
 public class AboutUsActivity extends AppCompatActivity {
@@ -21,8 +18,9 @@ public class AboutUsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about_us);
         mobilogo = findViewById(R.id.mobilogo);
 
-        Bitmap bImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.bus);
+        Bitmap bImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.mobiticket_receipt_logo);
         mobilogo.setImageBitmap(bImage);
+
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
     }

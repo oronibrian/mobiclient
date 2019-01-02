@@ -65,6 +65,23 @@ public class MyTripsArrayAdapter extends ArrayAdapter<MytripsDetails> {
 
 
 
+        TextView passengenameTextView = listItemView.findViewById(R.id.passengername);
+
+        passengenameTextView.setText(mytripsDetails.getName());
+
+
+        TextView phoneTextView = listItemView.findViewById(R.id.phonenum);
+
+        phoneTextView.setText(mytripsDetails.getPhone());
+
+        TextView issuedTextView = listItemView.findViewById(R.id.issuedon);
+
+        issuedTextView.setText(mytripsDetails.getDate_issued());
+
+        TextView seatTextView = listItemView.findViewById(R.id.seat);
+
+        seatTextView.setText(mytripsDetails.getTransport_company());
+
         return listItemView;
     }
 

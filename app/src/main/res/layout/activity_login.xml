@@ -15,9 +15,17 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="85dp"
+            android:id="@+id/imageView1"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:src="@drawable/login" />
+
+        <TextView
+            android:id="@+id/txtnointernet"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:textColor="@color/cpb_red"
+            android:layout_height="match_parent" />
 
         <!--  Email Label -->
         <android.support.design.widget.TextInputLayout
