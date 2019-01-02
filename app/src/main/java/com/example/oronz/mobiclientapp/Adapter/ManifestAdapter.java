@@ -44,11 +44,12 @@ private MobiClientApplication app;
 
         TextView seatsTextView = listItemView.findViewById(R.id.manifestseats);
 
-        seatsTextView.setText("Total Seats: "+mytripsDetails.getTotal_seats());
+        seatsTextView.setText("Seater" +
+                ": "+mytripsDetails.getTotal_seats());
 
         TextView availabeseatsTextView = listItemView.findViewById(R.id.manifestavilableseats);
 
-        availabeseatsTextView.setText("Available Seats: "+mytripsDetails.getSeats_available());
+        availabeseatsTextView.setText("Available: "+mytripsDetails.getSeats_available());
 
         return listItemView;
     }

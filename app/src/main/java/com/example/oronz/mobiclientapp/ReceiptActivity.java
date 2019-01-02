@@ -146,11 +146,10 @@ public class ReceiptActivity extends AppCompatActivity {
             String seatListAsString = getIntent().getStringExtra("list_as_string");
 
             Gson gson = new Gson();
-            Type type = new TypeToken<List<UserDetails>>(){}.getType();
+            Type type = new TypeToken<List<UserDetails>>() {
+            }.getType();
             List<UserDetails> carsList = gson.fromJson(seatListAsString, type);
-            for (UserDetails cars : carsList){
-                Log.i("Car Data", cars.getSeat()+"-"+cars.getName());
-            }
+
 
             ArrayList<String> fetchList = new ArrayList<String>();
             fetchList = getIntent().getStringArrayListExtra("listofseats");
@@ -164,41 +163,34 @@ public class ReceiptActivity extends AppCompatActivity {
 
                     for (int i = 0; i < ticket.length(); i++) {
                         JSONObject json_obj = ticket.getJSONObject(i);
+                        for (UserDetails user : carsList) {
+                            Log.i("Seat Data", user.getSeat() + "-" + user.getName());
+                            Toast.makeText(getApplicationContext(), "Mobiwire Printing Ticket", Toast.LENGTH_LONG).show();
+                            Printer print = Printer.getInstance();
+                            print.printFormattedText();
+                            print.printBitmap(getResources().openRawResource(R.raw.ena_coach_logo24bit));
+                            print.printText("-----------ENA COACH----------");
+                            print.printText("--------PO BOX 152-40202-------");
+                            print.printText("..........KEROKA,KENYA..........");
+                            print.printText("......Passenger Details.........");
+                            print.printText("Name: " + user.getName());
+                            print.printText("Ref No:" + json_obj.getString("merchant_transaction_id"));
+                            print.printText("Phone No:" + user.getPhone());
+                            print.printText("Seat:" + user.getSeat());
+                            print.printText("Fare: Ksh." + json_obj.getString("fare"));
+                            print.printText("................................");
+                            print.printText("......Vehicle Details.........");
+                            print.printText("Vehicle:" + json_obj.getString("bus"));
+                            print.printText("Route:" + json_obj.getString("route"));
+                            print.printText("Travel Date: " + json_obj.getString("travel_date"));
+                            print.printText("................................");
+                            print.printText("Issued On :" + currentDateandTime);
+                            print.printText("Issued by :" + app.getLogged_user());
+                            print.printBitmap(getResources().openRawResource(R.raw.payment_methods_old));
+                            print.printBitmap(getResources().openRawResource(R.raw.powered_by_mobiticket));
+                            print.printEndLine();
 
-
-                        Toast.makeText(getApplicationContext(), "Mobiwire Printing Ticket", Toast.LENGTH_LONG).show();
-
-                        Printer print = Printer.getInstance();
-                        print.printBitmap(getResources().openRawResource(R.raw.ena_coach_logo24bit));
-
-                        print.printText("-----------ENA COACH----------");
-                        print.printText("--------PO BOX 152-40202-------");
-                        print.printText("..........KEROKA,KENYA..........");
-                        print.printText("......Passenger Details.........");
-                        print.printText("Name: " + json_obj.getString("passenger_name"));
-                        print.printText("Ref No:" + json_obj.getString("merchant_transaction_id"));
-                        print.printText("Ticket No:" + json_obj.getString("ticket_number"));
-                        print.printText("Phone No:" + json_obj.getString("phone_number"));
-                        print.printText("Seat:" + json_obj.getString("seat"));
-                        print.printText("Fare: Ksh." + json_obj.getString("fare"));
-                        print.printText("................................");
-                        print.printFormattedTextPrepare();
-
-                        print.printText("......Vehicle Details.........");
-                        print.printText("Vehicle:" + json_obj.getString("bus"));
-                        print.printText("Route:" + json_obj.getString("route"));
-                        print.printText("Travel Date: " + json_obj.getString("travel_date"));
-
-                        print.printText("................................");
-                        print.printFormattedText();
-                        print.printText("Issued On :" + currentDateandTime);
-                        print.printText("Issued by :" + app.getLogged_user());
-
-                        print.printBitmap(getResources().openRawResource(R.raw.payment_methods_old));
-                        print.printBitmap(getResources().openRawResource(R.raw.powered_by_mobiticket));
-                        print.printFormattedTextPrepare();
-
-                        print.printEndLine();
+                        }
                     }
 
                 } catch (JSONException e) {

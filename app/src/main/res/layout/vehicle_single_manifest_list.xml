@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/my_shape_available_cars"
     android:orientation="vertical"
     android:padding="7dp">
@@ -42,4 +43,13 @@
         android:layout_alignParentStart="true"
         android:layout_margin="5dp"
         android:text="Reg" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="268dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        app:layout_anchorGravity="bottom" />
+
 </LinearLayout>

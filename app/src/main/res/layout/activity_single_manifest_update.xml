@@ -37,10 +37,9 @@
         android:maxLines="4"
         android:textStyle="bold" />
 
-    <ListView
-        android:id="@+id/passewngermanifest"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
+
+    <include layout="@layout/list_item_manufest"/>
 
 
 </LinearLayout>
