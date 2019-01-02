@@ -57,6 +57,7 @@ public class ReceiptActivity extends AppCompatActivity {
     private ProgressDialog mProgress;
     private ImageView checkView;
     private ImageView crossView;
+    String name,phone,seat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +122,28 @@ public class ReceiptActivity extends AppCompatActivity {
         btnprint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                printTicket();
+                String seatListAsString = getIntent().getStringExtra("list_as_string");
+
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<UserDetails>>() {
+                }.getType();
+                List<UserDetails> carsList = gson.fromJson(seatListAsString, type);
+
+
+                for (UserDetails user : carsList) {
+                   name= user.getName();
+                   phone= user.getPhone();
+                   seat= user.getSeat();
+
+                    printTicket();
+                    try {
+
+                        Thread.sleep(50);
+
+                    } catch (InterruptedException ie) {
+                        ie.printStackTrace();
+                    }
+                }
             }
         });
         btnnew.setOnClickListener(new View.OnClickListener() {
@@ -143,19 +165,14 @@ public class ReceiptActivity extends AppCompatActivity {
             Bundle b = getIntent().getExtras();
             String TicketArray = b.getString("TicketArray");
 
-            String seatListAsString = getIntent().getStringExtra("list_as_string");
 
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<UserDetails>>() {
-            }.getType();
-            List<UserDetails> carsList = gson.fromJson(seatListAsString, type);
 
 
             ArrayList<String> fetchList = new ArrayList<String>();
             fetchList = getIntent().getStringArrayListExtra("listofseats");
 
             System.out.println("listofseats :::: " + fetchList.toString());
-            for (int y = 0; y < fetchList.size(); y++) {
+//            for (int y = 0; y < fetchList.size(); y++) {
 
                 try {
                     JSONArray ticket = new JSONArray(TicketArray);
@@ -163,9 +180,8 @@ public class ReceiptActivity extends AppCompatActivity {
 
                     for (int i = 0; i < ticket.length(); i++) {
                         JSONObject json_obj = ticket.getJSONObject(i);
-                        for (UserDetails user : carsList) {
-                            Log.i("Seat Data", user.getSeat() + "-" + user.getName());
-                            Toast.makeText(getApplicationContext(), "Mobiwire Printing Ticket", Toast.LENGTH_LONG).show();
+
+                        Toast.makeText(getApplicationContext(), "Mobiwire Printing Ticket", Toast.LENGTH_LONG).show();
                             Printer print = Printer.getInstance();
                             print.printFormattedText();
                             print.printBitmap(getResources().openRawResource(R.raw.ena_coach_logo24bit));
@@ -173,10 +189,10 @@ public class ReceiptActivity extends AppCompatActivity {
                             print.printText("--------PO BOX 152-40202-------");
                             print.printText("..........KEROKA,KENYA..........");
                             print.printText("......Passenger Details.........");
-                            print.printText("Name: " + user.getName());
+                            print.printText("Name: " + name);
                             print.printText("Ref No:" + json_obj.getString("merchant_transaction_id"));
-                            print.printText("Phone No:" + user.getPhone());
-                            print.printText("Seat:" + user.getSeat());
+                            print.printText("Phone No:" + phone);
+                            print.printText("Seat:" +seat);
                             print.printText("Fare: Ksh." + json_obj.getString("fare"));
                             print.printText("................................");
                             print.printText("......Vehicle Details.........");
@@ -190,7 +206,7 @@ public class ReceiptActivity extends AppCompatActivity {
                             print.printBitmap(getResources().openRawResource(R.raw.powered_by_mobiticket));
                             print.printEndLine();
 
-                        }
+
                     }
 
                 } catch (JSONException e) {
@@ -199,7 +215,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
 
             }
-        }
+
 
     }
 
