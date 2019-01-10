@@ -16,7 +16,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/car_name"
+            android:id="@+id/routeTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -30,7 +30,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/car_name"
+            android:layout_below="@+id/routeTextView"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:text="Date and Departure"
@@ -54,7 +54,7 @@
             android:id="@+id/departure_time_txt2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/car_name"
+            android:layout_below="@+id/routeTextView"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="4dp"
@@ -70,7 +70,7 @@
             android:id="@+id/seatsbooked"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/from"
+            android:layout_alignBottom="@+id/manifestavilableseats"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:text="TextView"
@@ -80,7 +80,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/car_name"
+            android:layout_alignStart="@+id/routeTextView"
             android:layout_alignParentTop="true"
             android:text="Amount"
             android:textAlignment="center"
@@ -108,7 +108,7 @@
                 android:textAlignment="center" />
 
             <TextView
-                android:id="@+id/from"
+                android:id="@+id/manifestavilableseats"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"

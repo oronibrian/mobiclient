@@ -5,10 +5,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -39,6 +38,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Models.UserDetails;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,7 +69,7 @@ public class Seats_activity extends AppCompatActivity {
     Button checkbtn;
     TextView info_text;
     String refno, seatno, ticket_mesaage, reserver, reserve_confirmation;
-    List<String> LevenSeaterList, fortynineSeaterList,fourteenSeaterlist;
+    List<String> LevenSeaterList, fortynineSeaterList,fourteenSeaterlist,sixteeneSeaterList;
 
     MaterialSpinner payment_type_spinner;
     Spinner spinner;
@@ -89,6 +89,16 @@ public class Seats_activity extends AppCompatActivity {
             "8", "9", "10",
             "11", "12","13"
     };
+
+
+    String[] sixteenSeater = new String[]{
+            "1", "1X", "D",
+            "2", "3", "4",
+            "5", "6", "7",
+            "8", "9", "10",
+            "11", "12","13"
+    };
+
 
     String[] fortynineSeater = new String[]{
 
@@ -117,6 +127,7 @@ public class Seats_activity extends AppCompatActivity {
     ArrayList<UserDetails> ticketusers;
     UserDetails userDetails;
     private TextView gridtextView;
+    Bundle b;
 
     @SuppressLint("ResourceType")
     @Override
@@ -147,7 +158,7 @@ public class Seats_activity extends AppCompatActivity {
         LevenSeaterList = new ArrayList<>(Arrays.asList(elevenSeater));
         fortynineSeaterList = new ArrayList<>(Arrays.asList(fortynineSeater));
         fourteenSeaterlist = new ArrayList<>(Arrays.asList(fourteenSeater));
-
+        sixteeneSeaterList =new ArrayList<>(Arrays.asList(sixteenSeater));
 
         mProgress = new ProgressDialog(this);
         mProgress.setTitle("Reserving ..");
@@ -166,13 +177,11 @@ public class Seats_activity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-
                 String Selected_payment_type = String.valueOf(payment_type_spinner.getSelectedItemPosition());
+                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
 
 
                 app.setPayment_type(Selected_payment_type);
-
-
 
             }
 
@@ -197,13 +206,11 @@ public class Seats_activity extends AppCompatActivity {
         btnbook.setOnClickListener((View v) -> {
 
                     for (int x = 0; x < ticketusers.size(); x++) {
-
                         userDetails = ticketusers.get(x);
                         name = userDetails.getName();
                         phone = userDetails.getPhone();
                         id_no = userDetails.getIs();
                         Seat = userDetails.getSeat();
-
 
                         reserve();
 
@@ -215,8 +222,8 @@ public class Seats_activity extends AppCompatActivity {
                             ie.printStackTrace();
                         }
 
-
                     }
+
                 }
         );
 
@@ -728,12 +735,16 @@ public class Seats_activity extends AppCompatActivity {
 
                             }
 
+                           b  = new Bundle();
+                            b.putString("TicketArray",jsonArray.toString());
+
 
                             Log.d("Status", reserver);
                             Log.d("Mesaage", ticket_mesaage);
 
                             app.setServerRespose(reserver);
                             app.setServerMessage(ticket_mesaage);
+
 
 
                         } else {
@@ -745,13 +756,15 @@ public class Seats_activity extends AppCompatActivity {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        Log.d("Exception", e.toString());
+
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mProgress.dismiss();
 
-                Log.d("Error: ", String.valueOf(error));
+                Log.e("Volley Error:", error.toString());
 
 
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
@@ -788,12 +801,19 @@ public class Seats_activity extends AppCompatActivity {
             public void onRequestFinished(Request<Object> request) {
                 reserverequestQueue.getCache().clear();
                 mProgress.dismiss();
-                intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
 
+                Gson gson = new Gson();
+
+                String jsonTicketusers = gson.toJson(ticketusers);
+
+                intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
+                        intentExtra.putStringArrayListExtra("listofseats", (ArrayList<String>) listofseats);
 
                         intentExtra.putExtra("data", ticket_mesaage);
                         intentExtra.putExtra("txt_status", reserver);
-//
+                        intentExtra.putExtras(b);
+                         intentExtra.putExtra("list_as_string", jsonTicketusers);
+
                 startActivity(intentExtra);
 
             }
@@ -921,7 +941,6 @@ public class Seats_activity extends AppCompatActivity {
 
                 }
 
-
                 for(int i=0;i<fourteencommon.size();i++) {
 
                     if (seatsitem.equals("D")) {
@@ -938,7 +957,6 @@ public class Seats_activity extends AppCompatActivity {
 
                     }
                 }
-
 
 
                 } else {
@@ -967,8 +985,6 @@ public class Seats_activity extends AppCompatActivity {
 
                     return false;
 
-                } else {
-                    return true;
                 }
 
             }
@@ -978,8 +994,6 @@ public class Seats_activity extends AppCompatActivity {
 
                     return false;
 
-                } else {
-                    return true;
                 }
 
             }
@@ -1107,8 +1121,135 @@ public class Seats_activity extends AppCompatActivity {
 
                     return false;
 
-                } else {
-                    return true;
+                }
+
+            }
+
+
+            return true;
+        }
+
+
+    }
+
+
+
+    public class SixteenCustomAdapter extends BaseAdapter {
+        private Context context;
+        private String[] strings;
+        public List selectedPositions;
+        List<String>  Booked = new ArrayList<>(fortynineSeaterList);
+
+        public SixteenCustomAdapter(String[] strings, Context context) {
+            this.strings = strings;
+            this.context = context;
+            selectedPositions = new ArrayList<>();
+
+        }
+
+
+        @Override
+        public int getCount() {
+            return strings.length;
+
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return strings[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
+            View gridView;
+
+
+            HashSet<String> sixteencommon = new HashSet<>(sixteeneSeaterList);
+            sixteencommon.retainAll(seats);
+            System.out.println("16 seater similiar " + sixteencommon);
+            System.out.println("seats available " + seats);
+            System.out.println("16 Seater List " + sixteeneSeaterList);
+            int size =  seats.size();
+            System.out.println("16 Size " + size);
+
+
+            Booked.removeAll(sixteencommon);
+
+
+            if (convertView == null) {
+
+                gridView = new View(context);
+
+                gridView = inflater.inflate(R.layout.grid_item, null);
+
+
+            } else {
+                gridView = convertView;
+            }
+
+
+
+            // set value into textview
+            gridtextView = gridView
+                    .findViewById(R.id.txt_grid);
+            gridtextView.setText(strings[position]);
+
+            String seatsitem = strings[position];
+
+            gridtextView.setBackgroundResource(R.drawable.seat_normal);
+
+
+            int color = 0x00FFFFFF; // Transparent
+
+            if (seatsitem.equals("C")) {
+                gridtextView.setBackgroundColor(color);
+                gridtextView.setText("");
+
+            }
+
+            for(int i=0;i<sixteencommon.size();i++) {
+                if (seats.size() > 14 && seats.size() <= 16) {
+
+                    if (seatsitem.equals(seats.get(i))) {
+                        gridtextView.setBackgroundResource(R.drawable.seat_normal);
+
+                    }
+
+                }
+            }
+
+            return gridView;
+
+        }
+
+        @Override
+        public boolean areAllItemsEnabled() {
+
+            return true;
+
+        }
+
+        @Override
+        public boolean isEnabled(int position) {
+
+            String seats = strings[position];
+
+            for (int i = 0; i < Booked.size(); i++) {
+                if ((seats.equals(Booked.get(i)))) {
+
+                    return false;
+
                 }
 
             }

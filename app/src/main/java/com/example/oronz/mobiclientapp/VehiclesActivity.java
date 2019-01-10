@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -101,6 +100,10 @@ public class VehiclesActivity extends AppCompatActivity {
                         if (response.getInt("response_code") == 0) {
                             jsonArray = response.getJSONArray("bus");
 
+                            if(jsonArray.length()==0){
+                                Toast.makeText(getApplicationContext(), ("There are no vehicles Remaining"), Toast.LENGTH_LONG).show();
+
+                            }
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                 buses = jsonObject1.getString("route");
@@ -111,21 +114,11 @@ public class VehiclesActivity extends AppCompatActivity {
                                 String from = jsonObject1.getString("from");
                                 String too = jsonObject1.getString("to");
 
-
-
-                                if(jsonObject1==null){
-                                    Toast.makeText(getApplicationContext(), ("There are no vehicles Remaining"), Toast.LENGTH_LONG).show();
-
-                                }else {
-
                                     Log.d("Buses: ", buses);
 
 //                                        vehicles.add(buses);
 
                                     availableVehicles.add(new AvailableVehicles(buses,total_seats,seats_available,departure_time,car_id));
-
-                                }
-
 
                             }
 
@@ -135,7 +128,6 @@ public class VehiclesActivity extends AppCompatActivity {
                         }
 
 //
-
                         VehicleArrayAdapter vehicleAdapter = new VehicleArrayAdapter(VehiclesActivity.this, availableVehicles);
 
                         listView.setAdapter(vehicleAdapter);

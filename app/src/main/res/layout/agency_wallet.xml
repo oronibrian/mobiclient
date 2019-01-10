@@ -12,17 +12,15 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@drawable/my_shape"
-        android:padding="10dp"
-        android:text="@string/enter_agency_wallet_pin_to_complete"
+        android:text="@string/confirm_to_complete"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <EditText
         android:id="@+id/agency_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_width="match_parent"        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
         android:ems="10"
         android:enabled="false"
         android:inputType="textPersonName"
@@ -32,8 +30,9 @@
         android:id="@+id/Agencywaletpassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="6dp"
         android:ems="10"
+        android:enabled="false"
         android:inputType="textPassword"
         android:padding="10dp" />
 
@@ -41,7 +40,6 @@
         android:id="@+id/btnconfirm"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/btn"
         android:padding="12dp"

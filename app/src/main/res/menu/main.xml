@@ -6,9 +6,19 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+
+
+    <item android:id="@+id/menu_manifest"
+        android:icon="@drawable/manifest"
+        app:showAsAction="ifRoom"
+        android:title="Manifest" />
+
+    <item android:id="@+id/menu_add"
+        android:icon="@drawable/icons8500"
+        app:showAsAction="always"
+        android:title="New Ticket" />
+
     <item android:id="@+id/menu_logout"
         android:icon="@drawable/login1"
-        app:showAsAction="ifRoom"
         android:title="Logout" />
-
 </menu>

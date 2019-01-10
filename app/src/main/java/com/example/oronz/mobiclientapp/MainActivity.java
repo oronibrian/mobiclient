@@ -1,20 +1,21 @@
 package com.example.oronz.mobiclientapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.oronz.mobiclientapp.Fragemnts.OneWayTripFragement;
 import com.example.oronz.mobiclientapp.Fragemnts.TwowayFragemnt;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private MobiClientApplication app;
+    TextView textViewUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,11 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerView = navigationView.getHeaderView(0);
+        textViewUsername= (TextView) headerView.findViewById((R.id.menutxt));
+
+        textViewUsername.setText(app.getLogged_user());
     }
 
 
@@ -91,7 +98,19 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.menu_logout) {
 
             startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+            SharedPreferences sharedpreferences = getSharedPreferences(LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.clear();
+            editor.apply();
             finish();
+        }
+        else if(id==R.id.menu_manifest){
+            startActivity(new Intent(getApplicationContext(), ManifestActivity.class));
+
+        }
+        else if(id==R.id.menu_add){
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -110,11 +129,13 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(getApplicationContext(), NewsActivity.class));
 
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.menu_search) {
             startActivity(new Intent(getApplicationContext(), MyTrips.class));
 
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.menu_manifest) {
+            startActivity(new Intent(getApplicationContext(), ManifestActivity.class));
+
 
         } else if (id == R.id.about) {
             startActivity(new Intent(getApplicationContext(), AboutUsActivity.class));

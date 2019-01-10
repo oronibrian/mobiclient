@@ -30,5 +30,6 @@
     <string name="mpesa_number_to_complete_payment">Mpesa Number To Complete Payment</string>
     <string name="enter_your_wallet_pin_to_complete">Enter Your Wallet Pin To Complete</string>
     <string name="proceed_to_book">Proceed To Book</string>
+    <string name="confirm_to_complete">Confirm to complete</string>
 
 </resources>

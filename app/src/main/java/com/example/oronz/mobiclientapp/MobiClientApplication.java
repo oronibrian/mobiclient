@@ -26,6 +26,9 @@ public class MobiClientApplication extends Application {
     private String agency_phone;
     private String logged_user;
 
+    String ManfestSelected,ManifestDate;
+
+
 
     public MobiClientApplication(){}
 
@@ -289,5 +292,21 @@ public class MobiClientApplication extends Application {
 
     public void setServerMessage(String serverMessage) {
         this.serverMessage = serverMessage;
+    }
+
+    public String getManfestSelected() {
+        return ManfestSelected;
+    }
+
+    public void setManfestSelected(String manfestSelected) {
+        ManfestSelected = manfestSelected;
+    }
+
+    public String getManifestDate() {
+        return ManifestDate;
+    }
+
+    public void setManifestDate(String manifestDate) {
+        ManifestDate = manifestDate;
     }
 }

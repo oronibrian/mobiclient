@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,9 +105,18 @@ public class OneWayTripFragement extends Fragment {
         search1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (_too.equals(_from)) {
+
+
+                if (too.getSelectedItemId()== 0 || too.getSelectedItemId()==0 || travel_date.getSelectedItemId()==0 ){
+
+                     Toast.makeText(getContext(), "Select Correct Choices", Toast.LENGTH_LONG).show();
+
+                 }
+
+                else if (_too.equals(_from)) {
                     Toast.makeText(getContext(), "Journey cannot be on the same City", Toast.LENGTH_LONG).show();
-                } else {
+                }
+                else {
 
                     progressBar = new ProgressDialog(v.getContext());
                     progressBar.setCancelable(true);
@@ -154,8 +164,12 @@ public class OneWayTripFragement extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                  date = travel_date.getItemAtPosition(travel_date.getSelectedItemPosition()).toString();
-                app.setTravel_date(date);
                 Log.d("Date :%n %s", date);
+
+
+                    app.setTravel_date(date);
+
+
 
             }
 
@@ -173,7 +187,12 @@ public class OneWayTripFragement extends Fragment {
 
                  _too = String.valueOf(too.getSelectedItemId());
 
-                app.setTravel_too(_too);
+
+
+                    app.setTravel_too(_too);
+
+
+
             }
 
             @Override
@@ -189,8 +208,14 @@ public class OneWayTripFragement extends Fragment {
                  _from = String.valueOf(from.getSelectedItemId());
                 Log.d("From City:%n %s", _from);
 
-                app.setTravel_from(_from);
+
+
+                    app.setTravel_from(_from);
+
+
+
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -238,8 +263,11 @@ public class OneWayTripFragement extends Fragment {
                             }
 
                             from.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, city));
+                            from.setSelection(0, false);
+
 
                             too.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, city));
+                            too.setSelection(0, false);
 
 
                         } catch (JSONException e) {
@@ -344,89 +372,5 @@ public class OneWayTripFragement extends Fragment {
 
         datesrequestQueue.add(req);
     }
-
-
-//    private void ticketType() {
-//
-//        RequestQueue tickettyperequestQueue = Volley.newRequestQueue(getContext());
-//
-//        HashMap<String, String> params = new HashMap<String, String>();
-//        params.put("username", app.getUser_name());
-//        params.put("api_key", app.getApi_key());
-//        params.put("action", "TicketTypes");
-//
-//        params.put("from_city", app.getTravel_from());
-//        params.put("to_city", app.getTravel_too());
-//        params.put("travel_date", app.getTravel_date());
-//        params.put("hash", app.getHash_key());
-//
-//        params.put("selected_vehicle", app.get_selected_vehicle());
-//        params.put("selected_seat", app.getSeatNo());
-//        params.put("seater", "11");
-//
-//        params.put("clerk_username", app.get_Clerk_username());
-//        params.put("clerk_password", app.get_Clerk_password());
-//
-//        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        try {
-//
-//                            if (response.getInt("response_code") == 0) {
-//                                JSONArray jsonArray = response.getJSONArray("ticket_type");
-//
-//
-//                                Log.d("ticket_type:%n %s", jsonArray.toString(4));
-//
-//                                for (int i = 0; i < jsonArray.length(); i++) {
-//                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-//                                    String ticket_type = jsonObject1.getString("name");
-//                                    ticketType.add(ticket_type);
-//                                }
-//
-//                            } else {
-//                                Toast.makeText(getContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
-//
-//                            }
-//
-//                            spinner_tickettype.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, ticketType));
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-//                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//
-//                } else if (error instanceof AuthFailureError) {
-//                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//                } else if (error instanceof ServerError) {
-//                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//                } else if (error instanceof NetworkError) {
-//                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//                } else if (error instanceof ParseError) {
-//                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        })
-//
-//        {
-//            @Override
-//            public String getBodyContentType() {
-//                return "application/x-www-form-urlencoded; charset=utf-8";
-//            }
-//
-//
-//        };
-//        tickettyperequestQueue.getCache().clear();
-//        tickettyperequestQueue.add(req);
-//
-//
-//    }
-
 
 }

@@ -8,9 +8,10 @@ public class MytripsDetails {
             reference_number,
             amount,
             transport_company,
-            vehicle_name;
+            vehicle_name,
+    name,phone,date_issued;
 
-    public MytripsDetails(String travel_from, String travel_to, String travel_date, String reference_number, String amount, String transport_company, String vehicle_name) {
+    public MytripsDetails(String travel_from, String travel_to, String travel_date, String reference_number, String amount, String transport_company, String vehicle_name, String name, String phone, String date_issued) {
         this.travel_from = travel_from;
         this.travel_to = travel_to;
         this.travel_date = travel_date;
@@ -18,6 +19,9 @@ public class MytripsDetails {
         this.amount = amount;
         this.transport_company = transport_company;
         this.vehicle_name = vehicle_name;
+        this.name = name;
+        this.phone = phone;
+        this.date_issued = date_issued;
     }
 
     public String getTravel_from() {
@@ -74,5 +78,30 @@ public class MytripsDetails {
 
     public void setVehicle_name(String vehicle_name) {
         this.vehicle_name = vehicle_name;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getDate_issued() {
+        return date_issued;
+    }
+
+    public void setDate_issued(String date_issued) {
+        this.date_issued = date_issued;
     }
 }
