@@ -3,11 +3,10 @@ package com.example.oronz.mobiclientapp;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -15,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -27,9 +27,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Adapter.ManifestAdapter;
-import com.example.oronz.mobiclientapp.Adapter.MyTripsArrayAdapter;
 import com.example.oronz.mobiclientapp.Models.ManifestDetails;
-import com.example.oronz.mobiclientapp.Models.MytripsDetails;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -163,6 +161,7 @@ public class ManifestActivity extends AppCompatActivity {
 
                             } else {
                                 Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
 
                             }
 
@@ -178,17 +177,28 @@ public class ManifestActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
 
                 } else if (error instanceof AuthFailureError) {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+
                 } else if (error instanceof ServerError) {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+
                 } else if (error instanceof NetworkError) {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+
                 } else if (error instanceof ParseError) {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+
                 }
 
             }
@@ -202,6 +212,10 @@ public class ManifestActivity extends AppCompatActivity {
 
 
         };
+        req.setRetryPolicy(new DefaultRetryPolicy(
+                20000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(req);
 
@@ -244,7 +258,9 @@ public class ManifestActivity extends AppCompatActivity {
 
 
                             } else {
+
                                 Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
 
                             }
 
@@ -255,11 +271,15 @@ public class ManifestActivity extends AppCompatActivity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            progressDialog.dismiss();
+
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
 

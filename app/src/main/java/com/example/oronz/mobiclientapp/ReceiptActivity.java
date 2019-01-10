@@ -290,6 +290,8 @@ public class ReceiptActivity extends AppCompatActivity {
         agency_username.setText(app.getAgency_phone());
 
         Agencywaletpassword = dialogView.findViewById(R.id.Agencywaletpassword);
+        Agencywaletpassword.setText(app.get_Clerk_password());
+
         Button btncomplete = dialogView.findViewById(R.id.btnconfirm);
 
         btncomplete.setOnClickListener(new View.OnClickListener() {
@@ -334,7 +336,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
                                 String message = response.getString("response_message");
 
-                                Log.d("Mpesa Respose", message);
+                                Log.d("Mpesa Response", message);
                                 txt_name.setText(message);
 
                                 btncomplete.setVisibility(View.GONE);
@@ -439,7 +441,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
                                 String message = response.getString("response_message");
 
-                                Log.d("Agency Respose", message);
+                                Log.d("Agency Response", message);
                                 txt_name.setText(message);
 
                                 btncomplete.setVisibility(View.GONE);

@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:maxLines="2"
-        android:text="Passenger Name"
+        android:text="Vehicle"
         android:textAlignment="center"
         android:textIsSelectable="false"
         android:textSize="16sp"
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="seat" />
+        android:text="Name" />
 
     <TextView
         android:id="@+id/manifest_ref_no"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_margin="5dp"
-        android:text="ref" />
+        android:text="Seat" />
 
     <TextView
         android:id="@+id/manifest_reg_no"
@@ -42,14 +42,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_margin="5dp"
-        android:text="Reg" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="268dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:clickable="true"
-        app:layout_anchorGravity="bottom" />
+        android:text="Ref No" />
 
 </LinearLayout>

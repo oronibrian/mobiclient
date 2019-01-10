@@ -17,15 +17,17 @@
         <EditText
             android:id="@+id/edittextreg_no"
             android:layout_width="237dp"
-            android:hint="KCR 220R"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:hint="KCR 220R" />
 
         <Button
             android:id="@+id/btnupdate"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:background="@drawable/btn"
-            android:text="update"
-            android:layout_height="match_parent" />
+            android:text="update" />
     </LinearLayout>
 
 
@@ -35,6 +37,8 @@
         android:layout_height="wrap_content"
         android:text="Manifest Details"
         android:maxLines="4"
+        android:textSize="15sp"
+        android:textAlignment="center"
         android:textStyle="bold" />
 
 

@@ -76,7 +76,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
         app.set_Clerk_username(edittextusername.getText().toString());
-        app.set_Clerk_password(editextpassword.getText().toString());
 
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -125,6 +124,7 @@ public class LoginActivity extends AppCompatActivity {
         final String password = editextpassword.getText().toString();
 
         app.setAgency_phone(email);
+        app.set_Clerk_password(password);
 
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
@@ -221,7 +221,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
             };
-            reserverequestQueue.getCache().clear();
+//            reserverequestQueue.getCache().clear();
 
             reserverequestQueue.add(req);
 
