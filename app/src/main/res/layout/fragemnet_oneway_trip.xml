@@ -66,8 +66,9 @@
 
         <fr.ganfra.materialspinner.MaterialSpinner
             android:id="@+id/spinner_travel_date_one"
-            android:layout_width="277dp"
+            android:layout_width="212dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
             app:ms_alignLabels="true"
             app:ms_arrowColor="@color/base"
             app:ms_arrowSize="8dp"

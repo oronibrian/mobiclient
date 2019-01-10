@@ -95,14 +95,14 @@ public class OneWayTripFragement extends Fragment {
             public void onClick(View v) {
 
 
-                if (too.getSelectedItemId()== 0 || too.getSelectedItemId()==0 || travel_date.getSelectedItemId()==0 ){
+                if (too.getSelectedItemId()== 0 && too.getSelectedItemId()==0 && travel_date.getSelectedItemId()==0 ){
 
-                     Toast.makeText(getContext(), "Select Correct Choices", Toast.LENGTH_LONG).show();
+                     Toast.makeText(getContext(), "Select Correct Choices", Toast.LENGTH_SHORT).show();
 
                  }
 
                 else if (_too.equals(_from)) {
-                    Toast.makeText(getContext(), "Journey cannot be on the same City", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Journey cannot be on the same City", Toast.LENGTH_SHORT).show();
                 }
                 else {
 
@@ -175,6 +175,7 @@ public class OneWayTripFragement extends Fragment {
 
                  _too = String.valueOf(too.getSelectedItemId()+1);
 
+                Log.d("To City:%n %s", _too);
 
 
                     app.setTravel_too(_too);
@@ -195,8 +196,6 @@ public class OneWayTripFragement extends Fragment {
 //                String _from = from.getItemAtPosition(from.getSelectedItemPosition()).toString();
                  _from = String.valueOf(from.getSelectedItemId()+1);
                 Log.d("From City:%n %s", _from);
-
-
 
                     app.setTravel_from(_from);
 
