@@ -60,13 +60,13 @@
     <LinearLayout
 
         android:layout_width="387dp"
-        android:layout_height="117dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
 
         <fr.ganfra.materialspinner.MaterialSpinner
             android:id="@+id/spinner_travel_date_one"
-            android:layout_width="193dp"
+            android:layout_width="277dp"
             android:layout_height="wrap_content"
             app:ms_alignLabels="true"
             app:ms_arrowColor="@color/base"
