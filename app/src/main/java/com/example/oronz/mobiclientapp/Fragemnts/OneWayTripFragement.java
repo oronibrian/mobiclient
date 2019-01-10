@@ -1,28 +1,19 @@
 package com.example.oronz.mobiclientapp.Fragemnts;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.NumberPicker;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -45,10 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
@@ -60,8 +48,8 @@ public class OneWayTripFragement extends Fragment {
 
     ArrayList<String> city,dates,vehicles;
 
-    MaterialSpinner from,too;
-
+    Spinner too;
+    Spinner from;
     MaterialSpinner travel_date;
 
     private MobiClientApplication app;
@@ -185,7 +173,7 @@ public class OneWayTripFragement extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 //                String _too = too.getItemAtPosition(too.getSelectedItemPosition()).toString();
 
-                 _too = String.valueOf(too.getSelectedItemId());
+                 _too = String.valueOf(too.getSelectedItemId()+1);
 
 
 
@@ -205,7 +193,7 @@ public class OneWayTripFragement extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 //                String _from = from.getItemAtPosition(from.getSelectedItemPosition()).toString();
-                 _from = String.valueOf(from.getSelectedItemId());
+                 _from = String.valueOf(from.getSelectedItemId()+1);
                 Log.d("From City:%n %s", _from);
 
 

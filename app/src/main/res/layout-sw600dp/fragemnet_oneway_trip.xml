@@ -15,51 +15,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <fr.ganfra.materialspinner.MaterialSpinner
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
             android:id="@+id/spinner_from_one"
-            android:layout_width="271dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="17dp"
-            android:layout_marginRight="17dp"
-            android:textAlignment="center"
-            app:ms_alignLabels="true"
-            app:ms_arrowColor="@color/base"
-            app:ms_arrowSize="8dp"
-            app:ms_baseColor="@color/base"
-            app:ms_dropDownHintView="@layout/dropdown_hint_item"
-            app:ms_enableErrorLabel="false"
-            app:ms_enableFloatingLabel="true"
-            app:ms_errorColor="@color/error"
-            app:ms_floatingLabelColor="@color/floating_label"
-            app:ms_floatingLabelText="Travelling From"
-            app:ms_highlightColor="@color/highlight"
-            app:ms_hint="From"
-            app:ms_hintColor="@color/highlight"
-            app:ms_hintView="@layout/hint_item"
-            app:ms_multiline="false"
-            app:ms_thickness="2dp" />
+            android:layout_width="283dp"
+            android:layout_height="50dp" />
 
-        <fr.ganfra.materialspinner.MaterialSpinner
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
             android:id="@+id/spinner_to_one"
-            android:layout_width="259dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            app:ms_alignLabels="true"
-            app:ms_arrowColor="@color/base"
-            app:ms_arrowSize="8dp"
-            app:ms_baseColor="@color/base"
-            app:ms_dropDownHintView="@layout/dropdown_hint_item"
-            app:ms_enableErrorLabel="false"
-            app:ms_enableFloatingLabel="true"
-            app:ms_errorColor="@color/error"
-            app:ms_floatingLabelColor="@color/floating_label"
-            app:ms_floatingLabelText="Travelling To"
-            app:ms_highlightColor="@color/highlight"
-            app:ms_hint="To"
-            app:ms_hintColor="@color/hint"
-            app:ms_hintView="@layout/hint_item"
-            app:ms_multiline="false"
-            app:ms_thickness="2dp" />
+            android:layout_width="248dp"
+            android:layout_height="50dp" />
     </LinearLayout>
 
     <LinearLayout

@@ -1,12 +1,6 @@
 package com.example.oronz.mobiclientapp.Fragemnts;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,11 +10,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -37,14 +28,12 @@ import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.MobiClientApplication;
 import com.example.oronz.mobiclientapp.R;
-import com.example.oronz.mobiclientapp.VehiclesActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
@@ -91,19 +80,19 @@ public class TwowayFragemnt extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         search2 =view.findViewById(R.id.search2);
-        search2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (_too.equals(_from)) {
-                    Toast.makeText(getContext(), "Journey cannot be on the same City", Toast.LENGTH_LONG).show();
-                } else {
-                    checkAvailableVehicle();
-
-                    Intent intent = new Intent(getActivity(), VehiclesActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
+//        search2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (_too.equals(_from)) {
+//                    Toast.makeText(getContext(), "Journey cannot be on the same City", Toast.LENGTH_LONG).show();
+//                } else {
+//                    checkAvailableVehicle();
+//
+//                    Intent intent = new Intent(getActivity(), VehiclesActivity.class);
+//                    startActivity(intent);
+//                }
+//            }
+//        });
 
 
 
@@ -112,6 +101,15 @@ public class TwowayFragemnt extends Fragment {
 
         travel_date=view.findViewById(R.id.spinner_travel_date);
         return_date=view.findViewById(R.id.spinner_return_date);
+
+
+
+        from.setVisibility(View.GONE);
+        too.setVisibility(View.GONE);
+        travel_date.setVisibility(View.GONE);
+        return_date.setVisibility(View.GONE);
+
+        search2.setText("Coming soon");
 
 
 
