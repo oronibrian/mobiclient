@@ -9,7 +9,9 @@
     <ListView
         android:id="@+id/passewngermanifest"
         android:layout_width="match_parent"
-        android:layout_height="424dp"></ListView>
+        android:layout_height="match_parent"
+        android:layout_above="@+id/fabprint"
+        android:layout_marginBottom="-65dp"></ListView>
 
 
     <android.support.design.widget.FloatingActionButton

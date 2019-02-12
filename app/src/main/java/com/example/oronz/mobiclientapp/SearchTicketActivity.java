@@ -1,5 +1,6 @@
 package com.example.oronz.mobiclientapp;
 
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -37,13 +38,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class MyTrips extends AppCompatActivity {
+public class SearchTicketActivity extends AppCompatActivity {
     MobiClientApplication app;
     ArrayList<MytripsDetails> mytripsDetails;
-    ListView mytripslistView ;
+    ListView mytripslistView;
     EditText editTextphone;
     Button btnsearch;
     String phoneno;
+    private ProgressDialog mProgress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,30 +58,38 @@ public class MyTrips extends AppCompatActivity {
 
         mytripsDetails = new ArrayList<MytripsDetails>();
 
-        editTextphone=findViewById(R.id.editTextphone);
-        btnsearch=findViewById(R.id.btnSearch);
+        editTextphone = findViewById(R.id.editTextphone);
+        btnsearch = findViewById(R.id.btnSearch);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Search Ticket");
 
         phoneno = app.getAgency_phone();
 
+        mProgress = new ProgressDialog(this);
+
+        mProgress.setTitle("Searching Ticket...");
+        mProgress.setMessage("Please wait...");
+        mProgress.setCancelable(true);
+        mProgress.setIndeterminate(true);
 
 
-         btnsearch.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 if (editTextphone.length() < 10 && editTextphone.length() > 10) {
-                     editTextphone.setError("Please Enter valid phone number");
+        btnsearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editTextphone.length() < 10 && editTextphone.length() > 10) {
+                    editTextphone.setError("Please Enter valid phone number Or Ref No");
 
-                 } else {
-                     phoneno = editTextphone.getText().toString();
-                     mytripsDetails = new ArrayList<MytripsDetails>();
+                } else {
+                    phoneno = editTextphone.getText().toString();
+                    mytripsDetails = new ArrayList<MytripsDetails>();
 
-                     getTickets();
 
-                 }
+                    getTickets();
 
-             }
-         });
+                }
+
+            }
+        });
 
 
         mytripslistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,22 +99,27 @@ public class MyTrips extends AppCompatActivity {
                 String Selected_payment_type = String.valueOf(mytripslistView.getSelectedItemPosition());
 
                 TextView textView = (TextView) view.findViewById(R.id.seatsbooked);
+                textView.setVisibility(View.GONE);
                 String ref = textView.getText().toString();
 
                 TextView amounttxt = (TextView) view.findViewById(R.id.textView2);
                 String amoumt = amounttxt.getText().toString();
 
+                amounttxt.setVisibility(View.GONE);
 
                 TextView vehicletxt = (TextView) view.findViewById(R.id.routeTextView);
                 String vehicle = vehicletxt.getText().toString();
+                textView.setVisibility(View.GONE);
 
 
                 TextView tootxt = (TextView) view.findViewById(R.id.too);
                 String too = tootxt.getText().toString();
+                tootxt.setVisibility(View.GONE);
 
 
                 TextView fromtxt = (TextView) view.findViewById(R.id.manifestavilableseats);
                 String from = fromtxt.getText().toString();
+                fromtxt.setVisibility(View.GONE);
 
                 TextView departuretxt = (TextView) view.findViewById(R.id.travel_date);
                 String departure = departuretxt.getText().toString();
@@ -123,7 +139,6 @@ public class MyTrips extends AppCompatActivity {
                 String seat = seattxt.getText().toString();
 
 
-
                 if (Build.MODEL.equals("MobiPrint")) {
                     Printer print = Printer.getInstance();
                     print.printFormattedText();
@@ -133,19 +148,19 @@ public class MyTrips extends AppCompatActivity {
                     print.printText("..........KEROKA,KENYA..........");
                     print.printText("......Passenger Details.........");
 
-                    print.printText("Name: "+passengername );
+                    print.printText("Name: " + passengername);
                     print.printText("Ref No:" + ref);
-                    print.printText("Phone No:" +phonenum);
-                    print.printText("Seat:" +seat);
+                    print.printText("Phone No:" + phonenum);
+                    print.printText("Seat:" + seat);
                     print.printText("Fare: Ksh." + amoumt);
 
                     print.printText("................................");
                     print.printText("......Vehicle Details.........");
                     print.printText("Vehicle:" + vehicle);
-                    print.printText("Route:" + too + " " +from);
+                    print.printText("Route:" + too + " " + from);
                     print.printText("Travel Date: " + departure);
                     print.printText("................................");
-                    print.printText("Issued On :" +issuedon );
+                    print.printText("Issued On :" + issuedon);
                     print.printText("Issued by :" + app.getLogged_user());
 
                     print.printBitmap(getResources().openRawResource(R.raw.payment_methods_old));
@@ -160,7 +175,10 @@ public class MyTrips extends AppCompatActivity {
 
 
     private void getTickets() {
-        RequestQueue requestQueue = Volley.newRequestQueue(MyTrips.this);
+
+        mProgress.show();
+
+        RequestQueue requestQueue = Volley.newRequestQueue(SearchTicketActivity.this);
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
         params.put("api_key", app.getApi_key());
@@ -179,7 +197,7 @@ public class MyTrips extends AppCompatActivity {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 
-                                    Log.d("Ticket details ",jsonObject1.toString());
+                                    Log.d("Ticket details ", jsonObject1.toString());
 
                                     String car_name = jsonObject1.getString("vehicle_name");
                                     String travel_from = jsonObject1.getString("travel_from");
@@ -193,16 +211,18 @@ public class MyTrips extends AppCompatActivity {
                                     String phone = jsonObject1.getString("msisdn");
                                     String date_issued = jsonObject1.getString("payment_date");
 
-                                    mytripsDetails.add(new MytripsDetails(car_name,travel_from,travel_to,travel_date,reference_number,amount,seat,name,phone,date_issued));
+                                    mytripsDetails.add(new MytripsDetails(car_name, travel_from, travel_to, travel_date, reference_number, amount, seat, name, phone, date_issued));
+                                    mProgress.dismiss();
 
                                 }
 
                             } else {
                                 Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                                mProgress.dismiss();
 
                             }
 
-                            MyTripsArrayAdapter tripsArrayAdapter = new MyTripsArrayAdapter(MyTrips.this, mytripsDetails);
+                            MyTripsArrayAdapter tripsArrayAdapter = new MyTripsArrayAdapter(SearchTicketActivity.this, mytripsDetails);
 
                             mytripslistView.setAdapter(tripsArrayAdapter);
 
@@ -228,9 +248,7 @@ public class MyTrips extends AppCompatActivity {
                 }
 
             }
-        })
-
-        {
+        }) {
             @Override
             public String getBodyContentType() {
                 return "application/x-www-form-urlencoded; charset=utf-8";

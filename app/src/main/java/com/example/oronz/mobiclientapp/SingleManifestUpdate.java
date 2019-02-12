@@ -103,10 +103,9 @@ public class SingleManifestUpdate extends AppCompatActivity {
 
 
 
-        for (int i = 0; i < carmanifestDetails.size(); i++) {
+        for (int i = 0; i <= carmanifestDetails.size(); i++) {
             PassengerManifestDetails passdetails = carmanifestDetails.get(i);
             String phone = passdetails.getPhone().replace("254","0");
-
             print.printText(passdetails.getRefno() + " " + phone + " " + passdetails.getSeat() + " " + passdetails.getReg_no() +"\n");
 
         }

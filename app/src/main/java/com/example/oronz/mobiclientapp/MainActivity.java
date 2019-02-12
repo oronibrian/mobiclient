@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity
 
 
         } else if (id == R.id.menu_search) {
-            startActivity(new Intent(getApplicationContext(), MyTrips.class));
+            startActivity(new Intent(getApplicationContext(), SearchTicketActivity.class));
 
 
         } else if (id == R.id.menu_manifest) {

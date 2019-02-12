@@ -11,7 +11,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/passengername"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/phonenum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
 
         <TextView
             android:id="@+id/routeTextView"
@@ -19,11 +35,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_margin="16dp"
-            android:maxLines="2"
             android:text="Car title"
             android:textAlignment="center"
             android:textIsSelectable="false"
-            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
@@ -100,7 +114,7 @@
 
             <TextView
                 android:id="@+id/too"
-                android:layout_width="189dp"
+                android:layout_width="154dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="too"
@@ -114,26 +128,19 @@
                 android:layout_weight="2"
                 android:text="from: "
                 android:textAlignment="center" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
-            <TextView
-                android:id="@+id/passengername"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-            <TextView
-                android:id="@+id/phonenum"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+
 
             <TextView
                 android:id="@+id/issuedon"
                 android:layout_width="match_parent"
+                android:textAlignment="center"
                 android:layout_height="wrap_content"
                 />
 
