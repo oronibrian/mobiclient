@@ -20,6 +20,7 @@
     <application
         android:name=".MobiClientApplication"
         android:allowBackup="true"
+        android:largeHeap="true"
         android:icon="@mipmap/ena_coach_logo24bit"
         android:label="@string/app_name"
         android:resizeableActivity="true"
