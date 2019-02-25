@@ -31,7 +31,8 @@
             android:id="@+id/btnSearch"
             android:layout_width="52dp"
             android:layout_height="45dp"
-            android:background="@drawable/searc216"
+            android:background="@drawable/btn"
+            android:text="Srch"
             tools:layout_editor_absoluteX="265dp"
             tools:layout_editor_absoluteY="5dp" />
     </LinearLayout>

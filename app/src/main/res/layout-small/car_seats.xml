@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     android:layout_margin="10dp"
     android:orientation="horizontal"
-    android:weightSum="100"
+    android:weightSum="1"
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:layout_width="190dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
@@ -18,7 +18,7 @@
 
 
         <LinearLayout
-            android:layout_width="287dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -52,18 +52,18 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
             android:orientation="vertical">
 
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/payment_type_spinner"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_width="54dp"
+                android:layout_height="23dp"
                 android:layout_marginLeft="26dp"
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:paddingLeft="16dp"
+                android:layout_margin="2dp"
+
                 android:paddingRight="16dp"
                 android:popupBackground="@color/floating_label"
                 android:spinnerMode="dropdown"
@@ -96,27 +96,30 @@
 
             <Button
                 android:id="@+id/btngo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_width="54dp"
+                android:layout_height="16dp"
+                android:layout_margin="2dp"
+                android:textSize="6dp"
                 android:background="@drawable/btn"
                 android:text="Reserve" />
 
             <Button
                 android:id="@+id/btnbook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/btngo"
-                android:layout_margin="10dp"
+                android:layout_width="60dp"
+                android:layout_height="18dp"
+                android:textSize="6dp"
+
+                android:layout_margin="2dp"
                 android:background="@drawable/btn"
-                android:padding="10dp"
                 android:text="Book" />
 
             <Button
                 android:id="@+id/btncancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_width="62dp"
+                android:layout_height="18dp"
+                android:layout_margin="2dp"
+                android:textSize="6dp"
+
                 android:background="@drawable/btn"
                 android:text="Cancel" />
         </LinearLayout>

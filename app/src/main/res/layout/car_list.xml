@@ -4,7 +4,6 @@
     android:id="@+id/android_list_view_tutorial_with_example"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/my_shape_available_cars"
     android:orientation="horizontal">
 
 
@@ -12,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="124dp"
         android:textAlignment="center"
+        android:background="@drawable/my_shape_available_cars"
+
         android:orientation="vertical">
 
         <TextView

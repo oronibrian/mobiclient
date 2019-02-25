@@ -454,7 +454,7 @@ public class Seats_activity extends AppCompatActivity {
                                 });
 
 
-                            } else if (Integer.parseInt(vehicleseater)  == 49) {
+                            } else if (Integer.parseInt(vehicleseater) == 49) {
 
                                 final FoutynineCustomAdapter adapter = new FoutynineCustomAdapter(fortynineSeater, this);
                                 gridView.setAdapter(adapter);
@@ -1064,7 +1064,7 @@ public class Seats_activity extends AppCompatActivity {
 
             String seatsitem = strings[position];
 
-            gridtextView.setBackgroundResource(R.drawable.seat_normal);
+            gridtextView.setBackgroundResource(R.drawable.seat_normal_booked);
 
 
             int color = 0x00FFFFFF; // Transparent

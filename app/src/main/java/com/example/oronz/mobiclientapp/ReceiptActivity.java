@@ -214,7 +214,11 @@ public class ReceiptActivity extends AppCompatActivity {
                 }
 
 
-            }
+            }else{
+
+            Toast.makeText(getApplicationContext(), "Device Doesn't Support Printing", Toast.LENGTH_SHORT).show();
+
+        }
 
 
     }

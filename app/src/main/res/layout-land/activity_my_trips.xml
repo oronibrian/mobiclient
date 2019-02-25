@@ -20,7 +20,7 @@
 
         <EditText
             android:id="@+id/editTextphone"
-            android:layout_width="411dp"
+            android:layout_width="338dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="phone or Ticket no"
@@ -31,7 +31,8 @@
             android:id="@+id/btnSearch"
             android:layout_width="63dp"
             android:layout_height="45dp"
-            android:background="@drawable/searc216"
+            android:background="@drawable/btn"
+            android:text="Srch"
             tools:layout_editor_absoluteX="265dp"
             tools:layout_editor_absoluteY="5dp" />
     </LinearLayout>

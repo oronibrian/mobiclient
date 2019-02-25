@@ -59,7 +59,7 @@ public class OneWayTripFragement extends Fragment {
     ProgressDialog progressBar;
 
     CountDownTimer CDT;
-    int i =5;
+    int i =7;
 
     public OneWayTripFragement() {
         // Required empty public constructor
@@ -114,7 +114,7 @@ public class OneWayTripFragement extends Fragment {
                     Intent intent = new Intent(getActivity(), VehiclesActivity.class);
 
 
-                    CDT = new CountDownTimer(5000, 1000)
+                    CDT = new CountDownTimer(7000, 1000)
                     {
                         public void onTick(long millisUntilFinished)
                         {
