@@ -24,7 +24,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -55,6 +57,11 @@ public class VehiclesActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listview);
 
         availableVehicles = new ArrayList<>();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String today = dateFormat.format(new Date());
+
+        app.setTravel_date(today);
 
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -87,11 +94,10 @@ public class VehiclesActivity extends AppCompatActivity {
 
         params.put("travel_from", app.getTravel_from());
         params.put("travel_to", app.getTravel_too());
+
         params.put("travel_date", app.getTravel_date());
         params.put("hash", app.getHash_key());
 
-        params.put("clerk_username", app.get_Clerk_username());
-        params.put("clerk_password", app.get_Clerk_password());
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
                 response -> {
@@ -99,6 +105,8 @@ public class VehiclesActivity extends AppCompatActivity {
 
                         if (response.getInt("response_code") == 0) {
                             jsonArray = response.getJSONArray("bus");
+
+                            Log.d("Vehicles:",jsonArray.toString(4));
 
                             if(jsonArray.length()==0){
                                 Toast.makeText(getApplicationContext(), ("There are no vehicles Remaining"), Toast.LENGTH_LONG).show();
@@ -139,7 +147,10 @@ public class VehiclesActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Error: ", error.getMessage());
+//                Log.d("Error: ", error.getMessage().toString());
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+
             }
         })
 

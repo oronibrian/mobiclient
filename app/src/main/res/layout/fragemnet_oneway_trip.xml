@@ -1,74 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/table_layout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
+    android:background="#ffff"
     android:orientation="vertical"
-    android:background="#ffff">
+    android:padding="10dp">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="105dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
         android:orientation="horizontal">
-
 
         <TextView
             android:id="@+id/Text1"
-            android:layout_width="123dp"
-            android:layout_height="33dp"
-            android:layout_alignStart="@+id/spinner_to_one"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="-159dp"
-            android:layout_marginTop="5dp"
-            android:text="From"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Travel From"
             android:textColor="@color/colorPrimaryDark" />
 
-        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-            android:id="@+id/spinner_from_one"
-            android:layout_width="148dp"
-            android:layout_height="51dp"
-            android:layout_below="@id/Text1" />
 
         <TextView
             android:id="@+id/Text2"
-            android:layout_width="152dp"
-            android:layout_height="45dp"
-            android:layout_alignParentEnd="true"
-
-            android:layout_marginEnd="0dp"
-            android:text="To"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Travel To"
             android:textColor="@color/colorPrimaryDark" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:orientation="horizontal">
+
+
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/spinner_from_one"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center" />
 
 
         <com.toptoche.searchablespinnerlibrary.SearchableSpinner
             android:id="@+id/spinner_to_one"
-            android:layout_width="212dp"
-            android:layout_height="36dp"
-            android:layout_below="@id/Text2"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="23dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="8dp"
-            android:layout_toEndOf="@+id/spinner_from_one" />
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
 
-        android:layout_width="387dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
 
         <fr.ganfra.materialspinner.MaterialSpinner
             android:id="@+id/spinner_travel_date_one"
-            android:layout_width="212dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             app:ms_alignLabels="true"
             app:ms_arrowColor="@color/base"
             app:ms_arrowSize="8dp"
@@ -80,15 +79,16 @@
             app:ms_floatingLabelColor="@color/floating_label"
             app:ms_floatingLabelText="Travel Date"
             app:ms_highlightColor="@color/highlight"
-            app:ms_hint="Travel Date"
             app:ms_hintColor="@color/hint"
             app:ms_hintView="@layout/hint_item"
             app:ms_multiline="false"
             app:ms_thickness="2dp" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <Button
             android:id="@+id/searchbtn1"
             android:layout_width="match_parent"

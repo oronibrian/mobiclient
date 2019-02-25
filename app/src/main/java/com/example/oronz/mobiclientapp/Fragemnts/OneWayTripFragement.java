@@ -95,7 +95,7 @@ public class OneWayTripFragement extends Fragment {
             public void onClick(View v) {
 
 
-                if (too.getSelectedItemId()== 0 && too.getSelectedItemId()==0 && travel_date.getSelectedItemId()==0 ){
+                if (too.getSelectedItemId()== 0 && too.getSelectedItemId()==-1 && travel_date.getSelectedItemId()==-1 ){
 
                      Toast.makeText(getContext(), "Select Correct Choices", Toast.LENGTH_SHORT).show();
 
@@ -173,7 +173,7 @@ public class OneWayTripFragement extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 //                String _too = too.getItemAtPosition(too.getSelectedItemPosition()).toString();
 
-                 _too = String.valueOf(too.getSelectedItemId()+1);
+                 _too = String.valueOf(too.getSelectedItemId());
 
                 Log.d("To City:%n %s", _too);
 
@@ -194,7 +194,7 @@ public class OneWayTripFragement extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 //                String _from = from.getItemAtPosition(from.getSelectedItemPosition()).toString();
-                 _from = String.valueOf(from.getSelectedItemId()+1);
+                 _from = String.valueOf(from.getSelectedItemId());
                 Log.d("From City:%n %s", _from);
 
                     app.setTravel_from(_from);
@@ -223,8 +223,7 @@ public class OneWayTripFragement extends Fragment {
         params.put("username", app.getUser_name());
         params.put("api_key", app.getApi_key());
         params.put("action", "AvailableCities");
-        params.put("clerk_username", app.get_Clerk_username());
-        params.put("clerk_password", app.get_Clerk_password());
+
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
@@ -300,8 +299,8 @@ public class OneWayTripFragement extends Fragment {
         params.put("username", app.getUser_name());
         params.put("api_key", app.getApi_key());
         params.put("action", "AvailableDates");
-        params.put("clerk_username", app.get_Clerk_username());
-        params.put("clerk_password", app.get_Clerk_password());
+//        params.put("clerk_username", app.get_Clerk_username());
+//        params.put("clerk_password", app.get_Clerk_password());
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
                 new Response.Listener<JSONObject>() {

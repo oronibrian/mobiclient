@@ -69,7 +69,7 @@ public class Seats_activity extends AppCompatActivity {
     Button checkbtn;
     TextView info_text;
     String refno, seatno, ticket_mesaage, reserver, reserve_confirmation;
-    List<String> LevenSeaterList, fortynineSeaterList,fourteenSeaterlist,sixteeneSeaterList;
+    List<String> LevenSeaterList, fortynineSeaterList, fourteenSeaterlist, sixteeneSeaterList;
 
     MaterialSpinner payment_type_spinner;
     Spinner spinner;
@@ -87,7 +87,7 @@ public class Seats_activity extends AppCompatActivity {
             "2", "3", "4",
             "5", "6", "7",
             "8", "9", "10",
-            "11", "12","13"
+            "11", "12", "13"
     };
 
 
@@ -96,24 +96,24 @@ public class Seats_activity extends AppCompatActivity {
             "2", "3", "4",
             "5", "6", "7",
             "8", "9", "10",
-            "11", "12","13"
+            "11", "12", "13"
     };
 
 
     String[] fortynineSeater = new String[]{
 
             "1A", "2A", "C", "1B", "2B",
-            "3A", "4A",  "C","3B", "4B",
+            "3A", "4A", "C", "3B", "4B",
             "5A", "6A", "C", "5B", "6B",
-            "7A", "8A",  "C","7B", "8B",
-            "9A","9B", "C","10A","10B",
-            "11A","11B", "C","12A","12B",
-            "13A","14A", "C","13B", "14B",
-            "15A","16A", "C",  "15B", "16B",
-            "17A","18A", "C", "17B","18B",
-            "19A","20A", "C","19B", "20B",
-            "21A","22A", "C","21B", "22B",
-            "23A","24A","25","23B", "24B",
+            "7A", "8A", "C", "7B", "8B",
+            "9A", "9B", "C", "10A", "10B",
+            "11A", "11B", "C", "12A", "12B",
+            "13A", "14A", "C", "13B", "14B",
+            "15A", "16A", "C", "15B", "16B",
+            "17A", "18A", "C", "17B", "18B",
+            "19A", "20A", "C", "19B", "20B",
+            "21A", "22A", "C", "21B", "22B",
+            "23A", "24A", "25", "23B", "24B",
 
     };
 
@@ -123,6 +123,8 @@ public class Seats_activity extends AppCompatActivity {
     private GridView gridView;
     TextView textView;
     private ProgressDialog mProgress;
+
+    String vehicleseater;
 
     ArrayList<UserDetails> ticketusers;
     UserDetails userDetails;
@@ -157,8 +159,10 @@ public class Seats_activity extends AppCompatActivity {
 
         LevenSeaterList = new ArrayList<>(Arrays.asList(elevenSeater));
         fortynineSeaterList = new ArrayList<>(Arrays.asList(fortynineSeater));
+
+
         fourteenSeaterlist = new ArrayList<>(Arrays.asList(fourteenSeater));
-        sixteeneSeaterList =new ArrayList<>(Arrays.asList(sixteenSeater));
+        sixteeneSeaterList = new ArrayList<>(Arrays.asList(sixteenSeater));
 
         mProgress = new ProgressDialog(this);
         mProgress.setTitle("Reserving ..");
@@ -166,8 +170,7 @@ public class Seats_activity extends AppCompatActivity {
         mProgress.setCancelable(false);
         mProgress.setIndeterminate(true);
 
-        seats=new ArrayList<>();
-
+        seats = new ArrayList<>();
 
 
         payment_type_spinner = findViewById(R.id.payment_type_spinner);
@@ -281,9 +284,7 @@ public class Seats_activity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
-        })
-
-        {
+        }) {
             @Override
             public String getBodyContentType() {
                 return "application/x-www-form-urlencoded; charset=utf-8";
@@ -344,9 +345,7 @@ public class Seats_activity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
-        })
-
-        {
+        }) {
             @Override
             public String getBodyContentType() {
                 return "application/x-www-form-urlencoded; charset=utf-8";
@@ -368,16 +367,14 @@ public class Seats_activity extends AppCompatActivity {
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
         params.put("api_key", app.getApi_key());
-        params.put("action", "SearchSchedule");
-
-        params.put("travel_from", app.getTravel_from());
-        params.put("travel_to", app.getTravel_too());
+        params.put("action", "AvailableSeats");
+        params.put("from_city", app.getTravel_from());
+        params.put("to_city",app.getTravel_too());
         params.put("travel_date", app.getTravel_date());
         params.put("hash", app.getHash_key());
         params.put("selected_vehicle", app.get_selected_vehicle());
 
-        params.put("clerk_username", app.get_Clerk_username());
-        params.put("clerk_password", app.get_Clerk_password());
+
 
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
@@ -385,12 +382,10 @@ public class Seats_activity extends AppCompatActivity {
                     try {
 
 
-                        if (response.getString("response_code").equals("0")) {
+                        if (response.getInt("response_code") == 0) {
 
-                            JSONArray jsonArray = response.getJSONArray("bus");
+                            JSONArray bus_array = response.getJSONArray("seats");
 
-                            JSONObject jsonObject1 = jsonArray.getJSONObject(Integer.parseInt(app.getIndex()));
-                            JSONArray bus_array = jsonObject1.getJSONArray("seats");
 
 
                             Log.d("#####SIZE", String.valueOf(bus_array.length()));
@@ -399,18 +394,19 @@ public class Seats_activity extends AppCompatActivity {
                             for (int x = 0; x < bus_array.length(); x++) {
                                 JSONObject obj = bus_array.getJSONObject(x);
                                 String gari = obj.getString("name");
+                                vehicleseater = obj.getString("seater");
 
                                 gari = gari.replace(" ", "");
 
                                 Log.d("##### Seats", gari);
+                                Log.d("##### Vehicle Seater", vehicleseater);
 
                                 seats = new ArrayList<>(Arrays.asList(gari.split(",")));
 
                             }
 
 
-
-                            if (seats.size() <= 11) {
+                            if (Integer.parseInt(vehicleseater) <= 11) {
 
 
                                 final CustomAdapter adapter = new CustomAdapter(elevenSeater, this);
@@ -458,7 +454,7 @@ public class Seats_activity extends AppCompatActivity {
                                 });
 
 
-                            } else if (seats.size() >= 49) {
+                            } else if (Integer.parseInt(vehicleseater)  == 49) {
 
                                 final FoutynineCustomAdapter adapter = new FoutynineCustomAdapter(fortynineSeater, this);
                                 gridView.setAdapter(adapter);
@@ -505,9 +501,7 @@ public class Seats_activity extends AppCompatActivity {
                                 });
 
 
-                            }
-
-                            else if (seats.size() > 11 && seats.size() <= 14) {
+                            } else if (Integer.parseInt(vehicleseater) > 11 && Integer.parseInt(vehicleseater)  <= 14) {
 
                                 final CustomAdapter adapter = new CustomAdapter(fourteenSeater, this);
                                 gridView.setAdapter(adapter);
@@ -582,9 +576,7 @@ public class Seats_activity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
-        })
-
-        {
+        }) {
             @Override
             public String getBodyContentType() {
                 return "application/x-www-form-urlencoded; charset=utf-8";
@@ -735,8 +727,8 @@ public class Seats_activity extends AppCompatActivity {
 
                             }
 
-                           b  = new Bundle();
-                            b.putString("TicketArray",jsonArray.toString());
+                            b = new Bundle();
+                            b.putString("TicketArray", jsonArray.toString());
 
 
                             Log.d("Status", reserver);
@@ -744,7 +736,6 @@ public class Seats_activity extends AppCompatActivity {
 
                             app.setServerRespose(reserver);
                             app.setServerMessage(ticket_mesaage);
-
 
 
                         } else {
@@ -781,9 +772,7 @@ public class Seats_activity extends AppCompatActivity {
                 }
             }
 
-        })
-
-        {
+        }) {
             @Override
             public String getBodyContentType() {
                 return "application/x-www-form-urlencoded; charset=utf-8";
@@ -807,12 +796,12 @@ public class Seats_activity extends AppCompatActivity {
                 String jsonTicketusers = gson.toJson(ticketusers);
 
                 intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
-                        intentExtra.putStringArrayListExtra("listofseats", (ArrayList<String>) listofseats);
+                intentExtra.putStringArrayListExtra("listofseats", (ArrayList<String>) listofseats);
 
-                        intentExtra.putExtra("data", ticket_mesaage);
-                        intentExtra.putExtra("txt_status", reserver);
-                        intentExtra.putExtras(b);
-                         intentExtra.putExtra("list_as_string", jsonTicketusers);
+                intentExtra.putExtra("data", ticket_mesaage);
+                intentExtra.putExtra("txt_status", reserver);
+                intentExtra.putExtras(b);
+                intentExtra.putExtra("list_as_string", jsonTicketusers);
 
                 startActivity(intentExtra);
 
@@ -841,8 +830,8 @@ public class Seats_activity extends AppCompatActivity {
         private Context context;
         private String[] strings;
         public List selectedPositions;
-        List<String>  Booked_11 = new ArrayList<>(LevenSeaterList);
-        List<String>  Booked_14 = new ArrayList<>(LevenSeaterList);
+        List<String> Booked_11 = new ArrayList<>(LevenSeaterList);
+        List<String> Booked_14 = new ArrayList<>(fourteenSeaterlist);
 
         public CustomAdapter(String[] strings, Context context) {
             this.strings = strings;
@@ -890,7 +879,6 @@ public class Seats_activity extends AppCompatActivity {
             System.out.println("11 seater Booked  Seats " + Booked_11);
 
 
-
             HashSet<String> fourteencommon = new HashSet<>(fourteenSeaterlist);
             fourteencommon.retainAll(seats);
             System.out.println("14 seater similiar " + fourteencommon);
@@ -900,7 +888,6 @@ public class Seats_activity extends AppCompatActivity {
 
             Booked_14.removeAll(fourteencommon);
             System.out.println("14 seater Booked  Seats " + Booked_14);
-
 
 
             if (convertView == null) {
@@ -919,20 +906,20 @@ public class Seats_activity extends AppCompatActivity {
                 gridtextView.setBackgroundResource(R.drawable.seat_normal_booked);
 
                 if (seatsitem.equals("D")) {
-                        gridtextView.setBackgroundResource(R.drawable.steering);
+                    gridtextView.setBackgroundResource(R.drawable.steering);
                     gridtextView.setText("");
 
                 }
 
-                for(int i=0;i<common.size();i++) {
+                for (int i = 0; i < common.size(); i++) {
 
                     if (seatsitem.equals("D")) {
                         gridtextView.setBackgroundResource(R.drawable.steering);
                         gridtextView.setText("");
                     } else if (seats.size() <= 11) {
 
-                            if (seatsitem.equals(seats.get(i))) {
-                                gridtextView.setBackgroundResource(R.drawable.seat_normal);
+                        if (seatsitem.equals(seats.get(i))) {
+                            gridtextView.setBackgroundResource(R.drawable.seat_normal);
 
                         }
 
@@ -941,7 +928,7 @@ public class Seats_activity extends AppCompatActivity {
 
                 }
 
-                for(int i=0;i<fourteencommon.size();i++) {
+                for (int i = 0; i < fourteencommon.size(); i++) {
 
                     if (seatsitem.equals("D")) {
 
@@ -959,7 +946,7 @@ public class Seats_activity extends AppCompatActivity {
                 }
 
 
-                } else {
+            } else {
                 gridView = convertView;
             }
 
@@ -980,7 +967,7 @@ public class Seats_activity extends AppCompatActivity {
 
             String seats = strings[position];
 
-                   for (int i = 0; i < Booked_11.size(); i++) {
+            for (int i = 0; i < Booked_11.size(); i++) {
                 if ((seats.equals(Booked_11.get(i)))) {
 
                     return false;
@@ -1009,7 +996,7 @@ public class Seats_activity extends AppCompatActivity {
         private Context context;
         private String[] strings;
         public List selectedPositions;
-        List<String>  Booked = new ArrayList<>(fortynineSeaterList);
+        List<String> Booked = new ArrayList<>(fortynineSeaterList);
 
         public FoutynineCustomAdapter(String[] strings, Context context) {
             this.strings = strings;
@@ -1051,7 +1038,7 @@ public class Seats_activity extends AppCompatActivity {
             System.out.println("49 seater similiar " + fortyninecommon);
             System.out.println("seats available " + seats);
             System.out.println("49 Seater List " + fortynineSeaterList);
-            int size =  seats.size();
+            int size = seats.size();
             System.out.println("49 Size " + size);
 
 
@@ -1068,7 +1055,6 @@ public class Seats_activity extends AppCompatActivity {
             } else {
                 gridView = convertView;
             }
-
 
 
             // set value into textview
@@ -1089,7 +1075,7 @@ public class Seats_activity extends AppCompatActivity {
 
             }
 
-            for(int i=0;i<fortyninecommon.size();i++) {
+            for (int i = 0; i < fortyninecommon.size(); i++) {
                 if (seats.size() > 14 && seats.size() <= 49) {
 
                     if (seatsitem.equals(seats.get(i))) {
@@ -1133,12 +1119,11 @@ public class Seats_activity extends AppCompatActivity {
     }
 
 
-
     public class SixteenCustomAdapter extends BaseAdapter {
         private Context context;
         private String[] strings;
         public List selectedPositions;
-        List<String>  Booked = new ArrayList<>(fortynineSeaterList);
+        List<String> Booked = new ArrayList<>(fortynineSeaterList);
 
         public SixteenCustomAdapter(String[] strings, Context context) {
             this.strings = strings;
@@ -1180,7 +1165,7 @@ public class Seats_activity extends AppCompatActivity {
             System.out.println("16 seater similiar " + sixteencommon);
             System.out.println("seats available " + seats);
             System.out.println("16 Seater List " + sixteeneSeaterList);
-            int size =  seats.size();
+            int size = seats.size();
             System.out.println("16 Size " + size);
 
 
@@ -1197,7 +1182,6 @@ public class Seats_activity extends AppCompatActivity {
             } else {
                 gridView = convertView;
             }
-
 
 
             // set value into textview
@@ -1218,7 +1202,7 @@ public class Seats_activity extends AppCompatActivity {
 
             }
 
-            for(int i=0;i<sixteencommon.size();i++) {
+            for (int i = 0; i < sixteencommon.size(); i++) {
                 if (seats.size() > 14 && seats.size() <= 16) {
 
                     if (seatsitem.equals(seats.get(i))) {

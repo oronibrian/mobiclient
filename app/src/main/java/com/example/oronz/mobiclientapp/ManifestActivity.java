@@ -113,7 +113,7 @@ public class ManifestActivity extends AppCompatActivity {
             String route = mytripsDetails.get(position).getRoute();
 
             Toast.makeText(ManifestActivity.this,
-                    route, Toast.LENGTH_LONG).show();
+                    route, Toast.LENGTH_SHORT).show();
 
             app.setManfestSelected(route);
 
