@@ -84,38 +84,11 @@ public class SingleManifestUpdate extends AppCompatActivity {
         loadManifest();
 
 
-        prntfull.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        prntfull.setOnClickListener(v -> printManifest());
 
-                printManifest();
+        prntpg1.setOnClickListener(v -> printManifestpage1());
 
-            }
-
-
-        });
-
-        prntpg1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                printManifestpage1();
-
-            }
-
-
-        });
-
-        prntpg2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                printManifestpage2();
-
-
-            }
-
-
-        });
+        prntpg2.setOnClickListener(v -> printManifestpage2());
 
     }
 

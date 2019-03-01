@@ -17,7 +17,7 @@
         <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/home"
-            android:title="Home" />
+            android:title="New Ticket" />
 
 
         <item
@@ -35,6 +35,23 @@
             android:icon="@drawable/about"
             android:title="About Us" />
     </group>
+
+
+
+    <item android:title="System Update">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:title="Update System"
+                    android:id="@+id/update"
+
+
+                    />
+
+
+            </group>
+        </menu>
+    </item>
 
 
 </menu>

@@ -19,6 +19,9 @@ import android.widget.TextView;
 
 import com.example.oronz.mobiclientapp.Fragemnts.OneWayTripFragement;
 import com.example.oronz.mobiclientapp.Fragemnts.TwowayFragemnt;
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -139,6 +142,18 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.about) {
             startActivity(new Intent(getApplicationContext(), AboutUsActivity.class));
+
+        }else if(id==R.id.update){
+
+            new AppUpdater(getApplicationContext())
+                    //.setUpdateFrom(UpdateFrom.GITHUB)
+                    //.setGitHubUserAndRepo("javiersantos", "AppUpdater")
+                    .setUpdateFrom(UpdateFrom.JSON)
+                    .setUpdateJSON("https://raw.githubusercontent.com/javiersantos/AppUpdater/master/app/update-changelog.json")
+                    .setDisplay(Display.DIALOG)
+                    .showAppUpdated(true)
+                    .start();
+
 
         }
 
