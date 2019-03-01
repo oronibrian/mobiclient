@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity
 
         }else if(id==R.id.update){
 
-            new AppUpdater(getApplicationContext())
+            new AppUpdater(this)
                     //.setUpdateFrom(UpdateFrom.GITHUB)
                     //.setGitHubUserAndRepo("javiersantos", "AppUpdater")
                     .setUpdateFrom(UpdateFrom.JSON)
