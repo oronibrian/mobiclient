@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity
                     //.setUpdateFrom(UpdateFrom.GITHUB)
                     //.setGitHubUserAndRepo("javiersantos", "AppUpdater")
                     .setUpdateFrom(UpdateFrom.JSON)
-                    .setUpdateJSON("https://raw.githubusercontent.com/javiersantos/AppUpdater/master/app/update-changelog.json")
+                    .setUpdateJSON("https://raw.githubusercontent.com/oronibrian/mobiclient/Ena/app/src/main/java/com/example/oronz/mobiclientapp/updateapp/update.json")
                     .setDisplay(Display.DIALOG)
                     .showAppUpdated(true)
                     .start();
