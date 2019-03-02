@@ -42,7 +42,7 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:title="Update System"
+                    android:title="Update"
                     android:id="@+id/update"
 
 

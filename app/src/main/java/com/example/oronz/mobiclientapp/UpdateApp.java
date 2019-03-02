@@ -126,7 +126,7 @@ public class UpdateApp extends Activity {
                                     Toast.makeText(getApplicationContext(), "App Installing", Toast.LENGTH_LONG).show();
 
 
-                                    if (isUdateInstalled("com.yourpackage.package")) {
+                                    if (isUdateInstalled("com.example.oronz.mobiclientapp")) {
                                         //app installed
                                         Toast.makeText(getApplicationContext(), "The App has been Updated Successfully", Toast.LENGTH_LONG).show();
                                         Intent i=new Intent(getApplicationContext(), MainActivity.class);
