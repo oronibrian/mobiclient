@@ -3,6 +3,9 @@ package com.example.oronz.mobiclientapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -12,10 +15,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.oronz.mobiclientapp.Fragemnts.OneWayTripFragement;
 import com.example.oronz.mobiclientapp.Fragemnts.TwowayFragemnt;
@@ -23,11 +28,19 @@ import com.github.javiersantos.appupdater.AppUpdater;
 import com.github.javiersantos.appupdater.enums.Display;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private MobiClientApplication app;
     TextView textViewUsername;
+    Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,14 +158,23 @@ public class MainActivity extends AppCompatActivity
 
         }else if(id==R.id.update){
 
-            new AppUpdater(this)
-                    //.setUpdateFrom(UpdateFrom.GITHUB)
-                    //.setGitHubUserAndRepo("javiersantos", "AppUpdater")
-                    .setUpdateFrom(UpdateFrom.JSON)
-                    .setUpdateJSON("https://raw.githubusercontent.com/oronibrian/mobiclient/Ena/app/src/main/java/com/example/oronz/mobiclientapp/updateapp/update.json")
-                    .setDisplay(Display.DIALOG)
-                    .showAppUpdated(true)
-                    .start();
+//            new AppUpdater(this)
+//                    //.setUpdateFrom(UpdateFrom.GITHUB)
+//                    //.setGitHubUserAndRepo("javiersantos", "AppUpdater")
+//                    .setUpdateFrom(UpdateFrom.JSON)
+//                    .setUpdateJSON("https://raw.githubusercontent.com/oronibrian/mobiclient/Ena/app/src/main/java/com/example/oronz/mobiclientapp/updateapp/update.json")
+//                    .setDisplay(Display.DIALOG)
+//                    .showAppUpdated(true)
+//                    .start();
+
+
+
+
+            Intent i=new Intent(this, UpdateApp.class);
+            startActivity(i);
+
+
+
 
 
         }
@@ -161,6 +183,10 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
+
 
 
 }
