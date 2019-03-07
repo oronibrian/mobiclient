@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -29,6 +30,8 @@ public class UpdateApp extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_update);
+
         StrictMode.VmPolicy.Builder builder1 = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder1.build());
 
@@ -83,7 +86,15 @@ public class UpdateApp extends Activity {
 
     private void downloadAndInstall() {
         DownloadManager.Request request = new DownloadManager.Request(
-                Uri.parse("https://github.com/oronibrian/mobiclient/releases/download/v1.0/app-debug.apk"));
+                Uri.parse("https://github.com/oronibrian/mobiclient/releases/download/v1.0/app-debug.apk"))
+                .setTitle("Update App")// Title of the Download Notification
+                .setDescription("Downloading")// Description of the Download Notification
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)// Visibility of the download Notification
+                .setAllowedOverMetered(true)// Set if download is allowed on Mobile network
+                .setAllowedOverRoaming(true);//
+
+
+
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "app-debug.apk");
 
         enqueue = dm.enqueue(request);
@@ -116,12 +127,17 @@ public class UpdateApp extends Activity {
 
                                 if (!isRooted()) {
                                     //if your device is not rooted
+                                    File file = new File(Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
                                     Intent intent_install = new Intent(Intent.ACTION_VIEW);
-                                    intent_install.setDataAndType(Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "app-debug.apk")), "application/vnd.android.package-archive");
+                                    Uri fileUri = FileProvider.getUriForFile(getBaseContext(), getApplicationContext().getPackageName() + ".provider", file);
+
+//                                    intent_install.setDataAndType(Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "app-debug.apk")), "application/vnd.android.package-archive");
                                     Log.d("phone path", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "app-debug.apk");
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true);
+                                                            intent.setDataAndType(fileUri, "application/vnd.android" + ".package-archive");
 
-                                    Log.d("IN INSTALLER:", Environment.getExternalStorageDirectory() + "Download/app-debug.apk");
+                                    Log.d("IN INSTALLER:", Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
                                     startActivity(intent_install);
                                     Toast.makeText(getApplicationContext(), "App Installing", Toast.LENGTH_LONG).show();
 
@@ -147,14 +163,14 @@ public class UpdateApp extends Activity {
                                 } else {
                                     //if your device is rooted then you can install or update app in background directly
                                     Toast.makeText(getApplicationContext(), "App Installing...Please Wait", Toast.LENGTH_LONG).show();
-                                    File file = new File(Environment.getExternalStorageDirectory() + "Download/app-debug.apk");
-                                    Log.d("IN INSTALLER:", Environment.getExternalStorageDirectory() + "Download/app-debug.apk");
+                                    File file = new File(Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
+                                    Log.d("IN INSTALLER:", Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
                                     if (file.exists()) {
                                         try {
                                             String command;
-                                            Log.d("IN File exists:", Environment.getExternalStorageDirectory() + "Download/app-debug.apk");
+                                            Log.d("IN File exists:", Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
 
-                                            command = "pm install -r " + Environment.getExternalStorageDirectory() + "Download/app-debug.apk";
+                                            command = "pm install -r " + Environment.getExternalStorageDirectory() + "/download/app-debug.apk";
                                             Log.d("COMMAND:", command);
                                             Process proc = Runtime.getRuntime().exec(new String[]{"su", "-c", command});
                                             proc.waitFor();
@@ -170,6 +186,29 @@ public class UpdateApp extends Activity {
                         }
                     }
                     c.close();
+
+
+
+
+
+//
+//                File file = new File(Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
+//
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                        Uri fileUri = FileProvider.getUriForFile(getBaseContext(), getApplicationContext().getPackageName() + ".provider", file);
+//                        Intent intent1 = new Intent(Intent.ACTION_VIEW, fileUri);
+//                        intent1.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true);
+//                        intent1.setDataAndType(fileUri, "application/vnd.android" + ".package-archive");
+//                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        intent1.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                        startActivity(intent1);
+//
+//                    } else {
+//                        Intent intent2 = new Intent(Intent.ACTION_VIEW);
+//                        intent2.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+//                        intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        startActivity(intent2);
+//                    }
                 }
             }
         };
