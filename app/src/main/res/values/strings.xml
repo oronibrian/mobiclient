@@ -3,31 +3,17 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Mobiticket</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search">search</string>
     <string name="date">Travel Date</string>
 
-    <string name="confirm">Confirm</string>
     <string name="you_booked">You\'ve Selected Seat:\n%s</string>
     <string name="aboutus">Mobiticket is a service to enables you book, pay and get bus tickets using your phone.
         \nTicket reservations and payments can be done using MPESA checkout or using your mobile wallet for our partner public service bus operators.
         \nMobiticket connects you directly to bus operators. </string>
 
-    <string name="transition_login">login</string>
-    <string name="transition_signup">signup</string>
-    <string name="transition_close">close</string>
-    <string name="terms">I agree all statements in </string>
-    <string name="emailtxt">Email txt shared</string>
-    <string name="email_edittxt">Email edittxt shared</string>
-    <string name="passwordtxt">Pass txt shared</string>
-    <string name="passwoed_edittxt">Password edittxt shared</string>
-    <string name="enter_agency_wallet_pin_to_complete">Enter Agency Wallet Pin To Complete</string>
-    <string name="mpesa_number_to_complete_payment">Mpesa Number To Complete Payment</string>
     <string name="enter_your_wallet_pin_to_complete">Enter Your Wallet Pin To Complete</string>
     <string name="proceed_to_book">Proceed To Book</string>
     <string name="confirm_to_complete">Confirm to complete</string>

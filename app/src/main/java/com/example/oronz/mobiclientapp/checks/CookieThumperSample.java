@@ -1,14 +1,5 @@
 package com.example.oronz.mobiclientapp.checks;
 
-import su.levenetc.android.textsurface.animations.Alpha;
-import su.levenetc.android.textsurface.animations.Circle;
-import su.levenetc.android.textsurface.animations.Delay;
-import su.levenetc.android.textsurface.animations.Parallel;
-import su.levenetc.android.textsurface.animations.Sequential;
-import su.levenetc.android.textsurface.animations.ShapeReveal;
-import su.levenetc.android.textsurface.animations.SideCut;
-import su.levenetc.android.textsurface.contants.Direction;
-import su.levenetc.android.textsurface.contants.Side;
 import android.content.res.AssetManager;
         import android.graphics.Color;
         import android.graphics.Paint;

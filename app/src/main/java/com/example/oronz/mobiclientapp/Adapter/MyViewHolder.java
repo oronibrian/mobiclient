@@ -1,10 +1,8 @@
 package com.example.oronz.mobiclientapp.Adapter;
 
-import android.content.ClipData;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.oronz.mobiclientapp.R;
 

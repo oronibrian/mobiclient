@@ -46,7 +46,9 @@ public class OneWayTripFragement extends Fragment {
 
     Button search1;
 
-    ArrayList<String> city,dates,vehicles;
+    ArrayList<String> dates,vehicles;
+
+    ArrayList<String> city;
 
     Spinner too;
     Spinner from;
@@ -95,7 +97,7 @@ public class OneWayTripFragement extends Fragment {
             public void onClick(View v) {
 
 
-                if (too.getSelectedItemId()== 0 && too.getSelectedItemId()==-1 && travel_date.getSelectedItemId()==-1 ){
+                if (too.getSelectedItemId()== 0 && too.getSelectedItemId()==0 && travel_date.getSelectedItemId()==0 ){
 
                      Toast.makeText(getContext(), "Select Correct Choices", Toast.LENGTH_SHORT).show();
 
@@ -175,6 +177,7 @@ public class OneWayTripFragement extends Fragment {
 
                  _too = String.valueOf(too.getSelectedItemId());
 
+
                 Log.d("To City:%n %s", _too);
 
 
@@ -233,12 +236,17 @@ public class OneWayTripFragement extends Fragment {
 
                             if (response.getInt("response_code") == 0) {
                                 JSONArray jsonArray = response.getJSONArray("cities");
+//                                city.add("<select>");
+                                city.add("Select");
 
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                    String City = jsonObject1.getString("name");
-                                    city.add(City);
+                                    String name = jsonObject1.getString("name");
+                                    String id = jsonObject1.getString("id");
+
+                                    city.add(name);
+
 
 
                                 }
@@ -249,11 +257,13 @@ public class OneWayTripFragement extends Fragment {
                             }
 
                             from.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, city));
-                            from.setSelection(0, false);
+
+//                            from.setSelection(0, false);
 
 
                             too.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, city));
-                            too.setSelection(0, false);
+
+//                            too.setSelection(0, false);
 
 
                         } catch (JSONException e) {

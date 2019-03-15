@@ -1,9 +1,7 @@
 package com.example.oronz.mobiclientapp;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -33,11 +31,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class SingleManifestUpdate extends AppCompatActivity {
     private MobiClientApplication app;
@@ -52,6 +49,8 @@ public class SingleManifestUpdate extends AppCompatActivity {
     String amount, travel_date;
     int seatsize, manifestsize;
     JSONArray jsonArray;
+    InputStream logo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +58,8 @@ public class SingleManifestUpdate extends AppCompatActivity {
         setContentView(R.layout.activity_single_manifest_update);
         passengerlistView = findViewById(R.id.passewngermanifest);
         carmanifestDetails = new ArrayList<>();
+
+        logo = getResources().openRawResource(R.raw.ena_coach_logo24bit);
 
 
         prntfull = findViewById(R.id.btnprntfull);
@@ -118,6 +119,7 @@ public class SingleManifestUpdate extends AppCompatActivity {
 
         Printer print = Printer.getInstance();
         print.printBitmap(getResources().openRawResource(R.raw.ena_coach_logo24bit));
+
         print.printText("-----------ENA COACH----------");
         print.printText("--------PO BOX 152-40202-------");
         print.printText("..........KEROKA,KENYA..........");
@@ -132,7 +134,7 @@ public class SingleManifestUpdate extends AppCompatActivity {
         for (int i = 0; i < manifestsize; i++) {
             PassengerManifestDetails passdetails = carmanifestDetails.get(i);
             String phone = passdetails.getPhone().replace("254", "0");
-            print.printText(passdetails.getRefno() + " " + phone + " " + passdetails.getSeat() + " " + passdetails.getRoute_from() + " " + passdetails.getReg_no() + "\n");
+            print.printText(passdetails.getRefno() + " " + phone + " " + passdetails.getSeat() + " " + passdetails.getRoute_from() + " " + passdetails.getReg_no() + ".");
 
         }
         print.printText("EXPENDITURE******AMOUNT*****");

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,7 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ReceiptActivity extends AppCompatActivity {
-    TextView txt_name, txt_status;
+    TextView txt_status;
     Button btnnew, btncomplete, btnprint;
     MobiClientApplication app;
     List<String> myList;
@@ -55,9 +57,10 @@ public class ReceiptActivity extends AppCompatActivity {
     ArrayList<UserDetails> ticketusers;
     String resp;
     private ProgressDialog mProgress;
-    private ImageView checkView;
+    private ImageView status_img;
     private ImageView crossView;
-    String name,phone,seat;
+    String name, phone, seat;
+    InputStream logo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,6 @@ public class ReceiptActivity extends AppCompatActivity {
 
         app = (MobiClientApplication) getApplication();
 
-        txt_name = findViewById(R.id.txt_name);
         txt_status = findViewById(R.id.txt_status);
         btnnew = findViewById(R.id.btnnew);
         btncomplete = findViewById(R.id.btncomplete);
@@ -78,6 +80,7 @@ public class ReceiptActivity extends AppCompatActivity {
         mProgress.setCancelable(false);
         mProgress.setIndeterminate(true);
 
+        status_img=findViewById(R.id.status_img);
 
         btnnew.setVisibility(View.GONE);
         btnprint.setVisibility(View.GONE);
@@ -89,12 +92,16 @@ public class ReceiptActivity extends AppCompatActivity {
         String status = getIntent().getStringExtra("txt_status");
 
 
+         logo = getResources().openRawResource(R.raw.ena_coach_logo24bit);
+
+
         if (status.equals("Failed")) {
             btncomplete.setVisibility(View.GONE);
             btnprint.setVisibility(View.GONE);
             btnnew.setVisibility(View.VISIBLE);
 
-            txt_name.setText(value);
+//            txt_name.setText(value);
+            status_img.setImageResource(R.drawable.cross1);
 
             txt_status.setText(status);
             txt_status.setTextColor(Color.RED);
@@ -102,10 +109,12 @@ public class ReceiptActivity extends AppCompatActivity {
 
         } else {
             btncomplete.setVisibility(View.VISIBLE);
-            txt_name.setText(value);
-
             txt_status.setText(status);
             txt_status.setTextColor(Color.GREEN);
+            status_img.setImageResource(R.drawable.tick1);
+            proceed();
+            btncomplete.setVisibility(View.GONE);
+
 
         }
 
@@ -131,14 +140,14 @@ public class ReceiptActivity extends AppCompatActivity {
 
 
                 for (UserDetails user : carsList) {
-                   name= user.getName();
-                   phone= user.getPhone();
-                   seat= user.getSeat();
+                    name = user.getName();
+                    phone = user.getPhone();
+                    seat = user.getSeat();
 
                     printTicket();
                     try {
 
-                        Thread.sleep(50);
+                        Thread.sleep(3000);
 
                     } catch (InterruptedException ie) {
                         ie.printStackTrace();
@@ -166,45 +175,46 @@ public class ReceiptActivity extends AppCompatActivity {
             String TicketArray = b.getString("TicketArray");
 
 
-
-
             ArrayList<String> fetchList = new ArrayList<String>();
             fetchList = getIntent().getStringArrayListExtra("listofseats");
 
             System.out.println("listofseats :::: " + fetchList.toString());
-//            for (int y = 0; y < fetchList.size(); y++) {
+
+
+
+            for (int y = 0; y < fetchList.size(); y++) {
 
                 try {
                     JSONArray ticket = new JSONArray(TicketArray);
                     System.out.println(ticket.toString(2));
 
+
                     for (int i = 0; i < ticket.length(); i++) {
                         JSONObject json_obj = ticket.getJSONObject(i);
 
                         Toast.makeText(getApplicationContext(), "Mobiwire Printing Ticket", Toast.LENGTH_LONG).show();
-                            Printer print = Printer.getInstance();
-                            print.printFormattedText();
-                            print.printBitmap(getResources().openRawResource(R.raw.ena_coach_logo24bit));
-                            print.printText("-----------ENA COACH----------");
-                            print.printText("--------PO BOX 152-40202-------");
-                            print.printText("..........KEROKA,KENYA..........");
-                            print.printText("......Passenger Details.........");
-                            print.printText("Name: " + name);
-                            print.printText("Ref No:" + json_obj.getString("merchant_transaction_id"));
-                            print.printText("Phone No:" + phone);
-                            print.printText("Seat:" +seat);
-                            print.printText("Fare: Ksh." + json_obj.getString("fare"));
-                            print.printText("................................");
-                            print.printText("......Vehicle Details.........");
-                            print.printText("Vehicle:" + json_obj.getString("bus"));
-                            print.printText("Route:" + json_obj.getString("route"));
-                            print.printText("Travel Date: " + json_obj.getString("travel_date"));
-                            print.printText("................................");
-                            print.printText("Issued On :" + json_obj.getString("travel_time"));
-                            print.printText("Issued by :" + app.getLogged_user());
-                            print.printBitmap(getResources().openRawResource(R.raw.payment_methods_old));
-                            print.printBitmap(getResources().openRawResource(R.raw.powered_by_mobiticket));
-                            print.printEndLine();
+                        Printer print = Printer.getInstance();
+                        print.printBitmap( getResources().openRawResource(R.raw.ena_coach_logo24bit));
+                        print.printText("-----------ENA COACH----------");
+                        print.printText("--------PO BOX 152-40202-------");
+                        print.printText("..........KEROKA,KENYA..........");
+                        print.printText("......Passenger Details.........");
+                        print.printText("Name: " + name);
+                        print.printText("Ref No:" + json_obj.getString("merchant_transaction_id"));
+                        print.printText("Phone No:" + phone);
+                        print.printText("Seat:" + seat);
+                        print.printText("Fare: Ksh." + json_obj.getString("fare"));
+                        print.printText("................................");
+                        print.printText("......Vehicle Details.........");
+                        print.printText("Vehicle:" + json_obj.getString("bus"));
+                        print.printText("Route:" + json_obj.getString("route"));
+                        print.printText("Travel Date: " + json_obj.getString("travel_date"));
+                        print.printText("................................");
+                        print.printText("Issued On :" + json_obj.getString("travel_time"));
+                        print.printText("Issued by :" + app.getLogged_user());
+                        print.printBitmap(getResources().openRawResource(R.raw.payment_methods_old));
+                        print.printBitmap(getResources().openRawResource(R.raw.powered_by_mobiticket));
+                        print.printEndLine();
 
 
                     }
@@ -212,16 +222,18 @@ public class ReceiptActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
 
 
             }else{
 
-            Toast.makeText(getApplicationContext(), "Device Doesn't Support Printing", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Device Doesn't Support Printing", Toast.LENGTH_SHORT).show();
 
+            }
         }
 
 
-    }
+
 
     private void proceed() {
 
@@ -321,7 +333,6 @@ public class ReceiptActivity extends AppCompatActivity {
         params.put("api_key", app.getApi_key());
         params.put("action", "AuthorizePayment");
         params.put("payment_method", "3");
-
         params.put("reference_number", app.getRefno());
         params.put("mpesa_phone_number", mpesanumber.getText().toString());
 
@@ -341,7 +352,6 @@ public class ReceiptActivity extends AppCompatActivity {
                                 String message = response.getString("response_message");
 
                                 Log.d("Mpesa Response", message);
-                                txt_name.setText(message);
 
                                 btncomplete.setVisibility(View.GONE);
                                 btnnew.setVisibility(View.VISIBLE);
@@ -446,7 +456,6 @@ public class ReceiptActivity extends AppCompatActivity {
                                 String message = response.getString("response_message");
 
                                 Log.d("Agency Response", message);
-                                txt_name.setText(message);
 
                                 btncomplete.setVisibility(View.GONE);
                                 btnnew.setVisibility(View.VISIBLE);
@@ -520,7 +529,7 @@ public class ReceiptActivity extends AppCompatActivity {
         params.put("username", app.getUser_name());
         params.put("api_key", app.getApi_key());
         params.put("action", "AuthorizePayment");
-        params.put("payment_method", "1");
+        params.put("payment_method", "2");
         params.put("reference_number", app.getRefno());
         params.put("jambopay_agency_username", agency_username.getText().toString());
         params.put("jambopay_agency_password", Agencywaletpassword.getText().toString());
@@ -539,7 +548,7 @@ public class ReceiptActivity extends AppCompatActivity {
                             jpAgencyalertDialog.dismiss();
 
                             Log.d("Agency Response", message);
-                            txt_name.setText(message);
+//                            txt_name.setText(message);
 
                             btncomplete.setVisibility(View.GONE);
                             btnnew.setVisibility(View.VISIBLE);
@@ -561,7 +570,7 @@ public class ReceiptActivity extends AppCompatActivity {
                             mProgress.dismiss();
                             jpAgencyalertDialog.dismiss();
 
-                            txt_name.setText(response.getString("response_message"));
+//                            txt_name.setText(response.getString("response_message"));
 
                             btncomplete.setVisibility(View.GONE);
                             btnnew.setVisibility(View.VISIBLE);

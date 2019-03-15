@@ -4,10 +4,8 @@
     <color name="colorPrimary">#4caf50</color>
     <color name="colorPrimaryDark">#087f23</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorbtn">#60A677</color>
 
     <color name="hint">#000</color>
-    <color name="divider">#C0C0C0</color>
 
     <color name="base">#60A677</color>
     <color name="highlight">#000</color>
@@ -15,13 +13,7 @@
     <color name="error">#FF6347</color>
     <color name="floating_label">#4CAF50</color>
 
-    <color name="spinner_base_color">#44000000</color>
     <color name="spinner_hint_text_color">#ffffff</color>
-
-    <color name="editText">#D9DFE5</color>
-    <color name="ghostwhite">#FBFBFC</color>
-    <color name="android_hint_colour">#808080</color>
-
 
 
 </resources>

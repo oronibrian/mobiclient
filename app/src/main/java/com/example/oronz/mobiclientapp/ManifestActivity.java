@@ -5,12 +5,15 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -54,13 +57,16 @@ public class ManifestActivity extends AppCompatActivity {
     Calendar calendar;
     String dbDate,today;
     ProgressDialog progressDialog;
+    private EditText sv;
+    int textlength =0;
+    ManifestAdapter tripsArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manifest);
         app = (MobiClientApplication) getApplication();
-        date=(EditText)findViewById(R.id.date);
+        date = (EditText) findViewById(R.id.date);
         mytripslistView = (ListView) findViewById(R.id.manifestvehiclelist);
         selectDate = findViewById(R.id.btnDate);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -71,6 +77,15 @@ public class ManifestActivity extends AppCompatActivity {
         today = dateFormat.format(new Date());
         date.setText("Today");
         app.setManifestDate(today);
+
+
+        sv = findViewById(R.id.etsearch);
+        sv.setVisibility(View.GONE);
+
+
+
+
+
 
 
         getManifest();
@@ -165,7 +180,7 @@ public class ManifestActivity extends AppCompatActivity {
 
                             }
 
-                            ManifestAdapter tripsArrayAdapter = new ManifestAdapter(ManifestActivity.this, mytripsDetails);
+                            tripsArrayAdapter = new ManifestAdapter(ManifestActivity.this, mytripsDetails);
 
                             mytripslistView.setAdapter(tripsArrayAdapter);
 
@@ -249,7 +264,6 @@ public class ManifestActivity extends AppCompatActivity {
                                     String travel_from = jsonObject1.getString("total_seats");
                                     String travel_to = jsonObject1.getString("seats_available");
 
-                                    mytripsDetails = new ArrayList<ManifestDetails>();
 
                                     mytripsDetails.add(new ManifestDetails(car_name,travel_from,travel_to));
 
@@ -264,9 +278,14 @@ public class ManifestActivity extends AppCompatActivity {
 
                             }
 
-                            ManifestAdapter tripsArrayAdapter = new ManifestAdapter(ManifestActivity.this, mytripsDetails);
+
+                            tripsArrayAdapter = new ManifestAdapter(ManifestActivity.this, mytripsDetails);
 
                             mytripslistView.setAdapter(tripsArrayAdapter);
+
+
+
+
 
 
                         } catch (JSONException e) {
@@ -308,7 +327,5 @@ public class ManifestActivity extends AppCompatActivity {
         requestQueue.add(req);
 
     }
-
-
 
 }

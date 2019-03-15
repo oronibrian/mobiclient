@@ -3,8 +3,6 @@ package com.example.oronz.mobiclientapp;
 import android.app.Application;
 import android.widget.ArrayAdapter;
 
-import java.util.SplittableRandom;
-
 public class MobiClientApplication extends Application {
 
 
@@ -25,6 +23,7 @@ public class MobiClientApplication extends Application {
     String index;
     private String agency_phone;
     private String logged_user;
+    String city_id;
 
     String ManfestSelected,ManifestDate;
 
@@ -308,5 +307,13 @@ public class MobiClientApplication extends Application {
 
     public void setManifestDate(String manifestDate) {
         ManifestDate = manifestDate;
+    }
+
+    public String getCity_id() {
+        return city_id;
+    }
+
+    public void setCity_id(String city_id) {
+        this.city_id = city_id;
     }
 }

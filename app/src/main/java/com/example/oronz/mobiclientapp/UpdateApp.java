@@ -1,6 +1,7 @@
 package com.example.oronz.mobiclientapp;
 
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -9,14 +10,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StrictMode;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -26,6 +28,8 @@ public class UpdateApp extends Activity {
     private long enqueue;
     private DownloadManager dm;
     boolean isDeleted;
+    Button btnupdate;
+    TextView mesg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,21 @@ public class UpdateApp extends Activity {
 
         StrictMode.VmPolicy.Builder builder1 = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder1.build());
+
+        btnupdate=findViewById(R.id.btnupdate);
+        mesg=findViewById(R.id.txtupdatemsg);
+
+
+        btnupdate.setVisibility(View.GONE);
+
+
+
+        btnupdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                update();
+            }
+        });
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -47,7 +66,7 @@ public class UpdateApp extends Activity {
                 Toast.makeText(getApplicationContext(), "App Downloading...Please Wait", Toast.LENGTH_LONG).show();
                 dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
 
-                File file = new File(Environment.getExternalStorageDirectory() + "Download/app-debug.apk");
+                File file = new File(Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
                 if (file.exists()) {
 
                     isDeleted = file.delete();
@@ -68,6 +87,8 @@ public class UpdateApp extends Activity {
         builder.show();
     }
 
+
+
     private void firstTimeInstall() {
         Log.d("May be 1st Update:", "OR deleteed from folder");
         downloadAndInstall();
@@ -85,6 +106,7 @@ public class UpdateApp extends Activity {
     }
 
     private void downloadAndInstall() {
+
         DownloadManager.Request request = new DownloadManager.Request(
                 Uri.parse("https://github.com/oronibrian/mobiclient/releases/download/v1.0/app-debug.apk"))
                 .setTitle("Update App")// Title of the Download Notification
@@ -105,87 +127,92 @@ public class UpdateApp extends Activity {
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
                 if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
-                    Toast.makeText(getApplicationContext(), "Download Completed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Download Completed", Toast.LENGTH_SHORT).show();
 
-                    long downloadId = intent.getLongExtra(
-                            DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-                    DownloadManager.Query query = new DownloadManager.Query();
-                    query.setFilterById(enqueue);
-                    Cursor c = dm.query(query);
-                    if (c.moveToFirst()) {
-                        int columnIndex = c.getColumnIndex(DownloadManager.COLUMN_STATUS);
-                        if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(columnIndex)) {
-                            String uriString = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+                    mesg.setText("Download Complete,click update to install");
+                    mesg.setTextColor(Color.GREEN);
 
-                            Log.d("ainfo", uriString);
-
-                            if (downloadId == c.getInt(0)) {
-                                Log.d("DOWNLOAD PATH:", c.getString(c.getColumnIndex("local_uri")));
-
-
-                                Log.d("isRooted:", String.valueOf(isRooted()));
-
-                                if (!isRooted()) {
-                                    //if your device is not rooted
-                                    File file = new File(Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
-                                    Intent intent_install = new Intent(Intent.ACTION_VIEW);
-                                    Uri fileUri = FileProvider.getUriForFile(getBaseContext(), getApplicationContext().getPackageName() + ".provider", file);
-
-//                                    intent_install.setDataAndType(Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "app-debug.apk")), "application/vnd.android.package-archive");
-                                    Log.d("phone path", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "app-debug.apk");
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    intent.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true);
-                                                            intent.setDataAndType(fileUri, "application/vnd.android" + ".package-archive");
-
-                                    Log.d("IN INSTALLER:", Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
-                                    startActivity(intent_install);
-                                    Toast.makeText(getApplicationContext(), "App Installing", Toast.LENGTH_LONG).show();
-
-
-                                    if (isUdateInstalled("com.example.oronz.mobiclientapp")) {
-                                        //app installed
-                                        Toast.makeText(getApplicationContext(), "The App has been Updated Successfully", Toast.LENGTH_LONG).show();
-                                        Intent i=new Intent(getApplicationContext(), MainActivity.class);
-                                        startActivity(i);
-                                        finish();
-
-                                    } else {
-                                    //app not installed
-                                        Toast.makeText(getApplicationContext(), "Update Not Installed", Toast.LENGTH_LONG).show();
-
-                                        Intent i=new Intent(getApplicationContext(), MainActivity.class);
-                                        startActivity(i);
-                                        finish();
-
-                                    }
-
-
-                                } else {
-                                    //if your device is rooted then you can install or update app in background directly
-                                    Toast.makeText(getApplicationContext(), "App Installing...Please Wait", Toast.LENGTH_LONG).show();
-                                    File file = new File(Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
-                                    Log.d("IN INSTALLER:", Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
-                                    if (file.exists()) {
-                                        try {
-                                            String command;
-                                            Log.d("IN File exists:", Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
-
-                                            command = "pm install -r " + Environment.getExternalStorageDirectory() + "/download/app-debug.apk";
-                                            Log.d("COMMAND:", command);
-                                            Process proc = Runtime.getRuntime().exec(new String[]{"su", "-c", command});
-                                            proc.waitFor();
-                                            Toast.makeText(getApplicationContext(), "App Installed Successfully", Toast.LENGTH_LONG).show();
-                                            Log.d("App Installed", "App Installed Successfully");
-
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    c.close();
+                    btnupdate.setVisibility(View.VISIBLE);
+//
+//                    long downloadId = intent.getLongExtra(
+//                            DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+//                    DownloadManager.Query query = new DownloadManager.Query();
+//                    query.setFilterById(enqueue);
+//                    Cursor c = dm.query(query);
+//                    if (c.moveToFirst()) {
+//                        int columnIndex = c.getColumnIndex(DownloadManager.COLUMN_STATUS);
+//                        if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(columnIndex)) {
+//                            String uriString = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+//
+//                            Log.d("ainfo", uriString);
+//
+//                            if (downloadId == c.getInt(0)) {
+//                                Log.d("DOWNLOAD PATH:", c.getString(c.getColumnIndex("local_uri")));
+//
+//
+//                                Log.d("isRooted:", String.valueOf(isRooted()));
+//
+//                                if (!isRooted()) {
+//                                    //if your device is not rooted
+//                                    File file = new File(Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
+//                                    Intent intent_install = new Intent(Intent.ACTION_VIEW);
+//                                    Uri fileUri = FileProvider.getUriForFile(getBaseContext(), getApplicationContext().getPackageName() + ".provider", file);
+//
+////                                    intent_install.setDataAndType(Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "app-debug.apk")), "application/vnd.android.package-archive");
+//                                    Log.d("phone path", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "app-debug.apk");
+//                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    intent.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true);
+//                                                            intent.setDataAndType(fileUri, "application/vnd.android" + ".package-archive");
+//
+//                                    Log.d("IN INSTALLER:", Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
+//                                    startActivity(intent_install);
+//                                    Toast.makeText(getApplicationContext(), "App Installing", Toast.LENGTH_LONG).show();
+//
+//
+//                                    if (isUdateInstalled("com.example.oronz.mobiclientapp")) {
+//                                        //app installed
+//                                        Toast.makeText(getApplicationContext(), "The App has been Updated Successfully", Toast.LENGTH_LONG).show();
+//                                        Intent i=new Intent(getApplicationContext(), MainActivity.class);
+//                                        startActivity(i);
+//                                        finish();
+//
+//                                    } else {
+//                                    //app not installed
+//                                        Toast.makeText(getApplicationContext(), "Update Not Installed", Toast.LENGTH_LONG).show();
+//
+//                                        Intent i=new Intent(getApplicationContext(), MainActivity.class);
+//                                        startActivity(i);
+//                                        finish();
+//
+//                                    }
+//
+//
+//                                } else {
+//                                    //if your device is rooted then you can install or update app in background directly
+//                                    Toast.makeText(getApplicationContext(), "App Installing...Please Wait", Toast.LENGTH_LONG).show();
+//                                    File file = new File(Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
+//                                    Log.d("IN INSTALLER:", Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
+//                                    if (file.exists()) {
+//                                        try {
+//                                            String command;
+//                                            Log.d("IN File exists:", Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
+//
+//                                            command = "pm install -r " + Environment.getExternalStorageDirectory() + "/download/app-debug.apk";
+//                                            Log.d("COMMAND:", command);
+//                                            Process proc = Runtime.getRuntime().exec(new String[]{"su", "-c", command});
+//                                            proc.waitFor();
+//                                            Toast.makeText(getApplicationContext(), "App Installed Successfully", Toast.LENGTH_LONG).show();
+//                                            Log.d("App Installed", "App Installed Successfully");
+//
+//                                        } catch (Exception e) {
+//                                            e.printStackTrace();
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                    c.close();
 
 
 
@@ -254,4 +281,48 @@ public class UpdateApp extends Activity {
         }
         return installed;
     }
+
+
+
+    private void update() {
+
+
+//                File file = new File(Environment.getExternalStorageDirectory() + "/download/app-debug.apk");
+               String file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/app-debug.apk";
+
+        File dst = new File(file);
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                        Uri fileUri = FileProvider.getUriForFile(getBaseContext(), getApplicationContext().getPackageName() + ".provider", file);
+//                        Intent intent1 = new Intent(Intent.ACTION_VIEW, fileUri);
+//                        intent1.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true);
+//                        intent1.setDataAndType(fileUri, "application/vnd.android" + ".package-archive");
+//                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        intent1.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                        startActivity(intent1);
+//
+//                    } else {
+//                        Intent intent2 = new Intent(Intent.ACTION_VIEW);
+//                        intent2.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+//                        intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        startActivity(intent2);
+//                    }
+
+
+        Intent installIntent = new Intent();
+        installIntent.setAction(Intent.ACTION_INSTALL_PACKAGE);
+        installIntent.setDataAndType(Uri.fromFile(dst), "application/vnd.android.package-archive");
+        installIntent.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true);
+        installIntent.putExtra(Intent.EXTRA_RETURN_RESULT, true);
+        installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(installIntent);
+
+
+
+
+
+    }
+
+
+
 }

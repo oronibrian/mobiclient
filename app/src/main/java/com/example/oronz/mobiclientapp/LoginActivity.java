@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -29,11 +30,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
+import com.example.oronz.mobiclientapp.Utilities.SaveSharedPreference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -50,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     ImageView imageView;
     TextView txtnointernet;
 
-
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +80,38 @@ public class LoginActivity extends AppCompatActivity {
 
 
         app.set_Clerk_username(edittextusername.getText().toString());
+         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
 
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        btnlogin.setVisibility(View.GONE);
+
+
+
+
+
+        // Check if UserResponse is Already Logged In
+
+
+            if(SaveSharedPreference.getLoggedStatus(getApplicationContext())) {
+
+
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Toast.makeText(getApplicationContext(),
+                        "Welcome Back" + app.getLogged_user(), Toast.LENGTH_SHORT).show();
+
+                startActivity(intent);
+            }
+            else {
+
+                btnlogin.setVisibility(View.VISIBLE);
+
+
+
+        }
+
+
+
+
 
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,11 +159,6 @@ public class LoginActivity extends AppCompatActivity {
         app.setAgency_phone(email);
         app.set_Clerk_password(password);
 
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-
-        editor.putString(Name, email);
-        editor.putString(Password, password);
-        editor.apply();
 
         //validating inputs
         if (TextUtils.isEmpty(email)) {
@@ -172,7 +200,19 @@ public class LoginActivity extends AppCompatActivity {
 
                                 mProgress.dismiss();
 
-                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                SaveSharedPreference.setLoggedIn(getApplicationContext(), true);
+
+
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("username", email);
+                                editor.putString("password", password);
+                                editor.apply();
+
+
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+
 
 
                             } else {
