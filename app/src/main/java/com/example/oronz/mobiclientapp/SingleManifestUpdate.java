@@ -113,46 +113,47 @@ public class SingleManifestUpdate extends AppCompatActivity {
         if (Build.MODEL.equals("MobiPrint")) {
 
 
-        Toast.makeText(getApplicationContext(), " Printing Manifest", Toast.LENGTH_SHORT).show();
-        Log.i("Printing manifest:", carmanifestDetails.toString());
+            Toast.makeText(getApplicationContext(), " Printing Manifest", Toast.LENGTH_SHORT).show();
+            Log.i("Printing manifest:", carmanifestDetails.toString());
 
 
-        Printer print = Printer.getInstance();
-        print.printBitmap(getResources().openRawResource(R.raw.ena_coach_logo24bit));
+            Printer print = Printer.getInstance();
+            print.printBitmap(getResources().openRawResource(R.raw.ena_coach_logo24bit));
 
-        print.printText("-----------ENA COACH----------");
-        print.printText("--------PO BOX 152-40202-------");
-        print.printText("..........KEROKA,KENYA..........");
-        print.printText("Date: " + app.getTravel_date());
-        print.printText("Cash: " + seatsize * Double.parseDouble(amount));
-        print.printText("Vehicle:" + app.getManfestSelected());
-        print.printText("Clerk.............sign..........");
-        print.printText("Driver............sign..........");
-        print.printText("......Passenger Details.........");
+            print.printText("-----------ENA COACH----------");
+            print.printText("--------PO BOX 152-40202-------");
+            print.printText("..........KEROKA,KENYA..........");
+            print.printText("Date: " + app.getTravel_date());
+            print.printText("Cash: " + seatsize * Double.parseDouble(amount));
+            print.printText("Vehicle:" + app.getManfestSelected());
+            print.printText("Clerk.............sign..........");
+            print.printText("Driver............sign..........");
+            print.printText("......Passenger Details.........");
+            print.printText("Seat**Phone**Name**From**Ref No**");
 
 
-        for (int i = 0; i < manifestsize; i++) {
-            PassengerManifestDetails passdetails = carmanifestDetails.get(i);
-            String phone = passdetails.getPhone().replace("254", "0");
-            print.printText(passdetails.getRefno() + " " + phone + " " + passdetails.getSeat() + " " + passdetails.getRoute_from() + " " + passdetails.getReg_no() + ".");
+            for (int i = 0; i < manifestsize; i++) {
+                PassengerManifestDetails passdetails = carmanifestDetails.get(i);
+                String phone = passdetails.getPhone().replace("254", "0");
+                print.printText(passdetails.getRefno() + "." + phone + " " + passdetails.getSeat() + " " + passdetails.getRoute_from() + " " + passdetails.getReg_no() + ".");
 
-        }
-        print.printText("EXPENDITURE******AMOUNT*****");
-        print.printText("Fuel        |_______________|");
-        print.printText("Meal/Accom  |_______________|");
-        print.printText("Washing     |_______________|");
-        print.printText("Water       |_______________|");
-        print.printText("Repair      |_______________|");
-        print.printText("Others      |_______________|");
+            }
+            print.printText("EXPENDITURE******AMOUNT*****");
+            print.printText("Fuel        |_______________|");
+            print.printText("Meal/Accom  |_______________|");
+            print.printText("Washing     |_______________|");
+            print.printText("Water       |_______________|");
+            print.printText("Repair      |_______________|");
+            print.printText("Others      |_______________|");
 
 
 //        print.printText("Issued on :" + app.getTravel_date());
-        print.printText("Issued by :" + app.getLogged_user());
-        print.printBitmap(getResources().openRawResource(R.raw.payment_methods_old));
-        print.printBitmap(getResources().openRawResource(R.raw.powered_by_mobiticket));
-        print.printEndLine();
+            print.printText("Issued by :" + app.getLogged_user());
+            print.printBitmap(getResources().openRawResource(R.raw.payment_methods_old));
+            print.printBitmap(getResources().openRawResource(R.raw.powered_by_mobiticket));
+            print.printEndLine();
 
-        }else {
+        } else {
             Toast.makeText(getApplicationContext(), "Device Doesn't Support Printing", Toast.LENGTH_SHORT).show();
 
 
@@ -182,14 +183,15 @@ public class SingleManifestUpdate extends AppCompatActivity {
             print.printText("Clerk.............sign..........");
             print.printText("Driver............sign..........");
             print.printText("......Passenger Details.........");
+            print.printText("Seat**Phone**Name**From**Ref No**");
 
 
             for (int i = 0; i < 22; i++) {
                 PassengerManifestDetails passdetails = carmanifestDetails.get(i);
                 String phone = passdetails.getPhone().replace("254", "0");
-                print.printText(passdetails.getRefno() + " " + phone + " " + passdetails.getSeat() + " " + passdetails.getRoute_from() + " " + passdetails.getReg_no() + "\n");
+                print.printText(passdetails.getRefno() + ". " + phone + " " + passdetails.getSeat() + " " + passdetails.getRoute_from() + " " + passdetails.getReg_no() + "\n");
             }
-        }else {
+        } else {
 
             Toast.makeText(getApplicationContext(), "Device Doesn't Support Printing", Toast.LENGTH_SHORT).show();
 

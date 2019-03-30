@@ -21,6 +21,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
@@ -56,7 +57,7 @@ public class ReceiptActivity extends AppCompatActivity {
     UserDetails userDetails;
     ArrayList<UserDetails> ticketusers;
     String resp;
-    private ProgressDialog mProgress;
+    private ProgressDialog mProgress,confirmtransProgress;
     private ImageView status_img;
     private ImageView crossView;
     String name, phone, seat;
@@ -79,6 +80,16 @@ public class ReceiptActivity extends AppCompatActivity {
         mProgress.setMessage("Please wait...");
         mProgress.setCancelable(false);
         mProgress.setIndeterminate(true);
+
+
+        confirmtransProgress = new ProgressDialog(this);
+        confirmtransProgress.setTitle("Payment Confirmation ...");
+        confirmtransProgress.setMessage("Confirming mPesa payment...");
+        confirmtransProgress.setCancelable(false);
+        confirmtransProgress.setIndeterminate(true);
+
+
+
 
         status_img=findViewById(R.id.status_img);
 
@@ -145,9 +156,10 @@ public class ReceiptActivity extends AppCompatActivity {
                     seat = user.getSeat();
 
                     printTicket();
+
                     try {
 
-                        Thread.sleep(3000);
+                        Thread.sleep(4000);
 
                     } catch (InterruptedException ie) {
                         ie.printStackTrace();
@@ -171,6 +183,8 @@ public class ReceiptActivity extends AppCompatActivity {
         if (Build.MODEL.equals("MobiPrint")) {
 
 
+
+
             Bundle b = getIntent().getExtras();
             String TicketArray = b.getString("TicketArray");
 
@@ -191,25 +205,24 @@ public class ReceiptActivity extends AppCompatActivity {
 
                     for (int i = 0; i < ticket.length(); i++) {
                         JSONObject json_obj = ticket.getJSONObject(i);
+                        Printer print = Printer.getInstance();
 
                         Toast.makeText(getApplicationContext(), "Mobiwire Printing Ticket", Toast.LENGTH_LONG).show();
-                        Printer print = Printer.getInstance();
                         print.printBitmap( getResources().openRawResource(R.raw.ena_coach_logo24bit));
                         print.printText("-----------ENA COACH----------");
                         print.printText("--------PO BOX 152-40202-------");
                         print.printText("..........KEROKA,KENYA..........");
                         print.printText("......Passenger Details.........");
+
                         print.printText("Name: " + name);
                         print.printText("Ref No:" + json_obj.getString("merchant_transaction_id"));
                         print.printText("Phone No:" + phone);
                         print.printText("Seat:" + seat);
                         print.printText("Fare: Ksh." + json_obj.getString("fare"));
-                        print.printText("................................");
                         print.printText("......Vehicle Details.........");
                         print.printText("Vehicle:" + json_obj.getString("bus"));
                         print.printText("Route:" + json_obj.getString("route"));
                         print.printText("Travel Date: " + json_obj.getString("travel_date"));
-                        print.printText("................................");
                         print.printText("Issued On :" + json_obj.getString("travel_time"));
                         print.printText("Issued by :" + app.getLogged_user());
                         print.printBitmap(getResources().openRawResource(R.raw.payment_methods_old));
@@ -351,11 +364,32 @@ public class ReceiptActivity extends AppCompatActivity {
 
                                 String message = response.getString("response_message");
 
-                                Log.d("Mpesa Response", message);
+                                Log.d("mPesa Response", message);
 
-                                btncomplete.setVisibility(View.GONE);
-                                btnnew.setVisibility(View.VISIBLE);
-                                btnprint.setVisibility(View.VISIBLE);
+
+                                if(message.isEmpty()){
+                                    mProgress.dismiss();
+                                    mpesaalertDialog.dismiss();
+
+                                }
+
+//                                btncomplete.setVisibility(View.GONE);
+//                                btnnew.setVisibility(View.VISIBLE);
+//                                btnprint.setVisibility(View.VISIBLE);
+
+
+
+                                confirmtransProgress.show();
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        searchMpesaTransaction();
+                                    }
+                                }, 10000);
+
+
+
 
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -529,7 +563,7 @@ public class ReceiptActivity extends AppCompatActivity {
         params.put("username", app.getUser_name());
         params.put("api_key", app.getApi_key());
         params.put("action", "AuthorizePayment");
-        params.put("payment_method", "2");
+        params.put("payment_method", "1");
         params.put("reference_number", app.getRefno());
         params.put("jambopay_agency_username", agency_username.getText().toString());
         params.put("jambopay_agency_password", Agencywaletpassword.getText().toString());
@@ -616,6 +650,100 @@ public class ReceiptActivity extends AppCompatActivity {
         reserverequestQueue.getCache().clear();
 
         reserverequestQueue.add(req);
+
+    }
+
+
+    private void searchMpesaTransaction(){
+
+
+        RequestQueue reserverequestQueue = Volley.newRequestQueue(ReceiptActivity.this);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("developer_username", "emuswailit");
+        params.put("developer_api_key", "c8e254c0adbe4b2623ff85567027d78d4cc066357627e284d4b4a01b159d97a7");
+        params.put("action", "searchpayment");
+        params.put("identifier", app.getRefno());
+
+
+
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT,URLs.Pay_Confim_URL, new JSONObject(params),
+                response -> {
+                    try {
+                        String code = response.getString("response_code");
+
+                        if (code.equals("0")) {
+
+                            confirmtransProgress.dismiss();
+
+                            String message = response.getString("response_message");
+
+                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
+                            Log.d("mPesa Payment Response", message);
+
+                            btncomplete.setVisibility(View.GONE);
+                            btnnew.setVisibility(View.VISIBLE);
+                            btnprint.setVisibility(View.VISIBLE);
+
+
+
+                        } else {
+
+                            confirmtransProgress.dismiss();
+
+                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
+                            Log.d("Mpesa Payment Response", response.getString("response_message"));
+
+                            txt_status.setText("No mPesa Payment Found");
+                            txt_status.setTextColor(Color.RED);
+
+
+                            btnnew.setVisibility(View.VISIBLE);
+                            status_img.setImageResource(R.drawable.cross1);
+
+
+                        }
+
+
+                    } catch (JSONException e) {
+
+                        e.printStackTrace();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                jpAgencyalertDialog.dismiss();
+                mProgress.dismiss();
+
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        })
+
+        {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
+
+
+        };
+        reserverequestQueue.getCache().clear();
+
+        reserverequestQueue.add(req);
+
 
     }
 

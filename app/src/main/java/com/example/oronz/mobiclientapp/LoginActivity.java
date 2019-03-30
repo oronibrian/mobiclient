@@ -42,14 +42,10 @@ import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
 public class LoginActivity extends AppCompatActivity {
 
     Button btnlogin;
-    EditText editextpassword,edittextusername;
+    EditText editextpassword, edittextusername;
     private MobiClientApplication app;
     private ProgressDialog mProgress;
 
-    public static final String MyPREFERENCES = "MyPrefs" ;
-    public static final String Name = "nameKey";
-    public static final String Password = "passwordKey";
-    SharedPreferences sharedpreferences;
 
     ImageView imageView;
     TextView txtnointernet;
@@ -72,45 +68,39 @@ public class LoginActivity extends AppCompatActivity {
         mProgress.setIndeterminate(true);
 
 
-        btnlogin=findViewById(R.id.btnlogin);
-        editextpassword=findViewById(R.id.editextpassword);
-        edittextusername=findViewById(R.id.edittextusername);
-        imageView=findViewById(R.id.imageView1);
-        txtnointernet=findViewById(R.id.txtnointernet);
+        btnlogin = findViewById(R.id.btnlogin);
+        editextpassword = findViewById(R.id.editextpassword);
+        edittextusername = findViewById(R.id.edittextusername);
+        imageView = findViewById(R.id.imageView1);
+        txtnointernet = findViewById(R.id.txtnointernet);
 
 
         app.set_Clerk_username(edittextusername.getText().toString());
-         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
 
         btnlogin.setVisibility(View.GONE);
 
 
-
-
-
         // Check if UserResponse is Already Logged In
 
 
-            if(SaveSharedPreference.getLoggedStatus(getApplicationContext())) {
+        if (SaveSharedPreference.getLoggedStatus(getApplicationContext())) {
 
 
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                Toast.makeText(getApplicationContext(),
-                        "Welcome Back" + app.getLogged_user(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Toast.makeText(getApplicationContext(),
+                    "Welcome Back" + app.getLogged_user(), Toast.LENGTH_SHORT).show();
 
-                startActivity(intent);
-            }
-            else {
+            startActivity(intent);
 
-                btnlogin.setVisibility(View.VISIBLE);
 
+        } else {
+
+            btnlogin.setVisibility(View.VISIBLE);
 
 
         }
-
-
-
 
 
         btnlogin.setOnClickListener(new View.OnClickListener() {
@@ -192,8 +182,7 @@ public class LoginActivity extends AppCompatActivity {
                                 String first_name = response.getString("first_name");
                                 String last_name = response.getString("last_name");
 
-                                app.setLogged_user(first_name +" "+last_name );
-
+                                app.setLogged_user(first_name + " " + last_name);
 
 
                                 Log.d("log in ", first_name);
@@ -203,16 +192,15 @@ public class LoginActivity extends AppCompatActivity {
                                 SaveSharedPreference.setLoggedIn(getApplicationContext(), true);
 
 
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("username", email);
-                                editor.putString("password", password);
-                                editor.apply();
+//                                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                                editor.putString("username", email);
+//                                editor.putString("password", password);
+//                                editor.apply();
 
 
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |FLAG_ACTIVITY_CLEAR_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
-
 
 
                             } else {
@@ -251,9 +239,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     }
                 }
-            })
-
-            {
+            }) {
                 @Override
                 public String getBodyContentType() {
                     return "application/x-www-form-urlencoded; charset=utf-8";
