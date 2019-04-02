@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="124dp"
+        android:layout_height="wrap_content"
         android:textAlignment="center"
         android:background="@drawable/my_shape_available_cars"
 
@@ -49,6 +49,25 @@
             android:textAlignment="center"
             android:text="1212"
             android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/seater"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:visibility="invisible"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/available"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:visibility="invisible"
+            android:textSize="12sp" />
+
+
     </LinearLayout>
 
 </LinearLayout>

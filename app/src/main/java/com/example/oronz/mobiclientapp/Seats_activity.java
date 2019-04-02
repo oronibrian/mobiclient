@@ -39,6 +39,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Models.UserDetails;
 import com.google.gson.Gson;
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,7 +73,9 @@ public class Seats_activity extends AppCompatActivity {
     List<String> LevenSeaterList, fortynineSeaterList, fourteenSeaterlist, sixteeneSeaterList;
 
     MaterialSpinner payment_type_spinner;
-    Spinner spinner;
+
+    MaterialBetterSpinner materialDesignSpinner ;
+
 
 
     String[] elevenSeater = new String[]{
@@ -92,11 +95,12 @@ public class Seats_activity extends AppCompatActivity {
 
 
     String[] sixteenSeater = new String[]{
-            "1", "1X", "D",
-            "2", "3", "4",
-            "5", "6", "7",
-            "8", "9", "10",
-            "11", "12", "13"
+            "1", "c", "1X", "D",
+            "2", "c", "3", "4",
+            "5", "c", "6", "7",
+            "8", "c", "9", "10",
+            "11", "12", "13", "14"
+
     };
 
 
@@ -124,12 +128,12 @@ public class Seats_activity extends AppCompatActivity {
     TextView textView;
     private ProgressDialog mProgress;
 
-    String vehicleseater;
 
     ArrayList<UserDetails> ticketusers;
     UserDetails userDetails;
     private TextView gridtextView;
     Bundle b;
+    String selected_Car, seater;
 
     @SuppressLint("ResourceType")
     @Override
@@ -145,6 +149,17 @@ public class Seats_activity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Select Your Seat or Seats");
         ticketusers = new ArrayList<UserDetails>();
+
+
+        Intent startingInted = getIntent();
+        selected_Car = startingInted.getStringExtra("car_id");
+        seater = startingInted.getStringExtra("seater");
+
+
+        Log.d("Selected car id: ", selected_Car);
+//        Log.d("##### Seats", seats.toString());
+        Log.d("##### Seater:", seater);
+
 
         availableSeats();
         getPaymentMethod();
@@ -170,7 +185,7 @@ public class Seats_activity extends AppCompatActivity {
         mProgress.setCancelable(false);
         mProgress.setIndeterminate(true);
 
-        seats = new ArrayList<>();
+//        seats = new ArrayList<>();
 
 
         payment_type_spinner = findViewById(R.id.payment_type_spinner);
@@ -193,6 +208,8 @@ public class Seats_activity extends AppCompatActivity {
                 // DO Nothing here
             }
         });
+
+
 
 
         btnbook.setVisibility(View.GONE);
@@ -328,6 +345,9 @@ public class Seats_activity extends AppCompatActivity {
 
                         payment_type_spinner.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, payment_methods));
 
+
+
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -369,12 +389,10 @@ public class Seats_activity extends AppCompatActivity {
         params.put("api_key", app.getApi_key());
         params.put("action", "AvailableSeats");
         params.put("from_city", app.getTravel_from());
-        params.put("to_city",app.getTravel_too());
+        params.put("to_city", app.getTravel_too());
         params.put("travel_date", app.getTravel_date());
         params.put("hash", app.getHash_key());
-        params.put("selected_vehicle", app.get_selected_vehicle());
-
-
+        params.put("selected_vehicle", selected_Car);
 
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
@@ -387,29 +405,29 @@ public class Seats_activity extends AppCompatActivity {
                             JSONArray bus_array = response.getJSONArray("seats");
 
 
-
                             Log.d("#####SIZE", String.valueOf(bus_array.length()));
 
 
                             for (int x = 0; x < bus_array.length(); x++) {
                                 JSONObject obj = bus_array.getJSONObject(x);
                                 String gari = obj.getString("name");
-                                vehicleseater = obj.getString("seater");
+//                                vehicleseater = obj.getString("seater");
 
                                 gari = gari.replace(" ", "");
 
-                                Log.d("##### Seats", gari);
-                                Log.d("##### Vehicle Seater", vehicleseater);
 
                                 seats = new ArrayList<>(Arrays.asList(gari.split(",")));
+
+                                Log.d("Seats", seats.toString());
+
 
                             }
 
 
-                            if (Integer.parseInt(vehicleseater) <= 11) {
+                            if (Integer.parseInt(seater) <= 11) {
 
 
-                                final CustomAdapter adapter = new CustomAdapter(elevenSeater, this);
+                                final ElevenSeaterAdapter adapter = new ElevenSeaterAdapter(elevenSeater, this);
 
                                 gridView.setAdapter(adapter);
                                 gridView.setNumColumns(3);
@@ -430,7 +448,7 @@ public class Seats_activity extends AppCompatActivity {
                                         seatno = String.valueOf("");
 
                                         listofseats.remove(parent.getItemAtPosition(position).toString());
-                                        TextView text = (TextView) viewItem.findViewById(R.id.txt_grid);
+                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
                                         text.setBackgroundResource(R.drawable.seat_normal);
 
                                     } else {
@@ -444,7 +462,7 @@ public class Seats_activity extends AppCompatActivity {
                                         seatno = String.valueOf(LevenSeaterList.get(position));
 
                                         listofseats.add(parent.getItemAtPosition(position).toString());
-                                        TextView text = (TextView) viewItem.findViewById(R.id.txt_grid);
+                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
                                         text.setBackgroundResource(R.drawable.seat_normal_booked);
 
 
@@ -452,9 +470,53 @@ public class Seats_activity extends AppCompatActivity {
 
 
                                 });
+                            } else if (Integer.parseInt(seater) > 14 && Integer.parseInt(seater) <= 16) {
 
 
-                            } else if (Integer.parseInt(vehicleseater) == 49) {
+                                final SixteenCustomAdapter adapter16 = new SixteenCustomAdapter(sixteenSeater, this);
+                                gridView.setAdapter(adapter16);
+                                gridView.setNumColumns(4);
+
+//
+                                gridView.setOnItemClickListener((parent, v, position, id) -> {
+
+                                    View viewItem = gridView.getChildAt(position);
+
+                                    int selectedIndex = adapter16.selectedPositions.indexOf(position);
+
+
+                                    if (selectedIndex > -1) {
+                                        adapter16.selectedPositions.remove(selectedIndex);
+//                                        ((GridItemView) v).display(false);
+                                        Toast.makeText(Seats_activity.this,
+                                                "Seat " + sixteeneSeaterList.get(position) + " unselected",
+                                                Toast.LENGTH_SHORT).show();
+                                        seatno = String.valueOf("");
+
+                                        listofseats.remove(parent.getItemAtPosition(position).toString());
+                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
+                                        text.setBackgroundResource(R.drawable.seat_normal);
+
+
+                                    } else {
+                                        adapter16.selectedPositions.add(position);
+
+                                        Toast.makeText(Seats_activity.this,
+                                                getString(R.string.you_booked, sixteeneSeaterList.get(position)),
+                                                Toast.LENGTH_SHORT).show();
+
+
+                                        seatno = String.valueOf(sixteeneSeaterList.get(position));
+
+                                        listofseats.add(parent.getItemAtPosition(position).toString());
+                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
+                                        text.setBackgroundResource(R.drawable.seat_normal_booked);
+
+                                    }
+
+
+                                });
+                            } else if (Integer.parseInt(seater) > 16 && Integer.parseInt(seater) <= 49) {
 
                                 final FoutynineCustomAdapter adapter = new FoutynineCustomAdapter(fortynineSeater, this);
                                 gridView.setAdapter(adapter);
@@ -477,7 +539,9 @@ public class Seats_activity extends AppCompatActivity {
                                         seatno = String.valueOf("");
 
                                         listofseats.remove(parent.getItemAtPosition(position).toString());
-                                        TextView text = (TextView) viewItem.findViewById(R.id.txt_grid);
+
+                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
+
                                         text.setBackgroundResource(R.drawable.seat_normal);
 
 
@@ -492,18 +556,17 @@ public class Seats_activity extends AppCompatActivity {
                                         seatno = String.valueOf(fortynineSeaterList.get(position));
 
                                         listofseats.add(parent.getItemAtPosition(position).toString());
-                                        TextView text = (TextView) viewItem.findViewById(R.id.txt_grid);
+                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
+
                                         text.setBackgroundResource(R.drawable.seat_normal_booked);
 
                                     }
 
 
                                 });
-
-
-                            } else if (Integer.parseInt(vehicleseater) > 11 && Integer.parseInt(vehicleseater)  <= 14) {
-
-                                final CustomAdapter adapter = new CustomAdapter(fourteenSeater, this);
+                            } else if (Integer.parseInt(seater) > 11 && Integer.parseInt(seater) <= 14) {
+//
+                                final FouteenSeaterAdapter adapter = new FouteenSeaterAdapter(fourteenSeater, this);
                                 gridView.setAdapter(adapter);
                                 gridView.setNumColumns(3);
 
@@ -524,7 +587,7 @@ public class Seats_activity extends AppCompatActivity {
                                         seatno = String.valueOf("");
 
                                         listofseats.remove(parent.getItemAtPosition(position).toString());
-                                        TextView text = (TextView) viewItem.findViewById(R.id.txt_grid);
+                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
                                         text.setBackgroundResource(R.drawable.seat_normal);
 
 
@@ -539,15 +602,24 @@ public class Seats_activity extends AppCompatActivity {
                                         seatno = String.valueOf(fourteenSeaterlist.get(position));
 
                                         listofseats.add(parent.getItemAtPosition(position).toString());
-                                        TextView text = (TextView) viewItem.findViewById(R.id.txt_grid);
+                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
+
                                         text.setBackgroundResource(R.drawable.seat_normal_booked);
+                                        listofseats.add(parent.getItemAtPosition(position).toString());
+
 
                                     }
+
+                                    adapter.notifyDataSetChanged();
+
 
 
                                 });
 
+                                adapter.notifyDataSetChanged();
 
+//
+//
                             }
 
 
@@ -679,8 +751,8 @@ public class Seats_activity extends AppCompatActivity {
         params.put("to_city", app.getTravel_too());
         params.put("travel_date", app.getTravel_date());
         params.put("hash", app.getHash_key());
-        params.put("selected_vehicle", app.get_selected_vehicle());
-        params.put("seater", "11");
+        params.put("selected_vehicle", selected_Car);
+        params.put("seater", seater);
         params.put("selected_ticket_type", "13");
         params.put("payment_method", app.getPayment_type());
 
@@ -693,7 +765,7 @@ public class Seats_activity extends AppCompatActivity {
 
         params.put("email_address", "brianoroni6@gmail.com");
         params.put("insurance_charge", "");
-        params.put("served_by", "Oroni");
+        params.put("served_by", app.getLogged_user());
         params.put("amount_charged", "10");
         params.put("reference_number", refno);
 
@@ -826,14 +898,13 @@ public class Seats_activity extends AppCompatActivity {
     }
 
 
-    public class CustomAdapter extends BaseAdapter {
+    public class ElevenSeaterAdapter extends BaseAdapter {
         private Context context;
         private String[] strings;
         public List selectedPositions;
         List<String> Booked_11 = new ArrayList<>(LevenSeaterList);
-        List<String> Booked_14 = new ArrayList<>(fourteenSeaterlist);
 
-        public CustomAdapter(String[] strings, Context context) {
+        public ElevenSeaterAdapter(String[] strings, Context context) {
             this.strings = strings;
             this.context = context;
             selectedPositions = new ArrayList<>();
@@ -871,12 +942,126 @@ public class Seats_activity extends AppCompatActivity {
             HashSet<String> common = new HashSet<>(LevenSeaterList);
             common.retainAll(seats);
 
-            System.out.println("similiar " + common);
-            System.out.println("seats available " + seats);
-            System.out.println("Leven Seater List " + LevenSeaterList);
+            Log.d("similiar ", common.toString());
+            Log.d("seats available ", seats.toString());
+            Log.d("Leven Seater List ", LevenSeaterList.toString());
 
             Booked_11.removeAll(common);
-            System.out.println("11 seater Booked  Seats " + Booked_11);
+            Log.d("Booked  Seats ", Booked_11.toString());
+
+
+            if (convertView == null) {
+
+                gridView = new View(context);
+
+                gridView = inflater.inflate(R.layout.grid_item, null);
+
+                // set value into textview
+                gridtextView = gridView
+                        .findViewById(R.id.txt_grid);
+                gridtextView.setText(strings[position]);
+
+                String seatsitem = strings[position];
+
+                gridtextView.setBackgroundResource(R.drawable.seat_normal_booked);
+
+                if (seatsitem.equals("D")) {
+                    gridtextView.setBackgroundResource(R.drawable.steering);
+                    gridtextView.setText("");
+
+                }
+
+                for (int i = 0; i < common.size(); i++) {
+
+                    if (seats.size() <= 11) {
+
+                        if (seatsitem.equals(seats.get(i))) {
+                            gridtextView.setBackgroundResource(R.drawable.seat_normal);
+
+                        }
+
+
+                    }
+
+                }
+
+
+            } else {
+                gridView = convertView;
+            }
+
+
+            return gridView;
+
+        }
+
+        @Override
+        public boolean areAllItemsEnabled() {
+
+            return true;
+
+        }
+
+        @Override
+        public boolean isEnabled(int position) {
+
+            String seats = strings[position];
+
+            for (int i = 0; i < Booked_11.size(); i++) {
+                if ((seats.equals(Booked_11.get(i)))) {
+
+                    return false;
+
+                }
+
+            }
+
+
+            return true;
+        }
+
+
+    }
+
+    public class FouteenSeaterAdapter extends BaseAdapter {
+        private Context context;
+        private String[] strings;
+        public List selectedPositions;
+        List<String> Booked_14 = new ArrayList<>(fourteenSeaterlist);
+
+        public FouteenSeaterAdapter(String[] strings, Context context) {
+            this.strings = strings;
+            this.context = context;
+            selectedPositions = new ArrayList<>();
+
+        }
+
+
+        @Override
+        public int getCount() {
+            return strings.length;
+
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return strings[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
+            View gridView;
 
 
             HashSet<String> fourteencommon = new HashSet<>(fourteenSeaterlist);
@@ -911,22 +1096,6 @@ public class Seats_activity extends AppCompatActivity {
 
                 }
 
-                for (int i = 0; i < common.size(); i++) {
-
-                    if (seatsitem.equals("D")) {
-                        gridtextView.setBackgroundResource(R.drawable.steering);
-                        gridtextView.setText("");
-                    } else if (seats.size() <= 11) {
-
-                        if (seatsitem.equals(seats.get(i))) {
-                            gridtextView.setBackgroundResource(R.drawable.seat_normal);
-
-                        }
-
-
-                    }
-
-                }
 
                 for (int i = 0; i < fourteencommon.size(); i++) {
 
@@ -967,14 +1136,6 @@ public class Seats_activity extends AppCompatActivity {
 
             String seats = strings[position];
 
-            for (int i = 0; i < Booked_11.size(); i++) {
-                if ((seats.equals(Booked_11.get(i)))) {
-
-                    return false;
-
-                }
-
-            }
 
             for (int i = 0; i < Booked_14.size(); i++) {
                 if ((seats.equals(Booked_14.get(i)))) {
@@ -992,138 +1153,11 @@ public class Seats_activity extends AppCompatActivity {
     }
 
 
-    public class FoutynineCustomAdapter extends BaseAdapter {
-        private Context context;
-        private String[] strings;
-        public List selectedPositions;
-        List<String> Booked = new ArrayList<>(fortynineSeaterList);
-
-        public FoutynineCustomAdapter(String[] strings, Context context) {
-            this.strings = strings;
-            this.context = context;
-            selectedPositions = new ArrayList<>();
-
-        }
-
-
-        @Override
-        public int getCount() {
-            return strings.length;
-
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return strings[position];
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            LayoutInflater inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-
-            View gridView;
-
-
-            HashSet<String> fortyninecommon = new HashSet<>(fortynineSeaterList);
-            fortyninecommon.retainAll(seats);
-            System.out.println("49 seater similiar " + fortyninecommon);
-            System.out.println("seats available " + seats);
-            System.out.println("49 Seater List " + fortynineSeaterList);
-            int size = seats.size();
-            System.out.println("49 Size " + size);
-
-
-            Booked.removeAll(fortyninecommon);
-
-
-            if (convertView == null) {
-
-                gridView = new View(context);
-
-                gridView = inflater.inflate(R.layout.grid_item, null);
-
-
-            } else {
-                gridView = convertView;
-            }
-
-
-            // set value into textview
-            gridtextView = gridView
-                    .findViewById(R.id.txt_grid);
-            gridtextView.setText(strings[position]);
-
-            String seatsitem = strings[position];
-
-            gridtextView.setBackgroundResource(R.drawable.seat_normal_booked);
-
-
-            int color = 0x00FFFFFF; // Transparent
-
-            if (seatsitem.equals("C")) {
-                gridtextView.setBackgroundColor(color);
-                gridtextView.setText("");
-
-            }
-
-            for (int i = 0; i < fortyninecommon.size(); i++) {
-                if (seats.size() > 14 && seats.size() <= 49) {
-
-                    if (seatsitem.equals(seats.get(i))) {
-                        gridtextView.setBackgroundResource(R.drawable.seat_normal);
-
-                    }
-
-                }
-            }
-
-            return gridView;
-
-        }
-
-        @Override
-        public boolean areAllItemsEnabled() {
-
-            return true;
-
-        }
-
-        @Override
-        public boolean isEnabled(int position) {
-
-            String seats = strings[position];
-
-            for (int i = 0; i < Booked.size(); i++) {
-                if ((seats.equals(Booked.get(i)))) {
-
-                    return false;
-
-                }
-
-            }
-
-
-            return true;
-        }
-
-
-    }
-
-
     public class SixteenCustomAdapter extends BaseAdapter {
         private Context context;
         private String[] strings;
         public List selectedPositions;
-        List<String> Booked = new ArrayList<>(fortynineSeaterList);
+        List<String> Booked = new ArrayList<>(sixteeneSeaterList);
 
         public SixteenCustomAdapter(String[] strings, Context context) {
             this.strings = strings;
@@ -1174,7 +1208,6 @@ public class Seats_activity extends AppCompatActivity {
 
             if (convertView == null) {
 
-                gridView = new View(context);
 
                 gridView = inflater.inflate(R.layout.grid_item, null);
 
@@ -1193,10 +1226,16 @@ public class Seats_activity extends AppCompatActivity {
 
             gridtextView.setBackgroundResource(R.drawable.seat_normal);
 
+            if (seatsitem.equals("D")) {
+                gridtextView.setBackgroundResource(R.drawable.steering);
+                gridtextView.setText("");
+
+            }
+
 
             int color = 0x00FFFFFF; // Transparent
 
-            if (seatsitem.equals("C")) {
+            if (seatsitem.equals("c")) {
                 gridtextView.setBackgroundColor(color);
                 gridtextView.setText("");
 
@@ -1231,6 +1270,189 @@ public class Seats_activity extends AppCompatActivity {
 
             for (int i = 0; i < Booked.size(); i++) {
                 if ((seats.equals(Booked.get(i)))) {
+
+                    return false;
+
+                }
+
+            }
+
+
+            return true;
+        }
+
+
+    }
+
+
+
+
+
+
+    static class ViewHolder {
+
+        TextView gridtextView;
+
+        public TextView getGridtextView() {
+            return gridtextView;
+        }
+
+        public void setGridtextView(TextView gridtextView) {
+            this.gridtextView = gridtextView;
+        }
+
+        public ViewHolder(TextView textView) {
+            this.gridtextView=textView;
+        }
+    }
+
+    public class FoutynineCustomAdapter extends BaseAdapter {
+        private Context context;
+        private String[] strings;
+
+        public List selectedPositions;
+
+        ArrayList<String> Booked_49 = new ArrayList<>(fortynineSeaterList);
+
+        LayoutInflater inflater = null;
+
+
+        public FoutynineCustomAdapter(String[] strings, Context context) {
+            this.strings = strings;
+            this.context = context;
+            selectedPositions = new ArrayList<>();
+
+
+            inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
+
+        }
+
+
+
+
+        @Override
+        public int getViewTypeCount() {
+            return getCount();
+        }
+
+        @Override
+        public int getItemViewType(int position)
+        {
+            return position;
+        }
+
+
+        @Override
+        public int getCount() {
+            return fortynineSeaterList.size();
+
+        }
+
+        @Override
+        public Object getItem(int position) {
+
+
+            return fortynineSeaterList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            ViewHolder vh;
+            HashSet<String> fortyninecommon = new HashSet<>(fortynineSeaterList);
+            fortyninecommon.retainAll(seats);
+
+            System.out.println("49 seater similiar " + fortyninecommon);
+            System.out.println("seats available " + seats);
+            System.out.println("49 Seater List " + fortynineSeaterList);
+            int size = Integer.valueOf(seater);
+            System.out.println("49 Size " + size);
+
+            Booked_49.removeAll(fortyninecommon);
+
+            String seatsitem = strings[position];
+
+
+
+            if (convertView == null) {
+
+                convertView = inflater.inflate(R.layout.grid_item, parent, false);
+
+                vh = new ViewHolder(textView);
+
+                convertView.setTag(vh);
+
+
+
+            } else {
+
+
+                vh = (ViewHolder) convertView.getTag();
+
+
+
+            }
+
+
+
+            vh.gridtextView = convertView.findViewById(R.id.txt_grid);
+            vh.gridtextView.setText(strings[position]);
+
+            vh.gridtextView.setBackgroundResource(R.drawable.seat_normal_booked);
+
+            if (seatsitem.equals("D")) {
+                vh. gridtextView.setBackgroundResource(R.drawable.steering);
+                vh.gridtextView.setText("");
+
+            }
+
+
+            int color = 0x00FFFFFF; // Transparent
+
+            if (seatsitem.equals("C")) {
+                vh. gridtextView.setBackgroundColor(color);
+                vh. gridtextView.setText("");
+
+            }
+
+            for (int i = 0; i < fortyninecommon.size(); i++) {
+                if (seats.size() > 16 && seats.size() <= 49) {
+
+                    if (seatsitem.equals(seats.get(i))) {
+                        vh. gridtextView.setBackgroundResource(R.drawable.seat_normal);
+
+                    }
+
+                }
+            }
+
+            return convertView;
+
+        }
+
+        @Override
+        public boolean areAllItemsEnabled() {
+
+            return true;
+
+        }
+
+        @Override
+        public boolean isEnabled(int position) {
+
+            String seats = strings[position];
+
+            for (int i = 0; i < Booked_49.size(); i++) {
+                if ((seats.equals(Booked_49.get(i)))) {
 
                     return false;
 

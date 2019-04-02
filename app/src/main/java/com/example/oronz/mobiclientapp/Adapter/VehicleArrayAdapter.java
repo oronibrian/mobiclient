@@ -1,10 +1,14 @@
 package com.example.oronz.mobiclientapp.Adapter;
 
 import android.app.Activity;
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.oronz.mobiclientapp.Models.AvailableVehicles;
@@ -24,16 +28,32 @@ public class VehicleArrayAdapter  extends ArrayAdapter<AvailableVehicles> {
     }
 
 
+
+
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Check if the existing view is being reused, otherwise inflate the view
         View listItemView = convertView;
+        RecyclerView.ViewHolder viewHolder; // view lookup cache stored in tag
+
         app = (MobiClientApplication) getContext().getApplicationContext();
 
         if (listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.car_list, parent, false);
+            LayoutInflater li = (LayoutInflater) getContext()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+//            listItemView = LayoutInflater.from(getContext()).inflate(
+//                    R.layout.car_list, parent, false);
+
+            listItemView = li.inflate(R.layout.car_list, null);
+
         }
+        else {
+// View is being recycled, retrieve the viewHolder object from tag
+            viewHolder = (RecyclerView.ViewHolder) convertView.getTag();
+        }
+
 
         AvailableVehicles currentpackage = getItem(position);
 
@@ -43,13 +63,19 @@ public class VehicleArrayAdapter  extends ArrayAdapter<AvailableVehicles> {
 
         TextView availableTextView = listItemView.findViewById(R.id.available_seats);
 
-        availableTextView.setText(String.format(String.format("Seater: %s\nAvailable : %%s", currentpackage.getName()), currentpackage.getSeats_available()));
+        availableTextView.setText(String.format(String.format("Seater: %s Available : %%s", currentpackage.getName()), currentpackage.getSeats_available()));
 
         TextView departureTextView = listItemView.findViewById(R.id.departure_time);
 
         departureTextView.setText(currentpackage.getDeparture_time());
 
-        app.set_selected_vehicle(currentpackage.get_Id());
+
+        TextView seater= listItemView.findViewById(R.id.seater);
+
+        seater.setText(currentpackage.getName());
+
+        TextView id = listItemView.findViewById(R.id.available);
+        id.setText(currentpackage.get_Id());
 
 
 

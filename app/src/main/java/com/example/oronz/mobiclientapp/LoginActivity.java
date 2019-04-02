@@ -52,6 +52,9 @@ public class LoginActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
 
+    SharedPreferences preferences;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,29 +81,24 @@ public class LoginActivity extends AppCompatActivity {
         app.set_Clerk_username(edittextusername.getText().toString());
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-
-        btnlogin.setVisibility(View.GONE);
-
-
-        // Check if UserResponse is Already Logged In
+         preferences = getSharedPreferences("temp", Context.MODE_PRIVATE);
 
 
-        if (SaveSharedPreference.getLoggedStatus(getApplicationContext())) {
 
 
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            Toast.makeText(getApplicationContext(),
-                    "Welcome Back" + app.getLogged_user(), Toast.LENGTH_SHORT).show();
+        SharedPreferences preferences=getSharedPreferences("temp", Context.MODE_PRIVATE);
+        String name=preferences.getString("email",null);
+        String pass=preferences.getString("pass",null);
+        String username=preferences.getString("username",null);
 
+
+        if (!preferences.getString(name,"").equals("")){
+            Toast.makeText(getApplicationContext(),"Welcome Back" + name,Toast.LENGTH_LONG).show();
+            Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-
-
-        } else {
-
-            btnlogin.setVisibility(View.VISIBLE);
-
-
         }
+
 
 
         btnlogin.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +163,9 @@ public class LoginActivity extends AppCompatActivity {
 
             mProgress.show();
 
+
+
+
             RequestQueue reserverequestQueue = Volley.newRequestQueue(LoginActivity.this);
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("username", app.getUser_name());
@@ -192,10 +193,13 @@ public class LoginActivity extends AppCompatActivity {
                                 SaveSharedPreference.setLoggedIn(getApplicationContext(), true);
 
 
-//                                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                                editor.putString("username", email);
-//                                editor.putString("password", password);
-//                                editor.apply();
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putString("email", email);
+                                editor.putString("pass",password);
+                                editor.putString("username",first_name + " " + last_name);
+
+
+                                editor.commit();
 
 
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
+    android:layout_margin="1dp"
     android:orientation="horizontal"
     tools:context=".MainActivity">
 
@@ -17,13 +17,38 @@
 
 
         <LinearLayout
-            android:layout_width="296dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/payment_type_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn"
+                android:gravity="center"
+                android:popupBackground="@color/floating_label"
+                android:spinnerMode="dropdown"
+                android:textAlignment="center"
+                app:ms_alignLabels="true"
+                app:ms_alwaysShowFloatingLabel="true"
+                app:ms_arrowColor="@color/base"
+                app:ms_baseColor="@color/base"
+                app:ms_enableErrorLabel="false"
+                app:ms_enableFloatingLabel="true"
+                app:ms_errorColor="@color/error"
+                app:ms_floatingLabelColor="@color/floating_label"
+                app:ms_floatingLabelText="Payment Method"
+                app:ms_highlightColor="@color/highlight"
+                app:ms_hint="Select Payment Method"
+                app:ms_hintColor="@color/hint"
+                app:ms_hintView="@layout/hint_item"
+                app:ms_multiline="false" />
+
             <GridView
                 android:id="@+id/grid"
-                android:layout_width="206dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal|center"
                 android:columnWidth="30dp"
@@ -51,32 +76,6 @@
             android:layout_below="@+id/TextView01"
             android:orientation="vertical">
 
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/payment_type_spinner"
-                android:layout_width="103dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/btn"
-                android:gravity="center"
-                android:popupBackground="@color/floating_label"
-                android:spinnerMode="dropdown"
-                android:textAlignment="center"
-                android:textSize="12sp"
-                app:ms_alignLabels="true"
-                app:ms_arrowColor="@color/base"
-                app:ms_arrowSize="8dp"
-                app:ms_baseColor="@color/base"
-                app:ms_dropDownHintView="@layout/dropdown_hint_item"
-                app:ms_enableErrorLabel="false"
-                app:ms_enableFloatingLabel="true"
-                app:ms_errorColor="@color/error"
-                app:ms_floatingLabelColor="@color/floating_label"
-                app:ms_floatingLabelText="Payment Method"
-                app:ms_highlightColor="@color/highlight"
-                app:ms_hint="Payment method"
-                app:ms_hintColor="@color/hint"
-                app:ms_hintView="@layout/hint_item"
-                app:ms_multiline="false"
-                app:ms_thickness="2dp" />
 
             <Button
                 android:id="@+id/btngo"

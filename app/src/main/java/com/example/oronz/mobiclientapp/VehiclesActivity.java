@@ -8,6 +8,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -39,6 +40,7 @@ public class VehiclesActivity extends AppCompatActivity {
     JSONArray jsonArray;
     SearchView sv;
     String car_id="";
+    String total_seats="";
 
     private MobiClientApplication app;
 
@@ -70,14 +72,41 @@ public class VehiclesActivity extends AppCompatActivity {
 
                 listView.setOnItemClickListener((parent, view, position, id) -> {
 
+                    TextView seatssize = view.findViewById(R.id.seater);
+                    String number=seatssize.getText().toString();
+
+
+                    TextView available = view.findViewById(R.id.available);
+                    String selected_car_id=available.getText().toString();
+
                       app.setIndex(String.valueOf(listView.indexOfChild(view)));
 
-                    app.set_car_name("Select Seats\n");
+
+//                    app.set_selected_vehicle(car_id);
+//
+//                    app.set_car_name(total_seats);
+
+
+                    Log.d("Car Index: ", String.valueOf(listView.indexOfChild(view)));
+
+
+                    Log.d("Car Id: ",car_id);
+
+                    Log.d("Selected seater: ",number);
+
+                    Log.d("Selected Car Id: ",selected_car_id);
+
 
                     Intent intent = new Intent(VehiclesActivity.this, Seats_activity.class);
+                    intent.putExtra("selected_car",car_id);
+                    intent.putExtra("seater",number);
+                    intent.putExtra("car_id",selected_car_id);
+
+
                     startActivity(intent);
 
                 });
+
 
         checkAvailableVehicle();
 
@@ -116,7 +145,7 @@ public class VehiclesActivity extends AppCompatActivity {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                 buses = jsonObject1.getString("route");
                                 car_id = jsonObject1.getString("id");
-                                String total_seats = jsonObject1.getString("total_seats");
+                                total_seats = jsonObject1.getString("total_seats");
                                 String seats_available = jsonObject1.getString("seats_available");
                                 String departure_time = jsonObject1.getString("departure_time");
                                 String from = jsonObject1.getString("from");

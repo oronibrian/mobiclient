@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -76,6 +77,8 @@ public class ReceiptActivity extends AppCompatActivity {
         btnprint = findViewById(R.id.btnprint);
 
         mProgress = new ProgressDialog(this);
+        mProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgress.getWindow().setBackgroundDrawable(new ColorDrawable(Color.GREEN));
         mProgress.setTitle("Processing payment ...");
         mProgress.setMessage("Please wait...");
         mProgress.setCancelable(false);
@@ -83,6 +86,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
 
         confirmtransProgress = new ProgressDialog(this);
+        confirmtransProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         confirmtransProgress.setTitle("Payment Confirmation ...");
         confirmtransProgress.setMessage("Confirming mPesa payment...");
         confirmtransProgress.setCancelable(false);

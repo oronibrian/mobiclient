@@ -13,7 +13,7 @@
         android:layout_margin="16dp"
         android:background="@drawable/my_shape"
         android:text="@string/confirm_to_complete"
-        android:textColor="@color/colorPrimary"
+        android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold" />
 
