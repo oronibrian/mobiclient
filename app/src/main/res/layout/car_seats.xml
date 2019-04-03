@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn"
                 android:gravity="center"
-                android:popupBackground="@color/floating_label"
+                android:popupBackground="@color/colorPrimary"
                 android:spinnerMode="dropdown"
                 android:textAlignment="center"
                 app:ms_alignLabels="true"

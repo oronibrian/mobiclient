@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +20,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -530,6 +530,9 @@ public class Seats_activity extends AppCompatActivity {
                                     int selectedIndex = adapter.selectedPositions.indexOf(position);
 
 
+                                    TextView text = (TextView) v.findViewById(R.id.txt_grid);
+
+
                                     if (selectedIndex > -1) {
                                         adapter.selectedPositions.remove(selectedIndex);
 //                                        ((GridItemView) v).display(false);
@@ -540,13 +543,18 @@ public class Seats_activity extends AppCompatActivity {
 
                                         listofseats.remove(parent.getItemAtPosition(position).toString());
 
-                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
 
-                                        text.setBackgroundResource(R.drawable.seat_normal);
+                                        if (text.getText().equals("")) {
+                                            text.setBackgroundResource(R.drawable.seat_normal);
+
+                                        }
+
 
 
                                     } else {
                                         adapter.selectedPositions.add(position);
+
+
 
                                         Toast.makeText(Seats_activity.this,
                                                 getString(R.string.you_booked, fortynineSeaterList.get(position)),
@@ -555,15 +563,23 @@ public class Seats_activity extends AppCompatActivity {
 
                                         seatno = String.valueOf(fortynineSeaterList.get(position));
 
-                                        listofseats.add(parent.getItemAtPosition(position).toString());
-                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
+//                                        listofseats.add(parent.getItemAtPosition(position).toString());
+                                        listofseats.add(fortynineSeaterList.get(position));
 
-                                        text.setBackgroundResource(R.drawable.seat_normal_booked);
+                                        if (text.getText().equals(seatno)) {
+                                            text.setBackgroundResource(R.drawable.seat_normal_booked);
+
+                                        }
+
+//                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
+
 
                                     }
 
 
                                 });
+
+
                             } else if (Integer.parseInt(seater) > 11 && Integer.parseInt(seater) <= 14) {
 //
                                 final FouteenSeaterAdapter adapter = new FouteenSeaterAdapter(fourteenSeater, this);
@@ -598,7 +614,6 @@ public class Seats_activity extends AppCompatActivity {
                                                 getString(R.string.you_booked, fourteenSeaterlist.get(position)),
                                                 Toast.LENGTH_SHORT).show();
 
-
                                         seatno = String.valueOf(fourteenSeaterlist.get(position));
 
                                         listofseats.add(parent.getItemAtPosition(position).toString());
@@ -616,7 +631,6 @@ public class Seats_activity extends AppCompatActivity {
 
                                 });
 
-                                adapter.notifyDataSetChanged();
 
 //
 //
@@ -901,7 +915,7 @@ public class Seats_activity extends AppCompatActivity {
     public class ElevenSeaterAdapter extends BaseAdapter {
         private Context context;
         private String[] strings;
-        public List selectedPositions;
+        public List<Object> selectedPositions;
         List<String> Booked_11 = new ArrayList<>(LevenSeaterList);
 
         public ElevenSeaterAdapter(String[] strings, Context context) {

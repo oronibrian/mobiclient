@@ -3,6 +3,9 @@ package com.example.oronz.mobiclientapp.Models;
 public class City {
     String name,id;
 
+    public City() {
+    }
+
     public City(String name, String id) {
         this.name = name;
         this.id = id;
@@ -22,5 +25,11 @@ public class City {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

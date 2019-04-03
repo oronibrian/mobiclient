@@ -24,18 +24,19 @@ public class CityArrayAdapter extends ArrayAdapter<City> {
         private Context mContext;
         private List<City> cityList = new ArrayList<>();
 
-        public CityArrayAdapter(@NonNull Context context, @SuppressLint("SupportAnnotationUsage") @LayoutRes ArrayList<City> list) {
-            super(context, 0 , list);
+        public CityArrayAdapter(Context context,  ArrayList<City> list) {
+            super(context,  R.layout.city_item, list);
             mContext = context;
             cityList = list;
         }
 
         @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent) {
             app = (MobiClientApplication) getContext().getApplicationContext();
 
             View listItem = convertView;
+
             if(listItem == null)
                 listItem = LayoutInflater.from(mContext).inflate(R.layout.city_item,parent,false);
 
@@ -46,6 +47,7 @@ public class CityArrayAdapter extends ArrayAdapter<City> {
 
             TextView release = (TextView) listItem.findViewById(R.id.textView_id);
             release.setText(currentcity.getId());
+
             app.setCity_id(currentcity.getId());
 
             return listItem;

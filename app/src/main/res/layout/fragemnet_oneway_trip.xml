@@ -20,6 +20,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Travel From"
+            android:textSize="20sp"
+            android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark" />
 
 
@@ -29,6 +31,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Travel To"
+            android:textSize="20sp"
+
+            android:textAlignment="center"
+
             android:textColor="@color/colorPrimaryDark" />
 
 

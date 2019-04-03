@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -28,7 +29,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
+import com.example.oronz.mobiclientapp.Adapter.CityArrayAdapter;
 import com.example.oronz.mobiclientapp.MobiClientApplication;
+import com.example.oronz.mobiclientapp.Models.City;
 import com.example.oronz.mobiclientapp.R;
 import com.example.oronz.mobiclientapp.VehiclesActivity;
 
@@ -48,7 +51,8 @@ public class OneWayTripFragement extends Fragment {
 
     ArrayList<String> dates,vehicles;
 
-    ArrayList<String> city;
+//    ArrayList<String> city;
+
 
     Spinner too;
     Spinner from;
@@ -62,6 +66,13 @@ public class OneWayTripFragement extends Fragment {
 
     CountDownTimer CDT;
     int i =7;
+
+    private ArrayList<City> cities;
+    CityArrayAdapter citycutomAdapter;
+
+
+
+
 
     public OneWayTripFragement() {
         // Required empty public constructor
@@ -84,9 +95,10 @@ public class OneWayTripFragement extends Fragment {
         // Inflate the layout for this fragment
 
         View V =inflater.inflate(R.layout.fragemnet_oneway_trip, container, false);
-        city = new ArrayList<>();
         dates=new ArrayList<>();
         vehicles=new ArrayList<>();
+        cities = new ArrayList<>();
+
         return V;
     }
     @Override
@@ -97,7 +109,7 @@ public class OneWayTripFragement extends Fragment {
             public void onClick(View v) {
 
 
-                if (too.getSelectedItemId()== 0 && too.getSelectedItemId()==0 && travel_date.getSelectedItemId()==0 ){
+                if (too.getSelectedItemId()== 0 && from.getSelectedItemId()==0 && travel_date.getSelectedItemId()==0 ){
 
                      Toast.makeText(getContext(), "Select Correct Choices", Toast.LENGTH_SHORT).show();
 
@@ -172,14 +184,19 @@ public class OneWayTripFragement extends Fragment {
 
         too.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(AdapterView<?> adapterView, View v, int i, long l) {
 //                String _too = too.getItemAtPosition(too.getSelectedItemPosition()).toString();
 
-                 _too = String.valueOf(too.getSelectedItemId());
+                String name    = ((TextView) v.findViewById(R.id.textView_name)).getText().toString();
+                String id = ((TextView) v.findViewById(R.id.textView_id)).getText().toString();
+
+                 _too =id;
 
 
-                Log.d("To City:%n %s", _too);
 
+                Log.d("To City id:%n %s", _too);
+
+                Log.d("To City name:%n %s", name);
 
                     app.setTravel_too(_too);
 
@@ -195,12 +212,20 @@ public class OneWayTripFragement extends Fragment {
 
         from.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(AdapterView<?> adapterView, View v, int i, long l) {
 //                String _from = from.getItemAtPosition(from.getSelectedItemPosition()).toString();
-                 _from = String.valueOf(from.getSelectedItemId());
-                Log.d("From City:%n %s", _from);
 
-                    app.setTravel_from(_from);
+                String name    = ((TextView) v.findViewById(R.id.textView_name)).getText().toString();
+                String id = ((TextView) v.findViewById(R.id.textView_id)).getText().toString();
+
+
+                 _from = id;
+
+                Log.d("From id:%n %s", _from);
+                Log.d("From City:%n %s",name);
+
+
+                app.setTravel_from(_from);
 
 
 
@@ -229,46 +254,46 @@ public class OneWayTripFragement extends Fragment {
 
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
+                response -> {
+                    try {
 
-                            if (response.getInt("response_code") == 0) {
-                                JSONArray jsonArray = response.getJSONArray("cities");
-//                                city.add("<select>");
-                                city.add("Select");
+                        if (response.getInt("response_code") == 0) {
+                            JSONArray jsonArray = response.getJSONArray("cities");
+                            Log.d("Cities",jsonArray.toString(4));
+//                                city.add("<select>"
 
-
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                    String name = jsonObject1.getString("name");
-                                    String id = jsonObject1.getString("id");
-
-                                    city.add(name);
+//                            citymodel.setName("select");
 
 
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                String name = jsonObject1.getString("name");
+                                String id = jsonObject1.getString("id");
 
-                                }
+                                cities.add(new City(name,id));
 
-                            } else {
-                                Toast.makeText(getContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
 
                             }
 
-                            from.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, city));
+                        } else {
+                            Toast.makeText(getContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        citycutomAdapter =new CityArrayAdapter(getContext(), cities);
+
+                        from.setAdapter(citycutomAdapter);
 
 //                            from.setSelection(0, false);
 
 
-                            too.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, city));
+                        too.setAdapter(citycutomAdapter);
 
 //                            too.setSelection(0, false);
 
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }, new Response.ErrorListener() {
             @Override
