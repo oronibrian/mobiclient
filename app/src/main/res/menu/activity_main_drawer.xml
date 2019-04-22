@@ -10,30 +10,28 @@
             android:icon="@drawable/search"
             android:title="Search Ticket" />
 
-        <item android:id="@+id/menu_manifest"
-            android:icon="@drawable/manifest"
-            android:title="Manifest" />
-
         <item
             android:id="@+id/nav_camera"
-            android:icon="@drawable/home"
+            android:icon="@drawable/icons8500"
             android:title="New Ticket" />
 
+        <item android:id="@+id/menu_manifest"
+            android:icon="@drawable/file"
+            android:title="Manifest" />
+
+
+        <!--<item-->
+            <!--android:id="@+id/nav_gallery"-->
+            <!--android:icon="@drawable/news"-->
+            <!--android:title="News" />-->
 
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/news"
-            android:title="News" />
+            android:id="@+id/nav_submit_cash"
+            android:icon="@drawable/money"
 
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/promtion"
-            android:title="Promotions" />
+            android:title="Submit Cash" />
 
-        <item
-            android:id="@+id/about"
-            android:icon="@drawable/about"
-            android:title="About Us" />
+
     </group>
 
 
@@ -44,9 +42,14 @@
                 <item
                     android:title="Update"
                     android:id="@+id/update"
-
+                    android:icon="@drawable/update"
 
                     />
+
+                <item
+                    android:id="@+id/about"
+                    android:icon="@drawable/about"
+                    android:title="About Us" />
 
 
             </group>

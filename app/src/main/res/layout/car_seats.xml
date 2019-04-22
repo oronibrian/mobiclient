@@ -22,6 +22,14 @@
             android:orientation="vertical">
 
 
+            <Spinner
+                android:layout_width="match_parent"
+                android:id="@+id/travel_class"
+                android:layout_height="wrap_content">
+
+            </Spinner>
+
+
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/payment_type_spinner"
                 android:layout_width="match_parent"

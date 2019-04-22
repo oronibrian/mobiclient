@@ -1,6 +1,7 @@
 package com.example.oronz.mobiclientapp;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Adapter.MyTripsArrayAdapter;
 import com.example.oronz.mobiclientapp.Models.MytripsDetails;
+import com.example.oronz.mobiclientapp.Utilities.MySingleton;
 import com.nbbse.printapi.Printer;
 
 import org.json.JSONArray;
@@ -46,6 +48,7 @@ public class SearchTicketActivity extends AppCompatActivity {
     Button btnsearch;
     String phoneno;
     private ProgressDialog mProgress;
+    private Context mcontext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,7 @@ public class SearchTicketActivity extends AppCompatActivity {
         mProgress.setMessage("Please wait...");
         mProgress.setCancelable(true);
         mProgress.setIndeterminate(true);
+        mcontext=getApplicationContext();
 
 
         btnsearch.setOnClickListener(new View.OnClickListener() {
@@ -178,7 +182,6 @@ public class SearchTicketActivity extends AppCompatActivity {
 
         mProgress.show();
 
-        RequestQueue requestQueue = Volley.newRequestQueue(SearchTicketActivity.this);
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
         params.put("api_key", app.getApi_key());
@@ -257,7 +260,7 @@ public class SearchTicketActivity extends AppCompatActivity {
 
         };
 
-        requestQueue.add(req);
+        MySingleton.getInstance(mcontext).addToRequestQueue(req);
 
     }
 

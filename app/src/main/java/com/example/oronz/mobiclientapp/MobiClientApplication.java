@@ -26,6 +26,9 @@ public class MobiClientApplication extends Application {
     String city_id;
 
     String ManfestSelected,ManifestDate;
+    String email_address,phone_num;
+
+    String seater,price_class;
 
 
 
@@ -315,5 +318,37 @@ public class MobiClientApplication extends Application {
 
     public void setCity_id(String city_id) {
         this.city_id = city_id;
+    }
+
+    public String getEmail_address() {
+        return email_address;
+    }
+
+    public void setEmail_address(String email_address) {
+        this.email_address = email_address;
+    }
+
+    public String getPhone_num() {
+        return phone_num;
+    }
+
+    public void setPhone_num(String phone_num) {
+        this.phone_num = phone_num;
+    }
+
+    public String getSeater() {
+        return seater;
+    }
+
+    public void setSeater(String seater) {
+        this.seater = seater;
+    }
+
+    public String getPrice_class() {
+        return price_class;
+    }
+
+    public void setPrice_class(String price_class) {
+        this.price_class = price_class;
     }
 }

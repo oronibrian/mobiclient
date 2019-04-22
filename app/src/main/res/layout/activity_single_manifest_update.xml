@@ -10,13 +10,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="3dp"
         android:layout_marginTop="3dp"
-        android:orientation="horizontal"
-       >
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/edittextreg_no"
-            android:layout_width="237dp"
+            android:layout_width="231dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:hint="KCR 220R" />
@@ -42,8 +42,11 @@
         android:textStyle="bold" />
 
 
-
-    <include layout="@layout/list_item_manufest"/>
+    <include
+        layout="@layout/list_item_manufest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" />
 
 
 </LinearLayout>

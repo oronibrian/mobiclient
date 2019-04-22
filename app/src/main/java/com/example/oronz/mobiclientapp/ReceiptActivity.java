@@ -2,6 +2,7 @@ package com.example.oronz.mobiclientapp;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -32,6 +33,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Models.UserDetails;
+import com.example.oronz.mobiclientapp.Utilities.MySingleton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nbbse.printapi.Printer;
@@ -64,6 +66,8 @@ public class ReceiptActivity extends AppCompatActivity {
     String name, phone, seat;
     InputStream logo;
 
+    private Context mcontext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +95,7 @@ public class ReceiptActivity extends AppCompatActivity {
         confirmtransProgress.setMessage("Confirming mPesa payment...");
         confirmtransProgress.setCancelable(false);
         confirmtransProgress.setIndeterminate(true);
+        mcontext=getApplicationContext();
 
 
 
@@ -343,8 +348,6 @@ public class ReceiptActivity extends AppCompatActivity {
 
         mProgress.show();
 
-        RequestQueue mpesareserverequestQueue = Volley.newRequestQueue(ReceiptActivity.this);
-
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
         params.put("api_key", app.getApi_key());
@@ -451,21 +454,13 @@ public class ReceiptActivity extends AppCompatActivity {
 
 
         };
-        mpesareserverequestQueue.getCache().clear();
-
-        mpesareserverequestQueue.add(req);
+        MySingleton.getInstance(mcontext).addToRequestQueue(req);
 
     }
 
     private void jamboPayWalet() {
 
-
-        //Commond here......"p/IK4:"
-
         mProgress.show();
-
-        RequestQueue jpreserverequestQueue = Volley.newRequestQueue(ReceiptActivity.this);
-
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
         params.put("api_key", app.getApi_key());
@@ -550,9 +545,8 @@ public class ReceiptActivity extends AppCompatActivity {
 
 
         };
-        jpreserverequestQueue.getCache().clear();
 
-        jpreserverequestQueue.add(req);
+        MySingleton.getInstance(mcontext).addToRequestQueue(req);
 
 
     }
@@ -651,9 +645,8 @@ public class ReceiptActivity extends AppCompatActivity {
 
 
         };
-        reserverequestQueue.getCache().clear();
 
-        reserverequestQueue.add(req);
+        MySingleton.getInstance(mcontext).addToRequestQueue(req);
 
     }
 
@@ -661,7 +654,6 @@ public class ReceiptActivity extends AppCompatActivity {
     private void searchMpesaTransaction(){
 
 
-        RequestQueue reserverequestQueue = Volley.newRequestQueue(ReceiptActivity.this);
 
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("developer_username", "emuswailit");
@@ -744,9 +736,8 @@ public class ReceiptActivity extends AppCompatActivity {
 
 
         };
-        reserverequestQueue.getCache().clear();
+        MySingleton.getInstance(mcontext).addToRequestQueue(req);
 
-        reserverequestQueue.add(req);
 
 
     }

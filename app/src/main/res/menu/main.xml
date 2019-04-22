@@ -9,7 +9,7 @@
 
 
     <item android:id="@+id/menu_manifest"
-        android:icon="@drawable/manifest"
+        android:icon="@drawable/file"
         app:showAsAction="ifRoom"
         android:title="Manifest" />
 

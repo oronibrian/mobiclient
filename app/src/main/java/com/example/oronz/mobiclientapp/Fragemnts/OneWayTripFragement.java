@@ -1,6 +1,7 @@
 package com.example.oronz.mobiclientapp.Fragemnts;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -33,6 +34,7 @@ import com.example.oronz.mobiclientapp.Adapter.CityArrayAdapter;
 import com.example.oronz.mobiclientapp.MobiClientApplication;
 import com.example.oronz.mobiclientapp.Models.City;
 import com.example.oronz.mobiclientapp.R;
+import com.example.oronz.mobiclientapp.Utilities.MySingleton;
 import com.example.oronz.mobiclientapp.VehiclesActivity;
 
 import org.json.JSONArray;
@@ -69,8 +71,7 @@ public class OneWayTripFragement extends Fragment {
 
     private ArrayList<City> cities;
     CityArrayAdapter citycutomAdapter;
-
-
+    private Context mContext;
 
 
 
@@ -84,6 +85,7 @@ public class OneWayTripFragement extends Fragment {
         app = (MobiClientApplication) getActivity().getApplicationContext();
         getDestination();
         getDates();
+        mContext=getActivity().getApplicationContext();
 
 
     }
@@ -142,8 +144,12 @@ public class OneWayTripFragement extends Fragment {
 
                             intent.putExtra("Buses", vehicles);
 
-                            startActivity(intent);                        }
+                            startActivity(intent);
+
+                        }
                     }.start();
+
+
 
 
 
@@ -244,8 +250,6 @@ public class OneWayTripFragement extends Fragment {
 
     private void getDestination() {
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-
         HashMap<String, String> params;
         params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
@@ -323,12 +327,12 @@ public class OneWayTripFragement extends Fragment {
 
         };
 
-        requestQueue.add(req);
+
+        MySingleton.getInstance(mContext).addToRequestQueue(req);
 
     }
 
     private void getDates() {
-        RequestQueue datesrequestQueue = Volley.newRequestQueue(getContext());
 
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
@@ -391,7 +395,7 @@ public class OneWayTripFragement extends Fragment {
 
         };
 
-        datesrequestQueue.add(req);
+        MySingleton.getInstance(mContext).addToRequestQueue(req);
     }
 
 }

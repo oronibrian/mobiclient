@@ -1,5 +1,6 @@
 package com.example.oronz.mobiclientapp;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Adapter.PassengerManifestAdapter;
 import com.example.oronz.mobiclientapp.Models.PassengerManifestDetails;
+import com.example.oronz.mobiclientapp.Utilities.MySingleton;
 import com.nbbse.printapi.Printer;
 
 import org.json.JSONArray;
@@ -50,7 +52,7 @@ public class SingleManifestUpdate extends AppCompatActivity {
     int seatsize, manifestsize;
     JSONArray jsonArray;
     InputStream logo;
-
+Context mcontext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class SingleManifestUpdate extends AppCompatActivity {
         carmanifestDetails = new ArrayList<>();
 
         logo = getResources().openRawResource(R.raw.ena_coach_logo24bit);
+        mcontext=getApplicationContext();
 
 
         prntfull = findViewById(R.id.btnprntfull);
@@ -74,7 +77,7 @@ public class SingleManifestUpdate extends AppCompatActivity {
 
 
         app = (MobiClientApplication) getApplication();
-        getSupportActionBar().setTitle("Manifest:" + app.getManfestSelected());
+        getSupportActionBar().setTitle(app.getManfestSelected());
         details = findViewById(R.id.txtdetails);
         reg = findViewById(R.id.edittextreg_no);
         btnupdate = findViewById(R.id.btnupdate);
@@ -129,7 +132,6 @@ public class SingleManifestUpdate extends AppCompatActivity {
             print.printText("Clerk.............sign..........");
             print.printText("Driver............sign..........");
             print.printText("......Passenger Details.........");
-            print.printText("Seat**Phone**Name**From**Ref No**");
 
 
             for (int i = 0; i < manifestsize; i++) {
@@ -183,7 +185,6 @@ public class SingleManifestUpdate extends AppCompatActivity {
             print.printText("Clerk.............sign..........");
             print.printText("Driver............sign..........");
             print.printText("......Passenger Details.........");
-            print.printText("Seat**Phone**Name**From**Ref No**");
 
 
             for (int i = 0; i < 22; i++) {
@@ -245,7 +246,6 @@ public class SingleManifestUpdate extends AppCompatActivity {
 
 
     private void loadManifest() {
-        RequestQueue requestQueue = Volley.newRequestQueue(SingleManifestUpdate.this);
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
         params.put("api_key", app.getApi_key());
@@ -348,7 +348,8 @@ public class SingleManifestUpdate extends AppCompatActivity {
 
         };
 
-        requestQueue.add(req);
+        MySingleton.getInstance(mcontext).addToRequestQueue(req);
+
     }
 
 

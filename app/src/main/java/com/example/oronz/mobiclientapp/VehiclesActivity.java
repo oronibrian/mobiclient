@@ -1,5 +1,6 @@
 package com.example.oronz.mobiclientapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Adapter.MyAdapter;
 import com.example.oronz.mobiclientapp.Adapter.VehicleArrayAdapter;
 import com.example.oronz.mobiclientapp.Models.AvailableVehicles;
+import com.example.oronz.mobiclientapp.Utilities.MySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +48,7 @@ public class VehiclesActivity extends AppCompatActivity {
 
     ArrayList<AvailableVehicles> availableVehicles;
     ListView listView ;
+    Context mcontext;
 
 
     @Override
@@ -64,6 +67,7 @@ public class VehiclesActivity extends AppCompatActivity {
         String today = dateFormat.format(new Date());
 
         app.setTravel_date(today);
+        mcontext=getApplicationContext();
 
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -95,6 +99,8 @@ public class VehiclesActivity extends AppCompatActivity {
                     Log.d("Selected seater: ",number);
 
                     Log.d("Selected Car Id: ",selected_car_id);
+
+                    app.setSeater(number);
 
 
                     Intent intent = new Intent(VehiclesActivity.this, Seats_activity.class);
@@ -191,8 +197,7 @@ public class VehiclesActivity extends AppCompatActivity {
 
 
         };
-        busrequestQueue.getCache().clear();
-        busrequestQueue.add(req);
+        MySingleton.getInstance(mcontext).addToRequestQueue(req);
 
 
 

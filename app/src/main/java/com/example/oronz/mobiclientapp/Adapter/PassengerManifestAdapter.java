@@ -44,16 +44,16 @@ public class PassengerManifestAdapter extends ArrayAdapter<PassengerManifestDeta
 
         TextView seatsTextView = listItemView.findViewById(R.id.manifest_seat_no);
 
-        seatsTextView.setText(String.format("Name: %s", mytripsDetails.getSeat()));
+        seatsTextView.setText(String.format("%s", mytripsDetails.getSeat()));
 
         TextView manifest_ref_noTextView = listItemView.findViewById(R.id.manifest_ref_no);
 
-        manifest_ref_noTextView.setText(String.format("Seat: %s", mytripsDetails.getRefno()));
+        manifest_ref_noTextView.setText(String.format("%s", mytripsDetails.getRefno()));
 
 
         TextView regnoTextView = listItemView.findViewById(R.id.manifest_reg_no);
 
-        regnoTextView.setText(String.format("Ref No: %s", mytripsDetails.getReg_no()));
+        regnoTextView.setText(String.format("%s", mytripsDetails.getReg_no()));
 
 
         return listItemView;

@@ -6,38 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".UpdateApp">
 
-    <ImageView
-        android:id="@+id/custom_loading_imageView"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/loading"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.162" />
+
 
     <TextView
         android:id="@+id/txtupdatemsg"
         android:layout_width="match_parent"
-        android:layout_height="19dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
         android:text="Update dowloading .."
-        app:layout_constraintBottom_toTopOf="@+id/custom_loading_imageView"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="41dp" />
 
-    <Button
-        android:id="@+id/btnupdate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Update"
-        android:background="@drawable/btn"
-        app:layout_constraintTop_toBottomOf="@+id/custom_loading_imageView"
-        tools:layout_editor_absoluteX="0dp" />
+
 
 
 </android.support.constraint.ConstraintLayout>

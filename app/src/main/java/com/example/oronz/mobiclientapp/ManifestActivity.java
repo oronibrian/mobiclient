@@ -2,18 +2,16 @@ package com.example.oronz.mobiclientapp;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -31,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Adapter.ManifestAdapter;
 import com.example.oronz.mobiclientapp.Models.ManifestDetails;
+import com.example.oronz.mobiclientapp.Utilities.MySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,22 +43,23 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class ManifestActivity extends AppCompatActivity {
-    private MobiClientApplication app;
     EditText date;
     ArrayList<ManifestDetails> mytripsDetails;
-    ListView mytripslistView ;
+    ListView mytripslistView;
     Button selectDate;
-
     DatePickerDialog datePickerDialog;
     int year;
     int month;
     int dayOfMonth;
     Calendar calendar;
-    String dbDate,today;
+    String dbDate, today;
     ProgressDialog progressDialog;
-    private EditText sv;
-    int textlength =0;
+    int textlength = 0;
     ManifestAdapter tripsArrayAdapter;
+    private MobiClientApplication app;
+    private EditText sv;
+    private Context mContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,11 +81,7 @@ public class ManifestActivity extends AppCompatActivity {
 
         sv = findViewById(R.id.etsearch);
         sv.setVisibility(View.GONE);
-
-
-
-
-
+        mContext = getApplicationContext();
 
 
         getManifest();
@@ -102,9 +98,9 @@ public class ManifestActivity extends AppCompatActivity {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                                 date.setText(day + "-" + (month + 1) + "-" + year);
-                                 dbDate = date.getText().toString();
+                                dbDate = date.getText().toString();
 
-                                 app.setManifestDate(dbDate);
+                                app.setManifestDate(dbDate);
 
                                 getManifestClick();
                             }
@@ -115,7 +111,6 @@ public class ManifestActivity extends AppCompatActivity {
         });
 
 
-
         mytripslistView.setOnItemClickListener((parent, view, position, id) -> {
 
 
@@ -123,7 +118,7 @@ public class ManifestActivity extends AppCompatActivity {
 
             selected = String.valueOf(mytripslistView.indexOfChild(view));
 
-            Log.d("Manifest Selected Car",selected);
+            Log.d("Manifest Selected Car", selected);
 
             String route = mytripsDetails.get(position).getRoute();
 
@@ -140,14 +135,13 @@ public class ManifestActivity extends AppCompatActivity {
     }
 
     private void getManifest() {
-        progressDialog = ProgressDialog.show(this, "Loading Manifest","Please Wait...", true);
+        progressDialog = ProgressDialog.show(this, "Loading Manifest", "Please Wait...", true);
 
-        RequestQueue requestQueue = Volley.newRequestQueue(ManifestActivity.this);
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
         params.put("api_key", app.getApi_key());
         params.put("action", "Schedule");
-        params.put("travel_date",today);
+        params.put("travel_date", today);
         params.put("hash", app.getHash_key());
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
@@ -168,10 +162,9 @@ public class ManifestActivity extends AppCompatActivity {
                                     String travel_to = jsonObject1.getString("seats_available");
 
 
-                                    mytripsDetails.add(new ManifestDetails(car_name,travel_from,travel_to));
+                                    mytripsDetails.add(new ManifestDetails(car_name, travel_from, travel_to));
 
                                 }
-
 
 
                             } else {
@@ -217,9 +210,7 @@ public class ManifestActivity extends AppCompatActivity {
                 }
 
             }
-        })
-
-        {
+        }) {
             @Override
             public String getBodyContentType() {
                 return "application/x-www-form-urlencoded; charset=utf-8";
@@ -232,15 +223,14 @@ public class ManifestActivity extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        requestQueue.add(req);
+        MySingleton.getInstance(mContext).addToRequestQueue(req);
 
     }
 
     private void getManifestClick() {
 
-        progressDialog = ProgressDialog.show(this, "Loading Manifest","Please Wait...", true);
+        progressDialog = ProgressDialog.show(this, "Loading Manifest", "Please Wait...", true);
 
-        RequestQueue requestQueue = Volley.newRequestQueue(ManifestActivity.this);
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
         params.put("api_key", app.getApi_key());
@@ -265,10 +255,9 @@ public class ManifestActivity extends AppCompatActivity {
                                     String travel_to = jsonObject1.getString("seats_available");
 
 
-                                    mytripsDetails.add(new ManifestDetails(car_name,travel_from,travel_to));
+                                    mytripsDetails.add(new ManifestDetails(car_name, travel_from, travel_to));
 
                                 }
-
 
 
                             } else {
@@ -282,10 +271,6 @@ public class ManifestActivity extends AppCompatActivity {
                             tripsArrayAdapter = new ManifestAdapter(ManifestActivity.this, mytripsDetails);
 
                             mytripslistView.setAdapter(tripsArrayAdapter);
-
-
-
-
 
 
                         } catch (JSONException e) {
@@ -313,9 +298,7 @@ public class ManifestActivity extends AppCompatActivity {
                 }
 
             }
-        })
-
-        {
+        }) {
             @Override
             public String getBodyContentType() {
                 return "application/x-www-form-urlencoded; charset=utf-8";
@@ -324,7 +307,7 @@ public class ManifestActivity extends AppCompatActivity {
 
         };
 
-        requestQueue.add(req);
+        MySingleton.getInstance(mContext).addToRequestQueue(req);
 
     }
 

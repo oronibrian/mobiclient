@@ -23,9 +23,12 @@ import com.example.oronz.mobiclientapp.Utilities.SaveSharedPreference;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private MobiClientApplication app;
     TextView textViewUsername;
     Context context;
+    private MobiClientApplication app;
+
+    private Context mContext;
+
 
 
     @Override
@@ -37,6 +40,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(app.getLogged_user());
+        mContext = getApplicationContext();
+
 
         ViewPager viewPager = findViewById(R.id.pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -51,9 +56,6 @@ public class MainActivity extends AppCompatActivity
         tabLayout.setupWithViewPager(viewPager);
 
 
-
-
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -64,9 +66,11 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View headerView = navigationView.getHeaderView(0);
-        textViewUsername= (TextView) headerView.findViewById((R.id.menutxt));
+        textViewUsername = (TextView) headerView.findViewById((R.id.menutxt));
 
-        textViewUsername.setText(app.getLogged_user());
+        textViewUsername.setText(String.format("%s\n%s\n%s", app.getLogged_user(), app.getPhone_num(), app.getEmail_address()));
+
+
     }
 
 
@@ -97,18 +101,16 @@ public class MainActivity extends AppCompatActivity
 //            return true;
 //        }
 
-         if (id == R.id.menu_logout) {
+        if (id == R.id.menu_logout) {
 
-             SaveSharedPreference.setLoggedIn(getApplicationContext(), false);
+            SaveSharedPreference.setLoggedIn(getApplicationContext(), false);
 
-            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             finish();
-        }
-        else if(id==R.id.menu_manifest){
+        } else if (id == R.id.menu_manifest) {
             startActivity(new Intent(getApplicationContext(), ManifestActivity.class));
 
-        }
-        else if(id==R.id.menu_add){
+        } else if (id == R.id.menu_add) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
         }
@@ -125,41 +127,31 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
-        } else if (id == R.id.nav_gallery) {
-            startActivity(new Intent(getApplicationContext(), NewsActivity.class));
+//        }
+//
+//        else if (id == R.id.menu_search) {
+//            startActivity(new Intent(getApplicationContext(), SearchTicketActivity.class));
 
 
-        } else if (id == R.id.menu_search) {
-            startActivity(new Intent(getApplicationContext(), SearchTicketActivity.class));
+        }
 
-
-        } else if (id == R.id.menu_manifest) {
+        else if (id == R.id.menu_manifest) {
             startActivity(new Intent(getApplicationContext(), ManifestActivity.class));
 
 
         } else if (id == R.id.about) {
             startActivity(new Intent(getApplicationContext(), AboutUsActivity.class));
 
-        }else if(id==R.id.update){
 
-//            new AppUpdater(this)
-//                    //.setUpdateFrom(UpdateFrom.GITHUB)
-//                    //.setGitHubUserAndRepo("javiersantos", "AppUpdater")
-//                    .setUpdateFrom(UpdateFrom.JSON)
-//                    .setUpdateJSON("https://raw.githubusercontent.com/oronibrian/mobiclient/Ena/app/src/main/java/com/example/oronz/mobiclientapp/updateapp/update.json")
-//                    .setDisplay(Display.DIALOG)
-//                    .showAppUpdated(true)
-//                    .start();
+        } else if (id == R.id.update) {
 
-
-
-
-            Intent i=new Intent(this, UpdateApp.class);
+            Intent i = new Intent(this, UpdateApp.class);
             startActivity(i);
 
 
+        }else if (id==R.id.nav_submit_cash){
 
-
+            startActivity(new Intent(this,SubmitPaymentActivity.class));
 
         }
 
@@ -167,10 +159,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
-
-
 
 
 }

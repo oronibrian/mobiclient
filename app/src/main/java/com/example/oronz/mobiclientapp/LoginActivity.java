@@ -30,12 +30,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
+import com.example.oronz.mobiclientapp.Utilities.MySingleton;
 import com.example.oronz.mobiclientapp.Utilities.SaveSharedPreference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+
+import spencerstudios.com.fab_toast.FabToast;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
 
@@ -45,14 +48,14 @@ public class LoginActivity extends AppCompatActivity {
     EditText editextpassword, edittextusername;
     private MobiClientApplication app;
     private ProgressDialog mProgress;
+    private Context mContext;
 
 
     ImageView imageView;
     TextView txtnointernet;
 
-    SharedPreferences sharedPreferences;
+    SharedPreferences sp;
 
-    SharedPreferences preferences;
 
 
     @Override
@@ -61,6 +64,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         app = (MobiClientApplication) getApplication();
+
+        mContext = getApplicationContext();
+
+        sp=getSharedPreferences("Login", 0);
 
         initializedAPI();
 
@@ -79,25 +86,24 @@ public class LoginActivity extends AppCompatActivity {
 
 
         app.set_Clerk_username(edittextusername.getText().toString());
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-         preferences = getSharedPreferences("temp", Context.MODE_PRIVATE);
-
+        sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
 
+        String unm=sp.getString("username", null);
+        String pass = sp.getString("password", null);
 
-        SharedPreferences preferences=getSharedPreferences("temp", Context.MODE_PRIVATE);
-        String name=preferences.getString("email",null);
-        String pass=preferences.getString("pass",null);
-        String username=preferences.getString("username",null);
+        Log.d("unm",unm);
+        Log.d("pass",pass);
 
 
-        if (!preferences.getString(name,"").equals("")){
-            Toast.makeText(getApplicationContext(),"Welcome Back" + name,Toast.LENGTH_LONG).show();
+        if (sp.getString("username",null).equals(app.get_Clerk_username())){
+            Toast.makeText(getApplicationContext(),"Welcome Back" + unm,Toast.LENGTH_LONG).show();
             Intent intent=new Intent(LoginActivity.this,MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
+
 
 
 
@@ -163,10 +169,6 @@ public class LoginActivity extends AppCompatActivity {
 
             mProgress.show();
 
-
-
-
-            RequestQueue reserverequestQueue = Volley.newRequestQueue(LoginActivity.this);
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("username", app.getUser_name());
             params.put("api_key", app.getApi_key());
@@ -182,24 +184,23 @@ public class LoginActivity extends AppCompatActivity {
                             if (response.getInt("response_code") == 0) {
                                 String first_name = response.getString("first_name");
                                 String last_name = response.getString("last_name");
+                                String email_address = response.getString("email_address");
+                                String phone_num = response.getString("phone_number");
+
 
                                 app.setLogged_user(first_name + " " + last_name);
+                                app.setPhone_num(phone_num);
+                                app.setEmail_address(email_address);
 
 
                                 Log.d("log in ", first_name);
 
                                 mProgress.dismiss();
 
-                                SaveSharedPreference.setLoggedIn(getApplicationContext(), true);
-
-
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.putString("email", email);
-                                editor.putString("pass",password);
-                                editor.putString("username",first_name + " " + last_name);
-
-
-                                editor.commit();
+                                SharedPreferences.Editor Ed=sp.edit();
+                                Ed.putString("username",email );
+                                Ed.putString("password",password);
+                                Ed.apply();
 
 
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -208,7 +209,10 @@ public class LoginActivity extends AppCompatActivity {
 
 
                             } else {
-                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
+                                FabToast.makeText(getApplicationContext(), response.getString("response_message"), FabToast.LENGTH_LONG, FabToast.ERROR, FabToast.POSITION_DEFAULT).show();
+
                                 mProgress.dismiss();
 
                             }
@@ -253,7 +257,7 @@ public class LoginActivity extends AppCompatActivity {
             };
 //            reserverequestQueue.getCache().clear();
 
-            reserverequestQueue.add(req);
+            MySingleton.getInstance(mContext).addToRequestQueue(req);
 
         }
     }

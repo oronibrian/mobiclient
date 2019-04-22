@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +19,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,8 +38,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Models.UserDetails;
+import com.example.oronz.mobiclientapp.Utilities.MySingleton;
 import com.google.gson.Gson;
-import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,15 +53,15 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
+import spencerstudios.com.fab_toast.FabToast;
 
 public class Seats_activity extends AppCompatActivity {
     public static String name, phone, id_no, Seat;
     ViewGroup layout;
-    ArrayList<String> payment_methods;
+    ArrayList<String> payment_methods, travel_class_array_list;
     List<String> listofseats = new ArrayList<String>();
     List<TextView> seatViewList = new ArrayList<>();
     MobiClientApplication app;
-    String payment_type;
     Intent intentExtra;
 
     ArrayList<String> ticketType;
@@ -74,17 +74,13 @@ public class Seats_activity extends AppCompatActivity {
 
     MaterialSpinner payment_type_spinner;
 
-    MaterialBetterSpinner materialDesignSpinner ;
-
-
-
+    Spinner travel_class_spinner;
     String[] elevenSeater = new String[]{
             "1", "1X", "D",
             "2", "3", "4",
             "5", "6", "7",
             "8", "9", "10",
     };
-
     String[] fourteenSeater = new String[]{
             "1", "1X", "D",
             "2", "3", "4",
@@ -92,8 +88,6 @@ public class Seats_activity extends AppCompatActivity {
             "8", "9", "10",
             "11", "12", "13"
     };
-
-
     String[] sixteenSeater = new String[]{
             "1", "c", "1X", "D",
             "2", "c", "3", "4",
@@ -102,8 +96,6 @@ public class Seats_activity extends AppCompatActivity {
             "11", "12", "13", "14"
 
     };
-
-
     String[] fortynineSeater = new String[]{
 
             "1A", "2A", "C", "1B", "2B",
@@ -120,20 +112,16 @@ public class Seats_activity extends AppCompatActivity {
             "23A", "24A", "25", "23B", "24B",
 
     };
-
-
-    private View btnGo, btnbook, btncancel, textview;
-
-    private GridView gridView;
     TextView textView;
-    private ProgressDialog mProgress;
-
-
     ArrayList<UserDetails> ticketusers;
     UserDetails userDetails;
-    private TextView gridtextView;
     Bundle b;
     String selected_Car, seater;
+    private Context mcontext;
+    private View btnGo, btnbook, btncancel, textview;
+    private GridView gridView;
+    private ProgressDialog mProgress;
+    private TextView gridtextView;
 
     @SuppressLint("ResourceType")
     @Override
@@ -143,6 +131,9 @@ public class Seats_activity extends AppCompatActivity {
         app = (MobiClientApplication) getApplication();
         payment_methods = new ArrayList<>();
         ticketType = new ArrayList<>();
+        mcontext = getApplicationContext();
+
+        travel_class_array_list = new ArrayList<>();
 
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -163,6 +154,7 @@ public class Seats_activity extends AppCompatActivity {
 
         availableSeats();
         getPaymentMethod();
+        getTicketType();
 
         gridView = findViewById(R.id.grid);
         btnGo = findViewById(R.id.btngo);
@@ -189,6 +181,32 @@ public class Seats_activity extends AppCompatActivity {
 
 
         payment_type_spinner = findViewById(R.id.payment_type_spinner);
+        travel_class_spinner = findViewById(R.id.travel_class);
+
+
+        travel_class_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String slected_class = String.valueOf(travel_class_spinner.getSelectedItemPosition());
+
+                if (position == -1) {
+                    Toast.makeText(mcontext, "Select Travel Class", Toast.LENGTH_SHORT).show();
+                }
+
+                app.setPrice_class("10");
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        travel_class_spinner.setVisibility(View.GONE);
+
 
         payment_type_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -199,6 +217,39 @@ public class Seats_activity extends AppCompatActivity {
                 ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
 
 
+                if (i == -1) {
+//                    Toast.makeText(mcontext, "Select Payment Methods", Toast.LENGTH_SHORT).show();
+
+                    FabToast.makeText(mcontext, "Select Payment Method", FabToast.LENGTH_SHORT, FabToast.WARNING,  FabToast.POSITION_CENTER).show();
+
+                    travel_class_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                            String slected_class = String.valueOf(travel_class_spinner.getSelectedItemPosition());
+
+                            if (position == -1) {
+                                Toast.makeText(mcontext, "Select Travel Class", Toast.LENGTH_SHORT).show();
+                            }
+
+                            app.setPrice_class("10");
+
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
+                    btnGo.setVisibility(View.GONE);
+                } else {
+                    btnGo.setVisibility(View.VISIBLE);
+
+
+                }
+
                 app.setPayment_type(Selected_payment_type);
 
             }
@@ -206,10 +257,9 @@ public class Seats_activity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 // DO Nothing here
+
             }
         });
-
-
 
 
         btnbook.setVisibility(View.GONE);
@@ -310,12 +360,86 @@ public class Seats_activity extends AppCompatActivity {
 
         };
 
-        requestQueue.add(req);
+        MySingleton.getInstance(mcontext).addToRequestQueue(req);
+
+    }
+
+
+    private void getTicketType() {
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", app.getUser_name());
+        params.put("api_key", app.getApi_key());
+        params.put("action", "TicketTypes");
+        params.put("from_city", app.getTravel_from());
+        params.put("to_city", app.getTravel_too());
+        params.put("travel_date", app.getTravel_date());
+        params.put("hash", app.getHash_key());
+        params.put("selected_vehicle", "13");
+        params.put("selected_seat", "2");
+        params.put("seater", selected_Car);
+
+
+        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+                response -> {
+                    try {
+
+                        if (response.getInt("response_code") == 0) {
+                            JSONArray jsonArray = response.getJSONArray("ticket_type");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                String class_price = jsonObject1.getString("fare_per_ticket");
+                                String name = jsonObject1.getString("name");
+
+                                travel_class_array_list.add(name);
+                                Log.d("Ticket_class", name);
+
+                                Log.d("price", class_price);
+
+                            }
+
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        travel_class_spinner.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, travel_class_array_list));
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+            } else if (error instanceof AuthFailureError) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            } else if (error instanceof ServerError) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            } else if (error instanceof NetworkError) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            } else if (error instanceof ParseError) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
+
+
+        };
+
+        MySingleton.getInstance(mcontext).addToRequestQueue(req);
+
 
     }
 
     private void getPaymentMethod() {
-        RequestQueue requestQueue = Volley.newRequestQueue(Seats_activity.this);
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
         params.put("api_key", app.getApi_key());
@@ -346,8 +470,6 @@ public class Seats_activity extends AppCompatActivity {
                         payment_type_spinner.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, payment_methods));
 
 
-
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -374,15 +496,12 @@ public class Seats_activity extends AppCompatActivity {
 
         };
 
-        requestQueue.add(req);
+        MySingleton.getInstance(mcontext).addToRequestQueue(req);
 
     }
 
 
     private void availableSeats() {
-
-
-        RequestQueue datesrequestQueue = Volley.newRequestQueue(Seats_activity.this);
 
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
@@ -541,19 +660,13 @@ public class Seats_activity extends AppCompatActivity {
                                                 Toast.LENGTH_SHORT).show();
                                         seatno = String.valueOf("");
 
+                                        text.setBackgroundResource(R.drawable.seat_normal);
+
                                         listofseats.remove(parent.getItemAtPosition(position).toString());
-
-
-                                        if (text.getText().equals("")) {
-                                            text.setBackgroundResource(R.drawable.seat_normal);
-
-                                        }
-
 
 
                                     } else {
                                         adapter.selectedPositions.add(position);
-
 
 
                                         Toast.makeText(Seats_activity.this,
@@ -628,7 +741,6 @@ public class Seats_activity extends AppCompatActivity {
                                     adapter.notifyDataSetChanged();
 
 
-
                                 });
 
 
@@ -670,9 +782,8 @@ public class Seats_activity extends AppCompatActivity {
 
 
         };
-        datesrequestQueue.getCache().clear();
+        MySingleton.getInstance(mcontext).addToRequestQueue(req);
 
-        datesrequestQueue.add(req);
 
     }
 
@@ -683,7 +794,6 @@ public class Seats_activity extends AppCompatActivity {
         //Generate Reff Number
 
         getRefferenceNumber();
-
 
         Log.d("List Of Seats :%n %s", String.valueOf(listofseats));
 
@@ -722,14 +832,9 @@ public class Seats_activity extends AppCompatActivity {
                     btnGo.setVisibility(View.GONE);
 
 
-                    if (listofseats.size() > 1) {
+                    for (int i = 0; i < listofseats.size(); i++) {
 
-                        Toast.makeText(getApplicationContext(), "Details for Next Seat ", Toast.LENGTH_SHORT).show();
-
-                    } else {
-
-                        Toast.makeText(getApplicationContext(), "Click book To complete....", Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(getApplicationContext(), "Details for " + i + " Seat ", Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -769,18 +874,14 @@ public class Seats_activity extends AppCompatActivity {
         params.put("seater", seater);
         params.put("selected_ticket_type", "13");
         params.put("payment_method", app.getPayment_type());
-
         params.put("selected_seat", Seat);
-
         params.put("phone_number", phone);
         params.put("id_number", id_no);
         params.put("passenger_name", name);
-
-
         params.put("email_address", "brianoroni6@gmail.com");
         params.put("insurance_charge", "");
         params.put("served_by", app.getLogged_user());
-        params.put("amount_charged", "10");
+        params.put("amount_charged", app.getPrice_class());
         params.put("reference_number", refno);
 
 
@@ -871,6 +972,7 @@ public class Seats_activity extends AppCompatActivity {
 
         req.setRetryPolicy(new DefaultRetryPolicy(0, -1, 0));
         reserverequestQueue.add(req);
+
         reserverequestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
             @Override
             public void onRequestFinished(Request<Object> request) {
@@ -900,7 +1002,7 @@ public class Seats_activity extends AppCompatActivity {
 
     private void back() {
         finish();
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        startActivity(new Intent(getApplicationContext(), VehiclesActivity.class));
 
     }
 
@@ -911,12 +1013,28 @@ public class Seats_activity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), VehiclesActivity.class));
     }
 
+    static class ViewHolder {
+
+        TextView gridtextView;
+
+        public ViewHolder(TextView textView) {
+            this.gridtextView = textView;
+        }
+
+        public TextView getGridtextView() {
+            return gridtextView;
+        }
+
+        public void setGridtextView(TextView gridtextView) {
+            this.gridtextView = gridtextView;
+        }
+    }
 
     public class ElevenSeaterAdapter extends BaseAdapter {
-        private Context context;
-        private String[] strings;
         public List<Object> selectedPositions;
         List<String> Booked_11 = new ArrayList<>(LevenSeaterList);
+        private Context context;
+        private String[] strings;
 
         public ElevenSeaterAdapter(String[] strings, Context context) {
             this.strings = strings;
@@ -1038,10 +1156,10 @@ public class Seats_activity extends AppCompatActivity {
     }
 
     public class FouteenSeaterAdapter extends BaseAdapter {
-        private Context context;
-        private String[] strings;
         public List selectedPositions;
         List<String> Booked_14 = new ArrayList<>(fourteenSeaterlist);
+        private Context context;
+        private String[] strings;
 
         public FouteenSeaterAdapter(String[] strings, Context context) {
             this.strings = strings;
@@ -1166,12 +1284,11 @@ public class Seats_activity extends AppCompatActivity {
 
     }
 
-
     public class SixteenCustomAdapter extends BaseAdapter {
-        private Context context;
-        private String[] strings;
         public List selectedPositions;
         List<String> Booked = new ArrayList<>(sixteeneSeaterList);
+        private Context context;
+        private String[] strings;
 
         public SixteenCustomAdapter(String[] strings, Context context) {
             this.strings = strings;
@@ -1298,37 +1415,12 @@ public class Seats_activity extends AppCompatActivity {
 
     }
 
-
-
-
-
-
-    static class ViewHolder {
-
-        TextView gridtextView;
-
-        public TextView getGridtextView() {
-            return gridtextView;
-        }
-
-        public void setGridtextView(TextView gridtextView) {
-            this.gridtextView = gridtextView;
-        }
-
-        public ViewHolder(TextView textView) {
-            this.gridtextView=textView;
-        }
-    }
-
     public class FoutynineCustomAdapter extends BaseAdapter {
+        public List selectedPositions;
+        ArrayList<String> Booked_49 = new ArrayList<>(fortynineSeaterList);
+        LayoutInflater inflater = null;
         private Context context;
         private String[] strings;
-
-        public List selectedPositions;
-
-        ArrayList<String> Booked_49 = new ArrayList<>(fortynineSeaterList);
-
-        LayoutInflater inflater = null;
 
 
         public FoutynineCustomAdapter(String[] strings, Context context) {
@@ -1341,10 +1433,7 @@ public class Seats_activity extends AppCompatActivity {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
-
         }
-
-
 
 
         @Override
@@ -1353,8 +1442,7 @@ public class Seats_activity extends AppCompatActivity {
         }
 
         @Override
-        public int getItemViewType(int position)
-        {
+        public int getItemViewType(int position) {
             return position;
         }
 
@@ -1396,7 +1484,6 @@ public class Seats_activity extends AppCompatActivity {
             String seatsitem = strings[position];
 
 
-
             if (convertView == null) {
 
                 convertView = inflater.inflate(R.layout.grid_item, parent, false);
@@ -1406,16 +1493,13 @@ public class Seats_activity extends AppCompatActivity {
                 convertView.setTag(vh);
 
 
-
             } else {
 
 
                 vh = (ViewHolder) convertView.getTag();
 
 
-
             }
-
 
 
             vh.gridtextView = convertView.findViewById(R.id.txt_grid);
@@ -1424,7 +1508,7 @@ public class Seats_activity extends AppCompatActivity {
             vh.gridtextView.setBackgroundResource(R.drawable.seat_normal_booked);
 
             if (seatsitem.equals("D")) {
-                vh. gridtextView.setBackgroundResource(R.drawable.steering);
+                vh.gridtextView.setBackgroundResource(R.drawable.steering);
                 vh.gridtextView.setText("");
 
             }
@@ -1433,8 +1517,8 @@ public class Seats_activity extends AppCompatActivity {
             int color = 0x00FFFFFF; // Transparent
 
             if (seatsitem.equals("C")) {
-                vh. gridtextView.setBackgroundColor(color);
-                vh. gridtextView.setText("");
+                vh.gridtextView.setBackgroundColor(color);
+                vh.gridtextView.setText("");
 
             }
 
@@ -1442,7 +1526,7 @@ public class Seats_activity extends AppCompatActivity {
                 if (seats.size() > 16 && seats.size() <= 49) {
 
                     if (seatsitem.equals(seats.get(i))) {
-                        vh. gridtextView.setBackgroundResource(R.drawable.seat_normal);
+                        vh.gridtextView.setBackgroundResource(R.drawable.seat_normal);
 
                     }
 

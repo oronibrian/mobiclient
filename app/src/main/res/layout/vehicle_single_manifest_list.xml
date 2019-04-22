@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/my_shape_available_cars"
-    android:orientation="vertical"
-    android:padding="7dp">
+    android:orientation="vertical">
 
 
     <TextView
@@ -19,29 +18,54 @@
         android:textAlignment="center"
         android:textIsSelectable="false"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/manifest_seat_no"
-        android:layout_width="match_parent"
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="Name" />
+        android:orientation="horizontal"
+        android:weightSum="3">
 
-    <TextView
-        android:id="@+id/manifest_ref_no"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_margin="5dp"
-        android:text="Seat" />
+        <TextView
+            android:id="@+id/manifest_seat_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:text="Name"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/manifest_reg_no"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_margin="5dp"
-        android:text="Ref No" />
+        <TextView
+            android:id="@+id/manifest_ref_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_margin="3dp"
+            android:layout_toLeftOf="@id/manifest_seat_no"
+            android:layout_weight="1"
+            android:text="Seat"
+            android:textAlignment="textEnd" />
+
+        <TextView
+            android:id="@+id/manifest_reg_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:text="Ref No"
+            android:textAlignment="textEnd" />
+
+    </LinearLayout>
 
 </LinearLayout>
