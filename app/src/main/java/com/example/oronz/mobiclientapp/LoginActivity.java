@@ -90,21 +90,21 @@ public class LoginActivity extends AppCompatActivity {
         sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
 
-        String unm=sp.getString("username", null);
-        String pass = sp.getString("password", null);
-
-        Log.d("unm",unm);
-        Log.d("pass",pass);
-
-
-        if (sp.getString("username",null).equals(app.get_Clerk_username())){
-            Toast.makeText(getApplicationContext(),"Welcome Back" + unm,Toast.LENGTH_LONG).show();
-            Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }
-
-
+//        String unm=sp.getString("username", null);
+//        String pass = sp.getString("password", null);
+//
+////        Log.d("unm",unm);
+////        Log.d("pass",pass);
+//
+//
+//        if (sp.getString("username",null).equals(app.get_Clerk_username())){
+//            Toast.makeText(getApplicationContext(),"Welcome Back" + unm,Toast.LENGTH_LONG).show();
+//            Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            startActivity(intent);
+//        }
+//
+//
 
 
         btnlogin.setOnClickListener(new View.OnClickListener() {
@@ -195,6 +195,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                 Log.d("log in ", first_name);
 
+                                Log.d("Response",response.getString("response_message"));
+
+
                                 mProgress.dismiss();
 
                                 SharedPreferences.Editor Ed=sp.edit();
@@ -209,7 +212,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
                             } else {
-//                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+
+                                Log.d("Error",response.getString("response_message"));
 
                                 FabToast.makeText(getApplicationContext(), response.getString("response_message"), FabToast.LENGTH_LONG, FabToast.ERROR, FabToast.POSITION_DEFAULT).show();
 

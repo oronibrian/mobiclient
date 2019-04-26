@@ -127,13 +127,20 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
-//        }
-//
-//        else if (id == R.id.menu_search) {
-//            startActivity(new Intent(getApplicationContext(), SearchTicketActivity.class));
+        }
+
+        else if (id == R.id.menu_search) {
+            startActivity(new Intent(getApplicationContext(), SearchTicketActivity.class));
 
 
         }
+
+        else if (id == R.id.search_nav) {
+            startActivity(new Intent(getApplicationContext(), SearchPaymentActivity.class));
+
+
+        }
+
 
         else if (id == R.id.menu_manifest) {
             startActivity(new Intent(getApplicationContext(), ManifestActivity.class));

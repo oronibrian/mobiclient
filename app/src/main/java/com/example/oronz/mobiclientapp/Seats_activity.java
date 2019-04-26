@@ -38,8 +38,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Models.UserDetails;
+import com.example.oronz.mobiclientapp.Tickettem.Ticket_Item;
 import com.example.oronz.mobiclientapp.Utilities.MySingleton;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +56,8 @@ import java.util.Objects;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 import spencerstudios.com.fab_toast.FabToast;
+
+// import org.json.simple.*;
 
 public class Seats_activity extends AppCompatActivity {
     public static String name, phone, id_no, Seat;
@@ -220,7 +224,7 @@ public class Seats_activity extends AppCompatActivity {
                 if (i == -1) {
 //                    Toast.makeText(mcontext, "Select Payment Methods", Toast.LENGTH_SHORT).show();
 
-                    FabToast.makeText(mcontext, "Select Payment Method", FabToast.LENGTH_SHORT, FabToast.WARNING,  FabToast.POSITION_CENTER).show();
+                    FabToast.makeText(mcontext, "Select Payment Method", FabToast.LENGTH_SHORT, FabToast.WARNING, FabToast.POSITION_CENTER).show();
 
                     travel_class_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
@@ -275,24 +279,25 @@ public class Seats_activity extends AppCompatActivity {
 
         btnbook.setOnClickListener((View v) -> {
 
-                    for (int x = 0; x < ticketusers.size(); x++) {
-                        userDetails = ticketusers.get(x);
-                        name = userDetails.getName();
-                        phone = userDetails.getPhone();
-                        id_no = userDetails.getIs();
-                        Seat = userDetails.getSeat();
 
-                        reserve();
+                    if (ticketusers.size() == 1) {
 
-                        try {
+                        for (int x = 0; x < ticketusers.size(); x++) {
+                            userDetails = ticketusers.get(x);
+                            name = userDetails.getName();
+                            phone = userDetails.getPhone();
+                            id_no = userDetails.getIs();
+                            Seat = userDetails.getSeat();
 
-                            Thread.sleep(500);
-
-                        } catch (InterruptedException ie) {
-                            ie.printStackTrace();
+                            reserve();
                         }
 
+
+                    } else {
+                        batch_reserve();
+
                     }
+
 
                 }
         );
@@ -564,7 +569,7 @@ public class Seats_activity extends AppCompatActivity {
                                         Toast.makeText(Seats_activity.this,
                                                 "Seat " + LevenSeaterList.get(position) + " unselected",
                                                 Toast.LENGTH_SHORT).show();
-                                        seatno = String.valueOf("");
+                                        seatno = "";
 
                                         listofseats.remove(parent.getItemAtPosition(position).toString());
                                         TextView text = (TextView) v.findViewById(R.id.txt_grid);
@@ -610,7 +615,7 @@ public class Seats_activity extends AppCompatActivity {
                                         Toast.makeText(Seats_activity.this,
                                                 "Seat " + sixteeneSeaterList.get(position) + " unselected",
                                                 Toast.LENGTH_SHORT).show();
-                                        seatno = String.valueOf("");
+                                        seatno = "";
 
                                         listofseats.remove(parent.getItemAtPosition(position).toString());
                                         TextView text = (TextView) v.findViewById(R.id.txt_grid);
@@ -658,7 +663,7 @@ public class Seats_activity extends AppCompatActivity {
                                         Toast.makeText(Seats_activity.this,
                                                 "Seat " + fortynineSeaterList.get(position) + " unselected",
                                                 Toast.LENGTH_SHORT).show();
-                                        seatno = String.valueOf("");
+                                        seatno = "";
 
                                         text.setBackgroundResource(R.drawable.seat_normal);
 
@@ -713,7 +718,7 @@ public class Seats_activity extends AppCompatActivity {
                                         Toast.makeText(Seats_activity.this,
                                                 "Seat " + fourteenSeaterlist.get(position) + " unselected",
                                                 Toast.LENGTH_SHORT).show();
-                                        seatno = String.valueOf("");
+                                        seatno = "";
 
                                         listofseats.remove(parent.getItemAtPosition(position).toString());
                                         TextView text = (TextView) v.findViewById(R.id.txt_grid);
@@ -885,6 +890,10 @@ public class Seats_activity extends AppCompatActivity {
         params.put("reference_number", refno);
 
 
+        Log.e("Params", params.toString());
+
+
+
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
                 response -> {
                     try {
@@ -995,6 +1004,158 @@ public class Seats_activity extends AppCompatActivity {
 
             }
         });
+
+
+    }
+
+    private void batch_reserve() {
+
+        ArrayList<Ticket_Item> ticket_items = new ArrayList<Ticket_Item>();
+
+
+        for (int x = 0; x < ticketusers.size(); x++) {
+
+            userDetails = ticketusers.get(x);
+            ticket_items.add(new Ticket_Item(
+                  userDetails.getName(),
+                    userDetails.getPhone(),
+                    userDetails.getIs(),
+                    app.getTravel_from(),
+                    app.getTravel_too(),
+                    app.getTravel_date(),
+                    selected_Car,
+                    seater,
+                    userDetails.getSeat(),
+                    "13",
+                    app.getPayment_type(),
+                    "oronibrian6@gmail.com",
+                    "",
+                    app.getLogged_user(),
+                    app.getPrice_class(),
+                    refno
+
+            ));
+
+        }
+
+
+
+        JSONArray TicketjsonArray = new JSONArray();
+
+        for (int i = 0; i < ticket_items.size(); i++) {
+            TicketjsonArray.put(ticket_items.get(i).getJSONObject());
+        }
+
+
+
+        Log.e("Body", TicketjsonArray.toString());
+
+        RequestQueue batchreserve = Volley.newRequestQueue(Seats_activity.this);
+        HashMap<String, String> params = new HashMap<String, String>();
+
+        params.put("username", app.getUser_name());
+        params.put("api_key", app.getApi_key());
+        params.put("action", "BatchReserveSeats");
+        params.put("hash", "1FBEAD9B-D9CD-400D-ADF3-F4D0E639CEE0");
+
+        try {
+            params.put("ticket_items", TicketjsonArray.toString(4));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        Log.e("Params", params.toString());
+
+
+        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+                response -> {
+                    try {
+
+                        Log.d("Response: ", response.toString(4));
+
+
+                        if (response.getInt("response_code") == 0) {
+                            JSONArray message = response.getJSONArray("ticket_message");
+                            mProgress.dismiss();
+
+
+                            for (int i = 0; i < message.length(); i++) {
+                                JSONObject jsonObject1 = message.getJSONObject(i);
+                                ticket_mesaage = jsonObject1.getString("name");
+
+
+                            }
+
+                            JSONArray jsonArray = response.getJSONArray("ticket");
+
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                reserver = jsonObject1.getString("trx_status");
+
+
+                            }
+
+                            b = new Bundle();
+                            b.putString("TicketArray", jsonArray.toString());
+
+
+                            Log.d("Status", reserver);
+                            Log.d("Mesaage", ticket_mesaage);
+
+                            app.setServerRespose(reserver);
+                            app.setServerMessage(ticket_mesaage);
+
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                            mProgress.dismiss();
+
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.d("Exception", e.toString());
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mProgress.dismiss();
+
+                Log.e("Volley Error:", error.toString());
+
+
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
+
+        };
+        Log.d("Request body: ", params.toString());
+
+
+        req.setRetryPolicy(new DefaultRetryPolicy(0, -1, 0));
+        batchreserve.add(req);
+
+
 
 
     }

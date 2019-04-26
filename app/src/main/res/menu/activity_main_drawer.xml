@@ -20,10 +20,10 @@
             android:title="Manifest" />
 
 
-        <!--<item-->
-            <!--android:id="@+id/nav_gallery"-->
-            <!--android:icon="@drawable/news"-->
-            <!--android:title="News" />-->
+        <item
+            android:id="@+id/search_nav"
+            android:icon="@drawable/search"
+            android:title="Search payment" />
 
         <item
             android:id="@+id/nav_submit_cash"
