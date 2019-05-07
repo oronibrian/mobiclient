@@ -192,8 +192,6 @@ public class ReceiptActivity extends AppCompatActivity {
         if (Build.MODEL.equals("MobiPrint")) {
 
 
-
-
             Bundle b = getIntent().getExtras();
             String TicketArray = b.getString("TicketArray");
 

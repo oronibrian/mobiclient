@@ -7,7 +7,7 @@
 
 
         <item android:id="@+id/menu_search"
-            android:icon="@drawable/search"
+            android:icon="@drawable/search10"
             android:title="Search Ticket" />
 
         <item
@@ -22,7 +22,7 @@
 
         <item
             android:id="@+id/search_nav"
-            android:icon="@drawable/search"
+            android:icon="@drawable/search10"
             android:title="Search payment" />
 
         <item

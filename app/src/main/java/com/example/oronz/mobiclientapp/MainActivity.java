@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity
 
         textViewUsername.setText(String.format("%s\n%s\n%s", app.getLogged_user(), app.getPhone_num(), app.getEmail_address()));
 
+        app.setPrice_class("10");
+
 
     }
 

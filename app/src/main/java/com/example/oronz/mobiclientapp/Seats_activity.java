@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
@@ -41,7 +43,6 @@ import com.example.oronz.mobiclientapp.Models.UserDetails;
 import com.example.oronz.mobiclientapp.Tickettem.Ticket_Item;
 import com.example.oronz.mobiclientapp.Utilities.MySingleton;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,6 +53,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
@@ -119,7 +121,7 @@ public class Seats_activity extends AppCompatActivity {
     TextView textView;
     ArrayList<UserDetails> ticketusers;
     UserDetails userDetails;
-    Bundle b;
+    Bundle b,bundlebatch;
     String selected_Car, seater;
     private Context mcontext;
     private View btnGo, btnbook, btncancel, textview;
@@ -312,6 +314,8 @@ public class Seats_activity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
+
 
     private void getRefferenceNumber() {
 
@@ -839,7 +843,7 @@ public class Seats_activity extends AppCompatActivity {
 
                     for (int i = 0; i < listofseats.size(); i++) {
 
-                        Toast.makeText(getApplicationContext(), "Details for " + i + " Seat ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Details  Seat ", Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -976,7 +980,7 @@ public class Seats_activity extends AppCompatActivity {
 
 
         };
-        Log.d("Request body: ", params.toString());
+        Log.e("Request body: ", params.toString());
 
 
         req.setRetryPolicy(new DefaultRetryPolicy(0, -1, 0));
@@ -1010,65 +1014,60 @@ public class Seats_activity extends AppCompatActivity {
 
     private void batch_reserve() {
 
-        ArrayList<Ticket_Item> ticket_items = new ArrayList<Ticket_Item>();
+        mProgress.show();
 
+        JSONObject obj;
+        JSONArray ticket_items = new JSONArray();
 
-        for (int x = 0; x < ticketusers.size(); x++) {
+        for (int i=0; i < ticketusers.size(); i++) {
+            obj = new JSONObject();
+                        userDetails = ticketusers.get(i);
 
-            userDetails = ticketusers.get(x);
-            ticket_items.add(new Ticket_Item(
-                  userDetails.getName(),
-                    userDetails.getPhone(),
-                    userDetails.getIs(),
-                    app.getTravel_from(),
-                    app.getTravel_too(),
-                    app.getTravel_date(),
-                    selected_Car,
-                    seater,
-                    userDetails.getSeat(),
-                    "13",
-                    app.getPayment_type(),
-                    "oronibrian6@gmail.com",
-                    "",
-                    app.getLogged_user(),
-                    app.getPrice_class(),
-                    refno
-
-            ));
-
+            try {
+                obj.put("passenger_name", userDetails.getName());
+                obj.put("phone_number", userDetails.getPhone());
+                obj.put("id_number", userDetails.getIs());
+                obj.put("from_city", app.getTravel_from());
+                obj.put("to_city", app.getTravel_too());
+                obj.put("travel_date", app.getTravel_date());
+                obj.put("selected_vehicle", selected_Car);
+                obj.put("seater", seater);
+                obj.put("selected_seat", userDetails.getSeat());
+                obj.put("selected_ticket_type", "13");
+                obj.put("payment_method", app.getPayment_type());
+                obj.put("email_address", "brianoroni6@gmail.com");
+                obj.put("insurance_charge", "");
+                obj.put("served_by", app.getLogged_user());
+                obj.put("amount_charged", app.getPrice_class());
+                obj.put("reference_number", refno);
+                ticket_items.put(obj);
+            }catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
         }
 
+        Log.e("Body", ticket_items.toString());
 
-
-        JSONArray TicketjsonArray = new JSONArray();
-
-        for (int i = 0; i < ticket_items.size(); i++) {
-            TicketjsonArray.put(ticket_items.get(i).getJSONObject());
-        }
-
-
-
-        Log.e("Body", TicketjsonArray.toString());
 
         RequestQueue batchreserve = Volley.newRequestQueue(Seats_activity.this);
-        HashMap<String, String> params = new HashMap<String, String>();
 
-        params.put("username", app.getUser_name());
-        params.put("api_key", app.getApi_key());
-        params.put("action", "BatchReserveSeats");
-        params.put("hash", "1FBEAD9B-D9CD-400D-ADF3-F4D0E639CEE0");
+
+        JSONObject postparams = new JSONObject();
 
         try {
-            params.put("ticket_items", TicketjsonArray.toString(4));
+            postparams.put("username", app.getUser_name());
+            postparams.put("api_key",  app.getApi_key());
+            postparams.put("action", "BatchReserveSeats");
+            postparams.put("hash", "1FBEAD9B-D9CD-400D-ADF3-F4D0E639CEE0");
+            postparams.put("ticket_items", ticket_items);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
 
-        Log.e("Params", params.toString());
 
-
-        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, postparams,
                 response -> {
                     try {
 
@@ -1089,23 +1088,16 @@ public class Seats_activity extends AppCompatActivity {
 
                             JSONArray jsonArray = response.getJSONArray("ticket");
 
-
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                reserver = jsonObject1.getString("trx_status");
+                                reserver = jsonObject1.getString("name");
 
 
                             }
 
-                            b = new Bundle();
-                            b.putString("TicketArray", jsonArray.toString());
+                            bundlebatch = new Bundle();
 
-
-                            Log.d("Status", reserver);
-                            Log.d("Mesaage", ticket_mesaage);
-
-                            app.setServerRespose(reserver);
-                            app.setServerMessage(ticket_mesaage);
+                            bundlebatch.putString("TicketArray", jsonArray.toString());
 
 
                         } else {
@@ -1145,20 +1137,44 @@ public class Seats_activity extends AppCompatActivity {
         }) {
             @Override
             public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=utf-8";
+                return "application/json; charset=utf-8";
             }
 
         };
-        Log.d("Request body: ", params.toString());
+        Log.d("Request body: ", postparams.toString());
 
 
         req.setRetryPolicy(new DefaultRetryPolicy(0, -1, 0));
         batchreserve.add(req);
 
+        batchreserve.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+            @Override
+            public void onRequestFinished(Request<Object> request) {
+                batchreserve.getCache().clear();
+                mProgress.dismiss();
+
+                Gson gson = new Gson();
+
+                String jsonTicketusers = gson.toJson(ticketusers);
+
+                intentExtra = new Intent(Seats_activity.this, ReceiptActivity.class);
+                intentExtra.putStringArrayListExtra("listofseats", (ArrayList<String>) listofseats);
+
+                intentExtra.putExtra("data", ticket_mesaage);
+                intentExtra.putExtra("txt_status", reserver);
+//                intentExtra.putExtras(bundlebatch);
+                intentExtra.putExtra("list_as_string", jsonTicketusers);
+
+                startActivity(intentExtra);
+
+            }
+        });
+
 
 
 
     }
+
 
 
     private void back() {
