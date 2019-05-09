@@ -1,6 +1,6 @@
 package com.example.oronz.mobiclientapp.Adapter;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 

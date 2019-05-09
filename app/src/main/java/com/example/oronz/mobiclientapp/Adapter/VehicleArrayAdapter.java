@@ -2,13 +2,12 @@ package com.example.oronz.mobiclientapp.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.oronz.mobiclientapp.Models.AvailableVehicles;
@@ -56,18 +55,18 @@ public class VehicleArrayAdapter  extends ArrayAdapter<AvailableVehicles> {
 
 
         AvailableVehicles currentpackage = getItem(position);
-
-        TextView numberTextView = listItemView.findViewById(R.id.seat_number);
-
-        numberTextView.setText(currentpackage.getSeater());
+//
+//        TextView numberTextView = listItemView.findViewById(R.id.seat_number);
+//
+//        numberTextView.setText(currentpackage.getSeater());
 
         TextView availableTextView = listItemView.findViewById(R.id.available_seats);
 
         availableTextView.setText(String.format(String.format("Seater: %s Available : %%s", currentpackage.getName()), currentpackage.getSeats_available()));
 
-        TextView departureTextView = listItemView.findViewById(R.id.departure_time);
-
-        departureTextView.setText(currentpackage.getDeparture_time());
+//        TextView departureTextView = listItemView.findViewById(R.id.departure_time);
+//
+//        departureTextView.setText(currentpackage.getDeparture_time());
 
 
         TextView seater= listItemView.findViewById(R.id.seater);

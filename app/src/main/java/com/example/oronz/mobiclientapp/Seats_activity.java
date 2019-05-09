@@ -7,8 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -35,12 +35,11 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
+import com.example.oronz.mobiclientapp.Models.Seat;
 import com.example.oronz.mobiclientapp.Models.UserDetails;
-import com.example.oronz.mobiclientapp.Tickettem.Ticket_Item;
 import com.example.oronz.mobiclientapp.Utilities.MySingleton;
 import com.google.gson.Gson;
 
@@ -53,7 +52,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
@@ -122,7 +120,7 @@ public class Seats_activity extends AppCompatActivity {
     ArrayList<UserDetails> ticketusers;
     UserDetails userDetails;
     Bundle b,bundlebatch;
-    String selected_Car, seater;
+    String selected_Car, seater,availableseats;
     private Context mcontext;
     private View btnGo, btnbook, btncancel, textview;
     private GridView gridView;
@@ -142,15 +140,14 @@ public class Seats_activity extends AppCompatActivity {
         travel_class_array_list = new ArrayList<>();
 
 
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
-        getSupportActionBar().setTitle("Select Your Seat or Seats");
         ticketusers = new ArrayList<UserDetails>();
 
 
         Intent startingInted = getIntent();
         selected_Car = startingInted.getStringExtra("car_id");
         seater = startingInted.getStringExtra("seater");
+
+        availableseats=startingInted.getStringExtra("availableseats");
 
 
         Log.d("Selected car id: ", selected_Car);
@@ -544,7 +541,9 @@ public class Seats_activity extends AppCompatActivity {
                                 gari = gari.replace(" ", "");
 
 
+
                                 seats = new ArrayList<>(Arrays.asList(gari.split(",")));
+
 
                                 Log.d("Seats", seats.toString());
 
@@ -1179,7 +1178,7 @@ public class Seats_activity extends AppCompatActivity {
 
     private void back() {
         finish();
-        startActivity(new Intent(getApplicationContext(), VehiclesActivity.class));
+        startActivity(new Intent(getApplicationContext(), VehicleGridActivity.class));
 
     }
 
@@ -1187,7 +1186,7 @@ public class Seats_activity extends AppCompatActivity {
     public void onBackPressed() {
         finish();
         availableSeats();
-        startActivity(new Intent(getApplicationContext(), VehiclesActivity.class));
+        startActivity(new Intent(getApplicationContext(), VehicleGridActivity.class));
     }
 
     static class ViewHolder {
@@ -1665,7 +1664,7 @@ public class Seats_activity extends AppCompatActivity {
 
                 convertView = inflater.inflate(R.layout.grid_item, parent, false);
 
-                vh = new ViewHolder(textView);
+                vh = new ViewHolder(convertView);
 
                 convertView.setTag(vh);
 
@@ -1679,7 +1678,8 @@ public class Seats_activity extends AppCompatActivity {
             }
 
 
-            vh.gridtextView = convertView.findViewById(R.id.txt_grid);
+
+
             vh.gridtextView.setText(strings[position]);
 
             vh.gridtextView.setBackgroundResource(R.drawable.seat_normal_booked);
@@ -1712,6 +1712,15 @@ public class Seats_activity extends AppCompatActivity {
 
             return convertView;
 
+        }
+
+
+        private class ViewHolder {
+            TextView gridtextView;
+
+            public ViewHolder(View view) {
+                gridtextView = (TextView) view.findViewById(R.id.txt_grid);
+            }
         }
 
         @Override

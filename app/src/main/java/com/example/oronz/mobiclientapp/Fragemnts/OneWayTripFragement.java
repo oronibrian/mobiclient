@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,20 +22,20 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Adapter.CityArrayAdapter;
 import com.example.oronz.mobiclientapp.MobiClientApplication;
 import com.example.oronz.mobiclientapp.Models.City;
 import com.example.oronz.mobiclientapp.R;
 import com.example.oronz.mobiclientapp.Utilities.MySingleton;
+import com.example.oronz.mobiclientapp.VehicleGridActivity;
 import com.example.oronz.mobiclientapp.VehiclesActivity;
+import com.hzn.lib.EasyTransitionOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -87,6 +87,9 @@ public class OneWayTripFragement extends Fragment {
         getDates();
         mContext=getActivity().getApplicationContext();
 
+        // add as many views as you like
+
+
 
     }
 
@@ -127,7 +130,7 @@ public class OneWayTripFragement extends Fragment {
 
                     progressBar.show();
 
-                    Intent intent = new Intent(getActivity(), VehiclesActivity.class);
+                    Intent intent = new Intent(getActivity(), VehicleGridActivity.class);
 
 
                     CDT = new CountDownTimer(7000, 1000)

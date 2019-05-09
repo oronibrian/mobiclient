@@ -1,9 +1,6 @@
 package com.example.oronz.mobiclientapp;
 
-import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -15,23 +12,14 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StrictMode;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
+import androidx.appcompat.app.AlertDialog;
+
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 
 public class UpdateApp extends Activity {
     private BroadcastReceiver receiver;

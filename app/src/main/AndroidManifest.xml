@@ -33,7 +33,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".SearchPaymentActivity"></activity>
+        <activity android:name=".VehicleGridActivity"></activity>
+        <activity android:name=".SearchPaymentActivity" />
         <activity android:name=".SubmitPaymentActivity" />
         <activity android:name=".UpdateApp" />
         <activity

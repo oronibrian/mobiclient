@@ -9,7 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +34,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Models.UserDetails;
 import com.example.oronz.mobiclientapp.Utilities.MySingleton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nbbse.printapi.Printer;
@@ -52,7 +53,7 @@ import java.util.List;
 
 public class ReceiptActivity extends AppCompatActivity {
     TextView txt_status;
-    Button btnnew, btncomplete, btnprint;
+    FloatingActionButton btnnew, btncomplete, btnprint;
     MobiClientApplication app;
     List<String> myList;
     EditText walletpassword, wallet_username, mpesanumber, agency_username, Agencywaletpassword;
@@ -67,6 +68,7 @@ public class ReceiptActivity extends AppCompatActivity {
     InputStream logo;
 
     private Context mcontext;
+    TextView txtisnumber,passengerIdtxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +84,6 @@ public class ReceiptActivity extends AppCompatActivity {
 
         mProgress = new ProgressDialog(this);
         mProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        mProgress.getWindow().setBackgroundDrawable(new ColorDrawable(Color.GREEN));
         mProgress.setTitle("Processing payment ...");
         mProgress.setMessage("Please wait...");
         mProgress.setCancelable(false);
@@ -95,17 +96,27 @@ public class ReceiptActivity extends AppCompatActivity {
         confirmtransProgress.setMessage("Confirming mPesa payment...");
         confirmtransProgress.setCancelable(false);
         confirmtransProgress.setIndeterminate(true);
+
         mcontext=getApplicationContext();
 
 
 
 
         status_img=findViewById(R.id.status_img);
+        txtisnumber=findViewById(R.id.txtisnumber);
 
-        btnnew.setVisibility(View.GONE);
-        btnprint.setVisibility(View.GONE);
+        passengerIdtxt=findViewById(R.id.passengerIdtxt);
+
+        btnnew.hide();
+        btnprint.hide();
 
         ticketusers = new ArrayList<UserDetails>();
+
+        for(int i=0;i< ticketusers.size();i++){
+            Log.e("users",ticketusers.get(i).getName());
+
+            passengerIdtxt.setText(ticketusers.get(i).getName());
+        }
 
 
         String value = getIntent().getStringExtra("data");
@@ -116,11 +127,10 @@ public class ReceiptActivity extends AppCompatActivity {
 
 
         if (status.equals("Failed")) {
-            btncomplete.setVisibility(View.GONE);
-            btnprint.setVisibility(View.GONE);
-            btnnew.setVisibility(View.VISIBLE);
+            btncomplete.hide();
+            btnprint.hide();
+            btnnew.show();
 
-//            txt_name.setText(value);
             status_img.setImageResource(R.drawable.cross1);
 
             txt_status.setText(status);
@@ -128,12 +138,12 @@ public class ReceiptActivity extends AppCompatActivity {
 
 
         } else {
-            btncomplete.setVisibility(View.VISIBLE);
+            btncomplete.show();
             txt_status.setText(status);
             txt_status.setTextColor(Color.GREEN);
             status_img.setImageResource(R.drawable.tick1);
             proceed();
-            btncomplete.setVisibility(View.GONE);
+            btncomplete.hide();
 
 
         }
@@ -278,6 +288,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
         mpesanumber = dialogView.findViewById(R.id.mpesanumber);
         Button btncomplete = dialogView.findViewById(R.id.mpsabtn);
+        txtisnumber.setText(mpesanumber.getText().toString());
 
         btncomplete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -488,9 +499,9 @@ public class ReceiptActivity extends AppCompatActivity {
 
                                 Log.d("Agency Response", message);
 
-                                btncomplete.setVisibility(View.GONE);
-                                btnnew.setVisibility(View.VISIBLE);
-                                btnprint.setVisibility(View.VISIBLE);
+                                btncomplete.hide();
+                                btnnew.show();
+                                btnprint.show();
 
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -580,9 +591,9 @@ public class ReceiptActivity extends AppCompatActivity {
                             Log.d("Agency Response", message);
 //                            txt_name.setText(message);
 
-                            btncomplete.setVisibility(View.GONE);
-                            btnnew.setVisibility(View.VISIBLE);
-                            btnprint.setVisibility(View.VISIBLE);
+                            btncomplete.hide();
+                            btnnew.show();
+                            btnprint.show();
 
 
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -602,9 +613,9 @@ public class ReceiptActivity extends AppCompatActivity {
 
 //                            txt_name.setText(response.getString("response_message"));
 
-                            btncomplete.setVisibility(View.GONE);
-                            btnnew.setVisibility(View.VISIBLE);
-                            btnprint.setVisibility(View.VISIBLE);
+                            btncomplete.hide();
+                            btnnew.show();
+                            btnprint.show();
 
                         }
 
@@ -676,9 +687,9 @@ public class ReceiptActivity extends AppCompatActivity {
 
                             Log.d("mPesa Payment Response", message);
 
-                            btncomplete.setVisibility(View.GONE);
-                            btnnew.setVisibility(View.VISIBLE);
-                            btnprint.setVisibility(View.VISIBLE);
+                            btncomplete.hide();
+                            btnnew.show();
+                            btnprint.show();
 
 
 
@@ -694,7 +705,7 @@ public class ReceiptActivity extends AppCompatActivity {
                             txt_status.setTextColor(Color.RED);
 
 
-                            btnnew.setVisibility(View.VISIBLE);
+                            btnnew.show();
                             status_img.setImageResource(R.drawable.cross1);
 
 

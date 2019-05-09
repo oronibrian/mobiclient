@@ -1,15 +1,15 @@
 package com.example.oronz.mobiclientapp;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,23 +19,29 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
+import com.example.oronz.mobiclientapp.Adapter.GridViewAdapterVehicles;
 import com.example.oronz.mobiclientapp.Adapter.MyAdapter;
-import com.example.oronz.mobiclientapp.Adapter.VehicleArrayAdapter;
-import com.example.oronz.mobiclientapp.Models.AvailableVehicles;
+import com.example.oronz.mobiclientapp.Models.RecyclerViewItem;
+import com.example.oronz.mobiclientapp.RecyclerClickCustom.RecyclerItemClickListener;
 import com.example.oronz.mobiclientapp.Utilities.MySingleton;
-import com.ramotion.foldingcell.FoldingCell;
+import com.google.android.material.chip.Chip;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Objects;
 
-public class VehiclesActivity extends AppCompatActivity {
+public class VehicleGridActivity extends AppCompatActivity {
+
+    private RecyclerView gridView;
+    private GridViewAdapterVehicles gridViewAdapter;
+    private ArrayList<RecyclerViewItem> corporations;
+    private ArrayList<RecyclerViewItem> availableVehiclelist;
+
+    private MobiClientApplication app;
+
     public static String name, phone, id_no = "";
     ArrayList<String> vehicles, payment_methods;
     RecyclerView recyclerView;
@@ -45,86 +51,79 @@ public class VehiclesActivity extends AppCompatActivity {
     SearchView sv;
     String car_id="";
     String total_seats="";
-
-    private MobiClientApplication app;
-
-    ArrayList<AvailableVehicles> availableVehicles;
-    ListView listView ;
     Context mcontext;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vehicles);
+        setContentView(R.layout.activity_vehicle_grid);
+
         app = (MobiClientApplication) getApplication();
-        vehicles = new ArrayList<>();
-        payment_methods = new ArrayList<>();
 
-        listView = findViewById(R.id.listview);
-
-        availableVehicles = new ArrayList<>();
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        String today = dateFormat.format(new Date());
-
-        app.setTravel_date(today);
+        gridView = (RecyclerView) findViewById(R.id.grid);
         mcontext=getApplicationContext();
 
 
 
-
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
-
-
-                listView.setOnItemClickListener((parent, view, position, id) -> {
-
-                    TextView seatssize = view.findViewById(R.id.seater);
-                    String number=seatssize.getText().toString();
-
-
-                    TextView available = view.findViewById(R.id.available);
-                    String selected_car_id=available.getText().toString();
-
-                      app.setIndex(String.valueOf(listView.indexOfChild(view)));
-
-
-//                    app.set_selected_vehicle(car_id);
-//
-//                    app.set_car_name(total_seats);
-
-
-                    Log.d("Car Index: ", String.valueOf(listView.indexOfChild(view)));
-
-
-                    Log.d("Car Id: ",car_id);
-
-                    Log.d("Selected seater: ",number);
-
-                    Log.d("Selected Car Id: ",selected_car_id);
-
-                    app.setSeater(number);
-
-
-
-
-
-
-                    Intent intent = new Intent(VehiclesActivity.this, Seats_activity.class);
-                    intent.putExtra("selected_car",car_id);
-                    intent.putExtra("seater",number);
-                    intent.putExtra("car_id",selected_car_id);
-
-
-                    startActivity(intent);
-
-                });
-
-
         checkAvailableVehicle();
 
+//        setDummyData();
+        availableVehiclelist = new ArrayList<>();
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        gridView.setLayoutManager(layoutManager);
+
+
+
+
+        gridView.addOnItemTouchListener(
+                new RecyclerItemClickListener(mcontext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        // do whatever
+//                        Toast.makeText(mcontext, "Clicked", Toast.LENGTH_SHORT).show();
+
+                        TextView seater = (TextView)view.findViewById(R.id.grid_vehicle_seater);
+                        TextView selected_car_id = (TextView)view.findViewById(R.id.selected_car_id);
+
+                        Chip availableseats=view.findViewById(R.id.chip_available);
+
+
+                        Toast.makeText(mcontext, "clicked on " +seater.getText(), Toast.LENGTH_SHORT).show();
+
+
+                        Log.d("Car Id: ",car_id);
+
+                        Log.d("Selected seater: ",seater.getText().toString());
+
+                        Log.d("Available seats: ",availableseats.getText().toString());
+
+                        app.setSeater(seater.getText().toString());
+
+
+
+                        Intent intent = new Intent(VehicleGridActivity.this, Seats_activity.class);
+                        intent.putExtra("selected_car",selected_car_id.getText().toString());
+                        intent.putExtra("seater",seater.getText().toString());
+                        intent.putExtra("availableseats",availableseats.getText().toString());
+
+                        intent.putExtra("car_id",car_id);
+
+                        startActivity(intent);
+
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
+
+
     }
+
+
 
     private void checkAvailableVehicle() {
 
@@ -140,6 +139,7 @@ public class VehiclesActivity extends AppCompatActivity {
 
         params.put("travel_date", app.getTravel_date());
         params.put("hash", app.getHash_key());
+
 
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
@@ -165,11 +165,13 @@ public class VehiclesActivity extends AppCompatActivity {
                                 String from = jsonObject1.getString("from");
                                 String too = jsonObject1.getString("to");
 
-                                    Log.d("Buses: ", buses);
+                                Log.d("Buses: ", buses);
 
 //                                        vehicles.add(buses);
 
-                                    availableVehicles.add(new AvailableVehicles(buses,total_seats,seats_available,departure_time,car_id));
+//                                availableVehicles.add(new AvailableVehicles(buses,total_seats,seats_available,departure_time,car_id));
+
+                                availableVehiclelist.add(new RecyclerViewItem(R.drawable.bus, buses,total_seats,seats_available,car_id));
 
                             }
 
@@ -178,11 +180,13 @@ public class VehiclesActivity extends AppCompatActivity {
 
                         }
 
+////
+//                        VehicleArrayAdapter vehicleAdapter = new VehicleArrayAdapter(VehicleGridActivity.this, availableVehicles);
 //
-                        VehicleArrayAdapter vehicleAdapter = new VehicleArrayAdapter(VehiclesActivity.this, availableVehicles);
+//                        listView.setAdapter(vehicleAdapter);
 
-                        listView.setAdapter(vehicleAdapter);
-
+                        gridViewAdapter = new GridViewAdapterVehicles(this, availableVehiclelist);
+                        gridView.setAdapter(gridViewAdapter);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -212,21 +216,8 @@ public class VehiclesActivity extends AppCompatActivity {
 
 
     }
-    @Override
-    public void onBackPressed() {
-        finish();
-        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-    }
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        onBackPressed();
-        return true;
-    }
 
 
 
 }
-
-

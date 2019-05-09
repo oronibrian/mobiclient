@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="10dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/grid_vehicle_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="312dp"
+            android:layout_height="72dp"
+            android:layout_below="@+id/grid_vehicle_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="9dp"
+            android:contentDescription="@null" />
+
+
+        <TextView
+            android:id="@+id/grid_vehicle_seater"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorPrimary"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            android:padding="5dp"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/grid_vehicle_remaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@id/grid_vehicle_seater"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/selected_car_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@id/grid_vehicle_remaining"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/textviewtext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:visibility="gone"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipseater"
+            style="@style/TextAppearance.MaterialComponents.Chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textviewtext"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="7dp"
+            app:chipBackgroundColor="#FFCF79"
+            app:chipIconSize="20dp"
+            app:chipIconTint="#636161"
+            app:chipStartPadding="10dp"
+            app:chipStrokeColor="#636161" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_available"
+            style="@style/TextAppearance.MaterialComponents.Chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chipseater"
+            android:layout_gravity="center_horizontal"
+
+            android:layout_marginTop="7dp"
+            android:text="Available"
+            app:chipBackgroundColor="#FFCF79"
+            app:chipIconSize="20dp"
+            app:chipIconTint="#636161"
+            app:chipStartPadding="10dp"
+            app:chipStrokeColor="#636161" />
+
+
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>
+
+
+
