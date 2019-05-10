@@ -33,18 +33,26 @@
 
 
     <!-- Editext for Search -->
-    <EditText android:id="@+id/etsearch"
-        android:layout_width="fill_parent"
+    <EditText
+        android:id="@+id/etsearch"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Search .."
-        android:inputType="textVisiblePassword"/>
+        android:inputType="textVisiblePassword" />
 
     <!-- List View -->
 
-    <ListView
+    <!--<ListView-->
+        <!--android:id="@+id/manifestvehiclelist"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/manifestvehiclelist"
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"/>
 
 
 </LinearLayout>

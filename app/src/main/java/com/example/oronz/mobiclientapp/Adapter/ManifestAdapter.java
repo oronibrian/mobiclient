@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.example.oronz.mobiclientapp.MobiClientApplication;
@@ -55,7 +54,7 @@ public class ManifestAdapter extends ArrayAdapter<ManifestDetails>   {
         routeTextView.setText(mytripsDetails.getRoute());
 
 
-        TextView seatsTextView = listItemView.findViewById(R.id.manifestseats);
+        TextView seatsTextView = listItemView.findViewById(R.id.manifestavilableseats);
 
         seatsTextView.setText("Seater" +
                 ": "+mytripsDetails.getTotal_seats());

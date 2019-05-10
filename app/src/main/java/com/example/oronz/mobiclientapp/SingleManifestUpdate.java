@@ -1,9 +1,13 @@
 package com.example.oronz.mobiclientapp;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -75,7 +79,6 @@ Context mcontext;
 
 
         app = (MobiClientApplication) getApplication();
-        getSupportActionBar().setTitle(app.getManfestSelected());
         details = findViewById(R.id.txtdetails);
         reg = findViewById(R.id.edittextreg_no);
         btnupdate = findViewById(R.id.btnupdate);
@@ -294,6 +297,28 @@ Context mcontext;
                                 details.setText(response.getString("response_message"));
                                 reg.setVisibility(View.GONE);
                                 btnupdate.setVisibility(View.GONE);
+
+                                final Dialog dialog = new Dialog(SingleManifestUpdate.this);
+                                dialog.setContentView(R.layout.indo_dialog);
+                                dialog.setTitle("Info...");
+
+                                // set the custom dialog components - text, image and button
+                                TextView text = (TextView) dialog.findViewById(R.id.content);
+                                text.setText(response.getString("response_message"));
+
+
+                                Button dialogButton = (Button) dialog.findViewById(R.id.bt_close);
+                                // if button is clicked, close the custom dialog
+                                dialogButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dialog.dismiss();
+                                        finish();
+                                        startActivity(new Intent(getApplicationContext(),ManifestActivity.class));
+                                    }
+                                });
+
+                                dialog.show();
 
                             }
 

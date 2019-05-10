@@ -1,18 +1,22 @@
 package com.example.oronz.mobiclientapp;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -25,9 +29,11 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.oronz.mobiclientapp.API.URLs;
-import com.example.oronz.mobiclientapp.Adapter.ManifestAdapter;
+import com.example.oronz.mobiclientapp.Adapter.ManifestRecyclerViewAdapter;
 import com.example.oronz.mobiclientapp.Models.ManifestDetails;
+import com.example.oronz.mobiclientapp.RecyclerClickCustom.RecyclerItemClickListener;
 import com.example.oronz.mobiclientapp.Utilities.MySingleton;
+import com.google.android.material.chip.Chip;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,12 +44,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class ManifestActivity extends AppCompatActivity {
     EditText date;
     ArrayList<ManifestDetails> mytripsDetails;
-    ListView mytripslistView;
+    RecyclerView mytripslistView;
     Button selectDate;
     DatePickerDialog datePickerDialog;
     int year;
@@ -53,7 +58,7 @@ public class ManifestActivity extends AppCompatActivity {
     String dbDate, today;
     ProgressDialog progressDialog;
     int textlength = 0;
-    ManifestAdapter tripsArrayAdapter;
+    ManifestRecyclerViewAdapter tripsArrayAdapter;
     private MobiClientApplication app;
     private EditText sv;
     private Context mContext;
@@ -65,10 +70,14 @@ public class ManifestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manifest);
         app = (MobiClientApplication) getApplication();
         date = (EditText) findViewById(R.id.date);
-        mytripslistView = (ListView) findViewById(R.id.manifestvehiclelist);
+
+
+        mytripslistView = (RecyclerView) findViewById(R.id.manifestvehiclelist);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
+        mytripslistView.setLayoutManager(layoutManager);
+
         selectDate = findViewById(R.id.btnDate);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Bus Schedule Manifests");
+
 
         mytripsDetails = new ArrayList<ManifestDetails>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -109,26 +118,44 @@ public class ManifestActivity extends AppCompatActivity {
         });
 
 
-        mytripslistView.setOnItemClickListener((parent, view, position, id) -> {
 
 
-            String selected;
+        mytripslistView.addOnItemTouchListener(
+                new RecyclerItemClickListener(mContext, mytripslistView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        // do whatever
 
-            selected = String.valueOf(mytripslistView.indexOfChild(view));
+                        TextView seater = (TextView)view.findViewById(R.id.routeTextView);
 
-            Log.d("Manifest Selected Car", selected);
+                        Toast.makeText(mContext, "clicked on " +seater.getText(), Toast.LENGTH_SHORT).show();
 
-            String route = mytripsDetails.get(position).getRoute();
 
-            Toast.makeText(ManifestActivity.this,
-                    route, Toast.LENGTH_SHORT).show();
+                        String selected;
 
-            app.setManfestSelected(route);
+                        selected = String.valueOf(mytripslistView.indexOfChild(view));
 
-            Intent intent = new Intent(ManifestActivity.this, SingleManifestUpdate.class);
-            startActivity(intent);
+                        Log.d("Manifest Selected Car", selected);
 
-        });
+                        String route = mytripsDetails.get(position).getRoute();
+
+                        Toast.makeText(ManifestActivity.this,
+                                route, Toast.LENGTH_SHORT).show();
+
+                        app.setManfestSelected(route);
+
+                        Intent intent = new Intent(ManifestActivity.this, SingleManifestUpdate.class);
+                        startActivity(intent);
+                        finish();
+
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
+
+
 
     }
 
@@ -171,7 +198,7 @@ public class ManifestActivity extends AppCompatActivity {
 
                             }
 
-                            tripsArrayAdapter = new ManifestAdapter(ManifestActivity.this, mytripsDetails);
+                            tripsArrayAdapter = new ManifestRecyclerViewAdapter(ManifestActivity.this, mytripsDetails);
 
                             mytripslistView.setAdapter(tripsArrayAdapter);
 
@@ -263,10 +290,11 @@ public class ManifestActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
                                 progressDialog.dismiss();
 
+
                             }
 
 
-                            tripsArrayAdapter = new ManifestAdapter(ManifestActivity.this, mytripsDetails);
+                            tripsArrayAdapter = new ManifestRecyclerViewAdapter(ManifestActivity.this, mytripsDetails);
 
                             mytripslistView.setAdapter(tripsArrayAdapter);
 

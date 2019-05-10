@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/table_layout1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#ffff"
     android:orientation="vertical"
     android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="53dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
@@ -20,9 +20,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Travel From"
-            android:textSize="20sp"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
 
 
         <TextView
@@ -31,35 +31,65 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Travel To"
-            android:textSize="20sp"
-
             android:textAlignment="center"
 
-            android:textColor="@color/colorPrimaryDark" />
+            android:textColor="@color/colorPrimaryDark"
+
+            android:textSize="20sp" />
 
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="53dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:weightSum="2"
         android:orientation="horizontal">
 
 
-        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-            android:id="@+id/spinner_from_one"
-            android:layout_width="wrap_content"
+        <com.google.android.material.card.MaterialCardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card4"
+            android:layout_width="30dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="3dp"
             android:layout_weight="1"
-            android:gravity="center" />
+            card_view:cardCornerRadius="4dp"
+
+            card_view:cardElevation="10dp">
+
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/spinner_from_one"
+                style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center" />
+
+        </com.google.android.material.card.MaterialCardView>
 
 
-        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-            android:id="@+id/spinner_to_one"
+
+        <com.google.android.material.card.MaterialCardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
             android:layout_weight="1"
-            android:gravity="center" />
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="10dp">
+
+
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/spinner_to_one"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+
+                android:gravity="center" />
+
+        </com.google.android.material.card.MaterialCardView>
+
 
     </LinearLayout>
 
@@ -67,28 +97,35 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:gravity="center"
         android:orientation="vertical">
 
-        <fr.ganfra.materialspinner.MaterialSpinner
-            android:id="@+id/spinner_travel_date_one"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:ms_alignLabels="true"
-            app:ms_arrowColor="@color/base"
-            app:ms_arrowSize="8dp"
-            app:ms_baseColor="@color/base"
-            app:ms_dropDownHintView="@layout/dropdown_hint_item"
-            app:ms_enableErrorLabel="false"
-            app:ms_enableFloatingLabel="true"
-            app:ms_errorColor="@color/error"
-            app:ms_floatingLabelColor="@color/floating_label"
-            app:ms_floatingLabelText="Travel Date"
-            app:ms_highlightColor="@color/highlight"
-            app:ms_hintColor="@color/hint"
-            app:ms_hintView="@layout/hint_item"
-            app:ms_multiline="false"
-            app:ms_thickness="2dp" />
+
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_travel_date_one"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:ms_alignLabels="true"
+                app:ms_arrowColor="@color/base"
+                app:ms_arrowSize="8dp"
+                app:ms_baseColor="@color/base"
+                app:ms_dropDownHintView="@layout/dropdown_hint_item"
+                app:ms_enableErrorLabel="false"
+                app:ms_enableFloatingLabel="true"
+                app:ms_errorColor="@color/error"
+                app:ms_floatingLabelColor="@color/floating_label"
+                app:ms_floatingLabelText="Travel Date"
+                app:ms_highlightColor="@color/highlight"
+                app:ms_hintColor="@color/hint"
+                app:ms_hintView="@layout/hint_item"
+                app:ms_multiline="false"
+                app:ms_thickness="2dp" />
+
+
+
     </LinearLayout>
 
     <LinearLayout

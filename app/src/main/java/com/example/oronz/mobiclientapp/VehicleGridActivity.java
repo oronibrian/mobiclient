@@ -5,19 +5,19 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Adapter.GridViewAdapterVehicles;
 import com.example.oronz.mobiclientapp.Adapter.MyAdapter;
@@ -111,6 +111,7 @@ public class VehicleGridActivity extends AppCompatActivity {
                         intent.putExtra("car_id",car_id);
 
                         startActivity(intent);
+                        finish();
 
                     }
 
@@ -127,7 +128,6 @@ public class VehicleGridActivity extends AppCompatActivity {
 
     private void checkAvailableVehicle() {
 
-        RequestQueue busrequestQueue = Volley.newRequestQueue(getApplicationContext());
 
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", app.getUser_name());
@@ -154,6 +154,28 @@ public class VehicleGridActivity extends AppCompatActivity {
                             if(jsonArray.length()==0){
                                 Toast.makeText(getApplicationContext(), ("There are no vehicles Remaining"), Toast.LENGTH_LONG).show();
 
+                                final Dialog dialog = new Dialog(VehicleGridActivity.this);
+                                dialog.setContentView(R.layout.indo_dialog);
+                                dialog.setTitle("Info...");
+
+                                // set the custom dialog components - text, image and button
+                                TextView text = (TextView) dialog.findViewById(R.id.content);
+                                text.setText("There are no vehicles remaining!");
+
+
+                                Button dialogButton = (Button) dialog.findViewById(R.id.bt_close);
+                                // if button is clicked, close the custom dialog
+                                dialogButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dialog.dismiss();
+                                        finish();
+                                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                    }
+                                });
+
+                                dialog.show();
+
                             }
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -169,7 +191,6 @@ public class VehicleGridActivity extends AppCompatActivity {
 
 //                                        vehicles.add(buses);
 
-//                                availableVehicles.add(new AvailableVehicles(buses,total_seats,seats_available,departure_time,car_id));
 
                                 availableVehiclelist.add(new RecyclerViewItem(R.drawable.bus, buses,total_seats,seats_available,car_id));
 
@@ -180,10 +201,6 @@ public class VehicleGridActivity extends AppCompatActivity {
 
                         }
 
-////
-//                        VehicleArrayAdapter vehicleAdapter = new VehicleArrayAdapter(VehicleGridActivity.this, availableVehicles);
-//
-//                        listView.setAdapter(vehicleAdapter);
 
                         gridViewAdapter = new GridViewAdapterVehicles(this, availableVehiclelist);
                         gridView.setAdapter(gridViewAdapter);
@@ -216,6 +233,13 @@ public class VehicleGridActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+    }
+
 
 
 

@@ -34,8 +34,6 @@ import com.example.oronz.mobiclientapp.Models.City;
 import com.example.oronz.mobiclientapp.R;
 import com.example.oronz.mobiclientapp.Utilities.MySingleton;
 import com.example.oronz.mobiclientapp.VehicleGridActivity;
-import com.example.oronz.mobiclientapp.VehiclesActivity;
-import com.hzn.lib.EasyTransitionOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
