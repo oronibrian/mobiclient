@@ -2,6 +2,7 @@ package com.example.oronz.mobiclientapp;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +39,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressFlower;
+
 public class SearchTicketActivity extends AppCompatActivity {
     MobiClientApplication app;
     ArrayList<MytripsDetails> mytripsDetails;
@@ -45,8 +49,10 @@ public class SearchTicketActivity extends AppCompatActivity {
     EditText editTextphone;
     Button btnsearch;
     String phoneno;
-    private ProgressDialog mProgress;
+//    private ProgressDialog mProgress;
     private Context mcontext;
+
+    ACProgressFlower mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,19 +67,16 @@ public class SearchTicketActivity extends AppCompatActivity {
 
         editTextphone = findViewById(R.id.editTextphone);
         btnsearch = findViewById(R.id.btnSearch);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Search Ticket");
 
         phoneno = app.getAgency_phone();
 
-        mProgress = new ProgressDialog(this);
 
-        mProgress.setTitle("Searching Ticket...");
-        mProgress.setMessage("Please wait...");
-        mProgress.setCancelable(true);
-        mProgress.setIndeterminate(true);
-        mcontext=getApplicationContext();
 
+
+        mProgress = new ACProgressFlower.Builder(this)
+                .direction(ACProgressConstant.DIRECT_CLOCKWISE)
+                .themeColor(Color.GREEN)
+                .fadeColor(Color.DKGRAY).build();
 
         btnsearch.setOnClickListener(new View.OnClickListener() {
             @Override

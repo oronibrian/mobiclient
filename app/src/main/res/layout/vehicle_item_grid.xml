@@ -89,35 +89,45 @@
             android:textStyle="bold" />
 
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipseater"
-            style="@style/TextAppearance.MaterialComponents.Chip"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textviewtext"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="7dp"
-            app:chipBackgroundColor="#FFCF79"
-            app:chipIconSize="20dp"
-            app:chipIconTint="#636161"
-            app:chipStartPadding="10dp"
-            app:chipStrokeColor="#636161" />
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_available"
-            style="@style/TextAppearance.MaterialComponents.Chip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/chipseater"
-            android:layout_gravity="center_horizontal"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipseater"
+                style="@style/TextAppearance.MaterialComponents.Chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textviewtext"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="7dp"
+                app:chipBackgroundColor="#FFCF79"
+                app:chipIconSize="20dp"
+                app:chipIconTint="#636161"
+                app:chipStartPadding="10dp"
+                app:chipStrokeColor="#636161" />
 
-            android:layout_marginTop="7dp"
-            android:text="Available"
-            app:chipBackgroundColor="#FFCF79"
-            app:chipIconSize="20dp"
-            app:chipIconTint="#636161"
-            app:chipStartPadding="10dp"
-            app:chipStrokeColor="#636161" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_available"
+                style="@style/TextAppearance.MaterialComponents.Chip"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="-34dp"
+                android:text="Available"
+                app:chipBackgroundColor="#FFCF79"
+                app:chipIconSize="20dp"
+                app:chipIconTint="#636161"
+                app:chipStartPadding="10dp"
+                app:chipStrokeColor="#636161" />
+
+
+        </LinearLayout>
+
+
 
 
 

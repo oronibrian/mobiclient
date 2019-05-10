@@ -73,6 +73,7 @@ dependencies {
     implementation 'com.simmorsal.library:concealer_nested_scroll_view:2.0.0'
     implementation 'me.zhanghai.android.materialprogressbar:library:1.6.1'
     implementation 'com.weiwangcn.betterspinner:library-material:1.1.0'
+    implementation 'cc.cloudist.acplibrary:library:1.2.1'
 
 
 

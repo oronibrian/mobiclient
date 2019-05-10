@@ -42,8 +42,8 @@ public class GridViewAdapterVehicles extends RecyclerView.Adapter<GridViewAdapte
         viewHolder.selected_car_id.setText(items.get(position).getCa_id());
 //        viewHolder.textviewtext.setText(String.format("Seater: %s\nAvailable: %s", items.get(position).getTitle(), items.get(position).getCa_id()));
 
-        viewHolder.chip.setText(String.format("Available: %s", items.get(position).getCa_id()));
-        viewHolder.chipseater.setText(String.format("Seater: %s", items.get(position).getTitle()));
+        viewHolder.chip.setText(items.get(position).getCa_id());
+        viewHolder.chipseater.setText(items.get(position).getTitle());
 
 
     }

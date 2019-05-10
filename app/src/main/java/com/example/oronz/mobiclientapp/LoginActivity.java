@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -36,6 +37,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressFlower;
 import spencerstudios.com.fab_toast.FabToast;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
@@ -45,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btnlogin;
     EditText editextpassword, edittextusername;
     private MobiClientApplication app;
-    private ProgressDialog mProgress;
+    ACProgressFlower mProgress;
     private Context mContext;
 
 
@@ -70,11 +73,12 @@ public class LoginActivity extends AppCompatActivity {
 
         initializedAPI();
 
-        mProgress = new ProgressDialog(this);
-        mProgress.setTitle("Signing  in...");
-        mProgress.setMessage("Please wait...");
-        mProgress.setCancelable(false);
-        mProgress.setIndeterminate(true);
+
+
+        mProgress = new ACProgressFlower.Builder(this)
+                .direction(ACProgressConstant.DIRECT_CLOCKWISE)
+                .themeColor(Color.GREEN)
+                .fadeColor(Color.DKGRAY).build();
 
 
         btnlogin = findViewById(R.id.btnlogin);
@@ -88,21 +92,6 @@ public class LoginActivity extends AppCompatActivity {
 
         sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-
-//        String unm=sp.getString("username", null);
-//        String pass = sp.getString("password", null);
-//
-////        Log.d("unm",unm);
-////        Log.d("pass",pass);
-//
-//
-//        if (sp.getString("username",null).equals(app.get_Clerk_username())){
-//            Toast.makeText(getApplicationContext(),"Welcome Back" + unm,Toast.LENGTH_LONG).show();
-//            Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(intent);
-//        }
-//
 //
 
 

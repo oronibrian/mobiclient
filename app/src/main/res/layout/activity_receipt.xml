@@ -96,6 +96,7 @@ android:background="@color/overlay_dark_50">
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/txviewdate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
@@ -110,6 +111,7 @@ android:background="@color/overlay_dark_50">
                             android:layout_weight="1" />
 
                         <TextView
+                            android:id="@+id/txttime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
@@ -154,14 +156,6 @@ android:background="@color/overlay_dark_50">
                             android:textColor="@color/grey_80"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:text="mary.jackson@mail.com"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/grey_40" />
-
                     </LinearLayout>
 
                     <com.mikhaellopez.circularimageview.CircularImageView
@@ -191,11 +185,12 @@ android:background="@color/overlay_dark_50">
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
-                            android:text="AMOUNT"
+                            android:text="SEAT"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                             android:textColor="@color/grey_40" />
 
                         <TextView
+                            android:id="@+id/txtprice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
@@ -205,14 +200,6 @@ android:background="@color/overlay_dark_50">
                             android:textStyle="bold" />
 
                     </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="COMPLETED"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                        android:textColor="@color/grey_40" />
 
                 </LinearLayout>
 

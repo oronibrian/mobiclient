@@ -5,11 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class ReceiptActivity extends AppCompatActivity {
     TextView txt_status;
@@ -61,14 +62,13 @@ public class ReceiptActivity extends AppCompatActivity {
     UserDetails userDetails;
     ArrayList<UserDetails> ticketusers;
     String resp;
-    private ProgressDialog mProgress,confirmtransProgress;
-    private ImageView status_img;
-    private ImageView crossView;
     String name, phone, seat;
     InputStream logo;
-
+    TextView txtisnumber, passengerIdtxt, txviewdate, txttime,txtprice;
+    private ProgressDialog mProgress, confirmtransProgress;
+    private ImageView status_img;
+    private ImageView crossView;
     private Context mcontext;
-    TextView txtisnumber,passengerIdtxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,25 +97,61 @@ public class ReceiptActivity extends AppCompatActivity {
         confirmtransProgress.setCancelable(false);
         confirmtransProgress.setIndeterminate(true);
 
-        mcontext=getApplicationContext();
+        mcontext = getApplicationContext();
+
+        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+        String time = new SimpleDateFormat(" HH:mm:ss", Locale.getDefault()).format(new Date());
+
+
+        status_img = findViewById(R.id.status_img);
+        txtisnumber = findViewById(R.id.txtisnumber);
+
+        passengerIdtxt = findViewById(R.id.passengerIdtxt);
+
+
+        txviewdate = findViewById(R.id.txviewdate);
+
+        txviewdate.setText(date);
+
+
+        txttime = findViewById(R.id.txttime);
+
+        txttime.setText(time);
+
+        txtprice = findViewById(R.id.txtprice);
+        txtisnumber = findViewById(R.id.txtisnumber);
 
 
 
 
-        status_img=findViewById(R.id.status_img);
-        txtisnumber=findViewById(R.id.txtisnumber);
 
-        passengerIdtxt=findViewById(R.id.passengerIdtxt);
+
+
+
 
         btnnew.hide();
         btnprint.hide();
 
-        ticketusers = new ArrayList<UserDetails>();
+        String seatListAsString = getIntent().getStringExtra("list_as_string");
 
-        for(int i=0;i< ticketusers.size();i++){
-            Log.e("users",ticketusers.get(i).getName());
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<UserDetails>>() {
+        }.getType();
 
-            passengerIdtxt.setText(ticketusers.get(i).getName());
+        List<UserDetails> carsList = gson.fromJson(seatListAsString, type);
+
+
+        for (UserDetails user : carsList) {
+            name = user.getName();
+            phone = user.getPhone();
+            seat = user.getSeat();
+
+            passengerIdtxt.setText(name);
+            txtprice.setText(seat);
+            txtisnumber.setText(phone);
+
+
         }
 
 
@@ -123,7 +159,7 @@ public class ReceiptActivity extends AppCompatActivity {
         String status = getIntent().getStringExtra("txt_status");
 
 
-         logo = getResources().openRawResource(R.raw.ena_coach_logo24bit);
+        logo = getResources().openRawResource(R.raw.ena_coach_logo24bit);
 
 
         if (status.equals("Failed")) {
@@ -212,7 +248,6 @@ public class ReceiptActivity extends AppCompatActivity {
             System.out.println("listofseats :::: " + fetchList.toString());
 
 
-
             for (int y = 0; y < fetchList.size(); y++) {
 
                 try {
@@ -225,7 +260,7 @@ public class ReceiptActivity extends AppCompatActivity {
                         Printer print = Printer.getInstance();
 
                         Toast.makeText(getApplicationContext(), "Mobiwire Printing Ticket", Toast.LENGTH_LONG).show();
-                        print.printBitmap( getResources().openRawResource(R.raw.ena_coach_logo24bit));
+                        print.printBitmap(getResources().openRawResource(R.raw.ena_coach_logo24bit));
                         print.printText("-----------ENA COACH----------");
                         print.printText("--------PO BOX 152-40202-------");
                         print.printText("..........KEROKA,KENYA..........");
@@ -255,14 +290,12 @@ public class ReceiptActivity extends AppCompatActivity {
             }
 
 
-            }else{
+        } else {
 
-                Toast.makeText(getApplicationContext(), "Device Doesn't Support Printing", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Device Doesn't Support Printing", Toast.LENGTH_SHORT).show();
 
-            }
         }
-
-
+    }
 
 
     private void proceed() {
@@ -383,7 +416,7 @@ public class ReceiptActivity extends AppCompatActivity {
                                 Log.d("mPesa Response", message);
 
 
-                                if(message.isEmpty()){
+                                if (message.isEmpty()) {
                                     mProgress.dismiss();
                                     mpesaalertDialog.dismiss();
 
@@ -394,7 +427,6 @@ public class ReceiptActivity extends AppCompatActivity {
 //                                btnprint.setVisibility(View.VISIBLE);
 
 
-
                                 confirmtransProgress.show();
 
                                 new Handler().postDelayed(new Runnable() {
@@ -403,9 +435,6 @@ public class ReceiptActivity extends AppCompatActivity {
                                         searchMpesaTransaction();
                                     }
                                 }, 10000);
-
-
-
 
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -453,9 +482,7 @@ public class ReceiptActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
-        })
-
-        {
+        }) {
             @Override
             public String getBodyContentType() {
                 return "application/x-www-form-urlencoded; charset=utf-8";
@@ -544,9 +571,7 @@ public class ReceiptActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
-        })
-
-        {
+        }) {
             @Override
             public String getBodyContentType() {
                 return "application/x-www-form-urlencoded; charset=utf-8";
@@ -644,9 +669,7 @@ public class ReceiptActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
-        })
-
-        {
+        }) {
             @Override
             public String getBodyContentType() {
                 return "application/x-www-form-urlencoded; charset=utf-8";
@@ -660,8 +683,7 @@ public class ReceiptActivity extends AppCompatActivity {
     }
 
 
-    private void searchMpesaTransaction(){
-
+    private void searchMpesaTransaction() {
 
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -671,8 +693,7 @@ public class ReceiptActivity extends AppCompatActivity {
         params.put("identifier", app.getRefno());
 
 
-
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT,URLs.Pay_Confim_URL, new JSONObject(params),
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT, URLs.Pay_Confim_URL, new JSONObject(params),
                 response -> {
                     try {
                         String code = response.getString("response_code");
@@ -690,7 +711,6 @@ public class ReceiptActivity extends AppCompatActivity {
                             btncomplete.hide();
                             btnnew.show();
                             btnprint.show();
-
 
 
                         } else {
@@ -735,9 +755,7 @@ public class ReceiptActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
-        })
-
-        {
+        }) {
             @Override
             public String getBodyContentType() {
                 return "application/x-www-form-urlencoded; charset=utf-8";
@@ -746,7 +764,6 @@ public class ReceiptActivity extends AppCompatActivity {
 
         };
         MySingleton.getInstance(mcontext).addToRequestQueue(req);
-
 
 
     }
