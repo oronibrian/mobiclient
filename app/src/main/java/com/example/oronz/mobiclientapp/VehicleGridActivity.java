@@ -49,7 +49,6 @@ public class VehicleGridActivity extends AppCompatActivity {
     String buses;
     JSONArray jsonArray;
     SearchView sv;
-    String car_id="";
     String total_seats="";
     Context mcontext;
 
@@ -72,7 +71,7 @@ public class VehicleGridActivity extends AppCompatActivity {
 
 //        setDummyData();
         availableVehiclelist = new ArrayList<>();
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         gridView.setLayoutManager(layoutManager);
 
 
@@ -90,10 +89,9 @@ public class VehicleGridActivity extends AppCompatActivity {
                         Chip availableseats=view.findViewById(R.id.chip_available);
 
 
-                        Toast.makeText(mcontext, "clicked on " +seater.getText(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mcontext, "Car ID " +selected_car_id.getText(), Toast.LENGTH_SHORT).show();
 
 
-                        Log.d("Car Id: ",car_id);
 
                         Log.d("Selected seater: ",seater.getText().toString());
 
@@ -108,7 +106,7 @@ public class VehicleGridActivity extends AppCompatActivity {
                         intent.putExtra("seater",seater.getText().toString());
                         intent.putExtra("availableseats",availableseats.getText().toString());
 
-                        intent.putExtra("car_id",car_id);
+                        intent.putExtra("car_id",selected_car_id.getText());
 
                         startActivity(intent);
                         finish();
@@ -180,14 +178,14 @@ public class VehicleGridActivity extends AppCompatActivity {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                 buses = jsonObject1.getString("route");
-                                car_id = jsonObject1.getString("id");
+                                String  car_id = jsonObject1.getString("id");
                                 total_seats = jsonObject1.getString("total_seats");
                                 String seats_available = jsonObject1.getString("seats_available");
-                                String departure_time = jsonObject1.getString("departure_time");
-                                String from = jsonObject1.getString("from");
-                                String too = jsonObject1.getString("to");
 
-                                Log.d("Buses: ", buses);
+
+                                Log.e("Buses: ", buses);
+                                Log.e("ids: ", car_id);
+
 
 //                                        vehicles.add(buses);
 

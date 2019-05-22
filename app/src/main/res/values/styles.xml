@@ -16,13 +16,4 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
 
-
-    <style name="PrimaryFlatButton" parent="Theme.AppCompat.Light">
-        <item name="android:buttonStyle">
-            @style/Widget.AppCompat.Button.Borderless.Colored
-        </item>
-        <item name="colorAccent">@color/colorPrimaryDark</item>
-    </style>
-
-
 </resources>

@@ -434,7 +434,7 @@ public class ReceiptActivity extends AppCompatActivity {
                                     public void run() {
                                         searchMpesaTransaction();
                                     }
-                                }, 10000);
+                                }, 30000);
 
 
                                 for (int i = 0; i < jsonArray.length(); i++) {

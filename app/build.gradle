@@ -59,6 +59,8 @@ dependencies {
     implementation 'com.github.mohammadatif:Animatoo:master'
     implementation 'com.ramotion.foldingcell:folding-cell:1.2.3'
     implementation 'com.github.huzenan:EasyTransition:v1.0.0'
+    implementation 'com.google.android.gms:play-services-maps:16.1.0'
+
 
 
     // third party dependencies -------------------------------------------------------------------
@@ -74,6 +76,8 @@ dependencies {
     implementation 'me.zhanghai.android.materialprogressbar:library:1.6.1'
     implementation 'com.weiwangcn.betterspinner:library-material:1.1.0'
     implementation 'cc.cloudist.acplibrary:library:1.2.1'
+
+    implementation "com.mikepenz:itemanimators:1.1.0"
 
 
 

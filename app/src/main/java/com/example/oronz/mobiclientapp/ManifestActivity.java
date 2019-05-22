@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +35,7 @@ import com.example.oronz.mobiclientapp.Models.ManifestDetails;
 import com.example.oronz.mobiclientapp.RecyclerClickCustom.RecyclerItemClickListener;
 import com.example.oronz.mobiclientapp.Utilities.MySingleton;
 import com.google.android.material.chip.Chip;
+import com.mikepenz.itemanimators.ScaleUpAnimator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,6 +91,7 @@ public class ManifestActivity extends AppCompatActivity {
         sv = findViewById(R.id.etsearch);
         sv.setVisibility(View.GONE);
         mContext = getApplicationContext();
+
 
 
         getManifest();
@@ -201,6 +204,8 @@ public class ManifestActivity extends AppCompatActivity {
                             tripsArrayAdapter = new ManifestRecyclerViewAdapter(ManifestActivity.this, mytripsDetails);
 
                             mytripslistView.setAdapter(tripsArrayAdapter);
+                            mytripslistView.setItemAnimator(new ScaleUpAnimator());
+
 
 
                         } catch (JSONException e) {
@@ -295,6 +300,7 @@ public class ManifestActivity extends AppCompatActivity {
 
 
                             tripsArrayAdapter = new ManifestRecyclerViewAdapter(ManifestActivity.this, mytripsDetails);
+                            mytripslistView.setItemAnimator(new ScaleUpAnimator());
 
                             mytripslistView.setAdapter(tripsArrayAdapter);
 

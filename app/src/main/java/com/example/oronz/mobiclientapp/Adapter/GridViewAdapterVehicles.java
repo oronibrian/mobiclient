@@ -40,7 +40,7 @@ public class GridViewAdapterVehicles extends RecyclerView.Adapter<GridViewAdapte
         viewHolder.titleview.setText(items.get(position).getName());
         viewHolder.grid_vehicle_remaining.setText(items.get(position).getAvailable());
         viewHolder.selected_car_id.setText(items.get(position).getCa_id());
-//        viewHolder.textviewtext.setText(String.format("Seater: %s\nAvailable: %s", items.get(position).getTitle(), items.get(position).getCa_id()));
+        viewHolder.chipseaterview.setText(String.format("Seater: %s\nAvailable: %s", items.get(position).getTitle(), items.get(position).getAvailable()));
 
         viewHolder.chip.setText(items.get(position).getCa_id());
         viewHolder.chipseater.setText(items.get(position).getTitle());
@@ -59,7 +59,7 @@ public class GridViewAdapterVehicles extends RecyclerView.Adapter<GridViewAdapte
      * View holder to display each RecylerView item
      */
     protected class ViewHolder extends RecyclerView.ViewHolder {
-        Chip chip,chipseater;
+        Chip chip,chipseater,chipseaterview;
         private ImageView imageView;
         private TextView textView, titleview, grid_vehicle_remaining, selected_car_id, textviewtext;
 
@@ -78,6 +78,7 @@ public class GridViewAdapterVehicles extends RecyclerView.Adapter<GridViewAdapte
             chip = view.findViewById(R.id.chip_available);
 
             chipseater = view.findViewById(R.id.chipseater);
+            chipseaterview=view.findViewById(R.id.chipseaterview);
 
 
 

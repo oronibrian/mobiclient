@@ -15,7 +15,12 @@
         \nMobiticket connects you directly to bus operators. </string>
 
     <string name="enter_your_wallet_pin_to_complete">Enter Your Wallet Pin To Complete</string>
-    <string name="proceed_to_book">Proceed To Book</string>
     <string name="confirm_to_complete">Confirm to complete</string>
+
+
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyC3SrcUtXXXXXXXXXXXXXXXXXXXXXX
+    </string>
+
 
 </resources>

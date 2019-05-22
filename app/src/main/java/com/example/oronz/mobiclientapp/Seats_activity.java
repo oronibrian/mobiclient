@@ -150,9 +150,9 @@ public class Seats_activity extends AppCompatActivity {
         availableseats=startingInted.getStringExtra("availableseats");
 
 
-        Log.d("Selected car id: ", selected_Car);
+        Log.e("Selected car id: ", selected_Car);
 //        Log.d("##### Seats", seats.toString());
-        Log.d("##### Seater:", seater);
+        Log.e("##### Seater:", seater);
 
 
         availableSeats();
@@ -311,6 +311,7 @@ public class Seats_activity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
 
 
 
@@ -540,221 +541,16 @@ public class Seats_activity extends AppCompatActivity {
 
                                 gari = gari.replace(" ", "");
 
-
-
                                 seats = new ArrayList<>(Arrays.asList(gari.split(",")));
 
-
-                                Log.d("Seats", seats.toString());
+                                Log.e("Seats Available:", seats.toString());
 
 
                             }
 
 
-                            if (Integer.parseInt(seater) <= 11) {
+                            displaySeatGrid();
 
-
-                                final ElevenSeaterAdapter adapter = new ElevenSeaterAdapter(elevenSeater, this);
-
-                                gridView.setAdapter(adapter);
-                                gridView.setNumColumns(3);
-
-
-                                gridView.setOnItemClickListener((AdapterView<?> parent, View v, int position, long id) -> {
-
-                                    View viewItem = gridView.getChildAt(position);
-
-                                    int selectedIndex = adapter.selectedPositions.indexOf(position);
-
-                                    if (selectedIndex > -1) {
-                                        adapter.selectedPositions.remove(selectedIndex);
-
-                                        Toast.makeText(Seats_activity.this,
-                                                "Seat " + LevenSeaterList.get(position) + " unselected",
-                                                Toast.LENGTH_SHORT).show();
-                                        seatno = "";
-
-                                        listofseats.remove(parent.getItemAtPosition(position).toString());
-                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
-                                        text.setBackgroundResource(R.drawable.seat_normal);
-
-                                    } else {
-                                        adapter.selectedPositions.add(position);
-//                                        ((GridItemView) v).display(true);
-
-                                        Toast.makeText(Seats_activity.this,
-                                                getString(R.string.you_booked, LevenSeaterList.get(position)),
-                                                Toast.LENGTH_SHORT).show();
-
-                                        seatno = String.valueOf(LevenSeaterList.get(position));
-
-                                        listofseats.add(parent.getItemAtPosition(position).toString());
-                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
-                                        text.setBackgroundResource(R.drawable.seat_normal_booked);
-
-
-                                    }
-
-
-                                });
-                            } else if (Integer.parseInt(seater) > 14 && Integer.parseInt(seater) <= 16) {
-
-
-                                final SixteenCustomAdapter adapter16 = new SixteenCustomAdapter(sixteenSeater, this);
-                                gridView.setAdapter(adapter16);
-                                gridView.setNumColumns(4);
-
-//
-                                gridView.setOnItemClickListener((parent, v, position, id) -> {
-
-                                    View viewItem = gridView.getChildAt(position);
-
-                                    int selectedIndex = adapter16.selectedPositions.indexOf(position);
-
-
-                                    if (selectedIndex > -1) {
-                                        adapter16.selectedPositions.remove(selectedIndex);
-//                                        ((GridItemView) v).display(false);
-                                        Toast.makeText(Seats_activity.this,
-                                                "Seat " + sixteeneSeaterList.get(position) + " unselected",
-                                                Toast.LENGTH_SHORT).show();
-                                        seatno = "";
-
-                                        listofseats.remove(parent.getItemAtPosition(position).toString());
-                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
-                                        text.setBackgroundResource(R.drawable.seat_normal);
-
-
-                                    } else {
-                                        adapter16.selectedPositions.add(position);
-
-                                        Toast.makeText(Seats_activity.this,
-                                                getString(R.string.you_booked, sixteeneSeaterList.get(position)),
-                                                Toast.LENGTH_SHORT).show();
-
-
-                                        seatno = String.valueOf(sixteeneSeaterList.get(position));
-
-                                        listofseats.add(parent.getItemAtPosition(position).toString());
-                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
-                                        text.setBackgroundResource(R.drawable.seat_normal_booked);
-
-                                    }
-
-
-                                });
-                            } else if (Integer.parseInt(seater) > 16 && Integer.parseInt(seater) <= 49) {
-
-                                final FoutynineCustomAdapter adapter = new FoutynineCustomAdapter(fortynineSeater, this);
-                                gridView.setAdapter(adapter);
-                                gridView.setNumColumns(5);
-
-//
-                                gridView.setOnItemClickListener((parent, v, position, id) -> {
-
-                                    View viewItem = gridView.getChildAt(position);
-
-                                    int selectedIndex = adapter.selectedPositions.indexOf(position);
-
-
-                                    TextView text = (TextView) v.findViewById(R.id.txt_grid);
-
-
-                                    if (selectedIndex > -1) {
-                                        adapter.selectedPositions.remove(selectedIndex);
-//                                        ((GridItemView) v).display(false);
-                                        Toast.makeText(Seats_activity.this,
-                                                "Seat " + fortynineSeaterList.get(position) + " unselected",
-                                                Toast.LENGTH_SHORT).show();
-                                        seatno = "";
-
-                                        text.setBackgroundResource(R.drawable.seat_normal);
-
-                                        listofseats.remove(parent.getItemAtPosition(position).toString());
-
-
-                                    } else {
-                                        adapter.selectedPositions.add(position);
-
-
-                                        Toast.makeText(Seats_activity.this,
-                                                getString(R.string.you_booked, fortynineSeaterList.get(position)),
-                                                Toast.LENGTH_SHORT).show();
-
-
-                                        seatno = String.valueOf(fortynineSeaterList.get(position));
-
-//                                        listofseats.add(parent.getItemAtPosition(position).toString());
-                                        listofseats.add(fortynineSeaterList.get(position));
-
-                                        if (text.getText().equals(seatno)) {
-                                            text.setBackgroundResource(R.drawable.seat_normal_booked);
-
-                                        }
-
-//                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
-
-
-                                    }
-
-
-                                });
-
-
-                            } else if (Integer.parseInt(seater) > 11 && Integer.parseInt(seater) <= 14) {
-//
-                                final FouteenSeaterAdapter adapter = new FouteenSeaterAdapter(fourteenSeater, this);
-                                gridView.setAdapter(adapter);
-                                gridView.setNumColumns(3);
-
-//
-                                gridView.setOnItemClickListener((parent, v, position, id) -> {
-
-                                    View viewItem = gridView.getChildAt(position);
-
-                                    int selectedIndex = adapter.selectedPositions.indexOf(position);
-
-
-                                    if (selectedIndex > -1) {
-                                        adapter.selectedPositions.remove(selectedIndex);
-//                                        ((GridItemView) v).display(false);
-                                        Toast.makeText(Seats_activity.this,
-                                                "Seat " + fourteenSeaterlist.get(position) + " unselected",
-                                                Toast.LENGTH_SHORT).show();
-                                        seatno = "";
-
-                                        listofseats.remove(parent.getItemAtPosition(position).toString());
-                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
-                                        text.setBackgroundResource(R.drawable.seat_normal);
-
-
-                                    } else {
-                                        adapter.selectedPositions.add(position);
-
-                                        Toast.makeText(Seats_activity.this,
-                                                getString(R.string.you_booked, fourteenSeaterlist.get(position)),
-                                                Toast.LENGTH_SHORT).show();
-
-                                        seatno = String.valueOf(fourteenSeaterlist.get(position));
-
-                                        listofseats.add(parent.getItemAtPosition(position).toString());
-                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
-
-                                        text.setBackgroundResource(R.drawable.seat_normal_booked);
-                                        listofseats.add(parent.getItemAtPosition(position).toString());
-
-
-                                    }
-
-                                    adapter.notifyDataSetChanged();
-
-
-                                });
-
-
-//
-//
-                            }
 
 
                         } else {
@@ -792,6 +588,216 @@ public class Seats_activity extends AppCompatActivity {
         };
         MySingleton.getInstance(mcontext).addToRequestQueue(req);
 
+
+    }
+
+    private void displaySeatGrid(){
+
+
+        if (Integer.parseInt(seater) <= 11) {
+
+
+            final ElevenSeaterAdapter adapter = new ElevenSeaterAdapter(elevenSeater, this);
+
+            gridView.setAdapter(adapter);
+            gridView.setNumColumns(3);
+
+
+            gridView.setOnItemClickListener((AdapterView<?> parent, View v, int position, long id) -> {
+
+                View viewItem = gridView.getChildAt(position);
+
+                int selectedIndex = adapter.selectedPositions.indexOf(position);
+
+                if (selectedIndex > -1) {
+                    adapter.selectedPositions.remove(selectedIndex);
+
+                    Toast.makeText(Seats_activity.this,
+                            "Seat " + LevenSeaterList.get(position) + " unselected",
+                            Toast.LENGTH_SHORT).show();
+                    seatno = "";
+
+                    listofseats.remove(parent.getItemAtPosition(position).toString());
+                    TextView text = (TextView) v.findViewById(R.id.txt_grid);
+                    text.setBackgroundResource(R.drawable.seat_normal);
+
+                } else {
+                    adapter.selectedPositions.add(position);
+//                                        ((GridItemView) v).display(true);
+
+                    Toast.makeText(Seats_activity.this,
+                            getString(R.string.you_booked, LevenSeaterList.get(position)),
+                            Toast.LENGTH_SHORT).show();
+
+                    seatno = String.valueOf(LevenSeaterList.get(position));
+
+                    listofseats.add(parent.getItemAtPosition(position).toString());
+                    TextView text = (TextView) v.findViewById(R.id.txt_grid);
+                    text.setBackgroundResource(R.drawable.seat_normal_booked);
+
+
+                }
+
+
+            });
+        } else if (Integer.parseInt(seater) > 14 && Integer.parseInt(seater) <= 16) {
+
+
+            final SixteenCustomAdapter adapter16 = new SixteenCustomAdapter(sixteenSeater, this);
+            gridView.setAdapter(adapter16);
+            gridView.setNumColumns(4);
+
+//
+            gridView.setOnItemClickListener((parent, v, position, id) -> {
+
+                View viewItem = gridView.getChildAt(position);
+
+                int selectedIndex = adapter16.selectedPositions.indexOf(position);
+
+
+                if (selectedIndex > -1) {
+                    adapter16.selectedPositions.remove(selectedIndex);
+//                                        ((GridItemView) v).display(false);
+                    Toast.makeText(Seats_activity.this,
+                            "Seat " + sixteeneSeaterList.get(position) + " unselected",
+                            Toast.LENGTH_SHORT).show();
+                    seatno = "";
+
+                    listofseats.remove(parent.getItemAtPosition(position).toString());
+                    TextView text = (TextView) v.findViewById(R.id.txt_grid);
+                    text.setBackgroundResource(R.drawable.seat_normal);
+
+
+                } else {
+                    adapter16.selectedPositions.add(position);
+
+                    Toast.makeText(Seats_activity.this,
+                            getString(R.string.you_booked, sixteeneSeaterList.get(position)),
+                            Toast.LENGTH_SHORT).show();
+
+
+                    seatno = String.valueOf(sixteeneSeaterList.get(position));
+
+                    listofseats.add(parent.getItemAtPosition(position).toString());
+                    TextView text = (TextView) v.findViewById(R.id.txt_grid);
+                    text.setBackgroundResource(R.drawable.seat_normal_booked);
+
+                }
+
+
+            });
+        } else if (Integer.parseInt(seater) > 20 && Integer.parseInt(seater) <= 49) {
+
+            final FoutynineCustomAdapter adapter = new FoutynineCustomAdapter(fortynineSeater, this);
+            gridView.setAdapter(adapter);
+            gridView.setNumColumns(5);
+
+//
+            gridView.setOnItemClickListener((parent, v, position, id) -> {
+
+                View viewItem = gridView.getChildAt(position);
+
+                int selectedIndex = adapter.selectedPositions.indexOf(position);
+
+
+                TextView text = (TextView) v.findViewById(R.id.txt_grid);
+
+
+                if (selectedIndex > -1) {
+                    adapter.selectedPositions.remove(selectedIndex);
+//                                        ((GridItemView) v).display(false);
+                    Toast.makeText(Seats_activity.this,
+                            "Seat " + fortynineSeaterList.get(position) + " unselected",
+                            Toast.LENGTH_SHORT).show();
+                    seatno = "";
+
+                    text.setBackgroundResource(R.drawable.seat_normal);
+
+                    listofseats.remove(parent.getItemAtPosition(position).toString());
+
+
+                } else {
+                    adapter.selectedPositions.add(position);
+
+
+                    Toast.makeText(Seats_activity.this,
+                            getString(R.string.you_booked, fortynineSeaterList.get(position)),
+                            Toast.LENGTH_SHORT).show();
+
+
+                    seatno = String.valueOf(fortynineSeaterList.get(position));
+
+//                                        listofseats.add(parent.getItemAtPosition(position).toString());
+                    listofseats.add(fortynineSeaterList.get(position));
+
+                    if (text.getText().equals(seatno)) {
+                        text.setBackgroundResource(R.drawable.seat_normal_booked);
+
+                    }
+
+//                                        TextView text = (TextView) v.findViewById(R.id.txt_grid);
+
+
+                }
+
+
+            });
+
+
+        } else if (Integer.parseInt(seater) > 11 && Integer.parseInt(seater) <= 14) {
+//
+            final FouteenSeaterAdapter adapter = new FouteenSeaterAdapter(fourteenSeater, this);
+            gridView.setAdapter(adapter);
+            gridView.setNumColumns(3);
+
+//
+            gridView.setOnItemClickListener((parent, v, position, id) -> {
+
+                View viewItem = gridView.getChildAt(position);
+
+                int selectedIndex = adapter.selectedPositions.indexOf(position);
+
+
+                if (selectedIndex > -1) {
+                    adapter.selectedPositions.remove(selectedIndex);
+//                                        ((GridItemView) v).display(false);
+                    Toast.makeText(Seats_activity.this,
+                            "Seat " + fourteenSeaterlist.get(position) + " unselected",
+                            Toast.LENGTH_SHORT).show();
+                    seatno = "";
+
+                    listofseats.remove(parent.getItemAtPosition(position).toString());
+                    TextView text = (TextView) v.findViewById(R.id.txt_grid);
+                    text.setBackgroundResource(R.drawable.seat_normal);
+
+
+                } else {
+                    adapter.selectedPositions.add(position);
+
+                    Toast.makeText(Seats_activity.this,
+                            getString(R.string.you_booked, fourteenSeaterlist.get(position)),
+                            Toast.LENGTH_SHORT).show();
+
+                    seatno = String.valueOf(fourteenSeaterlist.get(position));
+
+                    listofseats.add(parent.getItemAtPosition(position).toString());
+                    TextView text = (TextView) v.findViewById(R.id.txt_grid);
+
+                    text.setBackgroundResource(R.drawable.seat_normal_booked);
+                    listofseats.add(parent.getItemAtPosition(position).toString());
+
+
+                }
+
+                adapter.notifyDataSetChanged();
+
+
+            });
+
+
+//
+//
+        }
 
     }
 
@@ -1189,22 +1195,6 @@ public class Seats_activity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), VehicleGridActivity.class));
     }
 
-    static class ViewHolder {
-
-        TextView gridtextView;
-
-        public ViewHolder(TextView textView) {
-            this.gridtextView = textView;
-        }
-
-        public TextView getGridtextView() {
-            return gridtextView;
-        }
-
-        public void setGridtextView(TextView gridtextView) {
-            this.gridtextView = gridtextView;
-        }
-    }
 
     public class ElevenSeaterAdapter extends BaseAdapter {
         public List<Object> selectedPositions;
@@ -1650,7 +1640,7 @@ public class Seats_activity extends AppCompatActivity {
             fortyninecommon.retainAll(seats);
 
             System.out.println("49 seater similiar " + fortyninecommon);
-            System.out.println("seats available " + seats);
+            System.out.println("49 seats available " + seats.toString());
             System.out.println("49 Seater List " + fortynineSeaterList);
             int size = Integer.valueOf(seater);
             System.out.println("49 Size " + size);

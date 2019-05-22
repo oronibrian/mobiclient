@@ -16,12 +16,8 @@ public class AboutUsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
-        mobilogo = findViewById(R.id.mobilogo);
 
-        Bitmap bImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.mobiticket_receipt_logo);
-        mobilogo.setImageBitmap(bImage);
 
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
     }
 

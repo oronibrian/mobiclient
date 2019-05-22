@@ -13,7 +13,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -36,6 +36,7 @@
                 android:orientation="horizontal"
                 android:paddingBottom="0dp"
                 android:visibility="visible"
+
                 app:cardBackgroundColor="@android:color/white"
                 app:cardCornerRadius="1dp"
                 app:cardElevation="5dp"
@@ -45,7 +46,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -57,18 +58,29 @@
                         android:layout_weight="0.12"
                         android:padding="7dp"
                         android:src="@drawable/loc1"
-                        android:tint="#000" />
+                        android:tint="#017454" />
 
-
-                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                        android:id="@+id/spinner_from_one"
-                        style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                    <AutoCompleteTextView
+                        android:id="@+id/location_text"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1.0"
-                        android:textAlignment="textStart"
-                        app:hintText="Search From" />
-
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="0.7"
+                        android:background="@android:color/transparent"
+                        android:drawablePadding="10dp"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:hint="Search Location"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:nextFocusLeft="@id/location_text"
+                        android:nextFocusUp="@id/location_text"
+                        android:singleLine="true"
+                        android:textAppearance="?android:textAppearanceSmall"
+                        android:textColorHint="#808080"
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -121,37 +133,27 @@
                         android:padding="7dp"
                         android:src="@drawable/loc2" />
 
-                    <!--<AutoCompleteTextView-->
-                    <!--android:id="@+id/location_text_2"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="10dp"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:layout_marginBottom="10dp"-->
-                    <!--android:layout_weight="0.7"-->
-                    <!--android:background="@android:color/transparent"-->
-                    <!--android:drawablePadding="10dp"-->
-                    <!--android:focusable="true"-->
-                    <!--android:focusableInTouchMode="true"-->
-                    <!--android:hint="Search Location"-->
-                    <!--android:imeOptions="actionDone"-->
-                    <!--android:inputType="text"-->
-                    <!--android:nextFocusLeft="@id/location_text"-->
-                    <!--android:nextFocusUp="@id/location_text"-->
-                    <!--android:singleLine="true"-->
-                    <!--android:textAppearance="?android:textAppearanceSmall"-->
-                    <!--android:textColorHint="#808080"-->
-                    <!--android:textSize="18sp" />-->
-
-
-                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                        android:id="@+id/spinner_to_one"
+                    <AutoCompleteTextView
+                        android:id="@+id/location_text_2"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1.0"
-                        android:gravity="center"
-
-                        app:hintText="Search To" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="0.7"
+                        android:background="@android:color/transparent"
+                        android:drawablePadding="10dp"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:hint="Search Location"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:nextFocusLeft="@id/location_text"
+                        android:nextFocusUp="@id/location_text"
+                        android:singleLine="true"
+                        android:textAppearance="?android:textAppearanceSmall"
+                        android:textColorHint="#808080"
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -192,7 +194,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -205,29 +207,27 @@
                         android:src="@drawable/date"
                         android:tint="#000" />
 
-
-
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinner_travel_date_one"
+                    <AutoCompleteTextView
+                        android:id="@+id/location_text_3"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:ms_alignLabels="true"
-                        app:ms_arrowColor="@color/base"
-                        app:ms_arrowSize="8dp"
-                        app:ms_baseColor="@color/base"
-                        app:ms_dropDownHintView="@layout/dropdown_hint_item"
-                        app:ms_enableErrorLabel="false"
-                        app:ms_enableFloatingLabel="true"
-                        app:ms_errorColor="@color/error"
-                        app:ms_floatingLabelColor="@color/floating_label"
-                        app:ms_floatingLabelText="Travel Date"
-                        app:ms_highlightColor="@color/highlight"
-                        app:ms_hint="Travel Date"
-                        app:ms_hintColor="@color/hint"
-                        app:ms_hintView="@layout/hint_item"
-                        app:ms_multiline="false"
-                        app:ms_thickness="2dp" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="0.7"
+                        android:background="@android:color/transparent"
+                        android:drawablePadding="10dp"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:hint="Search Location"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:nextFocusLeft="@id/location_text"
+                        android:nextFocusUp="@id/location_text"
+                        android:singleLine="true"
+                        android:textAppearance="?android:textAppearanceSmall"
+                        android:textColorHint="#808080"
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -238,7 +238,7 @@
         </RelativeLayout>
 
         <Button
-            android:id="@+id/searchbtn1"
+            android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Search" />

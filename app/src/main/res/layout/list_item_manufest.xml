@@ -10,55 +10,8 @@
         android:id="@+id/passewngermanifest"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/fabprint"
         android:layout_marginBottom="-82dp"></ListView>
 
-
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fabprint"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_alignParentBottom="true"-->
-
-        <!--android:layout_gravity="bottom|start"-->
-        <!--android:layout_marginEnd="80dp"-->
-        <!--android:layout_marginBottom="38dp"-->
-        <!--android:src="@drawable/print"-->
-        <!--app:layout_anchorGravity="bottom|left|start"-->
-        <!--tools:layout_editor_absoluteX="264dp"-->
-        <!--tools:layout_editor_absoluteY="374dp" />-->
-
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fabprint2"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_alignParentBottom="true"-->
-
-        <!--android:layout_gravity="bottom|start"-->
-        <!--android:layout_marginEnd="12dp"-->
-        <!--android:layout_marginBottom="37dp"-->
-        <!--android:src="@drawable/print"-->
-        <!--app:layout_anchorGravity="bottom|left|start"-->
-        <!--tools:layout_editor_absoluteX="264dp"-->
-        <!--tools:layout_editor_absoluteY="374dp" />-->
-
-
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fabprint3"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_alignParentBottom="true"-->
-
-        <!--android:layout_gravity="bottom|start"-->
-        <!--android:layout_marginEnd="145dp"-->
-        <!--android:layout_marginBottom="39dp"-->
-        <!--android:src="@drawable/print"-->
-        <!--app:layout_anchorGravity="bottom|left|start"-->
-        <!--tools:layout_editor_absoluteX="264dp"-->
-        <!--tools:layout_editor_absoluteY="374dp" />-->
 
 
     <Button

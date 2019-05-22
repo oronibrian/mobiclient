@@ -9,7 +9,7 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:layout_width="209dp"
+        android:layout_width="241dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
@@ -23,8 +23,8 @@
 
 
             <Spinner
-                android:layout_width="match_parent"
                 android:id="@+id/travel_class"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
             </Spinner>

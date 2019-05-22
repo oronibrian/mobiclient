@@ -1,71 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/my_shape_available_cars"
-    android:orientation="vertical">
+    android:layout_gravity="center"
+    android:layoutAnimation="@anim/layout_animation"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:transitionName="parent_view"
+    tools:ignore="UnusedAttribute">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="73dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/user"
+        android:transitionName="image_layanan" />
+
+
+
+    <TextView
+        android:id="@+id/manifest_seat_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@+id/image"
+        android:layout_toRightOf="@+id/image"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textStyle="bold"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textColor="#212121"
+        android:textSize="18sp"
+        android:transitionName="text_dokter"
+        tools:text="string/item_desc"/>
 
 
     <TextView
         android:id="@+id/manifest_pass_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:maxLines="2"
-        android:text="Vehicle"
-        android:textAlignment="center"
-        android:textIsSelectable="false"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="gone" />
+        android:layout_marginLeft="16dp"
+        android:layout_toEndOf="@id/image"
+        android:layout_toRightOf="@+id/image"
+        android:layout_below="@id/manifest_seat_no"
+        tools:text="string/item_desc"/>
 
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/manifest_ref_no"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:layout_below="@id/manifest_pass_name"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/image"
+        android:layout_toRightOf="@id/image"
+        android:textSize="13sp"
+        android:transitionName="text_jam"/>
 
-        <TextView
-            android:id="@+id/manifest_seat_no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1"
-            android:text="Name"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/manifest_reg_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/manifest_ref_no"
+        android:layout_marginBottom="14dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/image"
+        android:layout_toRightOf="@id/image"
+        android:textSize="13sp"
+        android:transitionName="text_pasien"/>
 
-        <TextView
-            android:id="@+id/manifest_ref_no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_margin="3dp"
-            android:layout_toLeftOf="@id/manifest_seat_no"
-            android:layout_weight="1"
-            android:text="Seat"
-            android:textAlignment="textEnd" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/manifest_reg_no"
+        android:layout_alignStart="@+id/manifest_reg_no"
+        android:layout_below="@+id/manifest_reg_no"
+        android:background="@color/colorPrimary"/>
 
-        <TextView
-            android:id="@+id/manifest_reg_no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1"
-            android:text="Ref No"
-            android:textAlignment="textEnd" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

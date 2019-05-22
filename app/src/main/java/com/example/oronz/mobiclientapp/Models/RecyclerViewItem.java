@@ -5,11 +5,11 @@ public class RecyclerViewItem {
     private int drawableId;
     private String name;
     private String title;
-    String ca_id;
+    private String ca_id;
 
     private String available;
 
-    public RecyclerViewItem(int drawableId, String name, String title, String ca_id, String available) {
+    public RecyclerViewItem(int drawableId, String name, String title, String available,String ca_id) {
         this.drawableId = drawableId;
         this.name = name;
         this.title = title;
