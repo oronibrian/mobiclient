@@ -20,7 +20,7 @@
 
         <EditText
             android:id="@+id/editTextphone"
-            android:layout_width="252dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="phone or Ticket no" />

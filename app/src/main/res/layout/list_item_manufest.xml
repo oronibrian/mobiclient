@@ -13,15 +13,14 @@
         android:layout_marginBottom="-82dp"></ListView>
 
 
-
     <Button
         android:id="@+id/btnprntfull"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
+        android:layout_width="103dp"
+        android:layout_height="61dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|start"
         android:layout_marginEnd="14dp"
-        android:layout_marginBottom="23dp"
+        android:layout_marginBottom="17dp"
         android:layout_toStartOf="@+id/btnprntpg1"
         android:background="@drawable/btn"
         android:text="Print"

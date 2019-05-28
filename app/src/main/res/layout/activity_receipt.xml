@@ -284,7 +284,7 @@ android:background="@color/overlay_dark_50">
             app:backgroundTint="@color/overlay_light_30"
             app:elevation="0dp"
             app:fabSize="normal"
-            app:srcCompat="@drawable/icons8500">
+            app:srcCompat="@drawable/cross1">
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
 

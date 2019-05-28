@@ -41,7 +41,7 @@ android:background="@color/grey_10">
             android:padding="@dimen/spacing_small">
 
             <TextView
-                android:id="@+id/txtnointernet"
+                android:id="@+id/txtseatnum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -97,7 +97,7 @@ android:background="@color/grey_10">
                 android:background="@drawable/btn"
                 android:text="S I G N  I N"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
 

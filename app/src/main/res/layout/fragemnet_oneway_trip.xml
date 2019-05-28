@@ -67,6 +67,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1.0"
                         android:textAlignment="textStart"
+                        android:textColor="@android:color/black"
                         app:hintText="Search From" />
 
 
@@ -121,27 +122,6 @@
                         android:padding="7dp"
                         android:src="@drawable/loc2" />
 
-                    <!--<AutoCompleteTextView-->
-                    <!--android:id="@+id/location_text_2"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="10dp"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:layout_marginBottom="10dp"-->
-                    <!--android:layout_weight="0.7"-->
-                    <!--android:background="@android:color/transparent"-->
-                    <!--android:drawablePadding="10dp"-->
-                    <!--android:focusable="true"-->
-                    <!--android:focusableInTouchMode="true"-->
-                    <!--android:hint="Search Location"-->
-                    <!--android:imeOptions="actionDone"-->
-                    <!--android:inputType="text"-->
-                    <!--android:nextFocusLeft="@id/location_text"-->
-                    <!--android:nextFocusUp="@id/location_text"-->
-                    <!--android:singleLine="true"-->
-                    <!--android:textAppearance="?android:textAppearanceSmall"-->
-                    <!--android:textColorHint="#808080"-->
-                    <!--android:textSize="18sp" />-->
 
 
                     <com.toptoche.searchablespinnerlibrary.SearchableSpinner
@@ -149,8 +129,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1.0"
-                        android:gravity="center"
-
+                        android:textAlignment="textStart"
+                        android:textColor="@android:color/black"
                         app:hintText="Search To" />
 
                 </LinearLayout>

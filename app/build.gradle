@@ -62,7 +62,6 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
 
 
-
     // third party dependencies -------------------------------------------------------------------
     implementation 'com.balysv:material-ripple:1.0.2'                  // ripple effect
     implementation 'com.github.bumptech.glide:glide:3.7.0'             // image loader
@@ -78,9 +77,8 @@ dependencies {
     implementation 'cc.cloudist.acplibrary:library:1.2.1'
 
     implementation "com.mikepenz:itemanimators:1.1.0"
-
-
-
+    implementation 'com.nex3z:toggle-button-group:1.1.9'
+    implementation 'com.irozon.alertview:alertview:1.0.1'
 
 
 

@@ -1,6 +1,5 @@
 package com.example.oronz.mobiclientapp;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -85,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         editextpassword = findViewById(R.id.editextpassword);
         edittextusername = findViewById(R.id.edittextusername);
         imageView = findViewById(R.id.imageView1);
-        txtnointernet = findViewById(R.id.txtnointernet);
+        txtnointernet = findViewById(R.id.txtseatnum);
 
 
         app.set_Clerk_username(edittextusername.getText().toString());
@@ -195,6 +194,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//                                Intent intent = new Intent(getApplicationContext(), ExpansionViewActivity.class);
+
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
 

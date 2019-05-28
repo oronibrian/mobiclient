@@ -41,12 +41,6 @@
         android:hint="Search .."
         android:inputType="textVisiblePassword" />
 
-    <!-- List View -->
-
-    <!--<ListView-->
-        <!--android:id="@+id/manifestvehiclelist"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
 
 
     <androidx.recyclerview.widget.RecyclerView

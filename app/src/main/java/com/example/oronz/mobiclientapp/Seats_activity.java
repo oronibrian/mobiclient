@@ -1,15 +1,17 @@
 package com.example.oronz.mobiclientapp;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,9 +22,14 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -38,10 +45,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
-import com.example.oronz.mobiclientapp.Models.Seat;
 import com.example.oronz.mobiclientapp.Models.UserDetails;
 import com.example.oronz.mobiclientapp.Utilities.MySingleton;
 import com.google.gson.Gson;
+import com.irozon.alertview.AlertActionStyle;
+import com.irozon.alertview.AlertStyle;
+import com.irozon.alertview.AlertView;
+import com.irozon.alertview.objects.AlertAction;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,7 +63,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 import spencerstudios.com.fab_toast.FabToast;
@@ -119,13 +129,19 @@ public class Seats_activity extends AppCompatActivity {
     TextView textView;
     ArrayList<UserDetails> ticketusers;
     UserDetails userDetails;
-    Bundle b,bundlebatch;
-    String selected_Car, seater,availableseats;
+    Bundle b, bundlebatch;
+    String selected_Car, seater, availableseats;
     private Context mcontext;
     private View btnGo, btnbook, btncancel, textview;
     private GridView gridView;
     private ProgressDialog mProgress;
     private TextView gridtextView;
+
+    List<EditText> allnames = new ArrayList<EditText>();
+
+    List<EditText> allnumbers = new ArrayList<EditText>();
+    List<EditText> allids = new ArrayList<EditText>();
+
 
     @SuppressLint("ResourceType")
     @Override
@@ -147,7 +163,7 @@ public class Seats_activity extends AppCompatActivity {
         selected_Car = startingInted.getStringExtra("car_id");
         seater = startingInted.getStringExtra("seater");
 
-        availableseats=startingInted.getStringExtra("availableseats");
+        availableseats = startingInted.getStringExtra("availableseats");
 
 
         Log.e("Selected car id: ", selected_Car);
@@ -272,7 +288,8 @@ public class Seats_activity extends AppCompatActivity {
         btnGo.setOnClickListener(v -> {
             payment();
             payment_type_spinner.setVisibility(View.GONE);
-            btnbook.setVisibility(View.VISIBLE);
+            btnbook.setVisibility(View.GONE);
+            btncancel.setVisibility(View.GONE);
 
         });
 
@@ -311,8 +328,6 @@ public class Seats_activity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
-
-
 
 
     private void getRefferenceNumber() {
@@ -552,7 +567,6 @@ public class Seats_activity extends AppCompatActivity {
                             displaySeatGrid();
 
 
-
                         } else {
                             Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
 
@@ -591,7 +605,7 @@ public class Seats_activity extends AppCompatActivity {
 
     }
 
-    private void displaySeatGrid(){
+    private void displaySeatGrid() {
 
 
         if (Integer.parseInt(seater) <= 11) {
@@ -618,7 +632,7 @@ public class Seats_activity extends AppCompatActivity {
                     seatno = "";
 
                     listofseats.remove(parent.getItemAtPosition(position).toString());
-                    TextView text = (TextView) v.findViewById(R.id.txt_grid);
+                    TextView text = v.findViewById(R.id.txt_grid);
                     text.setBackgroundResource(R.drawable.seat_normal);
 
                 } else {
@@ -632,7 +646,7 @@ public class Seats_activity extends AppCompatActivity {
                     seatno = String.valueOf(LevenSeaterList.get(position));
 
                     listofseats.add(parent.getItemAtPosition(position).toString());
-                    TextView text = (TextView) v.findViewById(R.id.txt_grid);
+                    TextView text = v.findViewById(R.id.txt_grid);
                     text.setBackgroundResource(R.drawable.seat_normal_booked);
 
 
@@ -664,7 +678,7 @@ public class Seats_activity extends AppCompatActivity {
                     seatno = "";
 
                     listofseats.remove(parent.getItemAtPosition(position).toString());
-                    TextView text = (TextView) v.findViewById(R.id.txt_grid);
+                    TextView text = v.findViewById(R.id.txt_grid);
                     text.setBackgroundResource(R.drawable.seat_normal);
 
 
@@ -679,7 +693,7 @@ public class Seats_activity extends AppCompatActivity {
                     seatno = String.valueOf(sixteeneSeaterList.get(position));
 
                     listofseats.add(parent.getItemAtPosition(position).toString());
-                    TextView text = (TextView) v.findViewById(R.id.txt_grid);
+                    TextView text = v.findViewById(R.id.txt_grid);
                     text.setBackgroundResource(R.drawable.seat_normal_booked);
 
                 }
@@ -700,7 +714,7 @@ public class Seats_activity extends AppCompatActivity {
                 int selectedIndex = adapter.selectedPositions.indexOf(position);
 
 
-                TextView text = (TextView) v.findViewById(R.id.txt_grid);
+                TextView text = v.findViewById(R.id.txt_grid);
 
 
                 if (selectedIndex > -1) {
@@ -767,7 +781,7 @@ public class Seats_activity extends AppCompatActivity {
                     seatno = "";
 
                     listofseats.remove(parent.getItemAtPosition(position).toString());
-                    TextView text = (TextView) v.findViewById(R.id.txt_grid);
+                    TextView text = v.findViewById(R.id.txt_grid);
                     text.setBackgroundResource(R.drawable.seat_normal);
 
 
@@ -781,7 +795,7 @@ public class Seats_activity extends AppCompatActivity {
                     seatno = String.valueOf(fourteenSeaterlist.get(position));
 
                     listofseats.add(parent.getItemAtPosition(position).toString());
-                    TextView text = (TextView) v.findViewById(R.id.txt_grid);
+                    TextView text = v.findViewById(R.id.txt_grid);
 
                     text.setBackgroundResource(R.drawable.seat_normal_booked);
                     listofseats.add(parent.getItemAtPosition(position).toString());
@@ -811,62 +825,250 @@ public class Seats_activity extends AppCompatActivity {
 
         Log.d("List Of Seats :%n %s", String.valueOf(listofseats));
 
+//        for (int i = 0; i < listofseats.size(); i++) {
+//
+//            final AlertDialog.Builder builder = new AlertDialog.Builder(Seats_activity.this);
+//
+//            final View v = inflater.inflate(R.layout.payment, null);
+//
+//            final String seat_no = listofseats.get(i);
+//            Log.d("seat_no:%n %s", String.valueOf(seat_no));
+//
+//
+//            builder.setView(v);
+//
+//
+////            builder.setTitle("Payment Details For Seat: " + listofseats.get(i));
+//            TextView txtseatnum = v.findViewById(R.id.txtseatnum);
+//
+//
+//            txtseatnum.setText("Details For Seat: " + listofseats.get(i));
+//
+//
+//            builder.setPositiveButton("Ok", new android.content.DialogInterface.OnClickListener() {
+//                public void onClick(android.content.DialogInterface dialog, int id) {
+//
+//                    final EditText passenger_name = v.findViewById(R.id.passenger_name);
+//                    final EditText passenger_phone = v.findViewById(R.id.passenger_phone);
+//                    final EditText passenger_id = v.findViewById(R.id.passenger_id);
+//
+//                    name = passenger_name.getText().toString().trim();
+//                    phone = passenger_phone.getText().toString().trim();
+//                    id_no = passenger_id.getText().toString().trim();
+//
+//
+//                    ticketusers.add(new UserDetails(name, phone, id_no, seat_no));
+//
+//
+////                    btnbook.setVisibility(View.VISIBLE);
+//                    btnGo.setVisibility(View.GONE);
+//
+//
+//
+//
+//
+//                        AlertView alert = new AlertView("Complete Action", "", AlertStyle.BOTTOM_SHEET);
+//                        alert.addAction(new AlertAction("Book", AlertActionStyle.DEFAULT, action -> {
+//
+//
+//                            if (ticketusers.size() == 1) {
+//
+//                                for (int x = 0; x < ticketusers.size(); x++) {
+//                                    userDetails = ticketusers.get(x);
+//                                    name = userDetails.getName();
+//                                    phone = userDetails.getPhone();
+//                                    id_no = userDetails.getIs();
+//                                    Seat = userDetails.getSeat();
+//
+//                                    reserve();
+//                                }
+//
+//
+//                            } else {
+//                                batch_reserve();
+//
+//                            }
+//
+//
+//
+//                        }));
+//                        alert.addAction(new AlertAction("Cancel", AlertActionStyle.NEGATIVE, action -> {
+//
+//                            back();
+//
+//
+//
+//                        }));
+//
+//                        alert.show(Seats_activity.this);
+//
+//                }
+//            })
+//
+//                    .setNegativeButton("Cancel", null);
+//
+//
+//            builder.show();
+//
+//
+//        }
+
+//        // This clears the list
+//        listofseats = new ArrayList<>();
+
+
+        RelativeLayout rl = findViewById(R.id.linearMain);
+
+
+        ScrollView sv = new ScrollView(this);
+        sv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        LinearLayout ll = new LinearLayout(this);
+        ll.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        ll.setOrientation(LinearLayout.VERTICAL);
+        Button btn=new Button(mcontext);
+        TextView title= new TextView(mcontext);
+        title.setText("Passenger Details");
+        title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+        title.setTypeface(Typeface.DEFAULT_BOLD);
+        title.setAllCaps(true);
+        title.setGravity(Gravity.CENTER);
+
+
+        btn.setText("Ok");
+        btn.setBackgroundResource(R.drawable.btn);
+
+        ll.addView(title);
+
+
+        sv.addView(ll);
         for (int i = 0; i < listofseats.size(); i++) {
-
-            final AlertDialog.Builder builder = new AlertDialog.Builder(Seats_activity.this);
-
-            final View v = inflater.inflate(R.layout.payment, null);
-
-            final String seat_no = listofseats.get(i);
-            Log.d("seat_no:%n %s", String.valueOf(seat_no));
-
-
-            builder.setView(v);
+            TextView b = new TextView(mcontext);
+            EditText editTextName= new EditText(mcontext);
+            EditText editTextphone= new EditText(mcontext);
+            EditText editTextID= new EditText(mcontext);
+            editTextName.setHint("Name");
+            editTextName.setTextColor(Color.BLACK);
+            editTextName.setSingleLine(true);
 
 
-            builder.setTitle("Payment Details For Seat: " + listofseats.get(i));
+            editTextphone.setInputType(InputType.TYPE_CLASS_NUMBER);
+            editTextphone.setHint("Phone");
+            editTextphone.setTextColor(Color.BLACK);
+            editTextphone.setSingleLine(true);
 
 
-            builder.setPositiveButton("Ok", new android.content.DialogInterface.OnClickListener() {
-                public void onClick(android.content.DialogInterface dialog, int id) {
 
-                    final EditText passenger_name = v.findViewById(R.id.passenger_name);
-                    final EditText passenger_phone = v.findViewById(R.id.passenger_phone);
-                    final EditText passenger_id = v.findViewById(R.id.passenger_id);
-
-                    name = passenger_name.getText().toString().trim();
-                    phone = passenger_phone.getText().toString().trim();
-                    id_no = passenger_id.getText().toString().trim();
+            editTextID.setInputType(InputType.TYPE_CLASS_NUMBER);
+            editTextID.setHint("ID");
+            editTextID.setTextColor(Color.BLACK);
+            editTextID.setSingleLine(true);
 
 
-                    ticketusers.add(new UserDetails(name, phone, id_no, seat_no));
+
+            int num=(i+1);
 
 
-//                    btnbook.setVisibility(View.VISIBLE);
-                    btnGo.setVisibility(View.GONE);
+            b.setText(num +" Passenger ");
+
+            b.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+//            b.setShadowLayer(2, 1, 1, R.color.green_100);
+            b.setTextColor(mcontext.getResources().getColor(R.color.colorPrimary));
 
 
-                    for (int i = 0; i < listofseats.size(); i++) {
-
-                        Toast.makeText(getApplicationContext(), "Details  Seat ", Toast.LENGTH_SHORT).show();
-
-                    }
-
-
-                }
-            })
-
-                    .setNegativeButton("Cancel", null);
+            ll.addView(b);
+            ll.addView(editTextName);
+            ll.addView(editTextphone);
+            ll.addView(editTextID);
 
 
-            builder.show();
+            allnames.add(editTextName);
+            allnumbers.add(editTextphone);
+            allids.add(editTextID);
+
+
 
 
         }
 
-//        // This clears the list
-//        listofseats = new ArrayList<>();
-        Log.d("Ticket Details :%n %s", String.valueOf(ticketusers));
+
+        rl.addView(sv);
+        ll.addView(btn);
+
+
+
+
+        btn.setBackgroundColor(mcontext.getResources().getColor(R.color.colorPrimaryDark));
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                String[] names = new String[allnames.size()];
+                String[] phones = new String[allnumbers.size()];
+                String[] ids = new String[allids.size()];
+
+
+                for (int i = 0; i < listofseats.size(); i++) {
+                    final String seat_no = listofseats.get(i);
+
+                    names[i] = allnames.get(i).getText().toString();
+                    phones[i] = allnumbers.get(i).getText().toString();
+                    ids[i] = allids.get(i).getText().toString();
+
+                    Log.e("Names :%n %s", names[i]);
+                    Log.e("Phones :%n %s", phones[i]);
+                    Log.e("IDs :%n %s", ids[i]);
+
+
+                    ticketusers.add(new UserDetails(names[i], phones[i], ids[i], seat_no));
+
+
+                }
+
+
+
+                AlertView alert = new AlertView("Complete Action", "", AlertStyle.BOTTOM_SHEET);
+                        alert.addAction(new AlertAction("Book", AlertActionStyle.DEFAULT, action -> {
+
+
+                            if (ticketusers.size() == 1) {
+
+                                for (int x = 0; x < ticketusers.size(); x++) {
+                                    userDetails = ticketusers.get(x);
+                                    name = userDetails.getName();
+                                    phone = userDetails.getPhone();
+                                    id_no = userDetails.getIs();
+                                    Seat = userDetails.getSeat();
+
+                                    reserve();
+                                }
+
+
+                            } else {
+                                batch_reserve();
+
+                            }
+
+
+
+                        }));
+                        alert.addAction(new AlertAction("Cancel", AlertActionStyle.NEGATIVE, action -> {
+
+                            back();
+
+
+
+                        }));
+
+                        alert.show(Seats_activity.this);
+
+
+            }
+        });
+
+
+        Log.e("Ticket Details :%n %s", String.valueOf(ticketusers));
 
 
     }
@@ -902,7 +1104,6 @@ public class Seats_activity extends AppCompatActivity {
         Log.e("Params", params.toString());
 
 
-
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
                 response -> {
                     try {
@@ -924,6 +1125,9 @@ public class Seats_activity extends AppCompatActivity {
 
                             JSONArray jsonArray = response.getJSONArray("ticket");
 
+                            Log.e("Tickets: ", jsonArray.toString(4));
+
+
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -936,8 +1140,8 @@ public class Seats_activity extends AppCompatActivity {
                             b.putString("TicketArray", jsonArray.toString());
 
 
-                            Log.d("Status", reserver);
-                            Log.d("Mesaage", ticket_mesaage);
+                            Log.e("Status", reserver);
+                            Log.e("Mesaage", ticket_mesaage);
 
                             app.setServerRespose(reserver);
                             app.setServerMessage(ticket_mesaage);
@@ -1024,9 +1228,9 @@ public class Seats_activity extends AppCompatActivity {
         JSONObject obj;
         JSONArray ticket_items = new JSONArray();
 
-        for (int i=0; i < ticketusers.size(); i++) {
+        for (int i = 0; i < ticketusers.size(); i++) {
             obj = new JSONObject();
-                        userDetails = ticketusers.get(i);
+            userDetails = ticketusers.get(i);
 
             try {
                 obj.put("passenger_name", userDetails.getName());
@@ -1046,7 +1250,7 @@ public class Seats_activity extends AppCompatActivity {
                 obj.put("amount_charged", app.getPrice_class());
                 obj.put("reference_number", refno);
                 ticket_items.put(obj);
-            }catch (JSONException e) {
+            } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -1061,7 +1265,7 @@ public class Seats_activity extends AppCompatActivity {
 
         try {
             postparams.put("username", app.getUser_name());
-            postparams.put("api_key",  app.getApi_key());
+            postparams.put("api_key", app.getApi_key());
             postparams.put("action", "BatchReserveSeats");
             postparams.put("hash", "1FBEAD9B-D9CD-400D-ADF3-F4D0E639CEE0");
             postparams.put("ticket_items", ticket_items);
@@ -1069,7 +1273,6 @@ public class Seats_activity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
 
         JsonObjectRequest req = new JsonObjectRequest(URLs.URL, postparams,
@@ -1176,10 +1379,7 @@ public class Seats_activity extends AppCompatActivity {
         });
 
 
-
-
     }
-
 
 
     private void back() {
@@ -1635,7 +1835,6 @@ public class Seats_activity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            ViewHolder vh;
             HashSet<String> fortyninecommon = new HashSet<>(fortynineSeaterList);
             fortyninecommon.retainAll(seats);
 
@@ -1654,20 +1853,11 @@ public class Seats_activity extends AppCompatActivity {
 
                 convertView = inflater.inflate(R.layout.grid_item, parent, false);
 
-                vh = new ViewHolder(convertView);
-
-                convertView.setTag(vh);
-
-
-            } else {
-
-
-                vh = (ViewHolder) convertView.getTag();
+                convertView.setTag(new ViewHolder(convertView));
 
 
             }
-
-
+            final ViewHolder vh = (ViewHolder) convertView.getTag();
 
 
             vh.gridtextView.setText(strings[position]);
@@ -1704,15 +1894,6 @@ public class Seats_activity extends AppCompatActivity {
 
         }
 
-
-        private class ViewHolder {
-            TextView gridtextView;
-
-            public ViewHolder(View view) {
-                gridtextView = (TextView) view.findViewById(R.id.txt_grid);
-            }
-        }
-
         @Override
         public boolean areAllItemsEnabled() {
 
@@ -1736,6 +1917,14 @@ public class Seats_activity extends AppCompatActivity {
 
 
             return true;
+        }
+
+        private class ViewHolder {
+            TextView gridtextView;
+
+            public ViewHolder(View view) {
+                gridtextView = view.findViewById(R.id.txt_grid);
+            }
         }
 
 

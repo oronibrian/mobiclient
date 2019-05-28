@@ -239,13 +239,17 @@ public class ReceiptActivity extends AppCompatActivity {
 
 
             Bundle b = getIntent().getExtras();
-            String TicketArray = b.getString("TicketArray");
+            String TicketArray = null;
+            if (b != null) {
+                TicketArray = b.getString("TicketArray");
+            }
 
 
             ArrayList<String> fetchList = new ArrayList<String>();
             fetchList = getIntent().getStringArrayListExtra("listofseats");
 
             System.out.println("listofseats :::: " + fetchList.toString());
+            Log.e("Printing",TicketArray.toString());
 
 
             for (int y = 0; y < fetchList.size(); y++) {
@@ -253,6 +257,8 @@ public class ReceiptActivity extends AppCompatActivity {
                 try {
                     JSONArray ticket = new JSONArray(TicketArray);
                     System.out.println(ticket.toString(2));
+                   Log.e("Ticket",ticket.toString(4));
+
 
 
                     for (int i = 0; i < ticket.length(); i++) {
