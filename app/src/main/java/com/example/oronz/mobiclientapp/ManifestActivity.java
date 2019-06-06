@@ -107,7 +107,23 @@ public class ManifestActivity extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                String formattedDay = (String.valueOf(day));
+                                String formattedMonth = (String.valueOf(month));
+
+
+
+
+                                if (day < 10) {
+                                    formattedDay = "0" + day;
+                                }
+
+                                if (month < 10) {
+                                    formattedMonth = "0" + month;
+                                }
+
+
                                 date.setText(day + "-" + (month + 1) + "-" + year);
+
                                 dbDate = date.getText().toString();
 
                                 app.setManifestDate(dbDate);

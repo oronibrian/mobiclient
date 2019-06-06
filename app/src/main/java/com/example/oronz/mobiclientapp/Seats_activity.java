@@ -939,7 +939,6 @@ public class Seats_activity extends AppCompatActivity {
 
         ll.addView(title);
 
-
         sv.addView(ll);
         for (int i = 0; i < listofseats.size(); i++) {
             TextView b = new TextView(mcontext);
@@ -1533,6 +1532,8 @@ public class Seats_activity extends AppCompatActivity {
             selectedPositions = new ArrayList<>();
 
         }
+
+
 
 
         @Override

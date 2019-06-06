@@ -9,8 +9,7 @@ public class RecyclerViewItem {
 
     private String available;
 
-    public RecyclerViewItem(int drawableId, String name, String title, String available,String ca_id) {
-        this.drawableId = drawableId;
+    public RecyclerViewItem(String name, String title, String available,String ca_id) {
         this.name = name;
         this.title = title;
         this.ca_id = ca_id;

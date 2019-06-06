@@ -35,15 +35,15 @@ public class GridViewAdapterVehicles extends RecyclerView.Adapter<GridViewAdapte
     @Override
     public void onBindViewHolder(GridViewAdapterVehicles.ViewHolder viewHolder, int position) {
 
-        viewHolder.imageView.setImageResource(items.get(position).getDrawableId());
+//        viewHolder.imageView.setImageResource(items.get(position).getDrawableId());
         viewHolder.textView.setText(items.get(position).getTitle());
         viewHolder.titleview.setText(items.get(position).getName());
         viewHolder.grid_vehicle_remaining.setText(items.get(position).getAvailable());
         viewHolder.selected_car_id.setText(items.get(position).getCa_id());
-        viewHolder.chipseaterview.setText(String.format("Seater: %s\nAvailable: %s", items.get(position).getTitle(), items.get(position).getAvailable()));
+        viewHolder.chipseaterview.setText(String.format("%S", items.get(position).getTitle()));
 
         viewHolder.chip.setText(items.get(position).getCa_id());
-        viewHolder.chipseater.setText(items.get(position).getTitle());
+        viewHolder.chipseater.setText(items.get(position).getAvailable());
 
 
     }
@@ -60,13 +60,13 @@ public class GridViewAdapterVehicles extends RecyclerView.Adapter<GridViewAdapte
      */
     protected class ViewHolder extends RecyclerView.ViewHolder {
         Chip chip,chipseater,chipseaterview;
-        private ImageView imageView;
+//        private ImageView imageView;
         private TextView textView, titleview, grid_vehicle_remaining, selected_car_id, textviewtext;
 
         public ViewHolder(View view) {
             super(view);
             textView = view.findViewById(R.id.grid_vehicle_seater);
-            imageView = view.findViewById(R.id.image);
+//            imageView = view.findViewById(R.id.image);
             titleview = view.findViewById(R.id.grid_vehicle_title);
 
             grid_vehicle_remaining = view.findViewById(R.id.grid_vehicle_remaining);

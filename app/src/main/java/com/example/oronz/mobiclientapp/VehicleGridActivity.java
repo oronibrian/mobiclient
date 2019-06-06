@@ -190,7 +190,7 @@ public class VehicleGridActivity extends AppCompatActivity {
 //                                        vehicles.add(buses);
 
 
-                                availableVehiclelist.add(new RecyclerViewItem(R.drawable.bus, buses,total_seats,seats_available,car_id));
+                                availableVehiclelist.add(new RecyclerViewItem(buses,total_seats,seats_available,car_id));
 
                             }
 

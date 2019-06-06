@@ -15,12 +15,12 @@
         android:layout_height="match_parent"
         android:layout_gravity="center">
 
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="70dp"
-            android:layout_height="80dp"
-            android:src="@drawable/bus"
-            android:transitionName="image_layanan" />
+        <!--<ImageView-->
+            <!--android:id="@+id/image"-->
+            <!--android:layout_width="70dp"-->
+            <!--android:layout_height="80dp"-->
+            <!--android:src="@drawable/bus"-->
+            <!--android:transitionName="image_layanan" />-->
 
 
         <TextView
@@ -33,10 +33,11 @@
             android:layout_toEndOf="@+id/image"
             android:layout_toRightOf="@+id/image"
             android:ellipsize="end"
+            android:gravity="center"
             android:maxLines="1"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textColor="#212121"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:transitionName="text_dokter" />
 
@@ -77,9 +78,9 @@
                 android:layout_below="@+id/textviewtext"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="7dp"
-                app:chipBackgroundColor="#FFCF79"
+                app:chipBackgroundColor="@color/colorPrimary"
                 app:chipIconSize="20dp"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:chipIconTint="#636161"
                 app:chipStartPadding="10dp"
                 app:chipStrokeColor="#636161" />

@@ -1,5 +1,6 @@
 package com.example.oronz.mobiclientapp.Fragemnts;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Adapter.CityArrayAdapter;
+import com.example.oronz.mobiclientapp.ManifestActivity;
 import com.example.oronz.mobiclientapp.MobiClientApplication;
 import com.example.oronz.mobiclientapp.Models.City;
 import com.example.oronz.mobiclientapp.R;
@@ -40,6 +43,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
@@ -57,6 +61,8 @@ public class OneWayTripFragement extends Fragment {
     Spinner too;
     Spinner from;
     MaterialSpinner travel_date;
+    Calendar calendar;
+
 
     private MobiClientApplication app;
     String _too,_from,date;
@@ -70,6 +76,11 @@ public class OneWayTripFragement extends Fragment {
     private ArrayList<City> cities;
     CityArrayAdapter citycutomAdapter;
     private Context mContext;
+    TextView selectDate;
+    DatePickerDialog datePickerDialog;
+    int year;
+    int month;
+    int dayOfMonth;
 
 
 
@@ -166,27 +177,62 @@ public class OneWayTripFragement extends Fragment {
 
         from=view.findViewById(R.id.spinner_from_one);
         too=view.findViewById(R.id.spinner_to_one);
-        travel_date=view.findViewById(R.id.spinner_travel_date_one);
+//        travel_date=view.findViewById(R.id.spinner_travel_date_one);
+        selectDate=view.findViewById(R.id.btn_select_date);
 
-
-        travel_date.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                 date = travel_date.getItemAtPosition(travel_date.getSelectedItemPosition()).toString();
-                Log.d("Date :%n %s", date);
+            public void onClick(View v) {
+                calendar = Calendar.getInstance();
+
+                year = calendar.get(Calendar.YEAR);
+                month = calendar.get(Calendar.MONTH);
+                dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+                datePickerDialog = new DatePickerDialog(getContext(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
 
 
-                    app.setTravel_date(date);
+
+                                selectDate.setText(day + "-" + (month + 1) + "-" + year);
+                               String dbDate = selectDate.getText().toString();
+
+                                app.setTravel_date(dbDate);
+                                Log.d("Date :", dbDate);
+
+                            }
+                        }, year, month, dayOfMonth);
+//                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
 
 
 
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                // DO Nothing here
+                datePickerDialog.show();
             }
         });
+
+//
+//        travel_date.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                 date = travel_date.getItemAtPosition(travel_date.getSelectedItemPosition()).toString();
+//                Log.d("Date :%n %s", date);
+//
+//
+//                    app.setTravel_date(date);
+//
+//
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//                // DO Nothing here
+//            }
+//        });
+
 
 
         too.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -364,7 +410,7 @@ public class OneWayTripFragement extends Fragment {
                             }
 
 
-                            travel_date.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, dates));
+//                            travel_date.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, dates));
 
                         } catch (JSONException e) {
                             e.printStackTrace();

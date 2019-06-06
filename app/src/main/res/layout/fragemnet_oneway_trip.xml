@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="true"
-    android:padding="@dimen/spacing_middle"
-    android:focusableInTouchMode="true"
     android:background="#f2f2f2"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="@dimen/spacing_middle"
 
     >
 
@@ -123,13 +122,13 @@
                         android:src="@drawable/loc2" />
 
 
-
                     <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                         android:id="@+id/spinner_to_one"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1.0"
                         android:textAlignment="textStart"
+
                         android:textColor="@android:color/black"
                         app:hintText="Search To" />
 
@@ -177,7 +176,7 @@
 
                     <ImageView
                         android:id="@+id/imageView3"
-                        android:layout_width="0dp"
+                        android:layout_width="14dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="0.12"
@@ -186,28 +185,38 @@
                         android:tint="#000" />
 
 
+                    <!--<fr.ganfra.materialspinner.MaterialSpinner-->
+                    <!--android:id="@+id/spinner_travel_date_one"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--app:ms_alignLabels="true"-->
+                    <!--app:ms_arrowColor="@color/base"-->
+                    <!--app:ms_arrowSize="8dp"-->
+                    <!--app:ms_baseColor="@color/base"-->
+                    <!--app:ms_dropDownHintView="@layout/dropdown_hint_item"-->
+                    <!--app:ms_enableErrorLabel="false"-->
+                    <!--app:ms_enableFloatingLabel="true"-->
+                    <!--app:ms_errorColor="@color/error"-->
+                    <!--app:ms_floatingLabelColor="@color/floating_label"-->
+                    <!--app:ms_floatingLabelText="Travel Date"-->
+                    <!--app:ms_highlightColor="@color/highlight"-->
+                    <!--app:ms_hint="Travel Date"-->
+                    <!--app:ms_hintColor="@color/hint"-->
+                    <!--app:ms_hintView="@layout/hint_item"-->
+                    <!--app:ms_multiline="false"-->
+                    <!--app:ms_thickness="2dp" />-->
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinner_travel_date_one"
-                        android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/btn_select_date"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
-                        app:ms_alignLabels="true"
-                        app:ms_arrowColor="@color/base"
-                        app:ms_arrowSize="8dp"
-                        app:ms_baseColor="@color/base"
-                        app:ms_dropDownHintView="@layout/dropdown_hint_item"
-                        app:ms_enableErrorLabel="false"
-                        app:ms_enableFloatingLabel="true"
-                        app:ms_errorColor="@color/error"
-                        app:ms_floatingLabelColor="@color/floating_label"
-                        app:ms_floatingLabelText="Travel Date"
-                        app:ms_highlightColor="@color/highlight"
-                        app:ms_hint="Travel Date"
-                        app:ms_hintColor="@color/hint"
-                        app:ms_hintView="@layout/hint_item"
-                        app:ms_multiline="false"
-                        app:ms_thickness="2dp" />
+                        android:textColor="@android:color/black"
+
+                        android:padding="@dimen/spacing_mlarge"
+                        android:text="Travel Date" />
 
                 </LinearLayout>
 
@@ -221,11 +230,10 @@
             android:id="@+id/searchbtn1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:text="Search" />
 
     </LinearLayout>
-
-
 
 
 </RelativeLayout>
