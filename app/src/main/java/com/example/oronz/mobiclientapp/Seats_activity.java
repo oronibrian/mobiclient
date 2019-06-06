@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.Layout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -816,7 +817,8 @@ public class Seats_activity extends AppCompatActivity {
     }
 
     private void payment() {
-
+        LinearLayout hide1;
+        hide1=findViewById(R.id.hide1);
 
         LayoutInflater inflater = (Seats_activity.this).getLayoutInflater();
         //Generate Reff Number
@@ -918,7 +920,7 @@ public class Seats_activity extends AppCompatActivity {
 
 
         RelativeLayout rl = findViewById(R.id.linearMain);
-
+        hide1.setVisibility(View.GONE);
 
         ScrollView sv = new ScrollView(this);
         sv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));

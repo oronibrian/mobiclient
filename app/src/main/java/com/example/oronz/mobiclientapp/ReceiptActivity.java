@@ -64,7 +64,7 @@ public class ReceiptActivity extends AppCompatActivity {
     String resp;
     String name, phone, seat;
     InputStream logo;
-    TextView txtisnumber, passengerIdtxt, txviewdate, txttime,txtprice;
+    TextView txtisnumber, passengerIdtxt, txviewdate, txttime, txtprice;
     private ProgressDialog mProgress, confirmtransProgress;
     private ImageView status_img;
     private ImageView crossView;
@@ -123,13 +123,6 @@ public class ReceiptActivity extends AppCompatActivity {
         txtisnumber = findViewById(R.id.txtisnumber);
 
 
-
-
-
-
-
-
-
         btnnew.hide();
         btnprint.hide();
 
@@ -161,29 +154,36 @@ public class ReceiptActivity extends AppCompatActivity {
 
         logo = getResources().openRawResource(R.raw.ena_coach_logo24bit);
 
+        if (status.isEmpty()) {
 
-        if (status.equals("Failed")) {
-            btncomplete.hide();
-            btnprint.hide();
             btnnew.show();
-
-            status_img.setImageResource(R.drawable.cross1);
-
-            txt_status.setText(status);
-            txt_status.setTextColor(Color.RED);
+            btnprint.show();
 
 
         } else {
-            btncomplete.show();
-            txt_status.setText(status);
-            txt_status.setTextColor(Color.GREEN);
-            status_img.setImageResource(R.drawable.tick1);
-            proceed();
-            btncomplete.hide();
+
+            if (status.equals("Failed")) {
+                btncomplete.hide();
+                btnprint.hide();
+                btnnew.show();
+
+                status_img.setImageResource(R.drawable.cross1);
+
+                txt_status.setText(status);
+                txt_status.setTextColor(Color.RED);
 
 
+            } else {
+                btncomplete.show();
+                txt_status.setText(status);
+                txt_status.setTextColor(Color.GREEN);
+                status_img.setImageResource(R.drawable.tick1);
+                proceed();
+                btncomplete.hide();
+
+
+            }
         }
-
         btncomplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -249,7 +249,7 @@ public class ReceiptActivity extends AppCompatActivity {
             fetchList = getIntent().getStringArrayListExtra("listofseats");
 
             System.out.println("listofseats :::: " + fetchList.toString());
-            Log.e("Printing",TicketArray.toString());
+            Log.e("Printing", TicketArray);
 
 
             for (int y = 0; y < fetchList.size(); y++) {
@@ -257,8 +257,7 @@ public class ReceiptActivity extends AppCompatActivity {
                 try {
                     JSONArray ticket = new JSONArray(TicketArray);
                     System.out.println(ticket.toString(2));
-                   Log.e("Ticket",ticket.toString(4));
-
+                    Log.e("Ticket", ticket.toString(4));
 
 
                     for (int i = 0; i < ticket.length(); i++) {
