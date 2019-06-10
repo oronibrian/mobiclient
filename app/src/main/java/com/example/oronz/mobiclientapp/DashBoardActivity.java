@@ -1,13 +1,14 @@
 package com.example.oronz.mobiclientapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -21,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Utilities.MySingleton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,46 +30,41 @@ import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
-public class SubmitPaymentActivity extends AppCompatActivity {
-    TextView txtreceived_today,txtbanked_today;
-    TextView txtdue_today,txtshort_today;
+public class DashBoardActivity extends AppCompatActivity {
 
-    TextView txtreceived_yesterday,txtbanked_yesterday;
-    TextView txtdue_yesterday,txtshort_yesterday;
-
+    FloatingActionButton btn_dash_new,btn_dash_manifest;
+    FloatingActionButton btn_dash_searchtckt,btn_dash_srchpayment;
+    FloatingActionButton btn_dash_update,btn_dash_abtus;
+    FloatingActionButton btn_dash_logout,btn_dash_submit_cash;
+    TextView txtusername;
+    private MobiClientApplication app;
     String today,yesterday;
     private Context mcontext;
+    TextView summery,yestersummery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_submit_payment);
+        app = (MobiClientApplication) getApplication();
 
-        mcontext = getApplicationContext();
+        setContentView(R.layout.activity_dash_board);
 
-        this.setTitle("Account Status");
-        Spinner spinner = findViewById(R.id.spinner);
 
-        // Spinner click listener
-        List<String> categories = new ArrayList<String>();
-        categories.add("PayBill");
-        categories.add("STK Push");
+        btn_dash_new = findViewById(R.id.btn_dash_new);
+        btn_dash_manifest=findViewById(R.id.btn_dash_manifest);
+        btn_dash_searchtckt=findViewById(R.id.btn_dash_searchtckt);
+        btn_dash_srchpayment=findViewById(R.id.btn_dash_srchpayment);
+        btn_dash_update=findViewById(R.id.btn_dash_update);
+        btn_dash_abtus=findViewById(R.id.btn_dash_abtus);
+        btn_dash_logout=findViewById(R.id.btn_dash_logout);
+        summery=findViewById(R.id.summery);
+        yestersummery=findViewById(R.id.yestersummery);
+        btn_dash_submit_cash=findViewById(R.id.btn_dash_submit_cash);
 
-        txtreceived_today=findViewById(R.id.txtreceived_today);
-        txtbanked_today=findViewById(R.id.txtbanked_today);
-        txtdue_today=findViewById(R.id.txtdue_today);
-        txtshort_today=findViewById(R.id.txtshort_today);
-
-        txtreceived_yesterday=findViewById(R.id.txtreceived_yesterday);
-        txtbanked_yesterday=findViewById(R.id.txtbanked_yesterday);
-        txtdue_yesterday=findViewById(R.id.txtbanked_yesterday);
-        txtshort_yesterday=findViewById(R.id.txtshort_yesterday);
 
 
 
@@ -85,21 +82,93 @@ public class SubmitPaymentActivity extends AppCompatActivity {
 
         yesterday=dateFormat.format(cal.getTime());
 
-
-
-        // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
-
-        // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // attaching data adapter to spinner
-        spinner.setAdapter(dataAdapter);
-
         ticketingReport();
         yesterdayticketingReport();
 
+
+        txtusername = findViewById(R.id.txtusername);
+
+        txtusername.setText(String.format("%s\n%s\n%s", app.getLogged_user(), app.getPhone_num(), app.getEmail_address()));
+
+        btn_dash_new.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DashBoardActivity.this, MainActivity.class));
+                finish();
+            }
+        });
+
+        btn_dash_manifest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DashBoardActivity.this, ManifestActivity.class));
+                finish();
+            }
+        });
+
+
+        btn_dash_searchtckt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DashBoardActivity.this, SearchTicketActivity.class));
+                finish();
+            }
+        });
+
+
+        btn_dash_srchpayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(DashBoardActivity.this, SearchPaymentActivity.class));
+                finish();
+
+            }
+        });
+
+
+        btn_dash_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(DashBoardActivity.this, UpdateApp.class));
+                finish();
+
+            }
+        });
+
+
+        btn_dash_abtus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DashBoardActivity.this, AboutUsActivity.class));
+                finish();
+            }
+        });
+
+
+        btn_dash_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
+            }
+        });
+
+        btn_dash_submit_cash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SubmitPaymentActivity.class));
+                finish();
+
+            }
+        });
+
     }
+
+
+
+
 
 
     private void ticketingReport() {
@@ -142,10 +211,8 @@ public class SubmitPaymentActivity extends AppCompatActivity {
 
 
 
-                                txtreceived_today.setText(received);
-                                txtbanked_today.setText(banked);
-                                txtdue_today.setText(due);
-                                txtshort_today.setText(deficit);
+                                summery.setText(received);
+
 
 
                             }
@@ -154,7 +221,7 @@ public class SubmitPaymentActivity extends AppCompatActivity {
                         } else {
 
 
-                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
 
                             Log.d("Response", response.getString("response_message"));
 
@@ -234,10 +301,8 @@ public class SubmitPaymentActivity extends AppCompatActivity {
                                 String due = jsonObject1.getString("due");
                                 String deficit = jsonObject1.getString("deficit");
 
-                                txtreceived_yesterday.setText(received);
-                                txtbanked_yesterday.setText(banked);
-                                txtdue_yesterday.setText(due);
-                                txtshort_yesterday.setText(deficit);
+                                yestersummery.setText(received);
+
 
 
                             }
@@ -246,7 +311,7 @@ public class SubmitPaymentActivity extends AppCompatActivity {
                         } else {
 
 
-                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
 
                             Log.d("Response", response.getString("response_message"));
 
@@ -289,7 +354,4 @@ public class SubmitPaymentActivity extends AppCompatActivity {
 
     }
 
-
-
 }
-

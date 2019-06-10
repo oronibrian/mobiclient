@@ -82,7 +82,10 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+
+            startActivity(new Intent(getApplicationContext(), DashBoardActivity.class));
+            finish();
+
         }
     }
 

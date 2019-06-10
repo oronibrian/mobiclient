@@ -1095,7 +1095,7 @@ public class Seats_activity extends AppCompatActivity {
         params.put("phone_number", phone);
         params.put("id_number", id_no);
         params.put("passenger_name", name);
-        params.put("email_address", "brianoroni6@gmail.com");
+        params.put("email_address", app.getEmail_client());
         params.put("insurance_charge", "");
         params.put("served_by", app.getLogged_user());
         params.put("amount_charged", app.getPrice_class());
@@ -1245,7 +1245,7 @@ public class Seats_activity extends AppCompatActivity {
                 obj.put("selected_seat", userDetails.getSeat());
                 obj.put("selected_ticket_type", "13");
                 obj.put("payment_method", app.getPayment_type());
-                obj.put("email_address", "brianoroni6@gmail.com");
+                obj.put("email_address", app.getEmail_client());
                 obj.put("insurance_charge", "");
                 obj.put("served_by", app.getLogged_user());
                 obj.put("amount_charged", app.getPrice_class());

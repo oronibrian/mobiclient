@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="@dimen/spacing_large"
+    android:layout_marginRight="@dimen/spacing_large"
+    android:layout_marginTop="@dimen/spacing_small"
+    android:visibility="visible"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_10" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/spacing_middle" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacing_xlarge"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/spacing_large"
+            android:paddingRight="@dimen/spacing_large">
+
+            <ImageView
+                android:layout_width="@dimen/spacing_mlarge"
+                android:layout_height="@dimen/spacing_mlarge"
+                app:srcCompat="@drawable/user" />
+
+            <View
+                android:layout_width="@dimen/spacing_middle"
+                android:layout_height="0dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/passengerIdtxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Brian"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/grey_80"
+                    app:fontFamily="sans-serif-medium" />
+
+                <TextView
+                    android:id="@+id/txtisnumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="07000000" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/txtprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1x"
+                app:fontFamily="sans-serif-medium" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacing_xlarge"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/spacing_large"
+            android:paddingRight="@dimen/spacing_large">
+
+            <View
+                android:layout_width="@dimen/spacing_middle"
+                android:layout_height="0dp" />
+
+            <ImageView
+                android:layout_width="@dimen/spacing_mlarge"
+                android:layout_height="@dimen/spacing_mlarge" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/txviewdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="18 Mar 19" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/txttime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                app:fontFamily="sans-serif-medium" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/spacing_middle" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

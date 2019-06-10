@@ -58,13 +58,12 @@ android:background="@color/grey_10">
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-4dp"
                 android:layout_marginRight="-4dp"
-                android:hint="Username"
+                android:hint="username"
                 android:inputType="text"
                 android:maxLength="50"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                 />
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
             <View
                 android:layout_width="0dp"
@@ -76,13 +75,12 @@ android:background="@color/grey_10">
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-4dp"
                 android:layout_marginRight="-4dp"
-                android:hint="Password"
+                android:hint="password"
                 android:inputType="textPassword"
                 android:maxLength="50"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                />
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
             <View
                 android:layout_width="0dp"

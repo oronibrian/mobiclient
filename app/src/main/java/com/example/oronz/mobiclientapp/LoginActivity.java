@@ -91,6 +91,8 @@ public class LoginActivity extends AppCompatActivity {
 
         sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+        app.setEmail_client("");
+
 //
 
 
@@ -193,7 +195,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Ed.apply();
 
 
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), DashBoardActivity.class);
 //                                Intent intent = new Intent(getApplicationContext(), ExpansionViewActivity.class);
 
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TASK);

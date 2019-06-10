@@ -14,10 +14,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -32,6 +34,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
+import com.example.oronz.mobiclientapp.Adapter.ManifestRecyclerViewAdapter;
+import com.example.oronz.mobiclientapp.Adapter.PassengerManifestAdapter;
+import com.example.oronz.mobiclientapp.Adapter.ReceiptItemsAdapter;
+import com.example.oronz.mobiclientapp.Models.PassengerManifestDetails;
+import com.example.oronz.mobiclientapp.Models.ReceiptItems;
 import com.example.oronz.mobiclientapp.Models.UserDetails;
 import com.example.oronz.mobiclientapp.Utilities.MySingleton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -70,12 +77,25 @@ public class ReceiptActivity extends AppCompatActivity {
     private ImageView crossView;
     private Context mcontext;
 
+    ReceiptItemsAdapter receiptItemsAdapter;
+    ArrayList<ReceiptItems> receiptItems;
+    ListView passengerlistView;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipt);
 
         app = (MobiClientApplication) getApplication();
+
+        receiptItems = new ArrayList<>();
+
+
+        passengerlistView =  findViewById(R.id.list_receipt_items);
+
 
         txt_status = findViewById(R.id.txt_status);
         btnnew = findViewById(R.id.btnnew);
@@ -103,24 +123,25 @@ public class ReceiptActivity extends AppCompatActivity {
 
         String time = new SimpleDateFormat(" HH:mm:ss", Locale.getDefault()).format(new Date());
 
-
-        status_img = findViewById(R.id.status_img);
-        txtisnumber = findViewById(R.id.txtisnumber);
-
-        passengerIdtxt = findViewById(R.id.passengerIdtxt);
-
-
-        txviewdate = findViewById(R.id.txviewdate);
-
-        txviewdate.setText(date);
-
-
-        txttime = findViewById(R.id.txttime);
-
-        txttime.setText(time);
-
-        txtprice = findViewById(R.id.txtprice);
-        txtisnumber = findViewById(R.id.txtisnumber);
+//
+//
+//        status_img = findViewById(R.id.status_img);
+//        txtisnumber = findViewById(R.id.txtisnumber);
+//
+//        passengerIdtxt = findViewById(R.id.passengerIdtxt);
+//
+//
+//        txviewdate = findViewById(R.id.txviewdate);
+//
+//        txviewdate.setText(date);
+//
+//
+//        txttime = findViewById(R.id.txttime);
+//
+//        txttime.setText(time);
+//
+//        txtprice = findViewById(R.id.txtprice);
+//        txtisnumber = findViewById(R.id.txtisnumber);
 
 
         btnnew.hide();
@@ -134,15 +155,21 @@ public class ReceiptActivity extends AppCompatActivity {
 
         List<UserDetails> carsList = gson.fromJson(seatListAsString, type);
 
+        Log.e("Tickest",carsList.toString());
+        Log.e("Length", String.valueOf(carsList.size()));
+
 
         for (UserDetails user : carsList) {
             name = user.getName();
             phone = user.getPhone();
             seat = user.getSeat();
 
-            passengerIdtxt.setText(name);
-            txtprice.setText(seat);
-            txtisnumber.setText(phone);
+//            passengerIdtxt.setText(name);
+//            txtprice.setText(seat);
+//            txtisnumber.setText(phone);
+
+
+            receiptItems.add(new ReceiptItems(name,phone, seat,date,time));
 
 
         }
@@ -162,27 +189,33 @@ public class ReceiptActivity extends AppCompatActivity {
 
         } else {
 
-            if (status.equals("Failed")) {
-                btncomplete.hide();
-                btnprint.hide();
-                btnnew.show();
+//            if (status.equals("Failed")) {
+//                btncomplete.hide();
+//                btnprint.hide();
+//                btnnew.show();
+//
+//                status_img.setImageResource(R.drawable.cross1);
+//
+//                txt_status.setText(status);
+//                txt_status.setTextColor(Color.RED);
+//
+//
+//            } else {
+//                btncomplete.show();
+//                txt_status.setText(status);
+//                txt_status.setTextColor(Color.GREEN);
+////                status_img.setImageResource(R.drawable.tick1);
+//                proceed();
+//                btncomplete.hide();
+//
+//
+//
+//            }
 
-                status_img.setImageResource(R.drawable.cross1);
 
-                txt_status.setText(status);
-                txt_status.setTextColor(Color.RED);
+             receiptItemsAdapter = new ReceiptItemsAdapter(ReceiptActivity.this, receiptItems);
 
-
-            } else {
-                btncomplete.show();
-                txt_status.setText(status);
-                txt_status.setTextColor(Color.GREEN);
-                status_img.setImageResource(R.drawable.tick1);
-                proceed();
-                btncomplete.hide();
-
-
-            }
+            passengerlistView.setAdapter(receiptItemsAdapter);
         }
         btncomplete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,7 +282,7 @@ public class ReceiptActivity extends AppCompatActivity {
             fetchList = getIntent().getStringArrayListExtra("listofseats");
 
             System.out.println("listofseats :::: " + fetchList.toString());
-            Log.e("Printing", TicketArray);
+//            Log.e("Printing", TicketArray);
 
 
             for (int y = 0; y < fetchList.size(); y++) {

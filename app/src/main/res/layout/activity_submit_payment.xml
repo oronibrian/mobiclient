@@ -1,197 +1,620 @@
-<ScrollView xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_5"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <TableLayout
-        android:layout_width="fill_parent"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:background="@android:color/white">
 
-        <TableRow>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:contentInsetStartWithNavigation="0dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="Cash Submission" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:scrollingCache="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical">
+
+
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:layout_margin="10dp"
-                android:background="@drawable/back_ground"
-                android:text="Item" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:background="@drawable/back_ground"
-
-                android:text="Yesterday" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="2"
-                android:background="@drawable/back_ground"
-                android:gravity="center_horizontal"
-                android:text="Today" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="2"
-                android:background="@drawable/back_ground"
-                android:gravity="center_horizontal"
-                android:text="Received" />
-
-            <TextView
-                android:id="@+id/txtreceived_yesterday"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:text="0.00" />
-
-            <TextView
-                android:id="@+id/txtreceived_today"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:text="0.00" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:background="@drawable/back_ground"
-
-                android:text="Banked" />
-
-            <TextView
-                android:id="@+id/txtbanked_yesterday"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:text="0.00" />
-
-            <TextView
-                android:id="@+id/txtbanked_today"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:text="0.00" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/back_ground"
-                android:layout_margin="10dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:text="Due" />
-
-            <TextView
-                android:id="@+id/txtdue_yesterday"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:text="0.00" />
-
-            <TextView
-                android:id="@+id/txtdue_today"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:text="0.00" />
-        </TableRow>
-
-
-
-        <TableRow>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:background="@drawable/back_ground"
-
-                android:text="Short" />
-
-            <TextView
-                android:id="@+id/txtshort_yesterday"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:text="0.00" />
-
-            <TextView
-                android:id="@+id/txtshort_today"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:text="0.00" />
-        </TableRow>
-
-
-
-
-
-        <TableRow >
-
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="380dp"
-                android:layout_height="44dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/back_ground" />
-        </TableRow>
-
-
-
-        <TableRow >
-
-            <Button
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Submit"
-                android:background="@drawable/btn" />
-        </TableRow>
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:text="Today's Collection" />
 
-    </TableLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_large" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/spacing_middle"
+                android:paddingRight="@dimen/spacing_middle">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:layout_marginLeft="@dimen/spacing_small"
+                    android:layout_marginRight="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_weight="1"
+                    android:visibility="visible"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/spacing_large">
+
+                        <RelativeLayout
+                            android:layout_width="40dp"
+                            android:layout_height="40dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerInParent="true"
+                                app:srcCompat="@drawable/money" />
 
 
 
+                        </RelativeLayout>
 
-</ScrollView>
+                        <View
+                            android:layout_width="@dimen/spacing_middle"
+                            android:layout_height="0dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txtreceived_today"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0.00"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                                android:textColor="@color/grey_60"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Received"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                                android:textColor="@color/grey_40" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <View
+                    android:layout_width="@dimen/spacing_middle"
+                    android:layout_height="0dp" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:layout_marginLeft="@dimen/spacing_small"
+                    android:layout_marginRight="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_weight="1"
+                    android:visibility="visible"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/spacing_large">
+
+                        <RelativeLayout
+                            android:layout_width="40dp"
+                            android:layout_height="40dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerInParent="true"
+                                app:srcCompat="@drawable/money" />
+
+
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="@dimen/spacing_middle"
+                            android:layout_height="0dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txtbanked_today"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:text="0.00"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                                android:textColor="@color/grey_60"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Banked"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                                android:textColor="@color/grey_40" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_middle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/spacing_middle"
+                android:paddingRight="@dimen/spacing_middle">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:layout_marginLeft="@dimen/spacing_small"
+                    android:layout_marginRight="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_weight="1"
+                    android:visibility="visible"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/spacing_large">
+
+                        <RelativeLayout
+                            android:layout_width="40dp"
+                            android:layout_height="40dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerInParent="true"
+                                app:srcCompat="@drawable/money" />
+
+
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="@dimen/spacing_middle"
+                            android:layout_height="0dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txtdue_today"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:text="0.00"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                                android:textColor="@color/grey_60"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Due"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                                android:textColor="@color/grey_40" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <View
+                    android:layout_width="@dimen/spacing_middle"
+                    android:layout_height="0dp" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:layout_marginLeft="@dimen/spacing_small"
+                    android:layout_marginRight="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_weight="1"
+                    android:visibility="visible"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/spacing_large">
+
+                        <RelativeLayout
+                            android:layout_width="40dp"
+                            android:layout_height="40dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerInParent="true"
+                                app:srcCompat="@drawable/money" />
+
+
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="@dimen/spacing_middle"
+                            android:layout_height="0dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txtshort_today"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:text="0.00"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                                android:textColor="@color/grey_60"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Deficit"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                                android:textColor="@color/grey_40" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_middle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/spacing_middle"
+                android:paddingRight="@dimen/spacing_middle">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:layout_marginLeft="@dimen/spacing_small"
+                    android:layout_marginRight="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:visibility="visible"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/actionBarSize"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="@dimen/spacing_large"
+                                android:layout_height="0dp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Yesterday's Collection"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                                android:textColor="@color/grey_60"
+                                android:textStyle="bold" />
+
+                            <ImageButton
+                                android:layout_width="?attr/actionBarSize"
+                                android:layout_height="?attr/actionBarSize"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                app:srcCompat="@drawable/money" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey_10" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/spacing_middle" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_xlarge"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="@dimen/spacing_large"
+                                android:layout_height="0dp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Banked Yesterday:"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                android:textColor="@color/grey_60" />
+
+                            <TextView
+                                android:id="@+id/txtbanked_yesterday"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                android:textColor="@color/grey_40" />
+
+                            <View
+                                android:layout_width="@dimen/spacing_large"
+                                android:layout_height="0dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_xlarge"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="@dimen/spacing_large"
+                                android:layout_height="0dp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Due Yesterday"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                android:textColor="@color/grey_60" />
+
+                            <TextView
+                                android:id="@+id/txtdue_yesterday"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                android:textColor="@color/grey_40" />
+
+                            <View
+                                android:layout_width="@dimen/spacing_large"
+                                android:layout_height="0dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_xlarge"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="@dimen/spacing_large"
+                                android:layout_height="0dp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Deficit"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                android:textColor="@color/grey_60" />
+
+                            <TextView
+                                android:id="@+id/txtshort_yesterday"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                android:textColor="@color/grey_40" />
+
+                            <View
+                                android:layout_width="@dimen/spacing_large"
+                                android:layout_height="0dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_xlarge"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="@dimen/spacing_large"
+                                android:layout_height="0dp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Received"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                android:textColor="@color/grey_60" />
+
+                            <TextView
+                                android:id="@+id/txtreceived_yesterday"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                android:textColor="@color/grey_40" />
+
+                            <View
+                                android:layout_width="@dimen/spacing_large"
+                                android:layout_height="0dp" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/spacing_middle" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey_10" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/actionBarSize"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+
+
+                            <Spinner
+                                android:id="@+id/spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+
+                                android:background="@drawable/back_ground" />
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_middle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/spacing_middle"
+                android:paddingRight="@dimen/spacing_middle">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:layout_marginLeft="@dimen/spacing_small"
+                    android:layout_marginRight="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:visibility="visible"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/spacing_large">
+
+
+                        <View
+                            android:layout_width="@dimen/spacing_large"
+                            android:layout_height="0dp" />
+
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:text="submit"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/spacing_large" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

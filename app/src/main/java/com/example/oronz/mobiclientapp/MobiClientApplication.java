@@ -19,6 +19,7 @@ public class MobiClientApplication extends Application {
     private String ID;
     private String refno;
     int no_passenges;
+    String email_client;
 
     String index;
     private String agency_phone;
@@ -244,6 +245,15 @@ public class MobiClientApplication extends Application {
         this.remaining_seats = remaining_seats;
     }
 
+
+    public String getEmail_client() {
+        return email_client;
+    }
+
+    public void setEmail_client(String email_client) {
+        this.email_client = email_client;
+    }
+
     public String get_remaining_seats() {
         return remaining_seats;
     }
@@ -351,4 +361,7 @@ public class MobiClientApplication extends Application {
     public void setPrice_class(String price_class) {
         this.price_class = price_class;
     }
+
+
+
 }

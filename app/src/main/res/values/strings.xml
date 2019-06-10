@@ -14,9 +14,6 @@
         \nTicket reservations and payments can be done using MPESA checkout or using your mobile wallet for our partner public service bus operators.
         \nMobiticket connects you directly to bus operators. </string>
 
-    <string name="enter_your_wallet_pin_to_complete">Enter Your Wallet Pin To Complete</string>
-    <string name="confirm_to_complete">Confirm to complete</string>
-
 
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyC3SrcUtXXXXXXXXXXXXXXXXXXXXXX
