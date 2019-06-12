@@ -10,7 +10,9 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white">
+        android:background="@color/grey_5"
+
+        >
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -19,7 +21,8 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:contentInsetStartWithNavigation="0dp"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="Cash Submission" />
+            app:title="Cash Submission"
+            app:titleTextColor="@color/hint" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -35,7 +38,6 @@
             android:layout_height="wrap_content"
             android:descendantFocusability="blocksDescendants"
             android:orientation="vertical">
-
 
 
             <TextView
@@ -60,10 +62,10 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_small"
                     android:layout_marginLeft="@dimen/spacing_small"
-                    android:layout_marginRight="@dimen/spacing_small"
                     android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginRight="@dimen/spacing_small"
+                    android:layout_marginBottom="@dimen/spacing_small"
                     android:layout_weight="1"
                     android:visibility="visible"
                     app:cardCornerRadius="2dp"
@@ -84,7 +86,6 @@
                                 android:layout_height="match_parent"
                                 android:layout_centerInParent="true"
                                 app:srcCompat="@drawable/money" />
-
 
 
                         </RelativeLayout>
@@ -127,10 +128,10 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_small"
                     android:layout_marginLeft="@dimen/spacing_small"
-                    android:layout_marginRight="@dimen/spacing_small"
                     android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginRight="@dimen/spacing_small"
+                    android:layout_marginBottom="@dimen/spacing_small"
                     android:layout_weight="1"
                     android:visibility="visible"
                     app:cardCornerRadius="2dp"
@@ -151,7 +152,6 @@
                                 android:layout_height="match_parent"
                                 android:layout_centerInParent="true"
                                 app:srcCompat="@drawable/money" />
-
 
 
                         </RelativeLayout>
@@ -204,10 +204,10 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_small"
                     android:layout_marginLeft="@dimen/spacing_small"
-                    android:layout_marginRight="@dimen/spacing_small"
                     android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginRight="@dimen/spacing_small"
+                    android:layout_marginBottom="@dimen/spacing_small"
                     android:layout_weight="1"
                     android:visibility="visible"
                     app:cardCornerRadius="2dp"
@@ -228,7 +228,6 @@
                                 android:layout_height="match_parent"
                                 android:layout_centerInParent="true"
                                 app:srcCompat="@drawable/money" />
-
 
 
                         </RelativeLayout>
@@ -272,10 +271,10 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_small"
                     android:layout_marginLeft="@dimen/spacing_small"
-                    android:layout_marginRight="@dimen/spacing_small"
                     android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginRight="@dimen/spacing_small"
+                    android:layout_marginBottom="@dimen/spacing_small"
                     android:layout_weight="1"
                     android:visibility="visible"
                     app:cardCornerRadius="2dp"
@@ -298,7 +297,6 @@
                                 app:srcCompat="@drawable/money" />
 
 
-
                         </RelativeLayout>
 
                         <View
@@ -317,15 +315,13 @@
                                 android:layout_weight="1"
                                 android:text="0.00"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                                android:textColor="@color/grey_60"
                                 android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Deficit"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                                android:textColor="@color/grey_40" />
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption" />
 
                         </LinearLayout>
 
@@ -349,10 +345,10 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_small"
                     android:layout_marginLeft="@dimen/spacing_small"
-                    android:layout_marginRight="@dimen/spacing_small"
                     android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginRight="@dimen/spacing_small"
+                    android:layout_marginBottom="@dimen/spacing_small"
                     android:visibility="visible"
                     app:cardCornerRadius="2dp"
                     app:cardElevation="2dp">
@@ -378,7 +374,6 @@
                                 android:layout_weight="1"
                                 android:text="Yesterday's Collection"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                                android:textColor="@color/grey_60"
                                 android:textStyle="bold" />
 
                             <ImageButton
@@ -413,16 +408,14 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Banked Yesterday:"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                android:textColor="@color/grey_60" />
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
 
                             <TextView
                                 android:id="@+id/txtbanked_yesterday"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                android:textColor="@color/grey_40" />
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
 
                             <View
                                 android:layout_width="@dimen/spacing_large"
@@ -445,16 +438,14 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Due Yesterday"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                android:textColor="@color/grey_60" />
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
 
                             <TextView
                                 android:id="@+id/txtdue_yesterday"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                android:textColor="@color/grey_40" />
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
 
                             <View
                                 android:layout_width="@dimen/spacing_large"
@@ -478,7 +469,7 @@
                                 android:layout_weight="1"
                                 android:text="Deficit"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                android:textColor="@color/grey_60" />
+                                />
 
                             <TextView
                                 android:id="@+id/txtshort_yesterday"
@@ -486,7 +477,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="0"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                android:textColor="@color/grey_40" />
+                                 />
 
                             <View
                                 android:layout_width="@dimen/spacing_large"
@@ -510,7 +501,7 @@
                                 android:layout_weight="1"
                                 android:text="Received"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                android:textColor="@color/grey_60" />
+                                />
 
                             <TextView
                                 android:id="@+id/txtreceived_yesterday"
@@ -518,7 +509,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="0"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                android:textColor="@color/grey_40" />
+                                />
 
                             <View
                                 android:layout_width="@dimen/spacing_large"
@@ -544,17 +535,16 @@
                             android:orientation="horizontal">
 
 
-
                             <Spinner
                                 android:id="@+id/spinner_submit_method"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+
+                                android:background="@drawable/back_ground"
                                 android:spinnerMode="dialog"
 
-                                android:layout_margin="10dp"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-
-                                android:background="@drawable/back_ground" />
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
 
 
                         </LinearLayout>
@@ -579,10 +569,10 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_middle"
                     android:layout_marginLeft="@dimen/spacing_small"
-                    android:layout_marginRight="@dimen/spacing_small"
                     android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginRight="@dimen/spacing_small"
+                    android:layout_marginBottom="@dimen/spacing_middle"
                     android:visibility="visible"
                     app:cardCornerRadius="2dp"
                     app:cardElevation="2dp">
@@ -602,8 +592,9 @@
 
                         <Button
                             android:layout_width="match_parent"
-                            android:text="submit"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:background="@color/hint"
+                            android:text="submit" />
 
                     </LinearLayout>
 
