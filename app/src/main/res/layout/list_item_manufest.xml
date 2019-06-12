@@ -15,7 +15,7 @@
 
     <Button
         android:id="@+id/btnprntfull"
-        android:layout_width="103dp"
+        android:layout_width="72dp"
         android:layout_height="61dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|start"
@@ -24,6 +24,7 @@
         android:layout_toStartOf="@+id/btnprntpg1"
         android:background="@drawable/btn"
         android:text="Print"
+        android:textColor="@android:color/black"
         app:layout_anchorGravity="bottom|left|start" />
 
 
@@ -36,8 +37,9 @@
         android:layout_gravity="bottom|start"
         android:layout_marginEnd="95dp"
         android:layout_marginBottom="22dp"
-        android:background="@drawable/btn"
         android:text="pg 1"
+        android:textColor="@android:color/black"
+
         app:layout_anchorGravity="bottom|left|start" />
 
     <Button
@@ -51,6 +53,8 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/btn"
         android:text="pg 2"
+        android:textColor="@android:color/black"
+
         app:layout_anchorGravity="bottom|left|start" />
 
 

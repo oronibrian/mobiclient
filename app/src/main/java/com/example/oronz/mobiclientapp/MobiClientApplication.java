@@ -30,6 +30,7 @@ public class MobiClientApplication extends Application {
     String email_address,phone_num;
 
     String seater,price_class;
+    String cash_sub_reff;
 
 
 
@@ -39,6 +40,9 @@ public class MobiClientApplication extends Application {
     public void onCreate() {
         super.onCreate();
     }
+
+
+
 
     public void setUser_name(String user_name) {
         this.user_name = user_name;
@@ -50,6 +54,14 @@ public class MobiClientApplication extends Application {
 
     public void setApi_key(String api_key) {
         this.api_key = api_key;
+    }
+
+    public String getCash_sub_reff() {
+        return cash_sub_reff;
+    }
+
+    public void setCash_sub_reff(String cash_sub_reff) {
+        this.cash_sub_reff = cash_sub_reff;
     }
 
     public String getUser_name() {

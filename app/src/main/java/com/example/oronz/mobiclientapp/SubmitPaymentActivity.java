@@ -1,10 +1,19 @@
 package com.example.oronz.mobiclientapp;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +52,16 @@ public class SubmitPaymentActivity extends AppCompatActivity {
 
     String today,yesterday;
     private Context mcontext;
+    EditText stk_number;
+
+    AlertDialog mpesaalertDialog, paybillalertDialog;
+    Spinner spinner_submit_method;
+
+    MobiClientApplication app;
+    private ProgressDialog mProgress, confirmtransProgress;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +69,24 @@ public class SubmitPaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_submit_payment);
 
         mcontext = getApplicationContext();
+        app = (MobiClientApplication) getApplication();
+
+
+
+        mProgress = new ProgressDialog(this);
+        mProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgress.setTitle("Settling payment ...");
+        mProgress.setMessage("Please wait...");
+        mProgress.setCancelable(false);
+        mProgress.setIndeterminate(true);
+
 
         this.setTitle("Account Status");
-        Spinner spinner = findViewById(R.id.spinner);
 
         // Spinner click listener
         List<String> categories = new ArrayList<String>();
+        categories.add("Select..");
+
         categories.add("PayBill");
         categories.add("STK Push");
 
@@ -68,6 +99,10 @@ public class SubmitPaymentActivity extends AppCompatActivity {
         txtbanked_yesterday=findViewById(R.id.txtbanked_yesterday);
         txtdue_yesterday=findViewById(R.id.txtbanked_yesterday);
         txtshort_yesterday=findViewById(R.id.txtshort_yesterday);
+
+        spinner_submit_method=findViewById(R.id.spinner_submit_method);
+        spinner_submit_method.setPrompt("Select Submission Method");
+
 
 
 
@@ -94,13 +129,51 @@ public class SubmitPaymentActivity extends AppCompatActivity {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // attaching data adapter to spinner
-        spinner.setAdapter(dataAdapter);
+        spinner_submit_method.setAdapter(dataAdapter);
+
+
+
+        spinner_submit_method.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 1:
+                        Toast.makeText(parent.getContext(), "Paybill", Toast.LENGTH_SHORT).show();
+                        payBill();
+                        break;
+                    case 2:
+                        Toast.makeText(parent.getContext(), "Stk Push", Toast.LENGTH_SHORT).show();
+                        stkPush();
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+
+
+
+        });
 
         ticketingReport();
         yesterdayticketingReport();
 
+
+
+
+
     }
 
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(),DashBoardActivity.class));
+        this.finish();
+    }
 
     private void ticketingReport() {
 
@@ -146,6 +219,8 @@ public class SubmitPaymentActivity extends AppCompatActivity {
                                 txtbanked_today.setText(banked);
                                 txtdue_today.setText(due);
                                 txtshort_today.setText(deficit);
+
+                                app.setCash_sub_reff(reference_number);
 
 
                             }
@@ -289,6 +364,152 @@ public class SubmitPaymentActivity extends AppCompatActivity {
 
     }
 
+
+
+    private  void payBill(){
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.submit_paybill_layout, null);
+        dialogBuilder.setView(dialogView);
+
+
+
+        Button btncomplete = dialogView.findViewById(R.id.btncon2);
+
+        btncomplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(getApplicationContext(),SubmitPaymentActivity.class));
+
+            }
+        });
+
+        paybillalertDialog = dialogBuilder.create();
+        paybillalertDialog.show();
+
+
+    }
+
+    private  void stkPush() {
+        // custom dialog
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.stk_push_layout, null);
+        dialogBuilder.setView(dialogView);
+
+        stk_number = dialogView.findViewById(R.id.stk_mpesanumber);
+
+
+        Button btncomplete = dialogView.findViewById(R.id.buttontn);
+
+        btncomplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stkPushMethod();
+            }
+        });
+
+        paybillalertDialog = dialogBuilder.create();
+        paybillalertDialog.show();
+    }
+
+
+
+    private void stkPushMethod() {
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", app.getUser_name());
+        params.put("api_key", app.getApi_key());
+        params.put("action", "SettleBalances");
+        params.put("id", "2");
+        params.put("name", "Mpesa Xpress");
+        params.put("reference_number", app.getCash_sub_reff());
+        params.put("amount", txtdue_today.toString());
+        params.put("mpesa_phone_number", stk_number.getText().toString());
+
+        JsonObjectRequest req = new JsonObjectRequest(URLs.URL, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            if (response.getInt("response_code") == 0) {
+
+                                JSONArray jsonArray = response.getJSONArray("tickets");
+
+                                mProgress.dismiss();
+                                mpesaalertDialog.dismiss();
+
+                                String message = response.getString("response_message");
+
+                                Log.e("mPesa Response", message);
+
+
+                                if (message.isEmpty()) {
+                                    mProgress.dismiss();
+                                    mpesaalertDialog.dismiss();
+
+                                }
+
+//
+
+
+                                confirmtransProgress.show();
+
+
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                                mProgress.dismiss();
+
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            System.out.println("Response Error: " + e);
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mpesaalertDialog.dismiss();
+
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
+
+
+        };
+        MySingleton.getInstance(mcontext).addToRequestQueue(req);
+
+
+
+
+
+
+
+    }
 
 
 }

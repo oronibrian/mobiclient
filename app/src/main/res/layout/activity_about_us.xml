@@ -44,7 +44,6 @@
                         android:gravity="center"
                         android:text="Mission"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/grey_90"
                         app:fontFamily="sans-serif-medium" />
 
                     <TextView
@@ -53,7 +52,6 @@
                         android:layout_marginTop="@dimen/spacing_large"
                         android:text="@string/aboutus"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                        android:textColor="@color/grey_60"
                         app:fontFamily="sans-serif-light" />
 
                 </LinearLayout>
@@ -87,7 +85,6 @@
                         android:gravity="center"
                         android:text="Address"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/grey_90"
                         app:fontFamily="sans-serif-medium" />
 
 

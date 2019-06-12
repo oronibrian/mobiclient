@@ -1,7 +1,6 @@
 package com.example.oronz.mobiclientapp;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +32,6 @@ import com.example.oronz.mobiclientapp.Adapter.ManifestRecyclerViewAdapter;
 import com.example.oronz.mobiclientapp.Models.ManifestDetails;
 import com.example.oronz.mobiclientapp.RecyclerClickCustom.RecyclerItemClickListener;
 import com.example.oronz.mobiclientapp.Utilities.MySingleton;
-import com.google.android.material.chip.Chip;
 import com.mikepenz.itemanimators.ScaleUpAnimator;
 
 import org.json.JSONArray;
@@ -71,10 +68,10 @@ public class ManifestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manifest);
         app = (MobiClientApplication) getApplication();
-        date = (EditText) findViewById(R.id.date);
+        date = findViewById(R.id.date);
 
 
-        mytripslistView = (RecyclerView) findViewById(R.id.manifestvehiclelist);
+        mytripslistView = findViewById(R.id.manifestvehiclelist);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         mytripslistView.setLayoutManager(layoutManager);
 
@@ -93,7 +90,6 @@ public class ManifestActivity extends AppCompatActivity {
         mContext = getApplicationContext();
 
 
-
         getManifest();
 
         selectDate.setOnClickListener(new View.OnClickListener() {
@@ -109,8 +105,6 @@ public class ManifestActivity extends AppCompatActivity {
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                                 String formattedDay = (String.valueOf(day));
                                 String formattedMonth = (String.valueOf(month));
-
-
 
 
                                 if (day < 10) {
@@ -137,16 +131,15 @@ public class ManifestActivity extends AppCompatActivity {
         });
 
 
-
-
         mytripslistView.addOnItemTouchListener(
-                new RecyclerItemClickListener(mContext, mytripslistView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
+                new RecyclerItemClickListener(mContext, mytripslistView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
                         // do whatever
 
-                        TextView seater = (TextView)view.findViewById(R.id.routeTextView);
+                        TextView seater = view.findViewById(R.id.routeTextView);
 
-                        Toast.makeText(mContext, "clicked on " +seater.getText(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "clicked on " + seater.getText(), Toast.LENGTH_SHORT).show();
 
 
                         String selected;
@@ -168,12 +161,12 @@ public class ManifestActivity extends AppCompatActivity {
 
                     }
 
-                    @Override public void onLongItemClick(View view, int position) {
+                    @Override
+                    public void onLongItemClick(View view, int position) {
                         // do whatever
                     }
                 })
         );
-
 
 
     }
@@ -221,7 +214,6 @@ public class ManifestActivity extends AppCompatActivity {
 
                             mytripslistView.setAdapter(tripsArrayAdapter);
                             mytripslistView.setItemAnimator(new ScaleUpAnimator());
-
 
 
                         } catch (JSONException e) {
@@ -272,6 +264,14 @@ public class ManifestActivity extends AppCompatActivity {
         MySingleton.getInstance(mContext).addToRequestQueue(req);
 
     }
+
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), DashBoardActivity.class));
+        this.finish();
+    }
+
 
     private void getManifestClick() {
 

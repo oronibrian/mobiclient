@@ -76,7 +76,6 @@ public class LoginActivity extends AppCompatActivity {
 
         mProgress = new ACProgressFlower.Builder(this)
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
-                .themeColor(Color.GREEN)
                 .fadeColor(Color.DKGRAY).build();
 
 

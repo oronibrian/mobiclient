@@ -15,12 +15,12 @@
         android:layout_height="match_parent"
         android:layout_gravity="center">
 
-        <!--<ImageView-->
-            <!--android:id="@+id/image"-->
-            <!--android:layout_width="70dp"-->
-            <!--android:layout_height="80dp"-->
-            <!--android:src="@drawable/bus"-->
-            <!--android:transitionName="image_layanan" />-->
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="70dp"
+            android:layout_height="80dp"
+            android:src="@drawable/bus"
+            android:transitionName="image_layanan" />
 
 
         <TextView

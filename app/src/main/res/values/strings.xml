@@ -18,6 +18,14 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyC3SrcUtXXXXXXXXXXXXXXXXXXXXXX
     </string>
+    <string name="instructions">
+        1. Go to the MPESA menu, \n
+        2. Select payment services \n
+        3. Choose Pay Bill option\n
+        4. Enter ***** as the business number \n
+        5. Enter MA00**** name as the account number \n
+        6. Enter the amount \n
+        7. Enter your pin and press Ok</string>
 
 
 </resources>

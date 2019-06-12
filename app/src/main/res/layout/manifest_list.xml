@@ -49,7 +49,7 @@
                         android:clickable="true"
                         android:text="vehicle"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                        android:textColor="@color/grey_90" />
+                         />
 
 
                     <LinearLayout

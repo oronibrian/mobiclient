@@ -3,9 +3,11 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/overlay_dark_50</item>
+        <!--<item name="colorAccent">@color/grey_10</item>-->
+
+
     </style>
 
     <style name="AppTheme.NoActionBar">

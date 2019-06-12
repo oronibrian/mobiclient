@@ -44,7 +44,7 @@
                         android:gravity="center_vertical"
                         android:text="Confirm To Complete!"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/hint"
                         android:textStyle="bold" />
 
                     <View
@@ -77,11 +77,11 @@
 
                             <EditText
                                 android:id="@+id/agency_username"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
                                 android:ems="10"
                                 android:enabled="false"
+                                android:gravity="center_vertical"
                                 android:inputType="textPersonName"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                                 android:textColor="@color/grey_80"
@@ -115,7 +115,7 @@
 
                             <EditText
                                 android:id="@+id/Agencywaletpassword"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
                                 android:inputType="textPassword"
@@ -134,25 +134,7 @@
                         android:layout_marginTop="@dimen/spacing_mlarge"
                         app:cardBackgroundColor="@color/grey_5"
                         app:cardCornerRadius="6dp"
-                        app:cardElevation="0dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:paddingBottom="@dimen/spacing_large"
-                            android:paddingLeft="@dimen/spacing_middle"
-                            android:paddingRight="@dimen/spacing_middle"
-                            android:paddingTop="@dimen/spacing_large">
-
-                            <View
-                                android:layout_width="@dimen/spacing_large"
-                                android:layout_height="0dp" />
-
-                        </LinearLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
+                        app:cardElevation="0dp"/>
 
                 </LinearLayout>
 
@@ -169,7 +151,7 @@
 
 
             <Button
-                android:id="@+id/btnconfirm"
+                android:id="@+id/btncon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_large"

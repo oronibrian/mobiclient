@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -34,10 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oronz.mobiclientapp.API.URLs;
-import com.example.oronz.mobiclientapp.Adapter.ManifestRecyclerViewAdapter;
-import com.example.oronz.mobiclientapp.Adapter.PassengerManifestAdapter;
 import com.example.oronz.mobiclientapp.Adapter.ReceiptItemsAdapter;
-import com.example.oronz.mobiclientapp.Models.PassengerManifestDetails;
 import com.example.oronz.mobiclientapp.Models.ReceiptItems;
 import com.example.oronz.mobiclientapp.Models.UserDetails;
 import com.example.oronz.mobiclientapp.Utilities.MySingleton;
@@ -72,17 +68,14 @@ public class ReceiptActivity extends AppCompatActivity {
     String name, phone, seat;
     InputStream logo;
     TextView txtisnumber, passengerIdtxt, txviewdate, txttime, txtprice;
+    ReceiptItemsAdapter receiptItemsAdapter;
+    ArrayList<ReceiptItems> receiptItems;
+    ListView passengerlistView;
+    ImageView imageButtonNew, imageButtonManifest, imageButtonSearch;
     private ProgressDialog mProgress, confirmtransProgress;
     private ImageView status_img;
     private ImageView crossView;
     private Context mcontext;
-
-    ReceiptItemsAdapter receiptItemsAdapter;
-    ArrayList<ReceiptItems> receiptItems;
-    ListView passengerlistView;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +87,11 @@ public class ReceiptActivity extends AppCompatActivity {
         receiptItems = new ArrayList<>();
 
 
-        passengerlistView =  findViewById(R.id.list_receipt_items);
+        passengerlistView = findViewById(R.id.list_receipt_items);
+
+        imageButtonNew = findViewById(R.id.btn_img_new);
+        imageButtonManifest = findViewById(R.id.btn_img_manifest);
+        imageButtonSearch = findViewById(R.id.imgb_btn_search);
 
 
         txt_status = findViewById(R.id.txt_status);
@@ -123,25 +120,28 @@ public class ReceiptActivity extends AppCompatActivity {
 
         String time = new SimpleDateFormat(" HH:mm:ss", Locale.getDefault()).format(new Date());
 
-//
-//
-//        status_img = findViewById(R.id.status_img);
-//        txtisnumber = findViewById(R.id.txtisnumber);
-//
-//        passengerIdtxt = findViewById(R.id.passengerIdtxt);
-//
-//
-//        txviewdate = findViewById(R.id.txviewdate);
-//
-//        txviewdate.setText(date);
-//
-//
-//        txttime = findViewById(R.id.txttime);
-//
-//        txttime.setText(time);
-//
-//        txtprice = findViewById(R.id.txtprice);
-//        txtisnumber = findViewById(R.id.txtisnumber);
+
+        imageButtonNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+        });
+
+        imageButtonManifest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ManifestActivity.class));
+            }
+        });
+
+        imageButtonSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SearchTicketActivity.class));
+            }
+        });
+
 
 
         btnnew.hide();
@@ -155,7 +155,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
         List<UserDetails> carsList = gson.fromJson(seatListAsString, type);
 
-        Log.e("Tickest",carsList.toString());
+        Log.e("Tickest", carsList.toString());
         Log.e("Length", String.valueOf(carsList.size()));
 
 
@@ -164,12 +164,9 @@ public class ReceiptActivity extends AppCompatActivity {
             phone = user.getPhone();
             seat = user.getSeat();
 
-//            passengerIdtxt.setText(name);
-//            txtprice.setText(seat);
-//            txtisnumber.setText(phone);
 
 
-            receiptItems.add(new ReceiptItems(name,phone, seat,date,time));
+            receiptItems.add(new ReceiptItems(name, phone, seat, date, time));
 
 
         }
@@ -189,31 +186,8 @@ public class ReceiptActivity extends AppCompatActivity {
 
         } else {
 
-//            if (status.equals("Failed")) {
-//                btncomplete.hide();
-//                btnprint.hide();
-//                btnnew.show();
-//
-//                status_img.setImageResource(R.drawable.cross1);
-//
-//                txt_status.setText(status);
-//                txt_status.setTextColor(Color.RED);
-//
-//
-//            } else {
-//                btncomplete.show();
-//                txt_status.setText(status);
-//                txt_status.setTextColor(Color.GREEN);
-////                status_img.setImageResource(R.drawable.tick1);
-//                proceed();
-//                btncomplete.hide();
-//
-//
-//
-//            }
 
-
-             receiptItemsAdapter = new ReceiptItemsAdapter(ReceiptActivity.this, receiptItems);
+            receiptItemsAdapter = new ReceiptItemsAdapter(ReceiptActivity.this, receiptItems);
 
             passengerlistView.setAdapter(receiptItemsAdapter);
         }
@@ -358,7 +332,7 @@ public class ReceiptActivity extends AppCompatActivity {
         dialogBuilder.setView(dialogView);
 
         mpesanumber = dialogView.findViewById(R.id.mpesanumber);
-        Button btncomplete = dialogView.findViewById(R.id.mpsabtn);
+        Button btncomplete = dialogView.findViewById(R.id.btncon);
         txtisnumber.setText(mpesanumber.getText().toString());
 
         btncomplete.setOnClickListener(new View.OnClickListener() {
@@ -384,7 +358,7 @@ public class ReceiptActivity extends AppCompatActivity {
         wallet_username.setText(app.getAgency_phone());
 
         walletpassword = dialogView.findViewById(R.id.waletpassword);
-        Button btncomplete = dialogView.findViewById(R.id.btnconfirm);
+        Button btncomplete = dialogView.findViewById(R.id.btncon);
 
         btncomplete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -410,7 +384,7 @@ public class ReceiptActivity extends AppCompatActivity {
         Agencywaletpassword = dialogView.findViewById(R.id.Agencywaletpassword);
         Agencywaletpassword.setText(app.get_Clerk_password());
 
-        Button btncomplete = dialogView.findViewById(R.id.btnconfirm);
+        Button btncomplete = dialogView.findViewById(R.id.btncon);
 
         btncomplete.setOnClickListener(new View.OnClickListener() {
             @Override

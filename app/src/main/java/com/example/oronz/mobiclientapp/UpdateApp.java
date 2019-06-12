@@ -1,7 +1,5 @@
 package com.example.oronz.mobiclientapp;
 
-import android.database.Cursor;
-import android.os.Bundle;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -9,25 +7,27 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
-import androidx.appcompat.app.AlertDialog;
-
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+
 import java.io.File;
 
 public class UpdateApp extends Activity {
-    private BroadcastReceiver receiver;
-    private long enqueue;
-    private DownloadManager dm,downloadManager;
     boolean isDeleted;
     Button btnupdate;
     TextView mesg;
+    private BroadcastReceiver receiver;
+    private long enqueue;
+    private DownloadManager dm, downloadManager;
     private long refid;
 
     @Override
@@ -39,7 +39,6 @@ public class UpdateApp extends Activity {
         StrictMode.setVmPolicy(builder1.build());
 
         downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -74,9 +73,7 @@ public class UpdateApp extends Activity {
     }
 
 
-
-
-    public void DownloadFiles(){
+    public void DownloadFiles() {
 
         Uri Download_Uri = Uri.parse("https://github.com/oronibrian/mobiclient/releases/download/v1.0/app-debug.apk");
 
@@ -86,12 +83,10 @@ public class UpdateApp extends Activity {
         request.setTitle("App Downloading " + "app-debug" + ".apk");
         request.setDescription("Downloading " + "app-debug" + ".apk");
         request.setVisibleInDownloadsUi(true);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/"  + "app-debug.apk");
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/" + "app-debug.apk");
 
 
         refid = downloadManager.enqueue(request);
-
-
 
 
         BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -102,7 +97,7 @@ public class UpdateApp extends Activity {
                     long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
                     DownloadManager.Query query = new DownloadManager.Query();
                     query.setFilterById(refid);
-                    downloadManager = (DownloadManager)getSystemService(DOWNLOAD_SERVICE);
+                    downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
                     Cursor c = downloadManager.query(query);
                     if (c.moveToFirst()) {
                         int columnIndex = c.getColumnIndex(DownloadManager.COLUMN_STATUS);
@@ -126,8 +121,7 @@ public class UpdateApp extends Activity {
     }
 
 
-
-    private void installApk(){
+    private void installApk() {
         Toast.makeText(getApplicationContext(), "Installing Update", Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -139,7 +133,11 @@ public class UpdateApp extends Activity {
     }
 
 
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), DashBoardActivity.class));
+        this.finish();
+    }
 
 
     @Override
@@ -149,9 +147,6 @@ public class UpdateApp extends Activity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
-
 
 
 }

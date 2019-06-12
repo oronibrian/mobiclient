@@ -26,7 +26,6 @@
             android:text="Information!"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@android:color/white"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -65,7 +64,7 @@
             android:paddingLeft="@dimen/spacing_mlarge"
             android:paddingRight="@dimen/spacing_mlarge"
             android:text="Close"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/black" />
 
     </LinearLayout>
 

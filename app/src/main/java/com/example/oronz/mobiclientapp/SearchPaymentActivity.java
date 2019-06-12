@@ -1,6 +1,6 @@
 package com.example.oronz.mobiclientapp;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -32,15 +34,15 @@ public class SearchPaymentActivity extends AppCompatActivity {
     Button btnsearch;
     String ref;
     TextView textView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_payment);
 
-        ref_no=findViewById(R.id.editextseachpayment);
-        btnsearch=findViewById(R.id.btnSearchpayment);
-        textView=findViewById(R.id.textView);
-
+        ref_no = findViewById(R.id.editextseachpayment);
+        btnsearch = findViewById(R.id.btnSearchpayment);
+        textView = findViewById(R.id.textView);
 
 
         btnsearch.setOnClickListener(new View.OnClickListener() {
@@ -54,11 +56,17 @@ public class SearchPaymentActivity extends AppCompatActivity {
         });
 
 
-
     }
 
 
-    private void searchMpesaTransaction(){
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), DashBoardActivity.class));
+        this.finish();
+    }
+
+
+    private void searchMpesaTransaction() {
 
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("developer_username", "emuswailit");
@@ -83,15 +91,12 @@ public class SearchPaymentActivity extends AppCompatActivity {
                             textView.setText(response.getString("response_message"));
 
 
-
-
                         } else {
 
 
                             Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
 
                             Log.d("Mpesa Payment Response", response.getString("response_message"));
-
 
 
                         }
@@ -118,9 +123,7 @@ public class SearchPaymentActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
-        })
-
-        {
+        }) {
             @Override
             public String getBodyContentType() {
                 return "application/x-www-form-urlencoded; charset=utf-8";
@@ -129,7 +132,6 @@ public class SearchPaymentActivity extends AppCompatActivity {
 
         };
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(req);
-
 
 
     }

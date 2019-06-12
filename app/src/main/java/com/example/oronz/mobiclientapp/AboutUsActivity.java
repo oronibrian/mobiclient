@@ -1,5 +1,6 @@
 package com.example.oronz.mobiclientapp;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -24,9 +25,10 @@ public class AboutUsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+        startActivity(new Intent(getApplicationContext(),DashBoardActivity.class));
+        this.finish();
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

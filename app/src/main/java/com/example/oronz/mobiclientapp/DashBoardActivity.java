@@ -88,7 +88,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
         txtusername = findViewById(R.id.txtusername);
 
-        txtusername.setText(String.format("%s\n%s\n%s", app.getLogged_user(), app.getPhone_num(), app.getEmail_address()));
+        txtusername.setText(String.format("%s", app.getLogged_user()));
 
         btn_dash_new.setOnClickListener(new View.OnClickListener() {
             @Override

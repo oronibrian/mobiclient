@@ -1,51 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <color name="colorPrimary">#4caf50</color>
-    <color name="colorPrimaryDark">#087f23</color>
+    <color name="colorPrimary">#fafafa</color>
+    <color name="colorPrimaryDark">#c7c7c7</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryLight">#ffffff</color>
 
 
-    <color name="hint">#000</color>
 
-    <color name="base">#60A677</color>
-    <color name="highlight">#000</color>
+    <color name="hint">#000000</color>
+
+    <color name="base">#4FD97C</color>
+    <color name="highlight">#000000</color>
 
     <color name="error">#FF6347</color>
-    <color name="floating_label">#4CAF50</color>
+    <color name="floating_label">#c2c2c2</color>
 
     <color name="spinner_hint_text_color">#ffffff</color>
 
-
-    <!--<color name="overlay_dark_50">#80000000</color>-->
-
-
-    <!--<color name="grey_5">#f2f2f2</color>-->
-    <!--<color name="grey_10">#e6e6e6</color>-->
-    <!--<color name="grey_20">#cccccc</color>-->
-    <!--<color name="grey_40">#999999</color>-->
-    <!--<color name="grey_60">#666666</color>-->
-    <!--<color name="grey_80">#37474F</color>-->
-    <!--<color name="grey_90">#263238</color>-->
-
-
-    <!--Material color list from https://material.io/guidelines/style/color.html-->
-
-    <!--<color name="green_500">#4CAF50</color>-->
-
-    <!--<color name="light_green_400">#9CCC65</color>-->
-
-    <!--<color name="blue_600">#1E88E5</color>-->
-
-    <!--<color name="orange_500">#FF9800</color>-->
-
-
-    <!--for random color generator -->
 
 
     <color name="overlay_dark_50">#80000000</color>
 
     <color name="overlay_light_30">#4DFFFFFF</color>
+    <color name="night">#0C090A</color>
 
     <color name="grey_5">#f2f2f2</color>
     <color name="grey_10">#e6e6e6</color>
@@ -53,10 +31,8 @@
     <color name="grey_40">#999999</color>
     <color name="grey_60">#666666</color>
     <color name="grey_80">#37474F</color>
-    <color name="grey_90">#263238</color>
 
 
-    <!--Material color list from https://material.io/guidelines/style/color.html-->
 
     <color name="green_500">#4CAF50</color>
 
