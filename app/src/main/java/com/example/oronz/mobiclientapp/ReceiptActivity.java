@@ -124,7 +124,7 @@ public class ReceiptActivity extends AppCompatActivity {
         imageButtonNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), Main2Activity.class));
             }
         });
 
@@ -233,7 +233,7 @@ public class ReceiptActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), Main2Activity.class));
             }
         });
 
@@ -333,7 +333,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
         mpesanumber = dialogView.findViewById(R.id.mpesanumber);
         Button btncomplete = dialogView.findViewById(R.id.btncon);
-        txtisnumber.setText(mpesanumber.getText().toString());
+//        txtisnumber.setText(mpesanumber.getText().toString());
 
         btncomplete.setOnClickListener(new View.OnClickListener() {
             @Override

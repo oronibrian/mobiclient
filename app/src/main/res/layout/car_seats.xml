@@ -1,147 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nested_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="1dp"
-    android:orientation="horizontal"
+    android:background="@color/grey_5"
+    android:clipToPadding="false"
+    android:scrollbars="none"
+    android:scrollingCache="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    tools:context=".MainActivity">
-
-
-    <LinearLayout
-        android:layout_width="241dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:id="@+id/hide1"
-
         android:orientation="vertical">
 
 
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
 
-            <Spinner
-                android:id="@+id/travel_class"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </Spinner>
-
-
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/payment_type_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn"
-                android:gravity="center"
-                android:popupBackground="@color/colorPrimary"
-                android:spinnerMode="dropdown"
-                android:textAlignment="center"
-                app:ms_alignLabels="true"
-                app:ms_alwaysShowFloatingLabel="true"
-                app:ms_arrowColor="@color/base"
-                app:ms_baseColor="@color/base"
-                app:ms_enableErrorLabel="false"
-                app:ms_enableFloatingLabel="true"
-                app:ms_errorColor="@color/error"
-                app:ms_floatingLabelColor="@color/floating_label"
-                app:ms_floatingLabelText="Payment Method"
-                app:ms_highlightColor="@color/highlight"
-                app:ms_hint="Select Payment Method"
-                app:ms_hintColor="@color/hint"
-                app:ms_hintView="@layout/hint_item"
-                app:ms_multiline="false" />
-
-            <GridView
-                android:id="@+id/grid"
-                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal|center"
-                android:columnWidth="30dp"
+                android:layout_marginLeft="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_mlarge"
+                android:layout_marginRight="@dimen/spacing_large">
+
+
+                <LinearLayout
+                    android:id="@+id/hide1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+
+                        <Spinner
+                            android:id="@+id/travel_class"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        </Spinner>
+
+
+                        <fr.ganfra.materialspinner.MaterialSpinner
+                            android:id="@+id/payment_type_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/btn"
+                            android:gravity="center"
+                            android:popupBackground="@color/grey_80"
+                            android:spinnerMode="dropdown"
+                            android:textAlignment="center"
+                            app:ms_alignLabels="true"
+                            app:ms_alwaysShowFloatingLabel="true"
+                            app:ms_arrowColor="@color/base"
+                            app:ms_baseColor="@color/base"
+                            app:ms_enableErrorLabel="false"
+                            app:ms_enableFloatingLabel="true"
+                            app:ms_errorColor="@color/error"
+                            app:ms_floatingLabelColor="@color/hint"
+                            app:ms_floatingLabelText="Payment Method"
+                            app:ms_highlightColor="@color/highlight"
+                            app:ms_hint="Select Payment Method"
+                            app:ms_hintColor="@color/hint"
+                            app:ms_hintView="@layout/hint_item"
+                            app:ms_multiline="false" />
+
+
+                        <GridView
+                            android:id="@+id/grid"
+                            android:layout_width="match_parent"
+                            android:layout_height="500dp"
+                            android:layout_gravity="center_horizontal|center"
+                            android:layout_marginLeft="@dimen/spacing_large"
+                            android:layout_marginTop="@dimen/spacing_mlarge"
+                            android:layout_marginRight="@dimen/spacing_large"
+                            android:columnWidth="10dp"
+                            android:gravity="center"
+                            android:horizontalSpacing="-1dp"
+                            android:numColumns="4"
+                            android:padding="@dimen/spacing_large"
+                            android:stretchMode="columnWidth"
+                            android:verticalSpacing="-1dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <LinearLayout
+                android:id="@+id/hide2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:horizontalSpacing="-1dp"
-                android:numColumns="4"
-                android:stretchMode="columnWidth"
-                android:verticalSpacing="-1dp" />
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_small">
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_mlarge"
+                    app:flexWrap="nowrap"
+                    app:justifyContent="space_between">
+
+
+                    <Button
+                        android:id="@+id/btngo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn"
+                        android:text="Reserve"
+                        android:textSize="12sp" />
+
+                    <Button
+                        android:id="@+id/btnbook"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/btngo"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn"
+                        android:padding="10dp"
+                        android:text="Book"
+                        android:textSize="12sp" />
+
+                    <Button
+                        android:id="@+id/btncancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn"
+
+                        android:text="Cancel"
+                        android:textSize="12sp" />
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+            </LinearLayout>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary">
+
+
+                <RelativeLayout
+                    android:id="@+id/linearMain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+
+                    android:padding="@dimen/spacing_small">
+
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_weight="1"
-        android:id="@+id/hide2"
-
-        android:gravity="center"
-
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/TextView01"
-            android:orientation="vertical">
-
-
-            <Button
-                android:id="@+id/btngo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/btn"
-                android:text="Reserve"
-                android:textSize="12sp" />
-
-            <Button
-                android:id="@+id/btnbook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/btngo"
-                android:layout_margin="10dp"
-                android:background="@drawable/btn"
-                android:padding="10dp"
-                android:text="Book"
-                android:textSize="12sp" />
-
-            <Button
-                android:id="@+id/btncancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/btn"
-
-                android:text="Cancel"
-                android:textSize="12sp" />
-        </LinearLayout>
-    </LinearLayout>
-
-
-<com.google.android.material.card.MaterialCardView
-    android:layout_width="wrap_content"
-    android:background="@color/colorPrimary"
-    android:layout_height="wrap_content">
-
-
-    <RelativeLayout
-        android:id="@+id/linearMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-
-        android:padding="@dimen/spacing_small">
 
     </RelativeLayout>
-</com.google.android.material.card.MaterialCardView>
 
-
-
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>

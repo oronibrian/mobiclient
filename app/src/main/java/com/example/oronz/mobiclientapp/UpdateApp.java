@@ -64,7 +64,7 @@ public class UpdateApp extends Activity {
         builder.setNegativeButton("Remind Me Later", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), DashBoardActivity.class));
                 UpdateApp.this.finish();
 
             }

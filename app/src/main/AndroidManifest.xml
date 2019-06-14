@@ -33,7 +33,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".DashBoardActivity"></activity>
+        <activity android:name=".Seat_layout_Activity"></activity>
+        <activity android:name=".Main2Activity" />
+        <activity android:name=".DashBoardActivity" />
         <activity android:name=".ExpansionViewActivity" />
 
         <meta-data

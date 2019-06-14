@@ -93,7 +93,7 @@ public class DashBoardActivity extends AppCompatActivity {
         btn_dash_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DashBoardActivity.this, MainActivity.class));
+                startActivity(new Intent(DashBoardActivity.this, Main2Activity.class));
                 finish();
             }
         });

@@ -172,6 +172,8 @@ public class Seats_activity extends AppCompatActivity {
         Log.e("##### Seater:", seater);
 
 
+
+
         availableSeats();
         getPaymentMethod();
         getTicketType();
@@ -817,8 +819,10 @@ public class Seats_activity extends AppCompatActivity {
     }
 
     private void payment() {
-        LinearLayout hide1;
+        LinearLayout hide1,hide2;
         hide1=findViewById(R.id.hide1);
+        hide2=findViewById(R.id.hide2);
+
 
         LayoutInflater inflater = (Seats_activity.this).getLayoutInflater();
         //Generate Reff Number
@@ -921,6 +925,8 @@ public class Seats_activity extends AppCompatActivity {
 
         RelativeLayout rl = findViewById(R.id.linearMain);
         hide1.setVisibility(View.GONE);
+        hide2.setVisibility(View.GONE);
+
 
         ScrollView sv = new ScrollView(this);
         sv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -934,6 +940,8 @@ public class Seats_activity extends AppCompatActivity {
         title.setTypeface(Typeface.DEFAULT_BOLD);
         title.setAllCaps(true);
         title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.BLACK);
+
 
 
         btn.setText("Ok");
@@ -970,10 +978,10 @@ public class Seats_activity extends AppCompatActivity {
 
 
             b.setText(num +" Passenger ");
+            b.setTextColor(Color.BLACK);
+
 
             b.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-//            b.setShadowLayer(2, 1, 1, R.color.green_100);
-            b.setTextColor(mcontext.getResources().getColor(R.color.colorPrimary));
 
 
             ll.addView(b);

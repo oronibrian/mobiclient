@@ -168,7 +168,7 @@ public class VehicleGridActivity extends AppCompatActivity {
                                     public void onClick(View v) {
                                         dialog.dismiss();
                                         finish();
-                                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                        startActivity(new Intent(getApplicationContext(),Main2Activity.class));
                                     }
                                 });
 
@@ -235,7 +235,7 @@ public class VehicleGridActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
-        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        startActivity(new Intent(getApplicationContext(),Main2Activity.class));
     }
 
 
