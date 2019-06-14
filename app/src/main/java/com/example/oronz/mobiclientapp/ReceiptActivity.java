@@ -76,6 +76,7 @@ public class ReceiptActivity extends AppCompatActivity {
     private ImageView status_img;
     private ImageView crossView;
     private Context mcontext;
+    Bundle b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,8 @@ public class ReceiptActivity extends AppCompatActivity {
         app = (MobiClientApplication) getApplication();
 
         receiptItems = new ArrayList<>();
+
+        b = getIntent().getExtras();
 
 
         passengerlistView = findViewById(R.id.list_receipt_items);
@@ -212,12 +215,27 @@ public class ReceiptActivity extends AppCompatActivity {
                 List<UserDetails> carsList = gson.fromJson(seatListAsString, type);
 
 
+                ArrayList<String> fetchList = new ArrayList<String>();
+                fetchList = getIntent().getStringArrayListExtra("listofseats");
+
+                System.out.println("listofseats :: " + fetchList.toString());
+
+
+
                 for (UserDetails user : carsList) {
                     name = user.getName();
                     phone = user.getPhone();
                     seat = user.getSeat();
 
-                    printTicket();
+                    if(fetchList.size()>1){
+                        printTicket_many();
+
+                    }else {
+                        printTicket();
+
+
+                    }
+
 
                     try {
 
@@ -240,29 +258,104 @@ public class ReceiptActivity extends AppCompatActivity {
 
     }
 
+    private void printTicket_many() {
+        String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        if (Build.MODEL.equals("MobiPrint")) {
+
+
+//            String TicketArray = null;
+//            if (b != null) {
+//                TicketArray = b.getString("TicketArray");
+//            }
+//
+
+
+            Intent intent = getIntent();
+            String jsonArray = intent.getStringExtra("TicketArray");
+
+            ArrayList<String> fetchList = new ArrayList<String>();
+            fetchList = getIntent().getStringArrayListExtra("listofseats");
+
+            System.out.println("listofseats :: " + fetchList.toString());
+            Log.e("Printing", jsonArray);
+
+
+//            for (int y = 0; y < fetchList.size(); y++) {
+
+            try {
+                JSONArray ticket = new JSONArray(jsonArray);
+                System.out.println(ticket.toString(2));
+                Log.e("Ticket", ticket.toString(4));
+
+
+                for (int i = 0; i < ticket.length(); i++) {
+                    JSONObject json_obj = ticket.getJSONObject(i);
+                    Printer print = Printer.getInstance();
+
+                    Toast.makeText(getApplicationContext(), "Mobiwire Printing Ticket", Toast.LENGTH_LONG).show();
+                    print.printBitmap(getResources().openRawResource(R.raw.ena_coach_logo24bit));
+                    print.printText("-----------ENA COACH----------");
+                    print.printText("--------PO BOX 152-40202-------");
+                    print.printText("..........KEROKA,KENYA..........");
+                    print.printText("......Passenger Details.........");
+
+                    print.printText("Name: " + name);
+                    print.printText("Ref No:" + json_obj.getString("reference_number"));
+                    print.printText("Phone No:" + phone);
+                    print.printText("Seat:" + seat);
+                    print.printText("Fare: Ksh." + json_obj.getString("amount"));
+                    print.printText("......Vehicle Details.........");
+                    print.printText("Vehicle:" + json_obj.getString("reg_number"));
+                    print.printText("Travel Date: " + json_obj.getString("travel_date"));
+                    print.printText("Issued On :" + json_obj.getString("travel_time"));
+                    print.printText("Issued by :" + app.getLogged_user());
+                    print.printBitmap(getResources().openRawResource(R.raw.payment_methods_old));
+                    print.printBitmap(getResources().openRawResource(R.raw.powered_by_mobiticket));
+                    print.printEndLine();
+
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+//            }
+
+
+        } else {
+
+            Toast.makeText(getApplicationContext(), "Device Doesn't Support Printing", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+
     private void printTicket() {
         String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         if (Build.MODEL.equals("MobiPrint")) {
 
 
-            Bundle b = getIntent().getExtras();
-            String TicketArray = null;
-            if (b != null) {
-                TicketArray = b.getString("TicketArray");
-            }
+//            String TicketArray = null;
+//            if (b != null) {
+//                TicketArray = b.getString("TicketArray");
+//            }
+//
 
+
+            Intent intent = getIntent();
+            String jsonArray = intent.getStringExtra("TicketArray");
 
             ArrayList<String> fetchList = new ArrayList<String>();
             fetchList = getIntent().getStringArrayListExtra("listofseats");
 
-            System.out.println("listofseats :::: " + fetchList.toString());
-//            Log.e("Printing", TicketArray);
+            System.out.println("listofseats :: " + fetchList.toString());
+            Log.e("Printing", jsonArray);
 
 
-            for (int y = 0; y < fetchList.size(); y++) {
+//            for (int y = 0; y < fetchList.size(); y++) {
 
                 try {
-                    JSONArray ticket = new JSONArray(TicketArray);
+                    JSONArray ticket = new JSONArray(jsonArray);
                     System.out.println(ticket.toString(2));
                     Log.e("Ticket", ticket.toString(4));
 
@@ -279,13 +372,12 @@ public class ReceiptActivity extends AppCompatActivity {
                         print.printText("......Passenger Details.........");
 
                         print.printText("Name: " + name);
-                        print.printText("Ref No:" + json_obj.getString("merchant_transaction_id"));
+                        print.printText("Ref No:" + json_obj.getString("reference_number"));
                         print.printText("Phone No:" + phone);
                         print.printText("Seat:" + seat);
                         print.printText("Fare: Ksh." + json_obj.getString("fare"));
                         print.printText("......Vehicle Details.........");
-                        print.printText("Vehicle:" + json_obj.getString("bus"));
-                        print.printText("Route:" + json_obj.getString("route"));
+                        print.printText("Vehicle:" + json_obj.getString("bus_formatted"));
                         print.printText("Travel Date: " + json_obj.getString("travel_date"));
                         print.printText("Issued On :" + json_obj.getString("travel_time"));
                         print.printText("Issued by :" + app.getLogged_user());
@@ -299,7 +391,7 @@ public class ReceiptActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
+//            }
 
 
         } else {

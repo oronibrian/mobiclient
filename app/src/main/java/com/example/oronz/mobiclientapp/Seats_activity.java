@@ -143,6 +143,8 @@ public class Seats_activity extends AppCompatActivity {
     List<EditText> allnumbers = new ArrayList<EditText>();
     List<EditText> allids = new ArrayList<EditText>();
 
+    JSONArray jsonArray_ticket_data;
+
 
     @SuppressLint("ResourceType")
     @Override
@@ -309,6 +311,8 @@ public class Seats_activity extends AppCompatActivity {
                             Seat = userDetails.getSeat();
 
                             reserve();
+
+
                         }
 
 
@@ -1303,18 +1307,23 @@ public class Seats_activity extends AppCompatActivity {
 
                             }
 
-                            JSONArray jsonArray = response.getJSONArray("ticket");
+                             jsonArray_ticket_data = response.getJSONArray("ticket");
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                            for (int i = 0; i < jsonArray_ticket_data.length(); i++) {
+                                JSONObject jsonObject1 = jsonArray_ticket_data.getJSONObject(i);
                                 reserver = jsonObject1.getString("name");
 
 
                             }
 
-                            bundlebatch = new Bundle();
 
-                            bundlebatch.putString("TicketArray", jsonArray.toString());
+                            b = new Bundle();
+                            b.putString("TicketArray", jsonArray_ticket_data.toString());
+
+
+//
+
+
 
 
                         } else {
@@ -1379,9 +1388,8 @@ public class Seats_activity extends AppCompatActivity {
 
                 intentExtra.putExtra("data", ticket_mesaage);
                 intentExtra.putExtra("txt_status", reserver);
-//                intentExtra.putExtras(bundlebatch);
                 intentExtra.putExtra("list_as_string", jsonTicketusers);
-
+                intentExtra.putExtras(b);
                 startActivity(intentExtra);
 
             }
