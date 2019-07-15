@@ -31,7 +31,7 @@ public class MobiClientApplication extends Application {
 
     String seater,price_class;
     String cash_sub_reff;
-
+String apk_name;
 
 
     public MobiClientApplication(){}
@@ -374,6 +374,11 @@ public class MobiClientApplication extends Application {
         this.price_class = price_class;
     }
 
+    public String getApk_name() {
+        return apk_name;
+    }
 
-
+    public void setApk_name(String apk_name) {
+        this.apk_name = apk_name;
+    }
 }

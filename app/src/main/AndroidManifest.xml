@@ -21,6 +21,8 @@
 
     <uses-feature android:name="android.hardware.wifi" />
 
+
+
     <application
         android:name=".MobiClientApplication"
         android:allowBackup="true"
@@ -33,9 +35,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+
+
+
         <activity android:name=".Seat_layout_Activity"></activity>
         <activity android:name=".Main2Activity" />
-        <activity android:name=".DashBoardActivity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".ExpansionViewActivity" />
 
         <meta-data
@@ -55,7 +60,7 @@
         <activity android:name=".SearchTicketActivity" />
         <activity android:name=".NewsActivity" />
         <activity android:name=".AboutUsActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".DashBoardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

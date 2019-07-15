@@ -2,14 +2,10 @@ package com.example.oronz.mobiclientapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -31,6 +29,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Utilities.MySingleton;
+import com.example.oronz.mobiclientapp.Utilities.UserSessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,18 +46,12 @@ public class LoginActivity extends AppCompatActivity {
 
     Button btnlogin;
     EditText editextpassword, edittextusername;
-    private MobiClientApplication app;
     ACProgressFlower mProgress;
-    private Context mContext;
-
-
     ImageView imageView;
     TextView txtnointernet;
-
-    SharedPreferences sp;
-
-
-
+    UserSessionManager session;
+    private MobiClientApplication app;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +62,10 @@ public class LoginActivity extends AppCompatActivity {
 
         mContext = getApplicationContext();
 
-        sp=getSharedPreferences("Login", 0);
 
         initializedAPI();
 
+        session = new UserSessionManager(getApplicationContext());
 
 
         mProgress = new ACProgressFlower.Builder(this)
@@ -89,10 +82,8 @@ public class LoginActivity extends AppCompatActivity {
 
         app.set_Clerk_username(edittextusername.getText().toString());
 
-        sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         app.setEmail_client("");
-
 
 
 //
@@ -186,15 +177,14 @@ public class LoginActivity extends AppCompatActivity {
 
                                 Log.d("log in ", first_name);
 
-                                Log.d("Response",response.getString("response_message"));
+                                Log.d("Response", response.getString("response_message"));
 
 
                                 mProgress.dismiss();
 
-                                SharedPreferences.Editor Ed=sp.edit();
-                                Ed.putString("username",email );
-                                Ed.putString("password",password);
-                                Ed.apply();
+
+                                session.createUserLoginSession(email,
+                                        password);
 
 
                                 Intent intent = new Intent(getApplicationContext(), DashBoardActivity.class);
@@ -206,10 +196,9 @@ public class LoginActivity extends AppCompatActivity {
                                 Animatoo.animateInAndOut(this);
 
 
-
                             } else {
 
-                                Log.d("Error",response.getString("response_message"));
+                                Log.d("Error", response.getString("response_message"));
 
                                 FabToast.makeText(getApplicationContext(), response.getString("response_message"), FabToast.LENGTH_LONG, FabToast.ERROR, FabToast.POSITION_DEFAULT).show();
 

@@ -26,6 +26,9 @@
         5. Enter MA00**** name as the account number \n
         6. Enter the amount \n
         7. Enter your pin and press Ok</string>
+    <string name="update_instruction">1.After successful download,download will be opened automatically.
+        \n2.Click on the app to Install.
+    \n3.Enjoy the improved app</string>
 
 
 </resources>

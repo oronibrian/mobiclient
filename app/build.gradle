@@ -81,4 +81,11 @@ dependencies {
     implementation 'com.irozon.alertview:alertview:1.0.1'
 
 
+    //Update check
+    implementation 'org.jsoup:jsoup:1.11.3'
+    implementation 'com.github.javiersantos:AppUpdater:2.7'
+
+
+
+
 }

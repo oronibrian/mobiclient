@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.oronz.mobiclientapp.API.URLs;
 import com.example.oronz.mobiclientapp.Utilities.MySingleton;
+import com.example.oronz.mobiclientapp.Utilities.UserSessionManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -46,14 +47,18 @@ public class DashBoardActivity extends AppCompatActivity {
     private Context mcontext;
     TextView summery,yestersummery;
 
+    UserSessionManager session;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         app = (MobiClientApplication) getApplication();
 
         setContentView(R.layout.activity_dash_board);
+        app.setApk_name("app-debug.apk");
 
-
+        mcontext=getApplicationContext();
         btn_dash_new = findViewById(R.id.btn_dash_new);
         btn_dash_manifest=findViewById(R.id.btn_dash_manifest);
         btn_dash_searchtckt=findViewById(R.id.btn_dash_searchtckt);
@@ -66,6 +71,33 @@ public class DashBoardActivity extends AppCompatActivity {
         btn_dash_submit_cash=findViewById(R.id.btn_dash_submit_cash);
 
 
+
+
+
+        session = new UserSessionManager(getApplicationContext());
+
+
+
+        if(session.checkLogin())
+            finish();
+
+        // get user data from session
+        HashMap<String, String> user = session.getUserDetails();
+
+        // get name
+        String name = user.get(UserSessionManager.KEY_NAME);
+        app.setLogged_user(name);
+
+        // get email
+        String email = user.get(UserSessionManager.KEY_PASS);
+
+
+        app.setEmail_address(email);
+
+
+        Toast.makeText(getApplicationContext(),
+                "Welcome back "+name,
+                Toast.LENGTH_LONG).show();
 
 
 
